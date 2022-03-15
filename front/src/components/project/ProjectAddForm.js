@@ -2,11 +2,19 @@ import React, { useState } from "react";
 import { Button, Form, Col, Row } from "react-bootstrap";
 import * as Api from "../../api";
 
+// 기간 선택을 위한 react-datepicker 라이브러리 및 css import
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 function ProjectAddForm({ portfolioOwnerId, setProjects, setIsAdding }) {
-    //useState로 title 상태를 생성함.
+    // useState로 title 상태를 생성함.
     const [title, setTitle] = useState("");
-    //useState로 description 상태를 생성함.
+    // useState로 description 상태를 생성함.
     const [description, setDescription] = useState("");
+    // useState로 from_date, to_date 상태를 생성함.
+    // 초기값을 현재 날짜로 설정
+    const [from_date, setFrom_date] = useState(new Date());
+    const [to_date, setTo_date] = useState(new Date());
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,6 +28,8 @@ function ProjectAddForm({ portfolioOwnerId, setProjects, setIsAdding }) {
             user_id: portfolioOwnerId,
             title,
             description,
+            from_date,
+            to_date
         });
 
         // "projectlist/유저id" 엔드포인트로 get요청함.
@@ -48,6 +58,15 @@ function ProjectAddForm({ portfolioOwnerId, setProjects, setIsAdding }) {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 />
+            </Form.Group>
+
+            <Form.Group as={Row} className="mt-3">
+                <Col class="col-3">
+                    <DatePicker selected={from_date} onChange={(date) => setFrom_date(date)} />
+                </Col>
+                <Col class="col-3">
+                    <DatePicker selected={to_date} onChange={(date) => setTo_date(date)} />
+                </Col>
             </Form.Group>
 
             <Form.Group as={Row} className="mt-3 text-center">
