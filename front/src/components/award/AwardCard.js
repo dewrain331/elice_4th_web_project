@@ -1,6 +1,6 @@
 import { Card, Button, Row, Col } from "react-bootstrap"
 
-const AwardCard = ({ award, isEditable, setIsEditing }) => {
+const AwardCard = ({ _award, isEditable, setIsEditing }) => {
     // 삭제 버튼 클릭 시 함수
     const handleDelete = () => {
 
@@ -12,9 +12,9 @@ const AwardCard = ({ award, isEditable, setIsEditing }) => {
                 {/* award의 수상내용과 상세내용을 출력 */}
                 <Row className="align-items-center">
                     <Col>
-                        <span>{award.title}</span>
+                        <span>{_award.award}</span>
                         <br />
-                        <span className="text-muted">{award.description}</span>
+                        <span className="text-muted">{_award.description}</span>
                     </Col>
                     <Col xs lg="1">
                         {/* 각 항목마다 편집 버튼을 생성 */}

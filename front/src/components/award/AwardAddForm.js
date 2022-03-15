@@ -4,7 +4,7 @@ import * as Api from "api"
 
 const AwardAddForm = ({ portfolioOwnerId, setAwards, setIsAdding }) => {
     // useState로 수상내역의 내용을 담을 title 변수 선언.
-    const [title, setTitle] = useState("")
+    const [award, setAward] = useState("")
     // useState로 상세내용을 담을 description 변수 선언.
     const [description, setDescription] = useState("")
 
@@ -16,7 +16,7 @@ const AwardAddForm = ({ portfolioOwnerId, setAwards, setIsAdding }) => {
         // post 요청
         await Api.post("award/create", {
             portfolioOwnerId,
-            title,
+            award,
             description,
         })
 
@@ -34,8 +34,8 @@ const AwardAddForm = ({ portfolioOwnerId, setAwards, setIsAdding }) => {
                     <Form.Control
                         type="text"
                         placeholder="수상내역"
-                        value={title}
-                        onChange={evt => setTitle(evt.target.value)}
+                        value={award}
+                        onChange={evt => setAward(evt.target.value)}
                     />
                 </Form.Group>
 

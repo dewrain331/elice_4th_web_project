@@ -4,7 +4,7 @@ import * as Api from "api"
 
 const AwardEditForm = ({ currentAward, setAwards, setIsEditing }) => {
     // 편집 버튼을 누른 항목의 수상내용을 담을 title 변수 선언.
-    const [title, setTitle] = useState(currentAward.title)
+    const [award, setAward] = useState(currentAward.award)
     // 편집 버튼을 누른 항목의 상세내용을 담을 description 변수 선언.
     const [description, setDescription] = useState(currentAward.description)
 
@@ -16,7 +16,7 @@ const AwardEditForm = ({ currentAward, setAwards, setIsEditing }) => {
         // put 요청.
         await Api.put(`awards/${currentAward.id}`, {
             user_id: currentAward.user_id,
-            title,
+            award,
             description,
         })
 
@@ -34,8 +34,8 @@ const AwardEditForm = ({ currentAward, setAwards, setIsEditing }) => {
                     <Form.Control
                         type="text"
                         placeholder="수상내역"
-                        value={title}
-                        onChange={evt => setTitle(evt.target.value)}
+                        value={award}
+                        onChange={evt => setAward(evt.target.value)}
                     />
                 </Form.Group>
 
