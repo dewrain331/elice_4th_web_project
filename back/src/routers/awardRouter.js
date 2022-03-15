@@ -5,11 +5,12 @@ import { awardService } from '../services/awardService';
 
 const awardRouter = Router();
 
-awardRouter.get("/award", login_required, async (req, res, next) => {
+awardRouter.get("/award/:id", login_required, async (req, res, next) => {
     try {
+        const user_id = req.params.id;
 
         const getAward = {
-            id : req.currentUserId,
+            id : user_id,
         }
 
         console.log("router");

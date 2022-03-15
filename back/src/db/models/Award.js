@@ -27,7 +27,7 @@ class Award {
 
     static async findAll({ getAward }) {
         const awards = await AwardModel.find({ 
-            id : getAward.id,
+            id : getAward.id, 
         });
         return awards;
     }
