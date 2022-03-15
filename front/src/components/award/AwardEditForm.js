@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Button, Form, Col, Row } from "react-bootstrap"
-import * as Api from "api"
+import * as Api from "../../api"
 
 const AwardEditForm = ({ currentAward, setAwards, setIsEditing }) => {
     // 편집 버튼을 누른 항목의 수상내용을 담을 title 변수 선언.

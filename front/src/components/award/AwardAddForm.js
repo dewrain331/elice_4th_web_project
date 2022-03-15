@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Button, Form, Col, Row } from "react-bootstrap"
-import * as Api from "api"
+import * as Api from "../../api"
 
 const AwardAddForm = ({ portfolioOwnerId, setAwards, setIsAdding }) => {
     // useState로 수상내역의 내용을 담을 title 변수 선언.
@@ -14,7 +14,7 @@ const AwardAddForm = ({ portfolioOwnerId, setAwards, setIsAdding }) => {
         evt.stopPropagation()
 
         // post 요청
-        await Api.post("award/create", {
+        await Api.post("award/register", {
             portfolioOwnerId,
             award,
             description,
