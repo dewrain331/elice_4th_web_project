@@ -30,8 +30,8 @@ function ProjectAddForm({ portfolioOwnerId, setProjects, setIsAdding }) {
             user_id: portfolioOwnerId,
             title,
             description,
-            from_date,
-            to_date
+            from_date: convertDate(from_date),
+            to_date: convertDate(to_date)
         });
 
         // "projectlist/유저id" 엔드포인트로 get요청함.
@@ -44,7 +44,11 @@ function ProjectAddForm({ portfolioOwnerId, setProjects, setIsAdding }) {
 
     // post 형식에 맞게 날짜를 변환함
     const convertDate = (date) => {
-        const selectedDate = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+        const year = date.getFullYear();
+        const month = ('0' + (date.getMonth() + 1)).slice(-2);
+        const day = ('0' + date.getDate()).slice(-2);
+        const selectedDate = year + '-' + month + '-' + day
+        console.log(convertDate)
         return selectedDate;
     }
 
@@ -70,10 +74,10 @@ function ProjectAddForm({ portfolioOwnerId, setProjects, setIsAdding }) {
 
             <Form.Group as={Row} className="mt-3">
                 <Col class="col-3">
-                    <DatePicker selected={from_date} onChange={(date) => setFrom_date(convertDate(date))} />
+                    <DatePicker selected={from_date} onChange={(date) => setFrom_date(date)} />
                 </Col>
                 <Col class="col-3">
-                    <DatePicker selected={to_date} onChange={(date) => setTo_date(convertDate(date))} />
+                    <DatePicker selected={to_date} onChange={(date) => setTo_date(date)} />
                 </Col>
             </Form.Group>
 
