@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import EducationCard from './EducationCard'
 
-const Education=({ id, education, setEducations, isEditable})=>{
+const Education=({ education, setEducations, isEditable})=>{
     const [isEditing, setIsEditing]=useState(false)
     
     return(
