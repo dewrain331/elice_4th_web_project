@@ -2,7 +2,7 @@ import { Education } from "../db"; // from을 폴더(db) 로 설정 시, 디폴�
 import { v4 as uuidv4 } from "uuid";
 
 class EducationService {
-  static async addEducation({ user_id, school, major, position }) {
+  static addEducation = async ({ user_id, school, major, position }) => {
     // id 는 유니크 값 부여
     const id = uuidv4();
     const newEducation = { id, user_id, school, major, position };
@@ -11,10 +11,10 @@ class EducationService {
     const createdNewEducation = await Education.create({ newEducation });
     createdNewEducation.errorMessage = null; // 문제 없이 db 저장 완료되었으므로 에러가 없음.
 
-    return createdNewUser;
+    return createdNewEducation;
   }
 
-  static async getEducation({ educationId }) {
+  static getEducation = async ({ educationId }) => {
     // 이메일 db에 존재 여부 확인
     const education = await Education.findById({ educationId });
     if (!education) {
@@ -26,12 +26,12 @@ class EducationService {
     return education;
   }
 
-  static async getEducationList({ user_id }) {
+  static getEducationList = async({ user_id }) => {
     const educations = await Education.findByUserId({ user_id });
     return educations;
   }
 
-  static async setEducation({ educationId, toUpdate }) {
+  static setEducation = async ({ educationId, toUpdate }) => {
     // 우선 해당 id 의 유저가 db에 존재하는지 여부 확인
     let education = await Education.findById({ educationId });
 
@@ -45,19 +45,19 @@ class EducationService {
     if (toUpdate.school) {
       const fieldToUpdate = "school";
       const newValue = toUpdate.school;
-      user = await User.update({ educationId, fieldToUpdate, newValue });
+      education = await Education.update({ educationId, fieldToUpdate, newValue });
     }
 
     if (toUpdate.major) {
       const fieldToUpdate = "major";
       const newValue = toUpdate.major;
-      user = await User.update({ educationId, fieldToUpdate, newValue });
+      education = await Education.update({ educationId, fieldToUpdate, newValue });
     }
 
     if (toUpdate.position) {
       const fieldToUpdate = "position";
       const newValue = toUpdate.position;
-      user = await User.update({ educationId, fieldToUpdate, newValue });
+      education = await Education.update({ educationId, fieldToUpdate, newValue });
     }
 
     return education;

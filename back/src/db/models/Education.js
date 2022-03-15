@@ -1,27 +1,22 @@
 import { EducationModel } from "../schemas/education";
 
 class Education {
-  static async create({ newEducation }) {
+  static create = async ({ newEducation }) => {
     const createdNewEducation = await EducationModel.create(newEducation);
     return createdNewEducation;
   }
 
-  static async findById({ educationId }) {
+  static findById = async ({ educationId }) => {
     const education = await EducationModel.findOne({ id: educationId });
     return education;
   }
 
-  static async findByUserId({ user_id }) {
-    const education = await EducationModel.findOne({ id: user_id });
+  static findByUserId = async ({ user_id }) => {
+    const education = await EducationModel.find({ user_id });
     return education;
   }
 
-  static async findAll() {
-    const educations = await EducationModel.find({});
-    return educations;
-  }
-
-  static async update({ educationId, user_id, fieldToUpdate, newValue }) {
+  static update = async ({ educationId, user_id, fieldToUpdate, newValue }) => {
     const filter = { id: educationId };
     const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
