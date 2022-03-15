@@ -3,7 +3,8 @@ import { AwardModel } from "../schemas/award";
 class Award {
 
     static async create({ newAward }) {
-        const checkAlreadyExist = await AwardModel.find({
+        console.log(newAward);
+        const checkAlreadyExist = await AwardModel.findOne({
             award : newAward.award
         });
         if (checkAlreadyExist) {
@@ -14,6 +15,8 @@ class Award {
     }
 
     static async delete({ deleteAward }) {
+        console.log("delete");
+        console.log(deleteAward);
         const deleteAwardResult = await AwardModel.deleteOne({ 
             id : deleteAward.id,
             award : deleteAward.award
@@ -23,7 +26,9 @@ class Award {
     }
 
     static async findAll({ getAward }) {
-        const awards = await AwardModel.find({ getAward });
+        const awards = await AwardModel.find({ 
+            id : getAward.id,
+        });
         return awards;
     }
 
