@@ -16,14 +16,13 @@ const Educations = ({ portfolioOwnerId, isEditable, setIsAdding }) => {
         <div>
             {/* 정상적으로 불러와지는 게 확인되면 EducationCard로 옮겨갈 부분 */}
             <h3>학력</h3>
-            {educations.map(edu=>(
-                <>
-                    <div>{edu.school}</div>
-                    <div>{edu.major}({edu.position})</div>
-                     {/* 추후 EducationEditForm에 포함 예정*/}
-                    {isEditable && <button>편집</button>}
-                </>
-            ))}
+            {educations.map((edu)=>(
+                <Education 
+                    id={edu.id}
+                    education={edu}
+                    setEducations={setEducations}
+                    isEditable={isEditable}
+                    />))}
             {isEditable && 
                 <button onClick={()=>setIsAdding(true)}>+</button>
             }
