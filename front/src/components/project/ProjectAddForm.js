@@ -13,8 +13,10 @@ function ProjectAddForm({ portfolioOwnerId, setProjects, setIsAdding }) {
     const [description, setDescription] = useState("");
     // useState로 from_date, to_date 상태를 생성함.
     // 초기값을 현재 날짜로 설정
-    const [from_date, setFrom_date] = useState(new Date());
-    const [to_date, setTo_date] = useState(new Date());
+    const today = new Date();
+    // const date = `${today.getFullYear()}${today.getMonth()}/${today.getDate()}`
+    const [from_date, setFrom_date] = useState(today);
+    const [to_date, setTo_date] = useState(today);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -40,6 +42,12 @@ function ProjectAddForm({ portfolioOwnerId, setProjects, setIsAdding }) {
         setIsAdding(false);
     };
 
+    // post 형식에 맞게 날짜를 변환함
+    const convertDate = (date) => {
+        const selectedDate = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+        return selectedDate;
+    }
+
     return (
         <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formBasicTitle">
@@ -62,10 +70,10 @@ function ProjectAddForm({ portfolioOwnerId, setProjects, setIsAdding }) {
 
             <Form.Group as={Row} className="mt-3">
                 <Col class="col-3">
-                    <DatePicker selected={from_date} onChange={(date) => setFrom_date(date)} />
+                    <DatePicker selected={from_date} onChange={(date) => setFrom_date(convertDate(date))} />
                 </Col>
                 <Col class="col-3">
-                    <DatePicker selected={to_date} onChange={(date) => setTo_date(date)} />
+                    <DatePicker selected={to_date} onChange={(date) => setTo_date(convertDate(date))} />
                 </Col>
             </Form.Group>
 
