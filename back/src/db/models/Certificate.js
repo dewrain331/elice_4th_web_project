@@ -5,7 +5,7 @@ class Certificate {
     static async create({ newCertificate }) {
         console.log(newCertificate);
         const checkAlreadyExist = await CertificateModel.findOne({
-            certificate : newCertificate.certificate
+            title : newCertificate.title
         });
         if (checkAlreadyExist) {
             return checkAlreadyExist;
@@ -47,19 +47,19 @@ class Certificate {
             id : updateCertificate.id ,
         };
         const update = {
-            certificate : updateCertificate.certificate,
+            title : updateCertificate.title,
             description : updateCertificate.description,
-            when_date : updateCertificate.when_date,
+            date : updateCertificate.date,
         };
         const option = { returnOriginal: false };
 
-        const updateCertificate = await CertificateModel.findOneAndUpdate(
+        const updateCertificateResult = await CertificateModel.findOneAndUpdate(
             filter,
             update,
             option
         );
 
-        return updateCertificate;
+        return updateCertificateResult;
     }
 }
 

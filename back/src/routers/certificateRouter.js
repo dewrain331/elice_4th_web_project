@@ -55,10 +55,21 @@ certificateRouter.get("/certificatelist/:user_id", login_required, async (req, r
 certificateRouter.post("/certificate/:id", login_required, async (req, res, next) => {
     try {
 
+        const updateCertificate = {
+            id : req.params.id,
+            title : req.body.title,
+            description : req.body.description,
+            date : req.body.date
+        }
+
+        const certificate = await certificateService.updateCertificate({ updateCertificate });
+
         if (certificate.errorMessage) {
             console.log(certificate.errorMessage);
             throw new Error(certificate.errorMessage);
         }
+
+        res.status(200).send(certificate);
 
     } catch (e) {
         next (errer);
@@ -68,12 +79,22 @@ certificateRouter.post("/certificate/:id", login_required, async (req, res, next
 certificateRouter.delete("/certificate/:id", login_required, async (req, res, next) => {
     try {
 
+        const deleteCertificate = {
+            id : req.params.id,
+        }
+
+        const certificate = await certificateService.deleteCertificate({ deleteCertificate });
+
         if (certificate.errorMessage) {
             console.log(certificate.errorMessage);
             throw new Error(certificate.errorMessage);
         }
 
+        res.status(200).send(certificate);
+
     } catch (e) {
         next (errer);
     }   
 });
+
+export { certificateRouter };
