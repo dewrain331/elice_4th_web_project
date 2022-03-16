@@ -20,7 +20,7 @@ educationRouter.post("/education/create", async function (req, res, next) {
     const major = req.body.major;
     const position = req.body.position;
 
-    // 위 데이터를 유저 db에 추가하기
+    // 위 데이터를 education db에 추가하기
     const newEducation = await EducationService.addEducation({
         user_id,
         school,
