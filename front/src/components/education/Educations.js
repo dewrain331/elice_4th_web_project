@@ -1,6 +1,7 @@
 import React,{useEffect,useState} from 'react'
 import * as Api from '../../api'
 import EducationAddForm from './EducationAddForm';
+import Education from './Education'
 
 //Educations는 Portfolio.js에 추가되어야 함
 //백엔드서버/educations/아이디'에 사용자 포트폴리오가 저장되어 있으므로 아이디 정보 필요 
@@ -34,3 +35,5 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
         </div>
     )
 }
+
+export default Educations

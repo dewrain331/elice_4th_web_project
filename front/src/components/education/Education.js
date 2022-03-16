@@ -1,5 +1,6 @@
 import {useState} from 'react'
 import EducationCard from './EducationCard'
+import EducationEditForm from './EducationEditForm'
 
 const Education=({ education, setEducations, isEditable})=>{
     const [isEditing, setIsEditing]=useState(false)
