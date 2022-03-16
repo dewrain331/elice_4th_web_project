@@ -45,8 +45,8 @@ certificateRouter.get("/certificatelist/:user_id", login_required, async (req, r
 
         res.status(200).send(certificate);
 
-    } catch (e) {
-        next (errer);
+    } catch (error) {
+        next (error);
     }   
 });
 
@@ -69,8 +69,8 @@ certificateRouter.post("/certificate/:id", login_required, async (req, res, next
 
         res.status(200).send(certificate);
 
-    } catch (e) {
-        next (errer);
+    } catch (error) {
+        next (error);
     }   
 });
 
@@ -90,8 +90,8 @@ certificateRouter.delete("/certificate/:id", login_required, async (req, res, ne
 
         res.status(200).send(certificate);
 
-    } catch (e) {
-        next (errer);
+    } catch (error) {
+        next (error);
     }   
 });
 

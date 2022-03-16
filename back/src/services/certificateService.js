@@ -16,16 +16,16 @@ const certificateService = {
 
         return createNewCertificateResult;
     },
-    getCertificates : async ({ getCertificate }) => {
-        console.log(getCertificate);
-        const getCertificateResult = await Certificate.findAllUser({ getCertificate });
+    getCertificates : async ({ getCertificates }) => {
+        console.log(getCertificates);
+        const getCertificatesResult = await Certificate.findAllUser({ getCertificates });
 
-        if (!getCertificateResult) {
+        if (!getCertificatesResult) {
             const errorMessage = "자격증 목록을 불러오는 데 실패했습니다.";
             return { errorMessage };
         }
 
-        return getCertificateResult;
+        return getCertificatesResult;
     },
     getCertificate : async ({ getCertificate }) => {
         console.log(getCertificate);

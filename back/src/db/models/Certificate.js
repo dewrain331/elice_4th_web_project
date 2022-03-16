@@ -25,11 +25,11 @@ class Certificate {
 
     }
 
-    static async findAllUser({ getCertificate }) {
+    static async findAllUser({ getCertificates }) {
         console.log("findAll");
-        console.log(getCertificate);
+        console.log(getCertificates);
         const certificates = await CertificateModel.find({ 
-            user_id : getCertificate.user_id,
+            user_id : getCertificates.user_id,
         });
         return certificates;
     }
