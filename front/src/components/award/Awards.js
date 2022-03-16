@@ -5,7 +5,7 @@ import Award from "./Award"
 import AwardAddForm from "./AwardAddForm"
 
 const Awards = ({ portfolioOwnerId, isEditable }) => {
-    // useState로 낱개의 award를 담을 배열 선언
+    // useState로 낱개의 award들을 담을 배열 선언
     const [awards, setAwards] = useState([])
     // useState로 생성 상태를 관리할 변수를 선언
     // 초기 상태는 생성 중이 아니므로, 초기값은 false
