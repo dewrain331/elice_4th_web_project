@@ -14,7 +14,6 @@ function ProjectAddForm({ portfolioOwnerId, setProjects, setIsAdding }) {
     // useState로 from_date, to_date 상태를 생성함.
     // 초기값을 현재 날짜로 설정
     const today = new Date();
-    // const date = `${today.getFullYear()}${today.getMonth()}/${today.getDate()}`
     const [from_date, setFrom_date] = useState(today);
     const [to_date, setTo_date] = useState(today);
 
@@ -42,13 +41,12 @@ function ProjectAddForm({ portfolioOwnerId, setProjects, setIsAdding }) {
         setIsAdding(false);
     };
 
-    // post 형식에 맞게 날짜를 변환함
+    // post 형식에 맞게 날짜를 변환함 (ex: 2022-03-15)
     const convertDate = (date) => {
         const year = date.getFullYear();
         const month = ('0' + (date.getMonth() + 1)).slice(-2);
         const day = ('0' + date.getDate()).slice(-2);
         const selectedDate = year + '-' + month + '-' + day
-        console.log(convertDate)
         return selectedDate;
     }
 
