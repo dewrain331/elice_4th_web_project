@@ -1,33 +1,33 @@
 import { useEffect, useState } from "react"
 import { Card, Button, Row, Col } from "react-bootstrap"
 import * as Api from "../../api"
-import Certificate from "./Certificate"
-import CertificateAddForm from "./CertificateAddForm"
+import Award from "./Award"
+import AwardAddForm from "./AwardAddForm"
 
-const Certificates = ({ portfolioOwnerId, isEditable }) => {
-    // useState로 낱개의 certificate들을 담을 배열 선언
-    const [certificates, setCertificates] = useState([])
+const Awards = ({ portfolioOwnerId, isEditable }) => {
+    // useState로 낱개의 award들을 담을 배열 선언
+    const [awards, setAwards] = useState([])
     // useState로 생성 상태를 관리할 변수를 선언
     // 초기 상태는 생성 중이 아니므로, 초기값은 false
     const [isAdding, setIsAdding] = useState(false)
 
     useEffect(() => {
-        // DB에 저장된 유저의 Certificate들을 Certificates 변수에 넣음.
-        Api.get("certificatelist", portfolioOwnerId)
-            .then(res => setCertificates(res.data))
+        // DB에 저장된 유저의 Award들을 Awards 변수에 넣음.
+        Api.get("awardlist", portfolioOwnerId)
+            .then(res => setAwards(res.data))
     }, [portfolioOwnerId])
 
-    console.log(certificates);
+    console.log(awards);
 
     return (
         <Card>
             <Card.Body>
-                <Card.Title>자격증</Card.Title>
-                {certificates.map(v => (
-                    <Certificate
+                <Card.Title>수상이력</Card.Title>
+                {awards.map(v => (
+                    <Award
                         key={v.id}
-                        certificate={v}
-                        setCertificates={setCertificates}
+                        _award={v}
+                        setAwards={setAwards}
                         isEditable={isEditable}
                     />
                 ))}
@@ -39,9 +39,9 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                     </Row>
                 )}
                 {isAdding && (
-                    <CertificateAddForm 
+                    <AwardAddForm 
                         portfolioOwnerId={portfolioOwnerId}
-                        setCertificates={setCertificates}
+                        setAwards={setAwards}
                         setIsAdding={setIsAdding}
                     />
                 )}
@@ -50,4 +50,4 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
     )
 }
 
-export default Certificates
+export default Awards
