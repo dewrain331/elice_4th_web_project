@@ -4,6 +4,10 @@ import * as Api from "../../api"
 
 const CertificateCard = ({ certificate, isEditable, setIsEditing, setCertificates }) => {
     // Modal 관련 State
+    const slicingDate = (date) => {
+        return date.slice(0, 10)
+    }
+
     const [show, setShow] = useState(false)
     const handleShow = () => setShow(true)
     const handleClose = () => setShow(false)
@@ -24,7 +28,7 @@ const CertificateCard = ({ certificate, isEditable, setIsEditing, setCertificate
                         <br />
                         <span className="text-muted">{certificate.description}</span>
                         <br />
-                        <span className="text-muted">{certificate.date}</span>
+                        <span className="text-muted">{slicingDate(certificate.date)}</span>
                     </Col>
                     <Col xs lg="1">
                         {/* 각 항목마다 편집 버튼을 생성 */}
