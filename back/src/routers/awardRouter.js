@@ -5,11 +5,33 @@ import { awardService } from '../services/awardService';
 
 const awardRouter = Router();
 
-awardRouter.get("/award", login_required, async (req, res, next) => {
+awardRouter.get("/awardlist/:user_id", login_required, async (req, res, next) => {
     try {
 
         const getAward = {
-            id : req.currentUserId,
+            user_id : req.params.user_id,
+        }
+
+        console.log("router");
+
+        const award = await awardService.getAwards({ getAward });
+
+        if (award.errorMessage) {
+            console.log(award.errorMessage);
+            throw new Error(award.errorMessage);
+        }
+
+        res.status(200).send(award);
+
+    } catch (error) {
+        next(error);
+    }
+})
+awardRouter.get("/awards/:id", login_required, async (req, res, next) => {
+    try {
+
+        const getAward = {
+            id : req.params.id,
         }
 
         console.log("router");
@@ -27,11 +49,11 @@ awardRouter.get("/award", login_required, async (req, res, next) => {
         next(error);
     }
 })
-awardRouter.post("/award/register", login_required, async (req, res, next) => {
+awardRouter.post("/award/create", login_required, async (req, res, next) => {
+    
     try {
-        const user_id = req.currentUserId;
         const newAward = {
-            id : user_id,
+            user_id : req.body.user_id,
             award : req.body.award,
             description : req.body.description,
         }
@@ -52,12 +74,12 @@ awardRouter.post("/award/register", login_required, async (req, res, next) => {
     }
 })
 
-awardRouter.delete("/award/:award", login_required, async (req, res, next) => {
+awardRouter.delete("/award/:id", login_required, async (req, res, next) => {
     try {
         const user_id = req.currentUserId;
         const deleteAward = {
-            id : user_id,
-            award : req.params.award,
+            user_id : user_id,
+            id : req.params.id,
         }
 
         console.log("router");
@@ -76,12 +98,11 @@ awardRouter.delete("/award/:award", login_required, async (req, res, next) => {
     }
 })
 
-awardRouter.post("/award/:award", login_required, async (req, res, next) => {
+awardRouter.post("/award/:id", login_required, async (req, res, next) => {
     try {
-        const user_id = req.currentUserId;
+        //const user_id = req.currentUserId;
         const updateAward = {
-            id : user_id,
-            award : req.params.award,
+            id : req.params.id,
             changeAward : req.body.changeAward,
             changeDescription : req.body.changeDescription
         }
