@@ -20,9 +20,9 @@ const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing
 
         // put 요청.
         await Api.post(`certificate/${currentCertificate.id}`, {
-            changeTitle: title,
-            changeDescription: description,
-            changeDate: date
+            title: title,
+            description: description,
+            date: date
         })
 
         // put 요청값과 함께 각각의 Certificate들의 모임인 Certificates를 다시 렌더링
