@@ -53,7 +53,7 @@ const AwardEditForm = ({ currentAward, setAwards, setIsEditing }) => {
                         <Button
                             variant="primary"
                             type="submit"
-                            className="mt-3 text-center"
+                            className="me-3"
                         >확인</Button>
                         <Button
                             variant="secondary"
