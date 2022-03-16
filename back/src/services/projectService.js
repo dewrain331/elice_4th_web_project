@@ -1,11 +1,11 @@
 import { Project } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import { v4 as uuidv4 } from "uuid";
 
-class ProjectService {
-  static addProject = async ({ user_id, title, description, from_date, to_date }) => {
+class projectService {
+  static addProject = async ({ userId, title, description, fromDate, toDate }) => {
     // id 는 유니크 값 부여
     const id = uuidv4();
-    const newProject = { id, user_id, title, description, from_date, to_date };
+    const newProject = { id, userId, title, description, fromDate, toDate };
 
     // db에 저장
     const createdNewProject = await Project.create({ newProject });
@@ -26,8 +26,8 @@ class ProjectService {
     return project;
   }
 
-  static getProjectList = async({ user_id }) => {
-    const projects = await Project.findByUserId({ user_id });
+  static getProjectList = async({ userId }) => {
+    const projects = await Project.findByUserId({ userId });
     return projects;
   }
 
@@ -53,20 +53,33 @@ class ProjectService {
       project = await Project.update({ projectId, fieldToUpdate, newValue });
     }
 
-    if (toUpdate.from_date) {
-      const fieldToUpdate = "from_date";
-      const newValue = toUpdate.from_date;
+    if (toUpdate.fromDate) {
+      const fieldToUpdate = "fromDate";
+      const newValue = toUpdate.fromDate;
       project = await Project.update({ projectId, fieldToUpdate, newValue });
     }
 
-    if (toUpdate.to_date) {
-        const fieldToUpdate = "to_date";
-        const newValue = toUpdate.to_date;
+    if (toUpdate.toDate) {
+        const fieldToUpdate = "toDate";
+        const newValue = toUpdate.toDate;
         project = await Project.update({ projectId, fieldToUpdate, newValue });
       }
 
     return project;
   }
+
+  static async deleteProject({ projectId }) {
+    const isDataDeleted = await Project.deleteById({ projectId });
+
+    // db에서 찾지 못한 경우, 에러 메시지 반환
+    if (!isDataDeleted) {
+      const errorMessage =
+        "해당 id를 가진 프로젝트 데이터는 없습니다. 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+
+    return { status: "ok" };
+  }
 }
 
-export { ProjectService };
+export { projectService };

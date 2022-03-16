@@ -1,7 +1,7 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
-import { ProjectService } from "../services/projectService";
+import { projectService } from "../services/projectService";
 
 const projectRouter = Router();
 projectRouter.use(login_required)
@@ -15,19 +15,19 @@ projectRouter.post("/project/create", async function (req, res, next) {
     }
 
     // req (request) 에서 데이터 가져오기
-    const user_id = req.body.user_id;
+    const userId = req.body.userId;
     const title = req.body.title;
     const description = req.body.description;
-    const from_date = req.body.from_date;
-    const to_date = req.body.to_date;
+    const fromDate = req.body.fromDate;
+    const toDate = req.body.toDate;
 
     // 위 데이터를 프로젝트 db에 추가하기
-    const newProject = await ProjectService.addProject({
-        user_id,
+    const newProject = await projectService.addProject({
+        userId,
         title,
         description,
-        from_date,
-        to_date
+        fromDate,
+        toDate
     });
     
     res.status(201).json(newProject);
@@ -42,7 +42,7 @@ projectRouter.get("/projects/:id", async function (req, res, next) {
     const projectId = req.params.id;
 
     // 위 id를 이용하여 db에서 data 찾기
-    const project = await ProjectService.getProject({ projectId });
+    const project = await projectService.getProject({ projectId });
 
     if (project.errorMessage) {
       throw new Error(project.errorMessage);
@@ -61,13 +61,13 @@ projectRouter.put("/projects/:id", async function (req, res, next) {
       // body data 로부터 업데이트할 사용자 정보를 추출함.
       const title = req.body.title ?? null;
       const description = req.body.description ?? null;
-      const from_date = req.body.from_date ?? null;
-      const to_date = req.body.to_date ?? null;
+      const fromDate = req.body.fromDate ?? null;
+      const toDate = req.body.toDate ?? null;
 
-      const toUpdate = { title, description, from_date, to_date };
+      const toUpdate = { title, description, fromDate, toDate };
 
       // 위 추출된 정보를 이용하여 db의 데이터 수정함
-      const project = await ProjectService.setProject({ projectId, toUpdate });
+      const project = await projectService.setProject({ projectId, toUpdate });
 
       if (project.errorMessage) {
         throw new Error(project.errorMessage);
@@ -80,15 +80,33 @@ projectRouter.put("/projects/:id", async function (req, res, next) {
   }
 );
 
-projectRouter.get("/projectlist/:user_id", async function (req, res, next) {
+projectRouter.get("/projectlist/:userId", async function (req, res, next) {
     try {
       // 특정 사용자의 전체 프로젝트 목록을 얻음
-      const user_id = req.params.user_id;
-      const projectList = await ProjectService.getProjectList({ user_id });
+      const userId = req.params.userId;
+      const projectList = await projectService.getProjectList({ userId });
       res.status(200).send(projectList);
     } catch (error) {
       next(error);
     }
   });
+
+  projectRouter.delete("/projects/:id", async function (req, res, next) {
+  try {
+    // req (request) 에서 id 가져오기
+    const projectId = req.params.id;
+
+    // 위 id를 이용하여 db에서 데이터 삭제하기
+    const result = await projectService.deleteProject({ projectId });
+
+    if (result.errorMessage) {
+      throw new Error(result.errorMessage);
+    }
+
+    res.status(200).send(result);
+  } catch (error) {
+    next(error);
+  }
+});
 
 export { projectRouter };
