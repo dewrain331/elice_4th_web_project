@@ -55,7 +55,7 @@ const CertificateAddForm = ({ portfolioOwnerId, setCertificates, setIsAdding }) 
                 </Form.Group>
 
                 <Form.Group controlId="formBasicDate" className="mt-3">
-                    <DatePicker selected={date} onChange={v => setDate(v)} />
+                    <DatePicker dateFormat="yyyy-MM-dd" selected={new Date(date)} onChange={v => setDate(v)} />
                 </Form.Group>
 
                 <Form.Group as={Row} className="mt-3 text-center">
@@ -64,6 +64,7 @@ const CertificateAddForm = ({ portfolioOwnerId, setCertificates, setIsAdding }) 
                             variant="primary"
                             type="submit"
                             className="me-3"
+                            onClick={() => console.log(date)}
                         >확인</Button>
                         <Button
                             variant="secondary"

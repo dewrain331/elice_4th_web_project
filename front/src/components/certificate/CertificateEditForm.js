@@ -54,7 +54,7 @@ const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing
                 </Form.Group>
 
                 <Form.Group controlId="formBasicDate" className="mt-3">
-                    <DatePicker selected={date} onChange={v => setDate(v)} />
+                    <DatePicker dateFormat="yyyy-MM-dd" selected={new Date(date)} onChange={v => setDate(v)} />
                 </Form.Group>
 
                 <Form.Group as={Row} className="mt-3 text-center">
