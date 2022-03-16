@@ -9,7 +9,7 @@ const CertificateCard = ({ certificate, isEditable, setIsEditing, setCertificate
     const handleClose = () => setShow(false)
 
     const handleDelete = async (id) => {
-        await Api.delete(`certificates/${id}`)
+        await Api.delete(`certificate/${id}`)
         const res = await Api.get("certificatelist", certificate.user_id)
         setCertificates(res.data)
     }

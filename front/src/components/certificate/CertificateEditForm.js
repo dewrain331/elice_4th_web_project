@@ -20,9 +20,9 @@ const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing
 
         // put 요청.
         await Api.post(`certificate/${currentCertificate.id}`, {
-            changeTitle: title,
-            changeDescription: description,
-            changeDate: date
+            title,
+            description,
+            date
         })
 
         // put 요청값과 함께 각각의 Certificate들의 모임인 Certificates를 다시 렌더링
@@ -54,7 +54,7 @@ const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing
                 </Form.Group>
 
                 <Form.Group controlId="formBasicDate" className="mt-3">
-                    <DatePicker selected={date} onChange={v => setDate(v)} />
+                    <DatePicker dateFormat="yyyy-MM-dd" selected={new Date(date)} onChange={v => setDate(v)} />
                 </Form.Group>
 
                 <Form.Group as={Row} className="mt-3 text-center">
