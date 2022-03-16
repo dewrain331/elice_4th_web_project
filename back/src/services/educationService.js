@@ -15,7 +15,7 @@ class EducationService {
   }
 
   static getEducation = async ({ educationId }) => {
-    // 이메일 db에 존재 여부 확인
+    // education db에 존재 여부 확인
     const education = await Education.findById({ educationId });
     if (!education) {
       const errorMessage =
@@ -32,7 +32,6 @@ class EducationService {
   }
 
   static setEducation = async ({ educationId, toUpdate }) => {
-    // 우선 해당 id 의 유저가 db에 존재하는지 여부 확인
     let education = await Education.findById({ educationId });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
