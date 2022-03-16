@@ -10,7 +10,7 @@ const CertificateSchema = new Schema(
             type: String,
             required: true,
         },
-        certificate : {
+        title : {
             type: String,
             required: true,
         },
@@ -18,7 +18,7 @@ const CertificateSchema = new Schema(
             type: String,
             required: true,
         },
-        when_date : {
+        date : {
             type : Date,
             required : true,
         }
