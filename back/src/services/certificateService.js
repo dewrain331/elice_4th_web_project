@@ -56,7 +56,7 @@ const certificateService = {
         const updateCertificateResult = await Certificate.update({ updateCertificate });
 
         if (!updateCertificateResult) {
-            const errorMessage = "수상 이력을 수정하는 데 실패했습니다.";
+            const errorMessage = "자격증을 수정하는 데 실패했습니다.";
             return { errorMessage };
         }
 
