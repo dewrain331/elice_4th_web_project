@@ -1,10 +1,17 @@
 import { Card, Button, Row, Col, Modal } from "react-bootstrap"
 import {useState} from 'react'
+import * as Api from "../../api"
 
-const AwardCard = ({ _award, isEditable, setIsEditing }) => {
+const AwardCard = ({ _award, isEditable, setIsEditing, setAwards }) => {
+    // Modal 관련 State
     const [show, setShow] = useState(false)
     const handleShow = () => setShow(true)
     const handleClose = () => setShow(false)
+
+    const handleDelete = async (id) => {
+        const res = await Api.delete()
+        setAwards(res.data)
+    }
 
     return (
         <>
@@ -37,15 +44,19 @@ const AwardCard = ({ _award, isEditable, setIsEditing }) => {
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>Modal heading</Modal.Title>
+                <Modal.Title>삭제 확인</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+                <Modal.Body>정말로 삭제하시겠습니까?</Modal.Body>
                 <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
-                    Close
+                    취소
                 </Button>
-                <Button variant="primary" onClick={handleClose}>
-                    Save Changes
+                <Button variant="primary" onClick={() => {
+                    handleClose()
+                    handleDelete(_award.id)
+                    }
+                }>
+                    삭제
                 </Button>
                 </Modal.Footer>
             </Modal>
