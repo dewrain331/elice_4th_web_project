@@ -9,7 +9,8 @@ const AwardCard = ({ _award, isEditable, setIsEditing, setAwards }) => {
     const handleClose = () => setShow(false)
 
     const handleDelete = async (id) => {
-        const res = await Api.delete()
+        await Api.delete(`awards/${id}`)
+        const res = await Api.get("awardlist", _award.user_id)
         setAwards(res.data)
     }
     console.log(_award);
@@ -36,7 +37,6 @@ const AwardCard = ({ _award, isEditable, setIsEditing, setAwards }) => {
                             variant="outline-secondary"
                             size="sm"
                             onClick={handleShow}
-                            className="mr-3"
                         >삭제</Button>}
                     </Col>
                 </Row>
@@ -51,7 +51,7 @@ const AwardCard = ({ _award, isEditable, setIsEditing, setAwards }) => {
                 <Button variant="secondary" onClick={handleClose}>
                     취소
                 </Button>
-                <Button variant="primary" onClick={() => {
+                <Button variant="danger" onClick={() => {
                     handleClose()
                     handleDelete(_award.id)
                     }
