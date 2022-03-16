@@ -18,7 +18,7 @@ const Award = ({ _award, setAwards, isEditable }) => {
                 />
             ) : (
                 <AwardCard 
-                    award={_award}
+                    _award={_award}
                     isEditable={isEditable}
                     setIsEditing={setIsEditing}
                     setAwards={setAwards}
