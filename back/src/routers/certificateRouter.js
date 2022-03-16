@@ -59,7 +59,7 @@ certificateRouter.post("/certificate/:id", login_required, async (req, res, next
             description : req.body.description,
             date : req.body.date
         }
-        
+
         const certificate = await certificateService.updateCertificate({ updateCertificate });
 
         if (certificate.errorMessage) {
@@ -76,12 +76,13 @@ certificateRouter.post("/certificate/:id", login_required, async (req, res, next
 
 certificateRouter.delete("/certificate/:id", login_required, async (req, res, next) => {
     try {
-
+        
         const deleteCertificate = {
             id : req.params.id,
             user_id : req.currentUserId,
         }
-
+        console.log(deleteCertificate);
+        
         const certificate = await certificateService.deleteCertificate({ deleteCertificate });
 
         if (certificate.errorMessage) {
@@ -90,6 +91,7 @@ certificateRouter.delete("/certificate/:id", login_required, async (req, res, ne
         }
 
         res.status(200).send(certificate);
+        
 
     } catch (error) {
         next (error);
