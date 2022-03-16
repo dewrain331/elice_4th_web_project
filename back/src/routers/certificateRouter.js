@@ -14,8 +14,6 @@ certificateRouter.post("/certificate/create", login_required, async (req, res, n
             date : req.body.date
         }
 
-        console.log("router");
-
         const certificate = await certificateService.addCertificate({ newCertificate });
 
         if (certificate.errorMessage) {
