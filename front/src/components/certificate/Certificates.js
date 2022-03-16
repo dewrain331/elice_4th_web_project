@@ -17,8 +17,6 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
             .then(res => setCertificates(res.data))
     }, [portfolioOwnerId])
 
-    console.log(certificates);
-
     return (
         <Card>
             <Card.Body>

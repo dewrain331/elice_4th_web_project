@@ -64,7 +64,6 @@ const CertificateAddForm = ({ portfolioOwnerId, setCertificates, setIsAdding }) 
                             variant="primary"
                             type="submit"
                             className="me-3"
-                            onClick={() => console.log(date)}
                         >확인</Button>
                         <Button
                             variant="secondary"
