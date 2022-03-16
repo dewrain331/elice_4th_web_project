@@ -12,7 +12,7 @@ const AwardCard = ({ _award, isEditable, setIsEditing, setAwards }) => {
         const res = await Api.delete()
         setAwards(res.data)
     }
-
+    console.log(_award);
     return (
         <>
             <Card.Text>

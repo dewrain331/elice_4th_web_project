@@ -17,6 +17,8 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
             .then(res => setAwards(res.data))
     }, [portfolioOwnerId])
 
+    console.log(awards);
+
     return (
         <Card>
             <Card.Body>
