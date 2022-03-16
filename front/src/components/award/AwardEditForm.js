@@ -13,15 +13,17 @@ const AwardEditForm = ({ currentAward, setAwards, setIsEditing }) => {
         evt.preventDefault()
         evt.stopPropagation()
 
+        const user_id = currentAward.user_id
+
         // put 요청.
         await Api.put(`awards/${currentAward.id}`, {
-            user_id: currentAward.user_id,
+            user_id,
             award,
             description,
         })
 
         // put 요청값과 함께 각각의 Award들의 모임인 Awards를 다시 렌더링
-        const res = await Api.get("awardlist", currentAward.user_id)
+        const res = await Api.get("awardlist", user_id)
         setAwards(res.data)
         // 편집 상태 종료.
         setIsEditing(false)
