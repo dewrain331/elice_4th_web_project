@@ -1,4 +1,5 @@
 import React,{useEffect,useState} from 'react'
+import { Card, Button, Row, Col } from 'react-bootstrap'
 import * as Api from '../../api'
 import EducationAddForm from './EducationAddForm';
 import Education from './Education'
@@ -13,26 +14,32 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
         Api.get('educationlist', portfolioOwnerId).then((res)=>setEducations(res.data))
     },[])
     return(
-        <div>
-            <h3>학력</h3>
-            {educations && educations.map((edu)=>(
-                <Education 
-                    key={edu.id}
-                    id={edu.id}
-                    education={edu}
+        <Card>
+            <Card.Body>
+                <Card.Title>학력</Card.Title>
+                {educations.map((edu)=>(
+                    <Education 
+                        key={edu.id}
+                        id={edu.id}
+                        education={edu}
+                        setEducations={setEducations}
+                        isEditable={isEditable}
+                        />))}
+                {isEditable && (
+                    <Row className="mt-3 text-center mb-4">
+                         <Col>
+                             <Button onClick={()=>setIsAdding(true)}>+</Button>
+                         </Col>
+                    </Row>
+                )}
+                {isAdding && 
+                <EducationAddForm 
+                    user_id={portfolioOwnerId} 
                     setEducations={setEducations}
-                    isEditable={isEditable}
-                    />))}
-            {isEditable && 
-                <button onClick={()=>setIsAdding(true)}>+</button>
-            }
-            {isAdding && 
-            <EducationAddForm 
-                user_id={portfolioOwnerId} 
-                setEducations={setEducations}
-                setIsAdding={setIsAdding}
-            />}
-        </div>
+                    setIsAdding={setIsAdding}
+                />}
+            </Card.Body>
+        </Card>
     )
 }
 

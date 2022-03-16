@@ -1,4 +1,5 @@
 import {useState} from 'react'
+import { Button, Form, Col, Row } from "react-bootstrap";
 import * as Api from '../../api'
 
 const EducationEditForm=({ id, education, setEducations, setIsEditing })=>{
@@ -19,24 +20,76 @@ const EducationEditForm=({ id, education, setEducations, setIsEditing })=>{
         setIsEditing(false)
     }
     return(
-        <div>
-            <form onSubmit={handleSubmit}>
-                <input type="text" placeholder="학교 이름" value={school} onChange={(e)=>setSchool(e.target.value)}/>
-                <input type="text" placeholder="전공" value={major} onChange={(e)=>setMajor(e.target.value)}/>
-                <div onChange={(e)=>setPosition(e.target.value)}>
-                   <input type="radio" value="재학중" id="attending" name="pos" checked={position==="재학중"}/>
-                   <label htmlFor="attending">재학중</label>
-                   <input type="radio" value="학사졸업" id="bachelor" name="pos" checked={position==="학사졸업"}/>
-                   <label htmlFor="bachelor">학사졸업</label>
-                   <input type="radio" value="석사졸업" id="master" name="pos" checked={position==="석사졸업"}/>
-                   <label htmlFor="master">석사졸업</label>
-                   <input type="radio" value="박사졸업" id="phD" name="pos" checked={position==="박사졸업"}/>
-                   <label htmlFor="phD">박사졸업</label>
+            <Form onSubmit={handleSubmit}>
+                <Form.Group controlId="formBasicTitle">
+                    <Form.Control
+                        type="text"
+                        placeholder="학교 이름"
+                        value={school}
+                        onChange={(e) => setSchool(e.target.value)}
+                    />
+                </Form.Group>
+                <Form.Group controlId="formBasicTitle" className="mt-3">
+                    <Form.Control
+                        type="text"
+                        placeholder="전공"
+                        value={major}
+                        onChange={(e) => setMajor(e.target.value)}
+                    />
+                </Form.Group>
+
+                <div key='inline-radio' className="mb-3" onChange={(e)=>setPosition(e.target.value)}>
+                    <Form.Check
+                        inline
+                        label="재학중"
+                        value="재학중"
+                        name="position"
+                        type="radio"
+                        id="inline-radio-1"
+                        defaultChecked={position==="재학중"}
+                    />
+                    <Form.Check
+                        inline
+                        label="학사졸업"
+                        value="학사졸업"
+                        name="position"
+                        type="radio"
+                        id="inline-radio-2"
+                        defaultChecked={position==="학사졸업"}
+                    />
+                    <Form.Check
+                        inline
+                        label="석사졸업"
+                        value="석사졸업"
+                        name="position"
+                        type="radio"
+                        id="inline-radio-3"
+                        defaultChecked={position==="석사졸업"}
+                    />
+                    <Form.Check
+                        inline
+                        label="박사졸업"
+                        value="박사졸업"
+                        name="position"
+                        type="radio"
+                        id="inline-radio-4"
+                        defaultChecked={position==="박사졸업"}
+                    />
                 </div>
-                <button type="submit">확인</button>
-                <button onClick={()=>setIsEditing(false)}>취소</button> 
-            </form>
-        </div>
+
+                <Form.Group as={Row} className="mt-3 text-center mb-4">
+                    <Col sm={{ span: 20 }}>
+                        <Button variant="primary" type="submit" className="me-3">
+                            확인
+                        </Button>
+                        <Button variant="secondary" onClick={() => setIsEditing(false)}>
+                            취소
+                        </Button>
+                </Col>
+            </Form.Group>
+
+
+            </Form>
     )
 }
 
