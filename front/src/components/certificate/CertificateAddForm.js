@@ -45,7 +45,7 @@ const CertificateAddForm = ({ portfolioOwnerId, setCertificates, setIsAdding }) 
                     />
                 </Form.Group>
 
-                <Form.Group controlId="formBasicDescription">
+                <Form.Group controlId="formBasicDescription" className="mt-3">
                     <Form.Control
                         type="text"
                         placeholder="상세내역"
@@ -54,7 +54,7 @@ const CertificateAddForm = ({ portfolioOwnerId, setCertificates, setIsAdding }) 
                     />
                 </Form.Group>
 
-                <Form.Group controlId="formBasicDate">
+                <Form.Group controlId="formBasicDate" className="mt-3">
                     <DatePicker selected={date} onChange={v => setDate(v)} />
                 </Form.Group>
 
