@@ -24,7 +24,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                 {certificates.map(v => (
                     <Certificate
                         key={v.id}
-                        _award={v}
+                        certificate={v}
                         setCertificates={setCertificates}
                         isEditable={isEditable}
                     />
