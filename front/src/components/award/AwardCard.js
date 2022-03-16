@@ -16,7 +16,7 @@ const AwardCard = ({ _award, isEditable, setIsEditing, setAwards }) => {
 
     return (
         <>
-            <Card.Text>
+            <Card.Body>
                 {/* award의 수상내용과 상세내용을 출력 */}
                 <Row className="align-items-center">
                     <Col>
@@ -40,7 +40,7 @@ const AwardCard = ({ _award, isEditable, setIsEditing, setAwards }) => {
                         >삭제</Button>}
                     </Col>
                 </Row>
-            </Card.Text>
+            </Card.Body>
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
