@@ -17,7 +17,7 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
             <h3>학력</h3>
             {educations && educations.map((edu)=>(
                 <Education 
-                    key={edu.id}ㄴ
+                    key={edu.id}
                     id={edu.id}
                     education={edu}
                     setEducations={setEducations}

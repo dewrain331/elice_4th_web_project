@@ -2,20 +2,21 @@ import {useState} from 'react'
 import * as Api from '../../api'
 
 const EducationEditForm=({ id, education, setEducations, setIsEditing })=>{
-    //const { user_id }=education
+    const { user_id }=education
     const [school, setSchool]=useState(education.school)
     const [major, setMajor]=useState(education.major)
     const [position,setPosition]=useState(education.position)
 
-    const handleSubmit=(e)=>{
+    const handleSubmit= async (e)=>{
         e.preventDefault()
-        Api.put('educations/'+id, {
+        await Api.put('educations/'+id, {
             school,
             major,
             position
         })
-        .then(res=>setEducations(res.data)) 
-        .then(()=>setIsEditing(false)) 
+        const res=await Api.get('educationlist', user_id)
+        setEducations(res.data)
+        setIsEditing(false)
     }
     return(
         <div>

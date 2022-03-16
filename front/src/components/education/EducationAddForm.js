@@ -9,12 +9,13 @@ const EducationAddForm=({ user_id, setEducations, setIsAdding })=>{
     //확인 버튼을 눌렀을 때 post요청 보낼 함수
     const handleSubmit= async (e)=>{
         e.preventDefault()
-        const res=await Api.post('education/create',{ 
+        await Api.post('education/create',{ 
             user_id,
             school,
             major,
             position
         })
+        const res=await Api.get('educationlist', user_id)
         setEducations(res.data)
         setIsAdding(false)
     }
