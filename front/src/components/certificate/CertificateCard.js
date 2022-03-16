@@ -20,7 +20,7 @@ const CertificateCard = ({ certificate, isEditable, setIsEditing, setCertificate
 
     return (
         <>
-            <Card.Text>
+            <Card.Body>
                 {/* certificate의 자격증 이름과 상세내용, 취득일자를 출력 */}
                 <Row className="align-items-center">
                     <Col>
@@ -46,7 +46,7 @@ const CertificateCard = ({ certificate, isEditable, setIsEditing, setCertificate
                         >삭제</Button>}
                     </Col>
                 </Row>
-            </Card.Text>
+            </Card.Body>
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
