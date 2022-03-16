@@ -2,7 +2,7 @@ import { Card, Button, Row, Col } from "react-bootstrap"
 
 const EducationCard=({ education, setIsEditing, isEditable})=>{
     return(
-        <Card.Text>
+        <Card.Body>
             <Row className="align-items-center">
                 <Col>
                     <span>{education.school}</span>
@@ -10,18 +10,22 @@ const EducationCard=({ education, setIsEditing, isEditable})=>{
                     <span className="text-muted">{education.major} ({education.position})</span>
                 </Col>
                 {isEditable && (
-                    <Col xs lg="1">
+                    <Col>
                       <Button
                         variant="outline-info"
                         size="sm"
                         onClick={() => setIsEditing(true)}
-                        className="mr-3"
-                      >편집</Button>
+                        className="mr-3">편집</Button>
+                        <Button
+                        variant="outline-info"
+                        size="sm"
+                        onClick={() => setIsEditing(true)}
+                        className="mr-3">삭제</Button>
                     </Col>
                   )
                 } 
             </Row>
-        </Card.Text>
+        </Card.Body>
     )
 }
 
