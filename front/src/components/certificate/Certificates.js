@@ -20,7 +20,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
     return (
         <Card>
             <Card.Body>
-                <Card.Title>수상이력</Card.Title>
+                <Card.Title>자격증</Card.Title>
                 {certificates.map(v => (
                     <Certificate
                         key={v.id}
