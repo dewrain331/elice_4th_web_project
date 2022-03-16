@@ -16,10 +16,9 @@ const AwardEditForm = ({ currentAward, setAwards, setIsEditing }) => {
         const user_id = currentAward.user_id
 
         // put 요청.
-        await Api.put(`awards/${currentAward.id}`, {
-            user_id,
-            award,
-            description,
+        await Api.post(`award/${currentAward.id}`, {
+            changeAward: award,
+            changeDescription: description,
         })
 
         // put 요청값과 함께 각각의 Award들의 모임인 Awards를 다시 렌더링
