@@ -25,12 +25,13 @@ function ProjectAddForm({ portfolioOwnerId, setProjects, setIsAdding }) {
         const user_id = portfolioOwnerId;
 
         // "project/create" 엔드포인트로 post요청함.
+        // date의 타입이 object이므로 string에서 object로 api 형식 변환
         await Api.post("project/create", {
             user_id: portfolioOwnerId,
             title,
             description,
-            from_date: convertDate(from_date),
-            to_date: convertDate(to_date)
+            from_date: from_date.toJSON(),
+            to_date: to_date.toJSON(),
         });
 
         // "projectlist/유저id" 엔드포인트로 get요청함.
@@ -41,14 +42,14 @@ function ProjectAddForm({ portfolioOwnerId, setProjects, setIsAdding }) {
         setIsAdding(false);
     };
 
-    // post 형식에 맞게 날짜를 변환함 (ex: 2022-03-15)
-    const convertDate = (date) => {
-        const year = date.getFullYear();
-        const month = ('0' + (date.getMonth() + 1)).slice(-2);
-        const day = ('0' + date.getDate()).slice(-2);
-        const selectedDate = year + '-' + month + '-' + day
-        return selectedDate;
-    }
+      // 형식에 맞게 날짜를 변환함 (ex: 2022-03-15)
+    // const convertDate = (date) => {
+    //     const year = date.getFullYear();
+    //     const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    //     const day = ('0' + date.getDate()).slice(-2);
+    //     const selectedDate = [year, month, day].join("-");
+    //     return selectedDate;
+    // }
 
     return (
         <Form onSubmit={handleSubmit}>

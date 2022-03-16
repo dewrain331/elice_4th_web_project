@@ -12,8 +12,8 @@ function ProjectEditForm({ currentProject, setProjects, setIsEditing }) {
     //useState로 description 상태를 생성함.
     const [description, setDescription] = useState(currentProject.description);
     //useState로 from_date, to_date 상태를 생성함.
-    const [from_date, setFrom_date] = useState(currentProject.from_date);
-    const [to_date, setTo_date] = useState(currentProject.to_date);
+    const [from_date, setFrom_date] = useState(new Date(currentProject.from_date));
+    const [to_date, setTo_date] = useState(new Date(currentProject.to_date));
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,8 +26,8 @@ function ProjectEditForm({ currentProject, setProjects, setIsEditing }) {
         await Api.put(`projects/${currentProject.id}`, {
             title,
             description,
-            from_date: convertDate(from_date),
-            to_date: convertDate(to_date)
+            from_date: from_date.toJSON(),
+            to_date: to_date.toJSON(),
         });
 
         // "projectlist/유저id" 엔드포인트로 GET 요청함.
@@ -38,14 +38,14 @@ function ProjectEditForm({ currentProject, setProjects, setIsEditing }) {
         setIsEditing(false);
     };
 
-    // post 형식에 맞게 날짜를 변환함
-    const convertDate = (date) => {
-        const year = date.getFullYear();
-        const month = ('0' + (date.getMonth() + 1)).slice(-2);
-        const day = ('0' + date.getDate()).slice(-2);
-        const selectedDate = year + '-' + month + '-' + day
-        return selectedDate;
-    }
+        //   // 형식에 맞게 날짜를 변환함 (ex: 2022-03-15)
+        //   const convertDate = (date) => {
+        //     const year = date.getFullYear();
+        //     const month = ('0' + (date.getMonth() + 1)).slice(-2);
+        //     const day = ('0' + date.getDate()).slice(-2);
+        //     const selectedDate = [year, month, day].join("-");
+        //     return selectedDate;
+        // }
 
     return (
         <Form onSubmit={handleSubmit}>
