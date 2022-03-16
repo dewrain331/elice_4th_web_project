@@ -20,6 +20,7 @@ const Award = ({ _award, setAwards, isEditable }) => {
                     award={_award}
                     isEditable={isEditable}
                     setIsEditing={setIsEditing}
+                    setAwards={setAwards}
                 />
             )}
         </>

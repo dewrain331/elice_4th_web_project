@@ -13,15 +13,17 @@ const AwardAddForm = ({ portfolioOwnerId, setAwards, setIsAdding }) => {
         evt.preventDefault()
         evt.stopPropagation()
 
+        const user_id = portfolioOwnerId
+
         // post 요청
-        await Api.post("award/register", {
-            portfolioOwnerId,
+        await Api.post("award/create", {
+            user_id,
             award,
             description,
         })
 
         // post 요청값과 함께 각각의 Award들의 모임인 Awards를 다시 렌더링
-        const res = await Api.get("awardlist", portfolioOwnerId)
+        const res = await Api.get("awardlist", user_id)
         setAwards(res.data)
         // 생성 상태 종료.
         setIsAdding(false)
@@ -53,7 +55,7 @@ const AwardAddForm = ({ portfolioOwnerId, setAwards, setIsAdding }) => {
                         <Button
                             variant="primary"
                             type="submit"
-                            className="mt-3 text-center"
+                            className="me-3"
                         >확인</Button>
                         <Button
                             variant="secondary"
