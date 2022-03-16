@@ -9,7 +9,7 @@ const AwardCard = ({ _award, isEditable, setIsEditing, setAwards }) => {
     const handleClose = () => setShow(false)
 
     const handleDelete = async (id) => {
-        const res = await Api.delete()
+        const res = await Api.delete(`awards/${id}`)
         setAwards(res.data)
     }
 
@@ -51,7 +51,7 @@ const AwardCard = ({ _award, isEditable, setIsEditing, setAwards }) => {
                 <Button variant="secondary" onClick={handleClose}>
                     취소
                 </Button>
-                <Button variant="primary" onClick={() => {
+                <Button variant="danger" onClick={() => {
                     handleClose()
                     handleDelete(_award.id)
                     }
