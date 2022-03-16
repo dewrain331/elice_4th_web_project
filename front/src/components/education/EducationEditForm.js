@@ -1,15 +1,15 @@
 import {useState} from 'react'
 import * as Api from '../../api'
 
-const EducationEditForm=({ education, setEducations, setIsEditing })=>{
-    const { user_id }=education
+const EducationEditForm=({ id, education, setEducations, setIsEditing })=>{
+    //const { user_id }=education
     const [school, setSchool]=useState(education.school)
     const [major, setMajor]=useState(education.major)
     const [position,setPosition]=useState(education.position)
 
     const handleSubmit=(e)=>{
         e.preventDefault()
-        Api.put(`education/${user_id}`, {
+        Api.put('educations/'+id, {
             school,
             major,
             position

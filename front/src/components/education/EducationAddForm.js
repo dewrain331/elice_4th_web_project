@@ -7,16 +7,16 @@ const EducationAddForm=({ user_id, setEducations, setIsAdding })=>{
     const [position,setPosition]=useState("")
     
     //확인 버튼을 눌렀을 때 post요청 보낼 함수
-    const handleSubmit=(e)=>{
+    const handleSubmit= async (e)=>{
         e.preventDefault()
-        Api.post('education/create',{
+        const res=await Api.post('education/create',{ 
             user_id,
             school,
             major,
             position
         })
-        .then(res=>setEducations(res.data)) //add한 정보 바탕으로 새롭게 educations state를 세팅
-        .then(()=>setIsAdding(false)) //add 완료했으므로 폼을 닫아주기 위해 isadding state를 false로 세팅
+        setEducations(res.data)
+        setIsAdding(false)
     }
    return(
        <div>

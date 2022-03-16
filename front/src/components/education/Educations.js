@@ -10,15 +10,15 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
     const [educations, setEducations]=useState([])
     const [isAdding, setIsAdding]=useState(false)
     useEffect(()=>{
-        Api.get('educationlist', portfolioOwnerId).then(res=>setEducations(res.data))
-    },[portfolioOwnerId])
-
+        Api.get('educationlist', portfolioOwnerId).then((res)=>setEducations(res.data))
+    },[])
     return(
         <div>
             <h3>학력</h3>
-            {educations.map((edu)=>(
+            {educations && educations.map((edu)=>(
                 <Education 
-                    key={edu.id}
+                    key={edu.id}ㄴ
+                    id={edu.id}
                     education={edu}
                     setEducations={setEducations}
                     isEditable={isEditable}
