@@ -31,11 +31,12 @@ certificateRouter.post("/certificate/create", login_required, async (req, res, n
 
 certificateRouter.get("/certificatelist/:user_id", login_required, async (req, res, next) => {
     try {
-
+        
         const getCertificates = {
-            user_id : req.params.user_id
+            user_id : req.params.user_id,
+            page : req.body.page ?? 1
         }
-
+        console.log(getCertificates);
         const certificate = await certificateService.getCertificates({ getCertificates });
 
         if (certificate.errorMessage) {

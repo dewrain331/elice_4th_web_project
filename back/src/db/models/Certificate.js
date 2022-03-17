@@ -3,8 +3,9 @@ import { CertificateModel } from "../schemas/certificate";
 class Certificate {
 
     static async create({ newCertificate }) {
-        console.log(newCertificate);
+        console.log("create");
         const checkAlreadyExist = await CertificateModel.findOne({
+            user_id : newCertificate.user_id,
             title : newCertificate.title
         });
         if (checkAlreadyExist) {
@@ -16,7 +17,6 @@ class Certificate {
 
     static async delete({ deleteCertificate }) {
         console.log("delete");
-        console.log(deleteCertificate);
         const deleteCertificateResult = await CertificateModel.deleteOne({ 
             id : deleteCertificate.id,
             user_id : deleteCertificate.user_id 
@@ -27,10 +27,17 @@ class Certificate {
 
     static async findAllUser({ getCertificates }) {
         console.log("findAll");
-        console.log(getCertificates);
+
+        if (getCertificates.page < 1) {
+            getCertificates.page = 1;
+        }
+
+        const limit = 3;
+        const offset = (getCertificates.page - 1) * limit;
+
         const certificates = await CertificateModel.find({ 
             user_id : getCertificates.user_id,
-        });
+        }).limit(limit).skip(offset);
         return certificates;
     }
 
@@ -42,7 +49,7 @@ class Certificate {
     }
 
     static async update({ updateCertificate }) {
-        console.log(updateCertificate);
+        console.log("update");
         const filter = { 
             id : updateCertificate.id ,
         };
