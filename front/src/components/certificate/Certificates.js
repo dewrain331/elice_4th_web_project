@@ -25,7 +25,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
             .then(res => {
                 const {totalPage, certificates} = res.data
                 setTotalPage(totalPage)
-                setCertificates(res.data)
+                setCertificates(certificates)
             })
     }, [portfolioOwnerId, page])
     */
