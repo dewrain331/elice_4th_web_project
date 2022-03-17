@@ -26,9 +26,9 @@ class educationService {
     return education;
   }
 
-  static getEducationList = async({ userId }) => {
-    const educations = await Education.findByUserId({ userId });
-    return educations;
+  static getEducationList = async({ userId, page, perPage }) => {
+    const { totalPage, "educations": educations } = await Education.findByUserId({ userId, page, perPage });
+    return { totalPage, "educations": educations };
   }
 
   static setEducation = async ({ educationId, toUpdate }) => {
