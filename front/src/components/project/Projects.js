@@ -15,16 +15,17 @@ function Projects({ portfolioOwnerId, isEditable }) {
     const [totalPage, setTotalPage] = useState(0);
     const [page, setPage] = useState(1);
 
+
     useEffect(() => {
         // "projectlist/유저id?page={현재 페이지}&?perPage={한 페이지에 담길 데이터 수}"로 GET 요청하고, response의 data로 projects를 세팅함.
-        axios
-            .get(`http://localhost:5001/projectlist/${portfolioOwnerId}?page=${page}&perPage=3`)
+        Api
+            .get("projectlist", `${portfolioOwnerId}?page=${page}&perPage=3`)
             .then((res) => {
                 const { totalPage, projects } = res.data;
                 setTotalPage(totalPage);
                 setProjects(projects);
             });
-    }, [portfolioOwnerId]);
+    }, [portfolioOwnerId, page]);
 
     return (
         <Card>
@@ -36,25 +37,26 @@ function Projects({ portfolioOwnerId, isEditable }) {
                         project={project}
                         setProjects={setProjects}
                         isEditable={isEditable}
+                        page={page}
                     />
                 ))}
                 <Col className="text-center">
                     <Button variant="secondary"
-                            type="submit"
-                            className="me-3"
-                            onClick={(page) => setPage(page - 1)}
-                            disabled={page === 1}
-                            >
-                            {`<`}
+                        type="submit"
+                        className="me-3"
+                        onClick={() => setPage((prev) => (prev - 1))}
+                        disabled={page === 1}
+                    >
+                        {"<"}
                     </Button>
                     <Button variant="outline-secondary" size="sm" disabled>
-                                {page}/{totalPage}
+                        {page}/{totalPage}
                     </Button>
                     <Button variant="secondary"
-                            onClick={(page) => setPage(page + 1)}
-                            disabled={page === totalPage}
-                            >
-                            {`>`}
+                        onClick={() => setPage((prev) => (prev + 1))}
+                        disabled={page === totalPage}
+                    >
+                        {">"}
                     </Button>
                 </Col>
                 {isEditable && (
@@ -69,6 +71,7 @@ function Projects({ portfolioOwnerId, isEditable }) {
                         portfolioOwnerId={portfolioOwnerId}
                         setProjects={setProjects}
                         setIsAdding={setIsAdding}
+                        page={page}
                     />
                 )}
             </Card.Body>

@@ -6,7 +6,7 @@ import * as Api from "../../api";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-function ProjectEditForm({ currentProject, setProjects, setIsEditing }) {
+function ProjectEditForm({ currentProject, setProjects, setIsEditing, page }) {
     //useState로 title 상태를 생성함.
     const [title, setTitle] = useState(currentProject.title);
     //useState로 description 상태를 생성함.
@@ -31,9 +31,9 @@ function ProjectEditForm({ currentProject, setProjects, setIsEditing }) {
         });
 
         // "projectlist/유저id" 엔드포인트로 GET 요청함.
-        const res = await Api.get("projectlist", userId);
+        const res = await Api.get("projectlist", `${userId}?page=${page}&perPage=3`);
         // projects를 response의 data로 세팅함.
-        setProjects(res.data);
+        setProjects(res.data.projects);
         // 편집 과정이 끝났으므로, isEditing을 false로 세팅함.
         setIsEditing(false);
     };
