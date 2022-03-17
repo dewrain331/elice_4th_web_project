@@ -12,15 +12,15 @@ function ProjectEditForm({ currentProject, setProjects, setIsEditing }) {
     //useState로 description 상태를 생성함.
     const [description, setDescription] = useState(currentProject.description);
     //useState로 from_date, to_date 상태를 생성함.
-    const [fromDate, setFromDate] = useState(new Date(currentProject.from_date));
-    const [toDate, setToDate] = useState(new Date(currentProject.to_date));
+    const [fromDate, setFromDate] = useState(new Date(currentProject.fromDate));
+    const [toDate, setToDate] = useState(new Date(currentProject.toDate));
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         e.stopPropagation();
 
         // currentProject의 user_id를 user_id 변수에 할당함.
-        const userId = currentProject.user_id;
+        const userId = currentProject.userId;
 
         // "projects/프로젝트id" 엔드포인트로 PUT 요청함.
         await Api.put(`projects/${currentProject.id}`, {
