@@ -11,8 +11,8 @@ class Project {
     return project;
   }
 
-  static findByUserId = async ({ userId }) => {
-    const projects = await projectModel.find({ userId });
+  static findByUserId = async ({ userId, page, perPage }) => {
+    const projects = await projectModel.find({ userId }).sort({ createdAt: -1 }).skip(perPage * (page -1)).limit(perPage);
     return projects;
   }
 

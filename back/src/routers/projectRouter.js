@@ -2,6 +2,7 @@ import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { projectService } from "../services/projectService";
+import { projectModel } from "../db/schemas/project";
 
 const projectRouter = Router();
 projectRouter.use(login_required)
@@ -84,7 +85,12 @@ projectRouter.get("/projectlist/:userId", async function (req, res, next) {
     try {
       // 특정 사용자의 전체 프로젝트 목록을 얻음
       const userId = req.params.userId;
-      const projectList = await projectService.getProjectList({ userId });
+      
+      const page = Number(req.query.page || 1) // url 쿼리에서 page 받기, 기본값 1
+      const perPage = Number(req.query.perPage || 3) // url 쿼리에서 peRage 받기, 기본값 3
+
+      const projectList = await projectService.getProjectList({ userId, page, perPage })
+
       res.status(200).send(projectList);
     } catch (error) {
       next(error);
