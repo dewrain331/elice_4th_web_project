@@ -17,6 +17,7 @@ const awardService = {
 
         return createNewAwardResult;
     },
+
     getAwards : async ({ getAwards }) => {
         console.log(getAwards);
         const getAwardsResult = await Award.findAllToUser({ getAwards });

@@ -28,13 +28,20 @@ class Certificate {
     static async findAllToUser({ getCertificates }) {
         console.log("findAll");
 
+        const total = await CertificateModel.countDocuments({ 
+            user_id : getCertificates.user_id,
+        });
+
         const limit = getCertificates.perPage;
         const offset = (getCertificates.page - 1) * limit;
 
         const certificates = await CertificateModel.find({ 
             user_id : getCertificates.user_id,
         }).limit(limit).skip(offset);
-        return certificates;
+
+        const newCertificates = [{"total" : total}, ...certificates];
+
+        return newCertificates;
     }
 
     static async findOne({ getCertificate }) {

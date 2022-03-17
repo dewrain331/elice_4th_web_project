@@ -29,13 +29,20 @@ class Award {
         console.log("findAll");
         console.log(getAwards);
 
+        const total = await AwardModel.countDocuments({ 
+            user_id : getAwards.user_id,
+        });
+
         const limit = getAwards.perPage;
         const offset = (getAwards.page - 1) * limit;
 
         const awards = await AwardModel.find({ 
             user_id : getAwards.user_id,
         }).limit(limit).skip(offset);
-        return awards;
+
+        const newAwards = [{"total" : total}, ...awards];
+
+        return newAwards;
     }
 
     static async findOne({ getAward }) {
