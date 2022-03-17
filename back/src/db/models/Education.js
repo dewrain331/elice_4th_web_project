@@ -14,7 +14,7 @@ class Education {
   static findByUserId = async ({ userId, page, perPage }) => {
     const total = await educationModel.countDocuments({ userId });
     const totalPage = Math.ceil(total / perPage);
-    const educations = await educationModel.find({ userId }).sort({ createdAt: -1 }).skip(perPage * (page -1)).limit(perPage);
+    const educations = await educationModel.find({ userId }).sort({ createdAt: 1 }).skip(perPage * (page -1)).limit(perPage);
     return { totalPage, "educations": educations };
   }
 
