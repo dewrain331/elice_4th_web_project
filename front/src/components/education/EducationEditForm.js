@@ -2,8 +2,8 @@ import {useState} from 'react'
 import { Button, Form, Col, Row } from "react-bootstrap";
 import * as Api from '../../api'
 
-const EducationEditForm=({ id, education, setEducations, setIsEditing })=>{
-    const { user_id }=education
+const EducationEditForm=({ education, setEducations, setIsEditing })=>{
+    const { id, userId }=education
     const [school, setSchool]=useState(education.school)
     const [major, setMajor]=useState(education.major)
     const [position,setPosition]=useState(education.position)
@@ -15,7 +15,7 @@ const EducationEditForm=({ id, education, setEducations, setIsEditing })=>{
             major,
             position
         })
-        const res=await Api.get('educationlist', user_id)
+        const res=await Api.get('educationlist', userId)
         setEducations(res.data)
         setIsEditing(false)
     }

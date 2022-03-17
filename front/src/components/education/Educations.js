@@ -20,7 +20,6 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
                 {educations.map((edu)=>(
                     <Education 
                         key={edu.id}
-                        id={edu.id}
                         education={edu}
                         setEducations={setEducations}
                         isEditable={isEditable}
@@ -34,7 +33,7 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
                 )}
                 {isAdding && 
                 <EducationAddForm 
-                    user_id={portfolioOwnerId} 
+                    userId={portfolioOwnerId} 
                     setEducations={setEducations}
                     setIsAdding={setIsAdding}
                 />}
