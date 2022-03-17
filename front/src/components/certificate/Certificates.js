@@ -65,13 +65,13 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                             variant="outline-secondary"
                             size="sm"
                         >
-                            {page} / {allPage / 3}
+                            {page} / {Math.ceil(allPage / 3)}
                         </Button>
                         <Button
                             variant="outline-secondary"
                             size="sm"
                             onClick={() => setPage(prev => prev + 1)}
-                            disabled={page === allPage / 3}
+                            disabled={page === Math.ceil(allPage / 3)}
                             className="ms-3"
                         >
                             {">"}
