@@ -1,5 +1,5 @@
 import { Card, Button, Row, Col, Modal } from "react-bootstrap"
-import {useState} from "react"
+import {useState,useEffect} from "react"
 import * as Api from "../../api"
 
 const EducationCard=({ education, setEducations, setIsEditing, isEditable})=>{
@@ -21,6 +21,10 @@ const EducationCard=({ education, setEducations, setIsEditing, isEditable})=>{
         setShow(false)   
     }
     
+    useEffect(() => {
+        return () => setShow(false);
+      }, []);
+
     return(
         <>
             <Card.Body>

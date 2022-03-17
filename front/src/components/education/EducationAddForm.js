@@ -48,7 +48,6 @@ const EducationAddForm=({ userId, setEducations, setIsAdding })=>{
             name="position"
             type="radio"
             id="inline-radio-1"
-            defaultChecked
         />
         <Form.Check
             inline
