@@ -1,7 +1,7 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
-import { EducationService } from "../services/educationService";
+import { educationService } from "../services/educationService";
 
 const educationRouter = Router();
 educationRouter.use(login_required)
@@ -15,14 +15,14 @@ educationRouter.post("/education/create", async function (req, res, next) {
     }
 
     // req (request) 에서 데이터 가져오기
-    const user_id = req.body.user_id;
+    const userId = req.body.userId;
     const school = req.body.school;
     const major = req.body.major;
     const position = req.body.position;
 
     // 위 데이터를 education db에 추가하기
-    const newEducation = await EducationService.addEducation({
-        user_id,
+    const newEducation = await educationService.addEducation({
+        userId,
         school,
         major,
         position,
@@ -40,7 +40,7 @@ educationRouter.get("/educations/:id", async function (req, res, next) {
     const educationId = req.params.id;
 
     // 위 id를 이용하여 db에서 data 찾기
-    const education = await EducationService.getEducation({ educationId });
+    const education = await educationService.getEducation({ educationId });
 
     if (education.errorMessage) {
       throw new Error(education.errorMessage);
@@ -64,7 +64,7 @@ educationRouter.put("/educations/:id", async function (req, res, next) {
       const toUpdate = { school, major, position };
 
       // 위 추출된 정보를 이용하여 db의 데이터 수정함
-      const education = await EducationService.setEducation({ educationId, toUpdate });
+      const education = await educationService.setEducation({ educationId, toUpdate });
 
       if (education.errorMessage) {
         throw new Error(education.errorMessage);
@@ -77,15 +77,33 @@ educationRouter.put("/educations/:id", async function (req, res, next) {
   }
 );
 
-educationRouter.get("/educationlist/:user_id", async function (req, res, next) {
+educationRouter.get("/educationlist/:userId", async function (req, res, next) {
     try {
       // 특정 사용자의 전체 수상 목록을 얻음
-      const user_id = req.params.user_id;
-      const educationList = await EducationService.getEducationList({ user_id });
+      const userId = req.params.userId;
+      const educationList = await educationService.getEducationList({ userId });
       res.status(200).send(educationList);
     } catch (error) {
       next(error);
     }
   });
 
+educationRouter.delete("/educations/:id", async function (req, res, next) {
+  try {
+    // req (request) 에서 id 가져오기
+    const educationId = req.params.id;
+
+    // 위 id를 이용하여 db에서 데이터 삭제하기
+    const result = await educationService.deleteEducation({ educationId });
+
+    if (result.errorMessage) {
+      throw new Error(result.errorMessage);
+    }
+
+    res.status(200).send(result);
+  } catch (error) {
+    next(error);
+  }
+});
+  
 export { educationRouter };
