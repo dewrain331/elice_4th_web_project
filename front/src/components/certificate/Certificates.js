@@ -16,11 +16,6 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
 
     useEffect(() => {
         // DB에 저장된 유저의 Certificate들을 Certificates 변수에 넣음.
-        Api.get(`certificatelist/${portfolioOwnerId}`)
-            .then(res => setCertificates(res.data))
-    }, [portfolioOwnerId])
-        /*
-        // params 적용시 사용할 api.get
         Api.get(`certificatelist/${portfolioOwnerId}?page=${page}&perPage=3`)
             .then(res => {
                 const {totalPage, certificates} = res.data
@@ -28,7 +23,6 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                 setCertificates(certificates)
             })
     }, [portfolioOwnerId, page])
-    */
 
     return (
         <Card>
