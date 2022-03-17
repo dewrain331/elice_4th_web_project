@@ -1,29 +1,26 @@
 import React,{useEffect,useState} from 'react'
 import { Card, Button, Row, Col} from 'react-bootstrap'
-//import * as Api from '../../api'
-import axios from "axios"
+import * as Api from '../../api'
 import EducationAddForm from './EducationAddForm'
 import Education from './Education'
 
 const Educations = ({ portfolioOwnerId, isEditable }) => {
-    const backendPortNumber = "5001";
-    const serverUrl = "http://" + window.location.hostname + ":" + backendPortNumber;
 
-    const [totalPage,setTotalPage]=useState(0)
+    const [allPage,setAllPage]=useState(0)
     const [page,setPage]=useState(1)
     const [educations, setEducations]=useState([])
     const [isAdding, setIsAdding]=useState(false)
 
     useEffect(()=>{
         // Api.get('educationlist', portfolioOwnerId).then((res)=>setEducations(res.data))
-        axios
-        .get(`${serverUrl}/educationlist/${portfolioOwnerId}?page=${page}&perPage=3`)
+        Api
+        .get('educationlist', `${portfolioOwnerId}?page=${page}&perPage=3`)
         .then((res)=>{
             const {totalPage, educations}=res.data
-            setTotalPage(totalPage)
+            setAllPage(totalPage)
             setEducations(educations)
         })
-    },[portfolioOwnerId])
+    },[portfolioOwnerId,page])
     
     return(
         <Card>
@@ -48,6 +45,7 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
                     userId={portfolioOwnerId} 
                     setEducations={setEducations}
                     setIsAdding={setIsAdding}
+                    page={page}
                 />}
                 <Row className="mt-3 text-center mb-4">
                          <Col>
@@ -57,11 +55,11 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
                                 {"<"}
                             </Button>{" "}
                             <Button variant="outline-secondary" size="sm" disabled>
-                                {page}/{totalPage}
+                                {page}/{allPage}
                             </Button>{" "}
                             <Button variant="outline-secondary" size="sm" 
                                 onClick={()=>setPage((prev)=>prev+1)}
-                                disabled={page===totalPage}>
+                                disabled={page===allPage}>
                                 {">"}
                             </Button>
                         </Col>

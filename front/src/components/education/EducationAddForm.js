@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import { Button, Form, Col, Row } from "react-bootstrap";
 import * as Api from '../../api'
 
-const EducationAddForm=({ userId, setEducations, setIsAdding })=>{
+const EducationAddForm=({ userId, setEducations, setIsAdding, page })=>{
     //학력 정보를 post할 때 필요한 school, major, position을 state로 지정
     const [school, setSchool]=useState("")
     const [major, setMajor]=useState("")
@@ -17,8 +17,8 @@ const EducationAddForm=({ userId, setEducations, setIsAdding })=>{
             major,
             position
         })
-        const res=await Api.get('educationlist', userId)
-        setEducations(res.data)
+        const res=await Api.get('educationlist', `${userId}?page=${page}&perPage=3`)
+        setEducations(res.data.educations)
         setIsAdding(false)
     }
    return(
