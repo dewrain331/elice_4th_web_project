@@ -79,10 +79,15 @@ educationRouter.put("/educations/:id", async function (req, res, next) {
 
 educationRouter.get("/educationlist/:userId", async function (req, res, next) {
     try {
-      // 특정 사용자의 전체 수상 목록을 얻음
+      // 특정 사용자의 전체 프로젝트 목록을 얻음
       const userId = req.params.userId;
-      const educationList = await educationService.getEducationList({ userId });
-      res.status(200).send(educationList);
+      
+      const page = Number(req.query.page || 1) // url 쿼리에서 page 받기, 기본값 1
+      const perPage = Number(req.query.perPage || 3) // url 쿼리에서 peRage 받기, 기본값 3
+
+      const { totalPage, "educations": educationList } = await educationService.getEducationList({ userId, page, perPage })
+      
+      res.status(200).send({ totalPage, "educations": educationList });
     } catch (error) {
       next(error);
     }
