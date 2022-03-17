@@ -39,7 +39,10 @@ class Certificate {
             user_id : getCertificates.user_id,
         }).limit(limit).skip(offset);
 
-        const newCertificates = [{"total" : total}, ...certificates];
+        const newCertificates = { 
+            "total" : total,
+            certificates : certificates
+        }
 
         return newCertificates;
     }

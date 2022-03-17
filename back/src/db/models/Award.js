@@ -40,7 +40,10 @@ class Award {
             user_id : getAwards.user_id,
         }).limit(limit).skip(offset);
 
-        const newAwards = [{"total" : total}, ...awards];
+        const newAwards = { 
+            "total" : total,
+            awards : awards
+        }
 
         return newAwards;
     }
