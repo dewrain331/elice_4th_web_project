@@ -29,11 +29,7 @@ class Award {
         console.log("findAll");
         console.log(getAwards);
 
-        if (getAwards.page < 1) {
-            getAwards.page = 1;
-        }
-
-        const limit = 3;
+        const limit = getAwards.perPage;
         const offset = (getAwards.page - 1) * limit;
 
         const awards = await AwardModel.find({ 

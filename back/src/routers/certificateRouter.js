@@ -32,9 +32,13 @@ certificateRouter.post("/certificate/create", login_required, async (req, res, n
 certificateRouter.get("/certificatelist/:user_id", login_required, async (req, res, next) => {
     try {
         
+        const page = Number(req.query.page || 1);
+        const perPage = Number(req.query.perPage || 3);
+
         const getCertificates = {
             user_id : req.params.user_id,
-            page : req.body.page ?? 1
+            page : page,
+            perPage : perPage,
         }
         console.log(getCertificates);
         const certificate = await certificateService.getCertificates({ getCertificates });

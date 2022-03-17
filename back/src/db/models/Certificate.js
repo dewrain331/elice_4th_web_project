@@ -28,11 +28,7 @@ class Certificate {
     static async findAllToUser({ getCertificates }) {
         console.log("findAll");
 
-        if (getCertificates.page < 1) {
-            getCertificates.page = 1;
-        }
-
-        const limit = 3;
+        const limit = getCertificates.perPage;
         const offset = (getCertificates.page - 1) * limit;
 
         const certificates = await CertificateModel.find({ 

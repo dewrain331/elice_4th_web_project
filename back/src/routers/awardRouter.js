@@ -7,9 +7,14 @@ const awardRouter = Router();
 
 awardRouter.get("/awardlist/:user_id", login_required, async (req, res, next) => {
     try {
+
+        const page = Number(req.query.page || 1);
+        const perPage = Number(req.query.perPage || 3);
+
         const getAwards = {
             user_id : req.params.user_id,
-            page : req.body.page,
+            page : page,
+            perPage : perPage,
         }
 
         console.log("router");
