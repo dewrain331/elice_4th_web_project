@@ -89,9 +89,9 @@ projectRouter.get("/projectlist/:userId", async function (req, res, next) {
       const page = Number(req.query.page || 1) // url 쿼리에서 page 받기, 기본값 1
       const perPage = Number(req.query.perPage || 3) // url 쿼리에서 peRage 받기, 기본값 3
 
-      const projectList = await projectService.getProjectList({ userId, page, perPage })
-
-      res.status(200).send(projectList);
+      const { totalPage, "projects": projectList } = await projectService.getProjectList({ userId, page, perPage })
+      
+      res.status(200).send({ totalPage, "projects": projectList });
     } catch (error) {
       next(error);
     }

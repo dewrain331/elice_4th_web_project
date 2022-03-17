@@ -27,8 +27,8 @@ class projectService {
   }
 
   static getProjectList = async({ userId, page, perPage }) => {
-    const projects = await Project.findByUserId({ userId, page, perPage });
-    return projects;
+    const { totalPage, "projects": projects } = await Project.findByUserId({ userId, page, perPage });
+    return { totalPage, "projects": projects };
   }
 
   static setProject = async ({ projectId, toUpdate }) => {

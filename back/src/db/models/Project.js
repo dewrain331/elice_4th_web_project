@@ -12,8 +12,10 @@ class Project {
   }
 
   static findByUserId = async ({ userId, page, perPage }) => {
+    const total = await projectModel.countDocuments({ userId });
+    const totalPage = Math.ceil(total / perPage);
     const projects = await projectModel.find({ userId }).sort({ createdAt: -1 }).skip(perPage * (page -1)).limit(perPage);
-    return projects;
+    return { totalPage, "projects": projects};
   }
 
   static update = async ({ projectId, userId, fieldToUpdate, newValue }) => {
