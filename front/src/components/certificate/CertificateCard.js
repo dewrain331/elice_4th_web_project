@@ -4,14 +4,26 @@ import * as Api from "../../api"
 
 const CertificateCard = ({ certificate, isEditable, setIsEditing, setCertificates }) => {
     // Modal 관련 State
+    const slicingDate = (date) => {
+        return date.slice(0, 10)
+    }
+
     const [show, setShow] = useState(false)
     const handleShow = () => setShow(true)
     const handleClose = () => setShow(false)
 
     const handleDelete = async (id) => {
-        await Api.delete(`certificate/${id}`)
-        const res = await Api.get("certificatelist", certificate.user_id)
-        setCertificates(res.data)
+        const res = await Api.delete(`certificate/${id}`)
+        const {status, message} = res
+        if(status === 200) {
+            setCertificates((cur) => {
+                const newCertificates = [...cur]
+                let filtered = newCertificates.filter(v => v.id !== id)
+                return filtered
+            })
+        } else {
+            console.error(message)
+        }
     }
 
     return (
@@ -24,7 +36,7 @@ const CertificateCard = ({ certificate, isEditable, setIsEditing, setCertificate
                         <br />
                         <span className="text-muted">{certificate.description}</span>
                         <br />
-                        <span className="text-muted">{certificate.date}</span>
+                        <span className="text-muted">{slicingDate(certificate.date)}</span>
                     </Col>
                     <Col xs lg="1">
                         {/* 각 항목마다 편집 버튼을 생성 */}

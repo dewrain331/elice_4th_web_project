@@ -23,7 +23,7 @@ const CertificateAddForm = ({ portfolioOwnerId, setCertificates, setIsAdding }) 
             user_id,
             title,
             description,
-            date
+            date: date.toJSON()
         })
 
         // post 요청값과 함께 각각의 Certificate들의 모임인 Certificates를 다시 렌더링
@@ -64,7 +64,6 @@ const CertificateAddForm = ({ portfolioOwnerId, setCertificates, setIsAdding }) 
                             variant="primary"
                             type="submit"
                             className="me-3"
-                            onClick={() => console.log(date)}
                         >확인</Button>
                         <Button
                             variant="secondary"

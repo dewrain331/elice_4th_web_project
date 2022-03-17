@@ -9,7 +9,7 @@ const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing
     // 편집 버튼을 누른 항목의 상세내용을 담을 description 변수 선언.
     const [description, setDescription] = useState(currentCertificate.description)
     // 편집 버튼을 누른 항목의 취득일자를 담을 date 변수 선언.
-    const [date, setDate] = useState(currentCertificate.date)
+    const [date, setDate] = useState(new Date(currentCertificate.date))
 
     const handleSubmit = async (evt) => {
         // Form의 기본 기능 막기.
@@ -22,7 +22,7 @@ const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing
         await Api.post(`certificate/${currentCertificate.id}`, {
             title,
             description,
-            date
+            date: date.toJSON()
         })
 
         // put 요청값과 함께 각각의 Certificate들의 모임인 Certificates를 다시 렌더링
