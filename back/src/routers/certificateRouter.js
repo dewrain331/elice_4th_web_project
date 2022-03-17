@@ -51,6 +51,27 @@ certificateRouter.get("/certificatelist/:user_id", login_required, async (req, r
     }   
 });
 
+certificateRouter.get("/certificate/:id", login_required, async (req, res, next) => {
+    try {
+        
+        const getCertificate = {
+            id : req.params.id,
+        }
+        console.log(getCertificate);
+        const certificate = await certificateService.getCertificate({ getCertificate });
+
+        if (certificate.errorMessage) {
+            console.log(certificate.errorMessage);
+            throw new Error(certificate.errorMessage);
+        }
+
+        res.status(200).send(certificate);
+
+    } catch (error) {
+        next (error);
+    }   
+});
+
 certificateRouter.post("/certificate/:id", login_required, async (req, res, next) => {
     try {
 
