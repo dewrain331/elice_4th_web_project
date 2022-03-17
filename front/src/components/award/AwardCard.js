@@ -13,7 +13,7 @@ const AwardCard = ({ _award, isEditable, setIsEditing, setAwards }) => {
         const res = await Api.get("awardlist", _award.user_id)
         setAwards(res.data)
     }
-    console.log(_award);
+    
     return (
         <>
             <Card.Text>
