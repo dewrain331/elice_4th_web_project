@@ -9,9 +9,17 @@ const AwardCard = ({ _award, isEditable, setIsEditing, setAwards }) => {
     const handleClose = () => setShow(false)
 
     const handleDelete = async (id) => {
-        await Api.delete(`awards/${id}`)
-        const res = await Api.get("awardlist", _award.user_id)
-        setAwards(res.data)
+        const res = await Api.delete(`awards/${id}`)
+        const {status, message} = res
+        if(status === 200) {
+            setAwards((cur) => {
+                const newAwards = [...cur]
+                let filtered = newAwards.filter(v => v.id !== id)
+                return filtered
+            })
+        } else {
+            console.error(message)
+        }
     }
 
     return (
