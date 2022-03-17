@@ -50,15 +50,23 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
                 />}
                 <Row className="mt-3 text-center mb-4">
                          <Col>
-                            <Button variant="outline-secondary" size="sm" 
+                            <Button 
+                                variant="outline-secondary" 
+                                size="sm" 
+                                className="me-3"
                                 onClick={()=>setPage((prev)=>prev-1)}
                                 disabled={page===1}>
                                 {"<"}
-                            </Button>{" "}
-                            <Button variant="outline-secondary" size="sm" disabled>
+                            </Button>
+                            <Button 
+                                variant="outline-secondary" 
+                                size="sm" disabled>
                                 {page}/{allPage}
-                            </Button>{" "}
-                            <Button variant="outline-secondary" size="sm" 
+                            </Button>
+                            <Button 
+                                variant="outline-secondary" 
+                                size="sm" 
+                                className="ms-3"
                                 onClick={()=>setPage((prev)=>prev+1)}
                                 disabled={page===allPage}>
                                 {">"}
