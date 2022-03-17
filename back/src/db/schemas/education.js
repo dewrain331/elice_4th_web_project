@@ -1,12 +1,12 @@
 import { Schema, model } from "mongoose";
 
-const EducationSchema = new Schema(
+const educationSchema = new Schema(
   {
     id: {
         type: String,
         required: true,
       },
-    user_id: {
+    userId: {
         type: String,
         required: true,
     },
@@ -28,7 +28,7 @@ const EducationSchema = new Schema(
   }
 );
 
-const EducationModel = model("Education", EducationSchema);
+const educationModel = model("Education", educationSchema);
 
-export { EducationModel };
+export { educationModel };
 // user_id: mongoose.Schema.Types.ObjectId,

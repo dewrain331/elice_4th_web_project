@@ -1,11 +1,11 @@
 import { Education } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import { v4 as uuidv4 } from "uuid";
 
-class EducationService {
-  static addEducation = async ({ user_id, school, major, position }) => {
+class educationService {
+  static addEducation = async ({ userId, school, major, position }) => {
     // id 는 유니크 값 부여
     const id = uuidv4();
-    const newEducation = { id, user_id, school, major, position };
+    const newEducation = { id, userId, school, major, position };
 
     // db에 저장
     const createdNewEducation = await Education.create({ newEducation });
@@ -26,8 +26,8 @@ class EducationService {
     return education;
   }
 
-  static getEducationList = async({ user_id }) => {
-    const educations = await Education.findByUserId({ user_id });
+  static getEducationList = async({ userId }) => {
+    const educations = await Education.findByUserId({ userId });
     return educations;
   }
 
@@ -61,6 +61,19 @@ class EducationService {
 
     return education;
   }
+
+  static async deleteEducation({ educationId }) {
+    const isDataDeleted = await Education.deleteById({ educationId });
+
+    // db에서 찾지 못한 경우, 에러 메시지 반환
+    if (!isDataDeleted) {
+      const errorMessage =
+        "해당 id를 가진 학력 데이터는 없습니다. 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+
+    return { status: "ok" };
+  }
 }
 
-export { EducationService };
+export { educationService };
