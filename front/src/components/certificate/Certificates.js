@@ -10,12 +10,25 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
     // useState로 생성 상태를 관리할 변수를 선언
     // 초기 상태는 생성 중이 아니므로, 초기값은 false
     const [isAdding, setIsAdding] = useState(false)
+    // Pagination 관련
+    const [page, setPage] = useState(1)
+    const [totalPage, setTotalPage] = useState(1)
 
     useEffect(() => {
         // DB에 저장된 유저의 Certificate들을 Certificates 변수에 넣음.
-        Api.get("certificatelist", portfolioOwnerId)
+        Api.get(`certificatelist/${portfolioOwnerId}`)
             .then(res => setCertificates(res.data))
     }, [portfolioOwnerId])
+        /*
+        // params 적용시 사용할 api.get
+        Api.get(`certificatelist/${portfolioOwnerId}?page=${page}&perPage=3`)
+            .then(res => {
+                const {totalPage, certificates} = res.data
+                setTotalPage(totalPage)
+                setCertificates(res.data)
+            })
+    }, [portfolioOwnerId, page])
+    */
 
     return (
         <Card>
@@ -43,6 +56,34 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                         setIsAdding={setIsAdding}
                     />
                 )}
+                <Row className="mt-3 text-center mb-4">
+                    <Col>
+                        <Button
+                            variant="outline-secondary"
+                            size="sm"
+                            onClick={() => setPage(prev => prev - 1)}
+                            disabled={page === 1}
+                            className="me-3"
+                        >
+                            {"<"}
+                        </Button>
+                        <Button
+                            variant="outline-secondary"
+                            size="sm"
+                        >
+                            {page} / {totalPage}
+                        </Button>
+                        <Button
+                            variant="outline-secondary"
+                            size="sm"
+                            onClick={() => setPage(prev => prev + 1)}
+                            disabled={page === totalPage}
+                            className="ms-3"
+                        >
+                            {">"}
+                        </Button>
+                    </Col>
+                </Row>
             </Card.Body>
         </Card>
     )
