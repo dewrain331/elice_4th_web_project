@@ -19,7 +19,7 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
             .then(res => {
                 const {totalPage, awards} = res.data
                 setAllPage(totalPage)
-                setAwards(res.data)
+                setAwards(awards)
             })
     }, [portfolioOwnerId, page])
 
