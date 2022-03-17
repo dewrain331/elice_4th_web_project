@@ -3,8 +3,6 @@ import { Card, Button, Row, Col } from "react-bootstrap";
 import * as Api from "../../api";
 import Project from "./Project";
 import ProjectAddForm from "./ProjectAddForm";
-// 테스트를 위한 axios 추가
-import axios from "axios";
 
 function Projects({ portfolioOwnerId, isEditable }) {
     //useState로 projects 상태를 생성함.
@@ -18,8 +16,7 @@ function Projects({ portfolioOwnerId, isEditable }) {
 
     useEffect(() => {
         // "projectlist/유저id?page={현재 페이지}&?perPage={한 페이지에 담길 데이터 수}"로 GET 요청하고, response의 data로 projects를 세팅함.
-        Api
-            .get("projectlist", `${portfolioOwnerId}?page=${page}&perPage=3`)
+        Api.get("projectlist", `${portfolioOwnerId}?page=${page}&perPage=3`)
             .then((res) => {
                 const { totalPage, projects } = res.data;
                 setTotalPage(totalPage);
