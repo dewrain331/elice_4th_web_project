@@ -25,12 +25,20 @@ class Award {
 
     }
 
-    static async findAllUser({ getAward }) {
+    static async findAllToUser({ getAwards }) {
         console.log("findAll");
-        console.log(getAward);
+        console.log(getAwards);
+
+        if (getAwards.page < 1) {
+            getAwards.page = 1;
+        }
+
+        const limit = 3;
+        const offset = (getAwards.page - 1) * limit;
+
         const awards = await AwardModel.find({ 
-            user_id : getAward.user_id,
-        });
+            user_id : getAwards.user_id,
+        }).limit(limit).skip(offset);
         return awards;
     }
 

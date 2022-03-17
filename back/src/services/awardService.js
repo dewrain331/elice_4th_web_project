@@ -17,9 +17,9 @@ const awardService = {
 
         return createNewAwardResult;
     },
-    getAwards : async ({ getAward }) => {
-        console.log(getAward);
-        const getAwardsResult = await Award.findAllUser({ getAward });
+    getAwards : async ({ getAwards }) => {
+        console.log(getAwards);
+        const getAwardsResult = await Award.findAllToUser({ getAwards });
 
         if (!getAwardsResult) {
             const errorMessage = "여러개의 수상 이력을 불러오는 데 실패했습니다.";

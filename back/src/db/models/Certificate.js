@@ -25,7 +25,7 @@ class Certificate {
 
     }
 
-    static async findAllUser({ getCertificates }) {
+    static async findAllToUser({ getCertificates }) {
         console.log("findAll");
 
         if (getCertificates.page < 1) {

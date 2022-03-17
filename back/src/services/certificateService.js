@@ -18,7 +18,7 @@ const certificateService = {
     },
     getCertificates : async ({ getCertificates }) => {
         console.log(getCertificates);
-        const getCertificatesResult = await Certificate.findAllUser({ getCertificates });
+        const getCertificatesResult = await Certificate.findAllToUser({ getCertificates });
 
         if (!getCertificatesResult) {
             const errorMessage = "자격증 목록을 불러오는 데 실패했습니다.";

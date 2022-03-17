@@ -7,13 +7,14 @@ const awardRouter = Router();
 
 awardRouter.get("/awardlist/:user_id", login_required, async (req, res, next) => {
     try {
-        const getAward = {
+        const getAwards = {
             user_id : req.params.user_id,
+            page : req.body.page,
         }
 
         console.log("router");
 
-        const award = await awardService.getAwards({ getAward });
+        const award = await awardService.getAwards({ getAwards });
 
         if (award.errorMessage) {
             console.log(award.errorMessage);
