@@ -3,7 +3,6 @@ import { Card, Button, Row, Col } from "react-bootstrap"
 import * as Api from "../../api"
 import Certificate from "./Certificate"
 import CertificateAddForm from "./CertificateAddForm"
-import Pagination from './Pagination'
 
 const Certificates = ({ portfolioOwnerId, isEditable }) => {
     // useState로 낱개의 certificate들을 담을 배열 선언
@@ -13,19 +12,29 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
     const [isAdding, setIsAdding] = useState(false)
     // Pagination 관련
     const [page, setPage] = useState(1)
-    const offset = (page - 1) * 3
+    const [totalPage, setTotalPage] = useState(1)
 
     useEffect(() => {
         // DB에 저장된 유저의 Certificate들을 Certificates 변수에 넣음.
-        Api.get("certificatelist", portfolioOwnerId)
+        Api.get(`certificatelist/${portfolioOwnerId}`)
             .then(res => setCertificates(res.data))
     }, [portfolioOwnerId])
+        /*
+        // params 적용시 사용할 api.get
+        Api.get(`certificatelist/${portfolioOwnerId}?page=${page}&perPage=3`)
+            .then(res => {
+                const {totalPage, certificates} = res.data
+                setTotalPage(totalPage)
+                setCertificates(res.data)
+            })
+    }, [portfolioOwnerId, page])
+    */
 
     return (
         <Card>
             <Card.Body>
                 <Card.Title>자격증</Card.Title>
-                {certificates.slice(offset, offset + 3).map(v => (
+                {certificates.map(v => (
                     <Certificate
                         key={v.id}
                         certificate={v}
@@ -47,11 +56,34 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                         setIsAdding={setIsAdding}
                     />
                 )}
-                <Pagination 
-                    total={certificates.length}
-                    page={page}
-                    setPage={setPage}
-                />
+                <Row className="mt-3 text-center mb-4">
+                    <Col>
+                        <Button
+                            variant="outline-secondary"
+                            size="sm"
+                            onClick={() => setPage(prev => prev - 1)}
+                            disabled={page === 1}
+                            className="me-3"
+                        >
+                            {"<"}
+                        </Button>
+                        <Button
+                            variant="outline-secondary"
+                            size="sm"
+                        >
+                            {page} / {totalPage}
+                        </Button>
+                        <Button
+                            variant="outline-secondary"
+                            size="sm"
+                            onClick={() => setPage(prev => prev + 1)}
+                            disabled={page === totalPage}
+                            className="ms-3"
+                        >
+                            {">"}
+                        </Button>
+                    </Col>
+                </Row>
             </Card.Body>
         </Card>
     )
