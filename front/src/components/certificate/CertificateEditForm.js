@@ -3,7 +3,7 @@ import { Button, Form, Col, Row } from "react-bootstrap"
 import * as Api from "../../api"
 import DatePicker from 'react-datepicker'
 
-const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing }) => {
+const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing, page }) => {
     // 편집 버튼을 누른 항목의 자격증 제목을 담을 title 변수 선언.
     const [title, setTitle] = useState(currentCertificate.title)
     // 편집 버튼을 누른 항목의 상세내용을 담을 description 변수 선언.
@@ -26,8 +26,8 @@ const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing
         })
 
         // put 요청값과 함께 각각의 Certificate들의 모임인 Certificates를 다시 렌더링
-        const res = await Api.get("certificatelist", user_id)
-        setCertificates(res.data)
+        const res = await Api.get("certificatelist", `${user_id}?page=${page}&perPage=3`)
+        setCertificates(res.data.certificates)
         // 편집 상태 종료.
         setIsEditing(false)
     }
