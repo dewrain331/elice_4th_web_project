@@ -46,8 +46,11 @@ function Projects({ portfolioOwnerId, isEditable }) {
                     >
                         {"<"}
                     </Button>
-                    <Button variant="outline-secondary" size="sm" disabled>
-                        {page}/{totalPage}
+                    <Button variant="outline-secondary"
+                            size="sm"
+                            className="me-3"
+                            disabled>
+                            {page}/{totalPage}
                     </Button>
                     <Button variant="secondary"
                         onClick={() => setPage((prev) => (prev + 1))}
