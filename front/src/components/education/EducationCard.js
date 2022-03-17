@@ -1,4 +1,4 @@
-import { Card, Button, Row, Col } from "react-bootstrap"
+import { Card, Button, Row, Col, Modal } from "react-bootstrap"
 import {useState} from "react"
 import * as Api from "../../api"
 
@@ -12,8 +12,8 @@ const EducationCard=({ education, setEducations, setIsEditing, isEditable})=>{
         if(res.status===200){
             setEducations((cur)=>{
                 const newEducations=[...cur]
-                newEducations.filter(v=>v.id!==id)
-                return newEducations
+                const filtered=newEducations.filter(v=>v.id!==id)
+                return filtered
             })
         }else{
             console.error(res.message)

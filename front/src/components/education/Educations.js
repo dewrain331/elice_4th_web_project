@@ -12,7 +12,7 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
     const [isAdding, setIsAdding]=useState(false)
     useEffect(()=>{
         Api.get('educationlist', portfolioOwnerId).then((res)=>setEducations(res.data))
-    },[])
+    },[portfolioOwnerId])
     return(
         <Card>
             <Card.Body>
