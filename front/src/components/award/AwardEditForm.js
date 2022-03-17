@@ -40,7 +40,7 @@ const AwardEditForm = ({ currentAward, setAwards, setIsEditing }) => {
                     />
                 </Form.Group>
 
-                <Form.Group controlId="formBasicDescription">
+                <Form.Group controlId="formBasicDescription" className="mt-3">
                     <Form.Control
                         type="text"
                         placeholder="상세내역"
