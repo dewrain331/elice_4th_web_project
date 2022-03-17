@@ -1,12 +1,12 @@
 import { Schema, model } from "mongoose";
 
-const ProjectSchema = new Schema(
+const projectSchema = new Schema(
   {
     id: {
         type: String,
         required: true,
       },
-    user_id: {
+    userId: {
         type: String,
         required: true,
     },
@@ -18,11 +18,11 @@ const ProjectSchema = new Schema(
         type: String,
         required: true,
     },
-    from_date: {
+    fromDate: {
         type: String,
         required: true,
     },
-    to_date: {
+    toDate: {
         type: String,
         required: true,
     }
@@ -32,6 +32,6 @@ const ProjectSchema = new Schema(
   }
 );
 
-const ProjectModel = model("Project", ProjectSchema);
+const projectModel = model("Project", projectSchema);
 
-export { ProjectModel };
+export { projectModel };
