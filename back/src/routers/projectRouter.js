@@ -91,7 +91,7 @@ projectRouter.get("/projectlist/:userId", async function (req, res, next) {
     }
   });
 
-  projectRouter.delete("/projects/:id", async function (req, res, next) {
+projectRouter.delete("/projects/:id", async function (req, res, next) {
   try {
     // req (request) 에서 id 가져오기
     const projectId = req.params.id;
