@@ -17,8 +17,8 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
     useEffect(() => {
         Api.get("awardlist", `${portfolioOwnerId}?page=${page}&perPage=3`)
             .then(res => {
-                const {totalPage, awards} = res.data
-                setAllPage(totalPage)
+                const {total, awards} = res.data
+                setAllPage(total)
                 setAwards(awards)
             })
     }, [portfolioOwnerId, page])
@@ -64,13 +64,13 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
                             variant="outline-secondary"
                             size="sm"
                         >
-                            {page} / {allPage}
+                            {page} / {Math.ceil(allPage / 3)}
                         </Button>
                         <Button
                             variant="outline-secondary"
                             size="sm"
                             onClick={() => setPage(prev => prev + 1)}
-                            disabled={page === allPage}
+                            disabled={page === Math.ceil(allPage / 3)}
                             className="ms-3"
                         >
                             {">"}
