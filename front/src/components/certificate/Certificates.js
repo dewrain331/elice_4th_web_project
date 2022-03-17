@@ -12,15 +12,15 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
     const [isAdding, setIsAdding] = useState(false)
     // Pagination 관련
     const [page, setPage] = useState(1)
-    const [totalPage, setTotalPage] = useState(1)
+    const [allPage, setAllPage] = useState(0)
 
     useEffect(() => {
         // DB에 저장된 유저의 Certificate들을 Certificates 변수에 넣음.
-        Api.get(`certificatelist/${portfolioOwnerId}?page=${page}&perPage=3`)
+        Api.get("certificatelist", `${portfolioOwnerId}?page=${page}&perPage=3`)
             .then(res => {
-                const {totalPage, certificates} = res.data
-                setTotalPage(totalPage)
-                setCertificates(certificates)
+                const { totalPage } = res.data
+                setAllPage(totalPage)
+                setCertificates(res.data)
             })
     }, [portfolioOwnerId, page])
 
@@ -65,13 +65,13 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                             variant="outline-secondary"
                             size="sm"
                         >
-                            {page} / {totalPage}
+                            {page} / {allPage}
                         </Button>
                         <Button
                             variant="outline-secondary"
                             size="sm"
                             onClick={() => setPage(prev => prev + 1)}
-                            disabled={page === totalPage}
+                            disabled={page === allPage}
                             className="ms-3"
                         >
                             {">"}
