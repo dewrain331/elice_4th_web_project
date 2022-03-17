@@ -2,14 +2,13 @@ import {useState} from 'react'
 import EducationCard from './EducationCard'
 import EducationEditForm from './EducationEditForm'
 
-const Education=({ id, education, setEducations, isEditable})=>{
+const Education=({ education, setEducations, isEditable})=>{
     const [isEditing, setIsEditing]=useState(false)
     
     return(
         <>
           {isEditing ? (
               <EducationEditForm
-                id={id}
                 education={education}
                 setEducations={setEducations}
                 setIsEditing={setIsEditing}
