@@ -19,7 +19,7 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
         axios
         .get(`${serverUrl}/educationlist/${portfolioOwnerId}?page=${page}&perPage=3`)
         .then((res)=>{
-            const {totalPage, educations}=res
+            const {totalPage, educations}=res.data
             setTotalPage(totalPage)
             setEducations(educations)
         })
