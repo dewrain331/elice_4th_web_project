@@ -18,9 +18,9 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
         // DB에 저장된 유저의 Certificate들을 Certificates 변수에 넣음.
         Api.get("certificatelist", `${portfolioOwnerId}?page=${page}&perPage=3`)
             .then(res => {
-                const { totalPage } = res.data
+                const { totalPage, certificates } = res.data
                 setAllPage(totalPage)
-                setCertificates(res.data)
+                setCertificates(certificates)
             })
     }, [portfolioOwnerId, page])
 
