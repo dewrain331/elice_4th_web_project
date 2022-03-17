@@ -14,42 +14,33 @@ function ProjectAddForm({ portfolioOwnerId, setProjects, setIsAdding }) {
     // useState로 from_date, to_date 상태를 생성함.
     // 초기값을 현재 날짜로 설정
     const today = new Date();
-    const [from_date, setFrom_date] = useState(today);
-    const [to_date, setTo_date] = useState(today);
+    const [fromDate, setFromDate] = useState(today);
+    const [toDate, setToDate] = useState(today);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         e.stopPropagation();
 
         // portfolioOwnerId를 user_id 변수에 할당함.
-        const user_id = portfolioOwnerId;
+        const userId = portfolioOwnerId;
 
         // "project/create" 엔드포인트로 post요청함.
         // date의 타입이 object이므로 string에서 object로 api 형식 변환
         await Api.post("project/create", {
-            user_id: portfolioOwnerId,
+            userId: portfolioOwnerId,
             title,
             description,
-            from_date: from_date.toJSON(),
-            to_date: to_date.toJSON(),
+            fromDate: fromDate.toJSON(),
+            toDate: toDate.toJSON(),
         });
 
         // "projectlist/유저id" 엔드포인트로 get요청함.
-        const res = await Api.get("projectlist", user_id);
+        const res = await Api.get("projectlist", userId);
         // projects를 response의 data로 세팅함.
         setProjects(res.data);
         // project를 추가하는 과정이 끝났으므로, isAdding을 false로 세팅함.
         setIsAdding(false);
     };
-
-      // 형식에 맞게 날짜를 변환함 (ex: 2022-03-15)
-    // const convertDate = (date) => {
-    //     const year = date.getFullYear();
-    //     const month = ('0' + (date.getMonth() + 1)).slice(-2);
-    //     const day = ('0' + date.getDate()).slice(-2);
-    //     const selectedDate = [year, month, day].join("-");
-    //     return selectedDate;
-    // }
 
     return (
         <Form onSubmit={handleSubmit}>
@@ -72,11 +63,11 @@ function ProjectAddForm({ portfolioOwnerId, setProjects, setIsAdding }) {
             </Form.Group>
 
             <Form.Group as={Row} className="mt-3">
-                <Col class="col-3">
-                    <DatePicker selected={from_date} onChange={(date) => setFrom_date(date)} />
+                <Col className="col-3">
+                    <DatePicker selected={fromDate} onChange={(date) => setFromDate(date)} />
                 </Col>
-                <Col class="col-3">
-                    <DatePicker selected={to_date} onChange={(date) => setTo_date(date)} />
+                <Col className="col-3">
+                    <DatePicker selected={toDate} onChange={(date) => setToDate(date)} />
                 </Col>
             </Form.Group>
 
