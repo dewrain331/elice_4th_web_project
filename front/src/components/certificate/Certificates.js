@@ -18,8 +18,8 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
         // DB에 저장된 유저의 Certificate들을 Certificates 변수에 넣음.
         Api.get("certificatelist", `${portfolioOwnerId}?page=${page}&perPage=3`)
             .then(res => {
-                const { totalPage, certificates } = res.data
-                setAllPage(totalPage)
+                const { total, certificates } = res.data
+                setAllPage(total)
                 setCertificates(certificates)
             })
     }, [portfolioOwnerId, page])
@@ -65,13 +65,13 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                             variant="outline-secondary"
                             size="sm"
                         >
-                            {page} / {allPage}
+                            {page} / {Math.ceil(allPage / 3)}
                         </Button>
                         <Button
                             variant="outline-secondary"
                             size="sm"
                             onClick={() => setPage(prev => prev + 1)}
-                            disabled={page === allPage}
+                            disabled={page === Math.ceil(allPage / 3)}
                             className="ms-3"
                         >
                             {">"}
