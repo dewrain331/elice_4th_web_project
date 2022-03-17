@@ -5,7 +5,7 @@ function ProjectCard({ project, isEditable, setIsEditing }) {
     return date.slice(0, 10);
   }
   return (
-    <Card.Text>
+    <Card.Body>
       {/* project의 제목, 상세내용, 기간 */}
       <Row className="align-items-center">
         <Col>
@@ -14,7 +14,7 @@ function ProjectCard({ project, isEditable, setIsEditing }) {
           <span className="text-muted">{project.description}</span>
           <br />
           {/* project의 기간을 object로 받고 출력형식에 맞게 변경 */}
-          <span className="text-muted">{slicingDate(project.from_date)} ~ {slicingDate(project.to_date)}</span>
+          <span className="text-muted">{slicingDate(project.fromDate)} ~ {slicingDate(project.toDate)}</span>
         </Col>
         {/* project 편집 버튼 */}
         {isEditable && (
@@ -30,7 +30,7 @@ function ProjectCard({ project, isEditable, setIsEditing }) {
           </Col>
         )}
       </Row>
-    </Card.Text>
+    </Card.Body>
   );
 }
 
