@@ -12,23 +12,16 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
     const [isAdding, setIsAdding] = useState(false)
     // Pagination 관련
     const [page, setPage] = useState(1)
-    const [totalPage, setTotalPage] = useState(1)
+    const [allPage, setAllPage] = useState(1)
 
     useEffect(() => {
-        // DB에 저장된 유저의 Award들을 Awards 변수에 넣음.
-        Api.get(`awardlist/${portfolioOwnerId}`)
-            .then(res => setAwards(res.data))
-    }, [portfolioOwnerId])
-        /*
-        // params 적용시 사용할 api.get
-        Api.get(`awardlist/${portfolioOwnerId}?page=${page}&perPage=3`)
+        Api.get("awardlist", `${portfolioOwnerId}?page=${page}&perPage=3`)
             .then(res => {
                 const {totalPage, awards} = res.data
-                setTotalPage(totalPage)
-                setAwards(awards)
+                setAllPage(totalPage)
+                setAwards(res.data)
             })
-    }, [porfolioOwnerId, page]
-        */
+    }, [portfolioOwnerId, page])
 
     return (
         <Card>
@@ -71,13 +64,13 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
                             variant="outline-secondary"
                             size="sm"
                         >
-                            {page} / {totalPage}
+                            {page} / {allPage}
                         </Button>
                         <Button
                             variant="outline-secondary"
                             size="sm"
                             onClick={() => setPage(prev => prev + 1)}
-                            disabled={page === totalPage}
+                            disabled={page === allPage}
                             className="ms-3"
                         >
                             {">"}
