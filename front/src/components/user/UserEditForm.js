@@ -63,6 +63,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
               accept="image/*"
               onChange={handleUpload}
             />
+            <Button onClick={handleClick}>업로드</Button>
           </Form.Group>
 
           <Form.Group controlId="useEditName" className="mb-3">
