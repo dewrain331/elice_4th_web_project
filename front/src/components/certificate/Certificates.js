@@ -34,6 +34,9 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                         certificate={v}
                         setCertificates={setCertificates}
                         isEditable={isEditable}
+                        setAllPage={setAllPage}
+                        page={page}
+                        setPage={setPage}
                     />
                 ))}
                 {isEditable && (
@@ -48,8 +51,10 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                         portfolioOwnerId={portfolioOwnerId}
                         setCertificates={setCertificates}
                         setIsAdding={setIsAdding}
+                        setPage={setPage}
                         page={page}
                         setAllPage={setAllPage}
+                        allPage={allPage}
                     />
                 )}
                 <Row className="mt-3 text-center mb-4">

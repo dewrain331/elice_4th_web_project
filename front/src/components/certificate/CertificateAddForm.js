@@ -3,7 +3,7 @@ import { Button, Form, Col, Row } from "react-bootstrap"
 import * as Api from "../../api"
 import DatePicker from 'react-datepicker'
 
-const CertificateAddForm = ({ portfolioOwnerId, setCertificates, setIsAdding, page, setAllPage }) => {
+const CertificateAddForm = ({ portfolioOwnerId, setCertificates, setIsAdding, page, setAllPage, setPage }) => {
     // useState로 자격증 이름을 담을 title 변수 선언.
     const [title, setTitle] = useState("")
     // useState로 상세내용을 담을 description 변수 선언.
@@ -29,7 +29,8 @@ const CertificateAddForm = ({ portfolioOwnerId, setCertificates, setIsAdding, pa
         // post 요청값과 함께 각각의 Certificate들의 모임인 Certificates를 다시 렌더링
         const res = await Api.get("certificatelist", `${user_id}?page=${page}&perPage=3`)
         const {total, certificates} = res.data
-        setAllPage(total)
+        setPage(Math.ceil(total / 3))
+        setAllPage(Math.ceil(total / 3))
         setCertificates(certificates)
         // 생성 상태 종료.
         setIsAdding(false)
