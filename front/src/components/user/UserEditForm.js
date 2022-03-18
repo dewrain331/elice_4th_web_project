@@ -9,34 +9,19 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   const [email, setEmail] = useState(user.email);
   //useState로 description 상태를 생성함.
   const [description, setDescription] = useState(user.description);
-  //useState로 image 상태를 생성함.
-  const [files, setFiles] = useState('')
-
-  const handleUpload = (evt) => {
-    const file = evt.target.files
-    setFiles(file)
-  }
-
-  const handleClick = () => {
-    const formData = new FormData()
-    formData.append('uploadImage', files[0])
-    const config = {
-      Headers: {
-        'content-type': 'multipart/form-data',
-      },
-    }
-    Api.post(`users/${user.id}/image`, formData, config)
-        .then(res => {
-          if(res.data.success) {
-            console.log(res.data)
-          } else {
-            alert("사진 업로드를 실패하였습니다.")
-          }
-        })
-  }
+  const [image, setImage] = useState({
+    preview: "",
+    data: ""
+  })
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const formData = new FormData()
+    formData.append('profile', image.data)
+    await Api.post(`users/${user.id}/image`, formData, {
+      Headers: {'content-type': 'multipart/form-data'}
+    })
 
     // "users/유저id" 엔드포인트로 PUT 요청함.
     const res = await Api.put(`users/${user.id}`, {
@@ -53,15 +38,24 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     setIsEditing(false);
   };
 
+  const handleFileChange = (evt) => {
+    const img = {
+      preview: URL.createObjectURL(evt.target.files[0]),
+      data: evt.target.files[0],
+    }
+    setImage(img)
+  }
+
   return (
     <Card className="mb-2">
       <Card.Body>
         <Form onSubmit={handleSubmit}>
+          {image.preview && <img src={image.preview} width="136px" height="128px" alt="profile_image" />}
           <Form.Group controlId="useEditImage" className="mb-3">
             <Form.Control
               type="file"
               accept="image/*"
-              onChange={handleUpload}
+              onChange={handleFileChange}
             />
           </Form.Group>
 
@@ -94,7 +88,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
 
           <Form.Group as={Row} className="mt-3 text-center">
             <Col sm={{ span: 20 }}>
-              <Button variant="primary" type="submit" className="me-3" onClick={handleClick}>
+              <Button variant="primary" type="submit" className="me-3">
                 확인
               </Button>
               <Button variant="secondary" onClick={() => setIsEditing(false)}>
