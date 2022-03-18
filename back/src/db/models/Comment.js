@@ -1,4 +1,4 @@
-import { CommentModel } from "../schemas/Comment";
+import { CommentModel } from "../schemas/reply";
 
 class Comment {
     static async create({ newComment }) {
@@ -10,14 +10,14 @@ class Comment {
         return createdNewComment;
     }
 
-    // static async findToUserID({ newComment }) {
-    //     const findComment = await CommentModel.find({
-    //         user_id : newComment.user_id,
-    //         depth : newComment.depth
-    //     })
+    static async findToUserID({ newComment }) {
+        const findComment = await CommentModel.find({
+            user_id : newComment.user_id,
+            depth : newComment.depth
+        })
 
-    //     return findComment;
-    // }
+        return findComment;
+    }
 
     // static async findByEmail({ email }) {
     //     const user = await UserModel.findOne({ email });

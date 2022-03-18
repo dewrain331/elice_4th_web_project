@@ -8,22 +8,39 @@ class commentService {
     const id = uuidv4();
     newComment.id = id;
 
-    if (newComment.parent_comment_id != 'root') {
+    if (newComment.parent_comment_id !== 'root') {
         newComment.depth = 2;
     }
+    
+    const comment = await Comment.create({ newComment });
 
-    const comment = await comment.create({ newComment });
-
-    const comments = await Comments.create({comment});
-    if (!comments) {
+    if (!comment) {
       const errorMessage =
         "댓글 작성에 실패하였습니다. 다시 시도해주세요.";
       return { errorMessage };
     }
+    
+    // const commentList = await Comment.findToUserID({ newComment });
+    // console.log('commentList');
+    // console.log(commentList);
+  
+    // const findComments = await Comments.findOneAndUpdate({ newComment }, { commentList });
 
-    comments.errorMessage = null;
+    // if (!findComments) {
+    //   const newComments = await Comments.create({newComment}, {commentList});
 
-    return comments;
+    //   if (!newComments) {
+    //     const errorMessage =
+    //       "댓글 목록을 생성하는 데 실패했습니다. 다시 시도해주세요.";
+    //     return { errorMessage };
+    //   }
+
+    //   return newComments;
+    // }
+
+    // return findComments;
+
+    return comment;
   }
 }
 

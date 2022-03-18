@@ -10,27 +10,17 @@ const CommentSchema = new Schema(
       type: String,
       required: true,
     },
-    author_id: {
-      type: String,
-      required: true,
-    },
-    author_name : {
-      type: String,
-      required: true,
-    },
-    text: {
-      type: String,
-      required: true,
-    },
-    parent_comment_id : {
+    user_name : {
       type : String,
-      default : "root"
-    },
-    depth : {
-      type : Number,
       required : true,
-      default : 1,
-    }
+    },
+    text : {
+
+    },
+    reply : [{
+      type : Schema.Types.ObjectId,
+      ref : "Comment"
+    }]
   },
   {
     timestamps: true,
