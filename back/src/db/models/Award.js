@@ -17,33 +17,11 @@ class Award {
     static async delete({ deleteAward }) {
         console.log("delete");
         console.log(deleteAward);
-        if (deleteAward.perPage != 0 && deleteAward.page != 0) {
-            const deleteAwardResult = this.deletePagination({ deleteAward });
-            return deleteAwardResult;
-        }
+
         const deleteAwardResult = await AwardModel.deleteOne({ 
             id : deleteAward.id,
             user_id : deleteAward.user_id 
         });
-        return deleteAwardResult;
-    }
-
-    static async deletePagination({ deleteAward }) {
-        console.log("delete");
-        console.log(deleteAward);
-
-        const result = await AwardModel.deleteOne({ 
-            id : deleteAward.id,
-            user_id : deleteAward.user_id 
-        });
-
-        const getAwards = {
-            user_id : deleteAward.user_id,
-            perPage : deleteAward.perPage,
-            page : deleteAward.page,
-        };
-
-        const deleteAwardResult = this.findAllToUser({ getAwards });
 
         return deleteAwardResult;
     }
