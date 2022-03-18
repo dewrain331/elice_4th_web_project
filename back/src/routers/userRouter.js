@@ -156,7 +156,7 @@ const upload = multer({ dest: 'src/db/images/' })
 userAuthRouter.post(
   "/users/:id/image",
   login_required,
-  upload.single('uploadImage'),
+  upload.single('profile'),
   async function (req, res, next) {
     try {
       // URI로부터 사용자 id를 추출함.
