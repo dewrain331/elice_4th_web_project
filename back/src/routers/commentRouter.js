@@ -33,3 +33,6 @@ commentRouter.post("/comment", login_required, async (req, res, next) => {
         next(error);
     }
 })
+
+
+export { commentRouter };
