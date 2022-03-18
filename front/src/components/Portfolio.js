@@ -7,6 +7,7 @@ import * as Api from "../api";
 import User from "./user/User";
 // project import
 import Projects from "./project/Projects";
+// award import
 
 function Portfolio() {
   const navigate = useNavigate();
@@ -63,6 +64,11 @@ function Portfolio() {
           />
         </Col>
         <Col >
+
+          <div style={{ textAlign: "center" }}>
+            학력 목록, 수상이력 목록, 프로젝트 목록, 자격증 목록 만들기
+          </div>
+
           <div className="mb-3">
             <Projects
               portfolioOwnerId={portfolioOwner.id}
