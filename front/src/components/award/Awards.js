@@ -78,7 +78,6 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
                             onClick={() => setPage(prev => prev + 1)}
                             disabled={page >= Math.ceil(allPage / 3)}
                             className="ms-3"
-                            id="nextBtn"
                         >
                             {">"}
                         </Button>
