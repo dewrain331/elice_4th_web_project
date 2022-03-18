@@ -1,20 +1,23 @@
 import { useState } from 'react'
 import { Form, Button } from 'react-bootstrap'
+import * as Api from '../../api'
 
-const CommentAddForm=({ userId, setComments })=>{
+const CommentAddForm=({ user_id, author, setComments })=>{
+    const { id, name } = author
     const [comment,setComment]=useState("")
-    const handleSubmit=(e)=>{
+    const handleSubmit= async (e)=>{
         e.preventDefault()
-        //여기부분을 post->get으로 바꿔야 함
-        setComments((comments)=>{
-            const newComments=[...comments,{
-                id:3,
-                user:userId,
-                body:comment,
-                date:"20220318"
-            }]
-            return newComments
+        //post
+        await Api.post('comment',{
+            user_id,
+            author_id : id,
+            author_name : name,
+            text : comment
         })
+        
+        //get
+        const res=await Api.get('comment',user_id)
+        setComments(res.data)
     }
 
     return(

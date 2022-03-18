@@ -63,8 +63,8 @@ function Portfolio() {
         </Col>
         <Col>
           <Comments 
-            portfolioOwnerId={portfolioOwner.id}
-            isEditable={portfolioOwner.id === userState.user?.id}
+            userId={portfolioOwner.id}
+            author={userState.user}
           />
         </Col>
       </Row>

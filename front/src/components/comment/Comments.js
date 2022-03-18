@@ -1,20 +1,17 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Card } from 'react-bootstrap'
 import Comment from './Comment'
 import CommentAddForm from './CommentAddForm'
+import * as Api from '../../api'
 
-const Comments=({ portfolioOwnerId, isEditable })=>{
-    const [comments,setComments]=useState([{
-        id:1,
-        user:"배서영",
-        body: "잘 보고 갑니다.",
-        date:"18 March, 2022",
-    },{
-        id:2,
-        user:"test",
-        body: "대박이네요!",
-        date:"18 March, 2022",  
-    }])
+const Comments=({ userId, author })=>{
+    const [comments,setComments]=useState([])
+
+    useEffect(()=>{
+        Api
+        .get('comment',userId)
+        .then((res)=>setComments(res.data))
+    },[userId])
 
     return(
         <Card>
@@ -26,12 +23,13 @@ const Comments=({ portfolioOwnerId, isEditable })=>{
                             key={comment.id}
                             comment={comment}
                             setComments={setComments}
-                            isEditable={isEditable}
+                            isEditable={comment.author_id===userId}
                         />
                     ))
                 }
                 <CommentAddForm
-                    userId={portfolioOwnerId}
+                    user_id={userId}
+                    author={author}
                     setComments={setComments}
                 />
             </Card.Body>
