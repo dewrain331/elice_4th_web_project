@@ -90,5 +90,32 @@ commentRouter.get("/comment/:id", login_required, async (req, res, next) => {
     }
 })
 
+commentRouter.get("/user/comment/:user_id", login_required, async (req, res, next) => {
+    try {
+        if (is.emptyObject(req.params)) {
+            throw new Error(
+                "param에 받고싶은 댓글 아이디를 입력하세요."
+            );
+        }
+
+        const getReply = {
+            user_id : req.params.user_id
+        }
+
+        console.log('getReply To User');
+        console.log(getReply);
+        
+        const reply = await commentService.getCommentToUser({ getReply });
+    
+        if (reply.errorMessage) {
+            throw new Error(reply.errorMessage);
+        }
+    
+        res.status(201).json(reply);
+    } catch (error) {
+        next(error);
+    }
+})
+
 
 export { commentRouter };

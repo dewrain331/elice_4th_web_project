@@ -43,6 +43,14 @@ class Comment {
         return comment;
     }
 
+    static async getCommentToUser({ getReply }) {
+        const comment = await CommentModel.find({
+            user_id : getReply.user_id
+        }).populate('replys');
+
+        return comment;
+    }
+
     // static async findByEmail({ email }) {
     //     const user = await UserModel.findOne({ email });
     //     return user;

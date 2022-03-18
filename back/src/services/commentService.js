@@ -33,6 +33,18 @@ class commentService {
     return commentAll;
   }
 
+  static async getCommentToUser({ getReply }) {
+    const commentAll = await Comment.getCommentToUser({ getReply });
+
+    if (!commentAll) {
+      const errorMessage =
+        "댓글을 가져오는 데 실패하였습니다.";
+      return { errorMessage };
+    }
+
+    return commentAll;
+  }
+
   static async addReply({ newReply }) {
 
     const id = uuidv4();
