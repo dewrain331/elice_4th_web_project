@@ -20,15 +20,16 @@ commentRouter.post("/comment", login_required, async (req, res, next) => {
             author_name : req.body.author_name,
             text : req.body.text,
         }
+        console.log('Router Create Comment');
+        console.log(newComment);
+        
+        const comment = await commentService.addComment({ newComment });
     
-        // 위 데이터를 유저 db에 추가하기
-        const newUser = await userAuthService.addUser({ newComment });
-    
-        if (newUser.errorMessage) {
-            throw new Error(newUser.errorMessage);
+        if (comment.errorMessage) {
+            throw new Error(comment.errorMessage);
         }
     
-        res.status(201).json(newUser);
+        res.status(201).json(comment);
     } catch (error) {
         next(error);
     }

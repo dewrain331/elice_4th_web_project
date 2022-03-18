@@ -1,11 +1,23 @@
-import { CommentModel } from "../schemas/Comment";
-import { CommentsModel } from "../schemas/Comments";
+// import { CommentModel } from "../schemas/Comment";
 
-class Comment {
-    static async create({ newComment }) {
-        const createdNewUser = await CommentModel.create({ newComment });
-        return createdNewUser;
-    }
+// class Comment {
+//     static async create({ newComment }) {
+
+//         console.log('comment model Create');
+//         console.log(newComment);
+
+//         const createdNewComment = await CommentModel.create(newComment);
+//         return createdNewComment;
+//     }
+
+//     static async findToUserID({ newComment }) {
+//         const findComment = await CommentModel.find({
+//             user_id : newComment.user_id,
+//             depth : newComment.depth
+//         })
+
+//         return findComment;
+//     }
 
 //   static async findByEmail({ email }) {
 //     const user = await UserModel.findOne({ email });
@@ -34,6 +46,6 @@ class Comment {
 //     );
 //     return updatedUser;
 //   }
-}
+// }
 
-export { Comment };
+// export { Comment };
