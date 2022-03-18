@@ -12,7 +12,6 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
     const [isAdding, setIsAdding]=useState(false)
 
     useEffect(()=>{
-        // Api.get('educationlist', portfolioOwnerId).then((res)=>setEducations(res.data))
         Api
         .get('educationlist', `${portfolioOwnerId}?page=${page}&perPage=3`)
         .then((res)=>{
@@ -20,7 +19,7 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
             setAllPage(totalPage)
             setEducations(educations)
         })
-    },[portfolioOwnerId,page])
+    },[portfolioOwnerId,page,allPage])
     
     return(
         <Card>
@@ -47,6 +46,7 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
                     setEducations={setEducations}
                     setIsAdding={setIsAdding}
                     page={page}
+                    setAllPage={setAllPage}
                 />}
                 <Row className="mt-3 text-center mb-4">
                          <Col>
@@ -68,7 +68,7 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
                                 size="sm" 
                                 className="ms-3"
                                 onClick={()=>setPage((prev)=>prev+1)}
-                                disabled={page===allPage}>
+                                disabled={page>=allPage}>
                                 {">"}
                             </Button>
                         </Col>
