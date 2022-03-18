@@ -2,27 +2,22 @@ import { Card, Button, Row, Col, Modal } from "react-bootstrap"
 import {useState,useEffect} from "react"
 import * as Api from "../../api"
 
-const EducationCard=({ education, setEducations, setIsEditing, isEditable, page, setAllPage })=>{
+const EducationCard=({ education, setEducations, setIsEditing, isEditable, page, setPage, setAllPage })=>{
     
     const [show,setShow]=useState(false)
     
     const handleDelete = async () => {
         const { id, userId } = education
         await Api.delete('educations',id)
-
+        
         const res=await Api.get('educationlist', `${userId}?page=${page}&perPage=3`)
-        const {totalPage, educations}=res.data
+        const { totalPage, educations }=res.data
+        if(page>totalPage){
+            setPage(page-1)
+        }
         setAllPage(totalPage)
         setEducations(educations)
-        // if(res.status===200){
-        //     setEducations((cur)=>{
-        //         const newEducations=[...cur]
-        //         const filtered=newEducations.filter(v=>v.id!==id)
-        //         return filtered
-        //     })
-        // }else{
-        //     console.error(res.message)
-        // }
+
         setShow(false)   
     }
     

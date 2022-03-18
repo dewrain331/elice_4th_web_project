@@ -32,6 +32,7 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
                         setEducations={setEducations}
                         isEditable={isEditable}
                         page={page}
+                        setPage={setPage}
                         setAllPage={setAllPage}
                         />))}
                 {isEditable && (
@@ -47,6 +48,7 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
                     setEducations={setEducations}
                     setIsAdding={setIsAdding}
                     page={page}
+                    setPage={setPage}
                     setAllPage={setAllPage}
                 />}
                 <Row className="mt-3 text-center mb-4">
@@ -56,7 +58,8 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
                                 size="sm" 
                                 className="me-3"
                                 onClick={()=>setPage((prev)=>prev-1)}
-                                disabled={page===1}>
+                                disabled={page===1}
+                                id="prevBtn">
                                 {"<"}
                             </Button>
                             <Button 
