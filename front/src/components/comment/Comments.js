@@ -23,7 +23,7 @@ const Comments=({ userId, author })=>{
                             key={comment.id}
                             comment={comment}
                             setComments={setComments}
-                            isEditable={comment.author_id===userId}
+                            isEditable={author.id===comment.author_id}
                         />
                     ))
                 }
