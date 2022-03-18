@@ -3,26 +3,7 @@ import { CommentsModel } from "../schemas/Comments";
 
 class Comment {
     static async create({ newComment }) {
-
-        const comments = await CommentsModel.findOne({
-
-        })
-
-        const userComments = await CommentsModel.findOneAndUpdate({
-            user_id : newComment.user_id
-        }, {
-            $set : { comments : []}
-        })
-
-        if (!userComments) {
-            const newComments = await CommentsModel.create({
-                
-            })
-
-
-        }
-        
-
+        const createdNewUser = await CommentModel.create({ newComment });
         return createdNewUser;
     }
 

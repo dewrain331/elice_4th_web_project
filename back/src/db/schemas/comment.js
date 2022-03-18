@@ -2,7 +2,11 @@ import { Schema, model } from "mongoose";
 
 const CommentSchema = new Schema(
   {
-    id: {
+    id : {
+      type : String,
+      required : true,
+    },
+    user_id: {
       type: String,
       required: true,
     },
@@ -18,7 +22,7 @@ const CommentSchema = new Schema(
       type: String,
       required: true,
     },
-    parent_comment : {
+    parent_comment_id : {
       type : String,
       default : "root"
     },
