@@ -6,23 +6,23 @@ const CommentSchema = new Schema(
       type: String,
       required: true,
     },
-    email: {
+    author_id: {
       type: String,
       required: true,
     },
-    name: {
+    author_name : {
       type: String,
       required: true,
     },
-    password: {
+    text: {
       type: String,
       required: true,
     },
-    description: {
-      type: String,
-      required: false,
-      default: "설명이 아직 없습니다. 추가해 주세요.",
-    },
+    depth : {
+      type : Number,
+      required : true,
+      default : 1,
+    }
   },
   {
     timestamps: true,
