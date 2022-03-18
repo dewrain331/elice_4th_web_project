@@ -19,9 +19,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
 
     const formData = new FormData()
     formData.append('profile', image.data)
-    await Api.post(`users/${user.id}/image`, formData, {
-      Headers: {'content-type': 'multipart/form-data'}
-    })
+    await Api.post(`users/${user.id}/image`, formData).then(res => console.log(res)).catch(err => console.log(err))
 
     // "users/유저id" 엔드포인트로 PUT 요청함.
     const res = await Api.put(`users/${user.id}`, {
@@ -54,7 +52,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
           <Form.Group controlId="useEditImage" className="mb-3">
             <Form.Control
               type="file"
-              accept="image/*"
+              accept=".jpg"
               onChange={handleFileChange}
             />
           </Form.Group>
