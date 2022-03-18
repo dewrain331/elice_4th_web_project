@@ -10,7 +10,30 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   //useState로 description 상태를 생성함.
   const [description, setDescription] = useState(user.description);
   //useState로 image 상태를 생성함.
-  const [image, setImage] = useState('')
+  const [files, setFiles] = useState('')
+
+  const handleUpload = (evt) => {
+    const file = evt.target.files
+    setFiles(file)
+  }
+
+  const handleClick = () => {
+    const formData = new FormData()
+    formData.append('uploadImage', files[0])
+    const config = {
+      Headers: {
+        'content-type': 'multipart/form-data',
+      },
+    }
+    Api.post(`users/${user.id}/image`, formData, config)
+        .then(res => {
+          if(res.data.success) {
+            console.log(res.data)
+          } else {
+            alert("사진 업로드를 실패하였습니다.")
+          }
+        })
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,7 +43,6 @@ function UserEditForm({ user, setIsEditing, setUser }) {
       name,
       email,
       description,
-      image
     });
     // 유저 정보는 response의 data임.
     const updatedUser = res.data;
@@ -35,11 +57,11 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     <Card className="mb-2">
       <Card.Body>
         <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="useEditImage" className="mb-3">
+          <Form.Group controlId="useEditImage" className="mb-3">
             <Form.Control
               type="file"
-              value={image}
-              onChange={(e) => setName(e.target.value)}
+              accept="image/*"
+              onChange={handleUpload}
             />
           </Form.Group>
 
@@ -72,7 +94,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
 
           <Form.Group as={Row} className="mt-3 text-center">
             <Col sm={{ span: 20 }}>
-              <Button variant="primary" type="submit" className="me-3">
+              <Button variant="primary" type="submit" className="me-3" onClick={handleClick}>
                 확인
               </Button>
               <Button variant="secondary" onClick={() => setIsEditing(false)}>
