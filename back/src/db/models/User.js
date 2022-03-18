@@ -33,6 +33,19 @@ class User {
     );
     return updatedUser;
   }
+
+  static async upload({ user_id, imageInfo }) {
+    const filter = { id: user_id };
+    const update = { image: imageInfo };
+    const option = { returnOriginal: false };
+
+    const uploadedImage = await UserModel.findOneAndUpdate(
+      filter,
+      update,
+      option
+    );
+    return uploadedImage;
+  }
 }
 
 export { User };
