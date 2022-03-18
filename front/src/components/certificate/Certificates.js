@@ -64,6 +64,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                         <Button
                             variant="outline-secondary"
                             size="sm"
+                            disabled
                         >
                             {page} / {Math.ceil(allPage / 3)}
                         </Button>
