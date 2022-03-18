@@ -9,7 +9,7 @@ const Comments=({ userId, author })=>{
 
     useEffect(()=>{
         Api
-        .get('comment',userId)
+        .get('user/comment',userId)
         .then((res)=>setComments(res.data))
     },[userId])
 

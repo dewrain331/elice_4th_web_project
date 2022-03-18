@@ -16,7 +16,7 @@ const CommentAddForm=({ user_id, author, setComments })=>{
         })
         
         //get
-        const res=await Api.get('comment',user_id)
+        const res=await Api.get('user/comment',user_id)
         setComments(res.data)
     }
 
