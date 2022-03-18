@@ -1,11 +1,26 @@
 import { useState } from 'react'
+import CommentCard from './CommentCard'
+import CommentEditForm from './CommentEditForm'
+
 
 const Comment=({ comment, setComments, isEditable })=>{
+    const [isEditing, setIsEditing]=useState(false)
     return(
-        <div>
-            {comment.user}
-            {comment.body}
-        </div>
+        <>
+            {isEditing ? (
+                <CommentEditForm
+                    comment={comment}
+                    setComments={setComments}
+                    setIsEditing={setIsEditing}
+                />
+            ):(
+                <CommentCard
+                    comment={comment}
+                    isEditable={isEditable}
+                    setIsEditing={setIsEditing}
+                />
+            )}
+        </>
     )
 }
 
