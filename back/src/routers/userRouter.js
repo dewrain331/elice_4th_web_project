@@ -151,7 +151,37 @@ userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
 
 
 // image
-const upload = multer({ dest: 'src/db/images/' })
+// const upload = multer({ dest: 'src/db/images/' })
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, '../back/src/db/images/')
+  },
+  filename: function (req, file, cb) {
+    var mimeType;
+
+    switch (file.mimetype) {
+      case "image/jpeg":
+        mimeType = "jpg";
+      break;
+      case "image/png":
+        mimeType = "png";
+      break;
+      case "image/gif":
+        mimeType = "gif";
+      break;
+      case "image/bmp":
+        mimeType = "bmp";
+      break;
+      default:
+        mimeType = "jpg";
+      break;
+    }
+
+    cb(null, Date.now() + `_${file.originalname}`)
+  }
+})
+
+const upload = multer({ storage: storage })
 
 userAuthRouter.patch(
   "/users/:id/image",
