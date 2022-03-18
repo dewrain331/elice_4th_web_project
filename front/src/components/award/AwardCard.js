@@ -60,7 +60,7 @@ const AwardCard = ({ _award, isEditable, setIsEditing, setAwards, setAllPage, pa
                 </Button>
                 <Button variant="danger" onClick={() => {
                     handleClose()
-                    handleDelete(_award.id)
+                    handleDelete()
                     }
                 }>
                     삭제
