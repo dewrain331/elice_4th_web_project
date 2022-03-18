@@ -62,16 +62,18 @@ function Portfolio() {
           />
         </Col>
         <Col>
-          <Educations
-            portfolioOwnerId={portfolioOwner.id}
-            isEditable={portfolioOwner.id === userState.user?.id}
-          />
-        </Col>
-        <Col >
-          <Certificates
-            portfolioOwnerId={portfolioOwner.id}
-            isEditable={portfolioOwner.id === userState.user?.id}
-          />
+          <Row className="mb-4">
+            <Educations
+              portfolioOwnerId={portfolioOwner.id}
+              isEditable={portfolioOwner.id === userState.user?.id}
+            />
+          </Row>
+          <Row>
+            <Certificates
+              portfolioOwnerId={portfolioOwner.id}
+              isEditable={portfolioOwner.id === userState.user?.id}
+            />
+          </Row>
         </Col>
       </Row>
     </Container>

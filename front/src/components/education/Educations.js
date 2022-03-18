@@ -32,6 +32,7 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
                         setEducations={setEducations}
                         isEditable={isEditable}
                         page={page}
+                        setAllPage={setAllPage}
                         />))}
                 {isEditable && (
                     <Row className="mt-3 text-center mb-4">

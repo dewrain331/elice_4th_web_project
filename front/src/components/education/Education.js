@@ -2,7 +2,7 @@ import {useState} from 'react'
 import EducationCard from './EducationCard'
 import EducationEditForm from './EducationEditForm'
 
-const Education=({ education, setEducations, isEditable, page})=>{
+const Education=({ education, setEducations, isEditable, page, setAllPage})=>{
     const [isEditing, setIsEditing]=useState(false)
     
     return(
@@ -20,6 +20,8 @@ const Education=({ education, setEducations, isEditable, page})=>{
                 setEducations={setEducations}
                 isEditable={isEditable}
                 setIsEditing={setIsEditing}
+                page={page}
+                setAllPage={setAllPage}
               />
           )}  
         </>
