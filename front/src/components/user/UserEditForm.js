@@ -63,6 +63,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
               accept="image/*"
               onChange={handleUpload}
             />
+            <Button onClick={handleClick}>업로드</Button>
           </Form.Group>
 
           <Form.Group controlId="useEditName" className="mb-3">
@@ -94,7 +95,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
 
           <Form.Group as={Row} className="mt-3 text-center">
             <Col sm={{ span: 20 }}>
-              <Button variant="primary" type="submit" className="me-3" onClick={handleClick}>
+              <Button variant="primary" type="submit" className="me-3">
                 확인
               </Button>
               <Button variant="secondary" onClick={() => setIsEditing(false)}>
