@@ -48,7 +48,7 @@ const UserSchema = new Schema(
       default: {
         orgFileName: "default_img.jpg",
         saveFileName: "default_img.jpg",
-        saveFilePath: "..\\front\\public\\images\\default_img.jpg",
+        saveFilePath: ".\\images\\default_img.jpg",
       }
     }
   },
