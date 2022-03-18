@@ -85,6 +85,8 @@ awardRouter.delete("/awards/:id", login_required, async (req, res, next) => {
         const deleteAward = {
             user_id : user_id,
             id : req.params.id,
+            perPage : req.body.perPage ?? 0,
+            page : req.body.page ?? 0
         }
 
         console.log("router");

@@ -22,7 +22,6 @@ class Certificate {
             user_id : deleteCertificate.user_id 
         });
         return deleteCertificateResult;
-
     }
 
     static async findAllToUser({ getCertificates }) {
