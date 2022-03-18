@@ -22,7 +22,7 @@ function Projects({ portfolioOwnerId, isEditable }) {
                 setTotalPage(totalPage);
                 setProjects(projects);
             });
-    }, [portfolioOwnerId, page]);
+    }, [portfolioOwnerId, page, totalPage]);
 
     return (
         <Card>
@@ -35,6 +35,8 @@ function Projects({ portfolioOwnerId, isEditable }) {
                         setProjects={setProjects}
                         isEditable={isEditable}
                         page={page}
+                        setTotalPage={setTotalPage}
+                        setPage={setPage}
                     />
                 ))}
                 <Col className="text-center">
@@ -72,6 +74,8 @@ function Projects({ portfolioOwnerId, isEditable }) {
                         setProjects={setProjects}
                         setIsAdding={setIsAdding}
                         page={page}
+                        setTotalPage={setTotalPage}
+                        setPage={setPage}
                     />
                 )}
             </Card.Body>
