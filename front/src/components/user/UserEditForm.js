@@ -9,6 +9,8 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   const [email, setEmail] = useState(user.email);
   //useState로 description 상태를 생성함.
   const [description, setDescription] = useState(user.description);
+  //useState로 image 상태를 생성함.
+  const [image, setImage] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,6 +20,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
       name,
       email,
       description,
+      image
     });
     // 유저 정보는 response의 data임.
     const updatedUser = res.data;
@@ -32,6 +35,14 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     <Card className="mb-2">
       <Card.Body>
         <Form onSubmit={handleSubmit}>
+        <Form.Group controlId="useEditImage" className="mb-3">
+            <Form.Control
+              type="file"
+              value={image}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </Form.Group>
+
           <Form.Group controlId="useEditName" className="mb-3">
             <Form.Control
               type="text"
