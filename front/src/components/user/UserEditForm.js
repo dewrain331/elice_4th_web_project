@@ -31,15 +31,31 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     setIsEditing(false);
   };
 
+  const handleUpload = (evt) => {
+    const file = evt.target.files
+    setImage(file)
+  }
+
+  const handleClick = () => {
+    const formData = new FormData()
+    formData.append('uploadImage', image[0])
+    const config = {
+      Headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+    Api.post(`users/${user.id}/image`, formData, config)
+  }
+
   return (
     <Card className="mb-2">
       <Card.Body>
         <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="useEditImage" className="mb-3">
+          <Form.Group controlId="useEditImage" className="mb-3">
             <Form.Control
               type="file"
-              value={image}
-              onChange={(e) => setName(e.target.value)}
+              accept="image/*"
+              onChange={handleUpload}
             />
           </Form.Group>
 
@@ -72,7 +88,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
 
           <Form.Group as={Row} className="mt-3 text-center">
             <Col sm={{ span: 20 }}>
-              <Button variant="primary" type="submit" className="me-3">
+              <Button variant="primary" type="submit" className="me-3" onClick={handleClick}>
                 확인
               </Button>
               <Button variant="secondary" onClick={() => setIsEditing(false)}>

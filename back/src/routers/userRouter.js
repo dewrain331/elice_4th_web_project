@@ -2,6 +2,8 @@ import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { userAuthService } from "../services/userService";
+import multer from "multer";
+
 
 const userAuthRouter = Router();
 
@@ -146,5 +148,40 @@ userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
       `안녕하세요 ${req.currentUserId}님, jwt 웹 토큰 기능 정상 작동 중입니다.`
     );
 });
+
+
+// image
+const upload = multer({ dest: 'src/db/images/' })
+
+userAuthRouter.patch(
+  "/users/:id/image",
+  login_required,
+  upload.single('profile'),
+  async function (req, res, next) {
+    try {
+      // URI로부터 사용자 id를 추출함.
+      const user_id = req.params.id;
+
+      // req.file 은 `profile` 라는 필드의 파일 정보입니다.
+      const orgFileName = req.file.originalname; // 원본 파일명
+      const saveFileName = req.file.filename; // 저장된 파일명​ 
+      const saveFilePath = req.file.path; // 업로드된 파일의 전체 경로
+      console.log({user_id, orgFileName, saveFileName, saveFilePath})
+    
+      const imageInfo = { "orgFileName": orgFileName, "saveFileName": saveFileName, "saveFilePath": saveFilePath };
+
+      // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
+      const updatedImage = await userAuthService.uploadImage({ user_id, imageInfo });
+
+      if (updatedImage.errorMessage) {
+        throw new Error(updatedUser.errorMessage);
+      }
+
+      res.status(200).json(updatedImage);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 export { userAuthRouter };
