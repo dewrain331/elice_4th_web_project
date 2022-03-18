@@ -24,6 +24,8 @@ const Award = ({ _award, setAwards, isEditable, page, setPage, setAllPage, allPa
                     setIsEditing={setIsEditing}
                     setAwards={setAwards}
                     setAllPage={setAllPage}
+                    page={page}
+                    setPage={setPage}
                 />
             )}
         </>

@@ -2,28 +2,23 @@ import { Card, Button, Row, Col, Modal } from "react-bootstrap"
 import {useState} from 'react'
 import * as Api from "../../api"
 
-const AwardCard = ({ _award, isEditable, setIsEditing, setAwards, setAllPage }) => {
+const AwardCard = ({ _award, isEditable, setIsEditing, setAwards, setAllPage, page, setPage }) => {
     // Modal 관련 State
     const [show, setShow] = useState(false)
     const handleShow = () => setShow(true)
     const handleClose = () => setShow(false)
 
-    const handleDelete = async (id) => {
-        const res = await Api.delete(`awards/${id}`)
-        const {status, message} = res
-        if(status === 200) {
-            setAwards((cur) => {
-                const newAwards = [...cur]
-                let filtered = newAwards.filter(v => v.id !== id)
-                if(filtered.length % 3 === 0) {
-                    setAllPage(prev => prev - 1)
-                    document.querySelector('#prevBtn').click()
-                }
-                return filtered
-            })
-        } else {
-            console.error(message)
+    const handleDelete = async () => {
+        const {id, user_id} = _award
+        await Api.delete(`awards/${id}`)
+        const res = await Api.get("awardlist", `${user_id}?page=${page}&perPage=3`)
+        const {total, awards} = res.data
+        if(page > total) {
+            setPage(page - 1)
         }
+        setAllPage(total)
+        setAwards(awards)
+        setShow(false)
     }
 
     return (
