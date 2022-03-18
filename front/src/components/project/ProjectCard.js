@@ -24,8 +24,8 @@ function ProjectCard({ project, isEditable, setIsEditing, setProjects, page, set
         } else {
             setTotalPage(totalPage);
             setProjects(projects);
-            setShow(false);
         }
+        setShow(false);
     }
 
     return (
