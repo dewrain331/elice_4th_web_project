@@ -34,6 +34,8 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
                         setAwards={setAwards}
                         isEditable={isEditable}
                         setAllPage={setAllPage}
+                        page={page}
+                        setPage={setPage}
                     />
                 ))}
                 {isEditable && (
@@ -62,7 +64,6 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
                             onClick={() => setPage(prev => prev - 1)}
                             disabled={page === 1}
                             className="me-3"
-                            id="prevBtn"
                         >
                             {"<"}
                         </Button>
