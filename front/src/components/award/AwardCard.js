@@ -9,9 +9,7 @@ const AwardCard = ({ _award, isEditable, setIsEditing, setAwards, page }) => {
     const handleClose = () => setShow(false)
 
     const handleDelete = async (id) => {
-        const res = await Api.delete(`awards/${id}`, {
-            page
-        })
+        const res = await Api.delete(`awards/${id}`)
         const {status, message} = res
         if(status === 200) {
             setAwards((cur) => {
