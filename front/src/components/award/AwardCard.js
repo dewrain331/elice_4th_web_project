@@ -2,7 +2,7 @@ import { Card, Button, Row, Col, Modal } from "react-bootstrap"
 import {useState} from 'react'
 import * as Api from "../../api"
 
-const AwardCard = ({ _award, isEditable, setIsEditing, setAwards, setPage, setAllPage, allPage }) => {
+const AwardCard = ({ _award, isEditable, setIsEditing, setAwards, setAllPage }) => {
     // Modal 관련 State
     const [show, setShow] = useState(false)
     const handleShow = () => setShow(true)
@@ -16,8 +16,8 @@ const AwardCard = ({ _award, isEditable, setIsEditing, setAwards, setPage, setAl
                 const newAwards = [...cur]
                 let filtered = newAwards.filter(v => v.id !== id)
                 if(filtered.length % 3 === 0) {
-                    setPage(1)
-                    setAllPage(Math.ceil(allPage / 3) - 1)
+                    setAllPage(prev => prev - 1)
+                    document.querySelector('#prevBtn').click()
                 }
                 return filtered
             })

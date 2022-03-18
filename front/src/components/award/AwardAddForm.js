@@ -26,6 +26,9 @@ const AwardAddForm = ({ portfolioOwnerId, setAwards, setIsAdding, page, setAllPa
         const res = await Api.get("awardlist", `${user_id}?page=${page}&perPage=3`)
         const {total, awards} = res.data
         setAllPage(total)
+        if(awards.length % 3 === 1) {
+            document.querySelector("#nextBtn").click()
+        }
         setAwards(awards)
         // 생성 상태 종료.
         setIsAdding(false)

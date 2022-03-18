@@ -23,9 +23,7 @@ const Award = ({ _award, setAwards, isEditable, page, setPage, setAllPage, allPa
                     isEditable={isEditable}
                     setIsEditing={setIsEditing}
                     setAwards={setAwards}
-                    setPage={setPage}
                     setAllPage={setAllPage}
-                    allPage={allPage}
                 />
             )}
         </>
