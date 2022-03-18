@@ -12,7 +12,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
     const [isAdding, setIsAdding] = useState(false)
     // Pagination 관련
     const [page, setPage] = useState(1)
-    const [allPage, setAllPage] = useState(0)
+    const [allPage, setAllPage] = useState(1)
 
     useEffect(() => {
         // DB에 저장된 유저의 Certificate들을 Certificates 변수에 넣음.
@@ -34,6 +34,9 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                         certificate={v}
                         setCertificates={setCertificates}
                         isEditable={isEditable}
+                        setAllPage={setAllPage}
+                        page={page}
+                        setPage={setPage}
                     />
                 ))}
                 {isEditable && (
@@ -48,6 +51,10 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                         portfolioOwnerId={portfolioOwnerId}
                         setCertificates={setCertificates}
                         setIsAdding={setIsAdding}
+                        setPage={setPage}
+                        page={page}
+                        setAllPage={setAllPage}
+                        allPage={allPage}
                     />
                 )}
                 <Row className="mt-3 text-center mb-4">
@@ -71,7 +78,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                             variant="outline-secondary"
                             size="sm"
                             onClick={() => setPage(prev => prev + 1)}
-                            disabled={page === Math.ceil(allPage / 3)}
+                            disabled={page >= Math.ceil(allPage / 3)}
                             className="ms-3"
                         >
                             {">"}

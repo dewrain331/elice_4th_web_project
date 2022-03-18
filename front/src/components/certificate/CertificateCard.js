@@ -2,7 +2,7 @@ import { Card, Button, Row, Col, Modal } from "react-bootstrap"
 import {useState} from 'react'
 import * as Api from "../../api"
 
-const CertificateCard = ({ certificate, isEditable, setIsEditing, setCertificates }) => {
+const CertificateCard = ({ certificate, isEditable, setIsEditing, setCertificates, setAllPage, page, setPage }) => {
     // Modal 관련 State
     const slicingDate = (date) => {
         return date.slice(0, 10)
@@ -12,18 +12,17 @@ const CertificateCard = ({ certificate, isEditable, setIsEditing, setCertificate
     const handleShow = () => setShow(true)
     const handleClose = () => setShow(false)
 
-    const handleDelete = async (id) => {
-        const res = await Api.delete(`certificate/${id}`)
-        const {status, message} = res
-        if(status === 200) {
-            setCertificates((cur) => {
-                const newCertificates = [...cur]
-                let filtered = newCertificates.filter(v => v.id !== id)
-                return filtered
-            })
-        } else {
-            console.error(message)
+    const handleDelete = async () => {
+        const {id, user_id} = certificate
+        await Api.delete(`certificate/${id}`)
+        const res = await Api.get("certificatelist", `${user_id}?page=${page}&perPage=3`)
+        const {total, certificates} = res
+        if(page > Math.ceil(total / 3)) {
+            setPage(page - 1)
         }
+        setAllPage(Math.ceil(total / 3))
+        setCertificates(certificates)
+        setShow(false)
     }
 
     return (
@@ -67,7 +66,7 @@ const CertificateCard = ({ certificate, isEditable, setIsEditing, setCertificate
                 </Button>
                 <Button variant="danger" onClick={() => {
                     handleClose()
-                    handleDelete(certificate.id)
+                    handleDelete()
                     }
                 }>
                     삭제
