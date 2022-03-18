@@ -19,6 +19,20 @@ class commentService {
     return comment;
   }
 
+  static async getComment({}) {}
+
+  static async getCommentAndReply({ getReply }) {
+    const commentAll = await Comment.getCommentAndReply({ getReply });
+
+    if (!commentAll) {
+      const errorMessage =
+        "댓글을 가져오는 데 실패하였습니다.";
+      return { errorMessage };
+    }
+
+    return commentAll;
+  }
+
   static async addReply({ newReply }) {
 
     const id = uuidv4();
@@ -28,7 +42,19 @@ class commentService {
 
     const reply = await Reply.create({ newReply });
 
+    if (!reply) {
+      const errorMessage =
+        "대댓글을 가져오는 데 실패하였습니다.";
+      return { errorMessage };
+    }
+
     const findComment = await Comment.pushReply({ reply });
+
+    if (!findComment) {
+      const errorMessage =
+        "댓글에 대댓글을 추가하는데 실패하였습니다.";
+      return { errorMessage };
+    }
 
     return findComment;
   }
