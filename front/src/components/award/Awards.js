@@ -47,6 +47,8 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
                         portfolioOwnerId={portfolioOwnerId}
                         setAwards={setAwards}
                         setIsAdding={setIsAdding}
+                        page={page}
+                        setAllPage={setAllPage}
                     />
                 )}
                 <Row className="mt-3 text-center mb-4">
@@ -70,7 +72,7 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
                             variant="outline-secondary"
                             size="sm"
                             onClick={() => setPage(prev => prev + 1)}
-                            disabled={page === Math.ceil(allPage / 3)}
+                            disabled={page >= Math.ceil(allPage / 3)}
                             className="ms-3"
                         >
                             {">"}

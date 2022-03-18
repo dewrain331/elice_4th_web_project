@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Button, Form, Col, Row } from "react-bootstrap"
 import * as Api from "../../api"
 
-const AwardAddForm = ({ portfolioOwnerId, setAwards, setIsAdding, page }) => {
+const AwardAddForm = ({ portfolioOwnerId, setAwards, setIsAdding, page, setAllPage }) => {
     // useState로 수상내역의 내용을 담을 title 변수 선언.
     const [award, setAward] = useState("")
     // useState로 상세내용을 담을 description 변수 선언.
@@ -24,7 +24,9 @@ const AwardAddForm = ({ portfolioOwnerId, setAwards, setIsAdding, page }) => {
 
         // post 요청값과 함께 각각의 Award들의 모임인 Awards를 다시 렌더링
         const res = await Api.get("awardlist", `${user_id}?page=${page}&perPage=3`)
-        setAwards(res.data.awards)
+        const {total, awards} = res.data
+        setAllPage(total)
+        setAwards(awards)
         // 생성 상태 종료.
         setIsAdding(false)
     }
