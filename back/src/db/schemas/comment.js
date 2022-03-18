@@ -18,6 +18,10 @@ const CommentSchema = new Schema(
       type: String,
       required: true,
     },
+    parent_comment : {
+      type : String,
+      default : "root"
+    },
     depth : {
       type : Number,
       required : true,

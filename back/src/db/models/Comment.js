@@ -1,10 +1,30 @@
 import { CommentModel } from "../schemas/Comment";
+import { CommentsModel } from "../schemas/Comments";
 
 class Comment {
-//   static async create({ newUser }) {
-//     const createdNewUser = await UserModel.create(newUser);
-//     return createdNewUser;
-//   }
+    static async create({ newComment }) {
+
+        const comments = await CommentsModel.findOne({
+
+        })
+
+        const userComments = await CommentsModel.findOneAndUpdate({
+            user_id : newComment.user_id
+        }, {
+            $set : { comments : []}
+        })
+
+        if (!userComments) {
+            const newComments = await CommentsModel.create({
+                
+            })
+
+
+        }
+        
+
+        return createdNewUser;
+    }
 
 //   static async findByEmail({ email }) {
 //     const user = await UserModel.findOne({ email });
