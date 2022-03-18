@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { Button, Form, Card, Col, Row } from "react-bootstrap";
 import * as Api from "../../api";
@@ -19,9 +20,8 @@ function UserEditForm({ user, setIsEditing, setUser }) {
 
     const formData = new FormData()
     formData.append('profile', image.data)
-    await Api.post(`users/${user.id}/image`, formData, {
-      Headers: {'content-type': 'multipart/form-data'}
-    })
+    const response = await Api.patch(`users/${user.id}/image`, formData);
+    console.log(response);
 
     // "users/유저id" 엔드포인트로 PUT 요청함.
     const res = await Api.put(`users/${user.id}`, {
@@ -37,6 +37,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     // isEditing을 false로 세팅함.
     setIsEditing(false);
   };
+
 
   const handleFileChange = (evt) => {
     const img = {

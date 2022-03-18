@@ -97,6 +97,7 @@ userAuthRouter.put(
   login_required,
   async function (req, res, next) {
     try {
+      console.log("success");
       // URI로부터 사용자 id를 추출함.
       const user_id = req.params.id;
       // body data 로부터 업데이트할 사용자 정보를 추출함.
@@ -153,7 +154,7 @@ userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
 // image
 const upload = multer({ dest: 'src/db/images/' })
 
-userAuthRouter.post(
+userAuthRouter.patch(
   "/users/:id/image",
   login_required,
   upload.single('profile'),
@@ -169,7 +170,7 @@ userAuthRouter.post(
       console.log({user_id, orgFileName, saveFileName, saveFilePath})
     
       const imageInfo = { "orgFileName": orgFileName, "saveFileName": saveFileName, "saveFilePath": saveFilePath };
-
+      console.log(imageInfo)
       // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
       const updatedImage = await userAuthService.uploadImage({ user_id, imageInfo });
 
