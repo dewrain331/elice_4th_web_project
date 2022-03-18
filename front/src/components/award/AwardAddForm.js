@@ -25,8 +25,8 @@ const AwardAddForm = ({ portfolioOwnerId, setAwards, setIsAdding, page, setAllPa
         // post 요청값과 함께 각각의 Award들의 모임인 Awards를 다시 렌더링
         const res = await Api.get("awardlist", `${user_id}?page=${page}&perPage=3`)
         const {total, awards} = res.data
-        setPage(total)
-        setAllPage(total)
+        setPage(total / 3)
+        setAllPage(total / 3)
         setAwards(awards)
         // 생성 상태 종료.
         setIsAdding(false)

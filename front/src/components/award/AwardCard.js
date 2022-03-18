@@ -13,10 +13,10 @@ const AwardCard = ({ _award, isEditable, setIsEditing, setAwards, setAllPage, pa
         await Api.delete(`awards/${id}`)
         const res = await Api.get("awardlist", `${user_id}?page=${page}&perPage=3`)
         const {total, awards} = res.data
-        if(page > total) {
+        if(page > total / 3) {
             setPage(page - 1)
         }
-        setAllPage(total)
+        setAllPage(total / 3)
         setAwards(awards)
         setShow(false)
     }
