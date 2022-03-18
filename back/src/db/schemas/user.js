@@ -46,9 +46,9 @@ const UserSchema = new Schema(
     image: {
       type: imageSchema,
       default: {
-        orgFileName: null,
-        saveFileName: null,
-        path: `http://placekitten.com/200/200`,
+        orgFileName: "default_img.jpg",
+        saveFileName: "default_img.jpg",
+        saveFilePath: "..\\front\\public\\images\\default_img.jpg",
       }
     }
   },
