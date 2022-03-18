@@ -1,9 +1,9 @@
-import { CommentModel } from "../schemas/reply";
+import { CommentModel } from "../schemas/comment";
 
 class Comment {
     static async create({ newComment }) {
 
-        console.log('comment model Create');
+        console.log('newComment');
         console.log(newComment);
 
         const createdNewComment = await CommentModel.create(newComment);
@@ -15,6 +15,22 @@ class Comment {
             user_id : newComment.user_id,
             depth : newComment.depth
         })
+
+        return findComment;
+    }
+
+    static async pushReply({ reply }) {
+        console.log('reply');
+        console.log(reply);
+
+        const findComment = await CommentModel.findOneAndUpdate({
+            id : reply.parent_comment_id
+        }, {
+            $push : {replys : reply}
+        }, {
+            returnNewDocument: true,
+            returnOriginal: false,
+        });
 
         return findComment;
     }

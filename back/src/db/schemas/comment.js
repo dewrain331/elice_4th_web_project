@@ -6,21 +6,26 @@ const CommentSchema = new Schema(
       type : String,
       required : true,
     },
-    user_id: {
-      type: String,
-      required: true,
-    },
-    user_name : {
+    user_id : {
       type : String,
       required : true,
     },
-    text : {
-
+    author_id: {
+      type: String,
+      required: true,
     },
-    reply : [{
+    author_name : {
+      type: String,
+      required: true,
+    },
+    text: {
+      type: String,
+      required: true,
+    },
+    replys : [{
       type : Schema.Types.ObjectId,
-      ref : "Comment"
-    }]
+      ref : 'Reply'
+    }],
   },
   {
     timestamps: true,

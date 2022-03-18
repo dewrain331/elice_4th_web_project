@@ -35,4 +35,4 @@ const ReplySchema = new Schema(
 
 const ReplyModel = model("Reply", ReplySchema);
 
-export { ReplyModel };
+export { ReplySchema, ReplyModel };
