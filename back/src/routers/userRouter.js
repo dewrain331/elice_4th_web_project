@@ -153,7 +153,7 @@ userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
 // image
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../back/src/db/images/')
+    cb(null, '../front/public/images/')
   },
   filename: function (req, file, cb) {
     var mimeType;
