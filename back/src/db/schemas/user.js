@@ -1,12 +1,16 @@
 import { Schema, model } from "mongoose";
 
-const imageSchema = new mongoose.Schema(
+const imageSchema = new Schema(
   {
-    imageName: {
+    orgFileName: {
       type: String,
       required: true,
     },
-    path: {
+    saveFileName: {
+      type: String,
+      required: true,
+    },
+    saveFilePath: {
       type: String,
       required: true,
     }
@@ -42,7 +46,8 @@ const UserSchema = new Schema(
     image: {
       type: imageSchema,
       default: {
-        imageName: "default_kitten_image",
+        orgFileName: null,
+        saveFileName: null,
         path: `http://placekitten.com/200/200`,
       }
     }
@@ -55,5 +60,3 @@ const UserSchema = new Schema(
 const UserModel = model("User", UserSchema);
 
 export { UserModel };
-
-// `../images/${imageName}`

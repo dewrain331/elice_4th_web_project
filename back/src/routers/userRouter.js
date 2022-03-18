@@ -151,26 +151,33 @@ userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
 
 
 // image
-userAuthRouter.put(
+const upload = multer({ dest: 'src/db/images/' })
+
+userAuthRouter.patch(
   "/users/:id/image",
   login_required,
+  upload.single('profile'),
   async function (req, res, next) {
     try {
       // URI로부터 사용자 id를 추출함.
       const user_id = req.params.id;
-      // body data 로부터 업데이트할 사용자 정보를 추출함.
-      const image = req.body.imageName ?? null;
 
-      const toUpdate = { image };
+      // req.file 은 `profile` 라는 필드의 파일 정보입니다.
+      const orgFileName = req.file.originalname; // 원본 파일명
+      const saveFileName = req.file.filename; // 저장된 파일명​ 
+      const saveFilePath = req.file.path; // 업로드된 파일의 전체 경로
+      console.log({user_id, orgFileName, saveFileName, saveFilePath})
+    
+      const imageInfo = { "orgFileName": orgFileName, "saveFileName": saveFileName, "saveFilePath": saveFilePath };
 
       // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-      const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
+      const updatedImage = await userAuthService.uploadImage({ user_id, imageInfo });
 
-      if (updatedUser.errorMessage) {
+      if (updatedImage.errorMessage) {
         throw new Error(updatedUser.errorMessage);
       }
 
-      res.status(200).json(updatedUser);
+      res.status(200).json(updatedImage);
     } catch (error) {
       next(error);
     }
@@ -178,37 +185,3 @@ userAuthRouter.put(
 );
 
 export { userAuthRouter };
-
-// const upload = multer({ dest: 'uploads/' })
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, '/tmp/my-uploads')
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now())
-  }
-})
-
-const upload = multer({ storage: storage })
-
-app.post('/profile', upload.single('avatar'), function (req, res, next) {
-  // req.file 은 `avatar` 라는 필드의 파일 정보입니다.
-  // 텍스트 필드가 있는 경우, req.body가 이를 포함할 것입니다.
-})
-
-app.post('/photos/upload', upload.array('photos', 12), function (req, res, next) {
-  // req.files 는 `photos` 라는 파일정보를 배열로 가지고 있습니다.
-  // 텍스트 필드가 있는 경우, req.body가 이를 포함할 것입니다.
-})
-
-const cpUpload = upload.fields([{ name: 'avatar', maxCount: 1 }, { name: 'gallery', maxCount: 8 }])
-app.post('/cool-profile', cpUpload, function (req, res, next) {
-  // req.files는 (String -> Array) 형태의 객체 입니다.
-  // 필드명은 객체의 key에, 파일 정보는 배열로 value에 저장됩니다.
-  //
-  // e.g.
-  //  req.files['avatar'][0] -> File
-  //  req.files['gallery'] -> Array
-  //
-  // 텍스트 필드가 있는 경우, req.body가 이를 포함할 것입니다.
-})
