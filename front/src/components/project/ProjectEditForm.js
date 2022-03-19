@@ -7,11 +7,11 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 function ProjectEditForm({ currentProject, setProjects, setIsEditing, page }) {
-    //useState로 title 상태를 생성함.
+    // useState로 title 상태를 생성함.
     const [title, setTitle] = useState(currentProject.title);
-    //useState로 description 상태를 생성함.
+    // useState로 description 상태를 생성함.
     const [description, setDescription] = useState(currentProject.description);
-    //useState로 from_date, to_date 상태를 생성함.
+    // useState로 from_date, to_date 상태를 생성함.
     const [fromDate, setFromDate] = useState(new Date(currentProject.fromDate));
     const [toDate, setToDate] = useState(new Date(currentProject.toDate));
 
@@ -35,9 +35,9 @@ function ProjectEditForm({ currentProject, setProjects, setIsEditing, page }) {
         }
 
         try {
-            // "projectlist/유저id" 엔드포인트로 GET 요청함.
+            // "projectlist/유저id?page={현재 페이지}&?perPage={데이터 수}"로 GET 요청하고,
+            // response의 data로 totalPage와 projects를 세팅함.
             const res = await Api.get("projectlist", `${userId}?page=${page}&perPage=3`);
-            // projects를 response의 data로 세팅함.
             setProjects(res.data.projects);
         } catch (error) {
             console.error(error);

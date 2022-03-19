@@ -5,12 +5,12 @@ import Project from "./Project";
 import ProjectAddForm from "./ProjectAddForm";
 
 function Projects({ portfolioOwnerId, isEditable }) {
-    //useState로 projects 상태를 생성함.
+    // useState로 projects 상태를 생성함.
     const [projects, setProjects] = useState([]);
-    //useState로 isAdding 상태를 생성함.
+    // useState로 isAdding 상태를 생성함.
     const [isAdding, setIsAdding] = useState(false);
-    //useState로 totalPage, page 상태를 생성함.
-    const [totalPage, setTotalPage] = useState(0);
+    // useState로 totalPage, page 상태를 생성함.
+    const [totalPage, setTotalPage] = useState(1);
     const [page, setPage] = useState(1);
 
 
@@ -58,11 +58,11 @@ function Projects({ portfolioOwnerId, isEditable }) {
                         size="sm"
                         className="me-3"
                         disabled>
-                        {page}/{totalPage}
+                        {page}/{totalPage === 0 ? 1 : totalPage}
                     </Button>
                     <Button variant="secondary"
                         onClick={() => setPage((prev) => (prev + 1))}
-                        disabled={page === totalPage}
+                        disabled={page >= totalPage}
                     >
                         {">"}
                     </Button>

@@ -22,12 +22,14 @@ function ProjectCard({ project, isEditable, setIsEditing, setProjects, page, set
         }
 
         try {
-            const res = await Api.get('projectlist', `${userId}?page=${page}&perPage=3`)
-            let { totalPage, projects } = res.data
-            // 현재 페이지에 더 이상 프로젝트가 없다면 데이터가 있는 이전 페이지로 넘어감
+            // "projectlist/유저id?page={현재 페이지}&?perPage={데이터 수}"로 GET 요청하고,
+            // response의 data로 totalPage와 projects를 세팅함.
+            const res = await Api.get('projectlist', `${userId}?page=${page}&perPage=3`);
+            let { totalPage, projects } = res.data;
             if (projects.length === 0) {
                 setPage((prev) => prev - 1);
             } else {
+                // totalPage와 proje
                 setTotalPage(totalPage);
                 setProjects(projects);
             }
