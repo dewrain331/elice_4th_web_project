@@ -17,26 +17,24 @@ function ProjectCard({ project, isEditable, setIsEditing, setProjects, page, set
         const { id, userId } = project;
         try {
             await Api.delete('projects', id);
-        } catch (error) {
-            console.error(error);
-        }
-
-        try {
             // "projectlist/유저id?page={현재 페이지}&?perPage={데이터 수}"로 GET 요청하고,
             // response의 data로 totalPage와 projects를 세팅함.
             const res = await Api.get('projectlist', `${userId}?page=${page}&perPage=3`);
             let { totalPage, projects } = res.data;
-            if (projects.length === 0) {
+            if (page > totalPage) {
                 setPage((prev) => prev - 1);
-            } else {
-                // totalPage와 proje
-                setTotalPage(totalPage);
-                setProjects(projects);
             }
-            setShow(false);
+            // if (page > totalPage + 1) {
+            //     setPage((prev) => prev - 1);
+            // }
+            // totalPage와 proje
+            setTotalPage(totalPage);
+            setProjects(projects);
+
         } catch (error) {
             console.error(error);
         }
+        setShow(false);
     }
 
     return (
@@ -90,11 +88,7 @@ function ProjectCard({ project, isEditable, setIsEditing, setProjects, page, set
                     <Button variant="secondary" onClick={handleClose}>
                         취소
                     </Button>
-                    <Button variant="danger" onClick={() => {
-                        handleClose()
-                        handleDelete(project.id)
-                    }
-                    }>
+                    <Button variant="danger" onClick={handleDelete}>
                         삭제
                     </Button>
                 </Modal.Footer>

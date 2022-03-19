@@ -45,28 +45,6 @@ function Projects({ portfolioOwnerId, isEditable }) {
                         setPage={setPage}
                     />
                 ))}
-                <Col className="text-center">
-                    <Button variant="secondary"
-                        type="submit"
-                        className="me-3"
-                        onClick={() => setPage((prev) => (prev - 1))}
-                        disabled={page === 1}
-                    >
-                        {"<"}
-                    </Button>
-                    <Button variant="outline-secondary"
-                        size="sm"
-                        className="me-3"
-                        disabled>
-                        {page}/{totalPage === 0 ? 1 : totalPage}
-                    </Button>
-                    <Button variant="secondary"
-                        onClick={() => setPage((prev) => (prev + 1))}
-                        disabled={page >= totalPage}
-                    >
-                        {">"}
-                    </Button>
-                </Col>
                 {isEditable && (
                     <Row className="mt-3 text-center mb-4">
                         <Col sm={{ span: 20 }}>
@@ -84,6 +62,28 @@ function Projects({ portfolioOwnerId, isEditable }) {
                         setPage={setPage}
                     />
                 )}
+                <Col className="text-center">
+                    <Button variant="outline-secondary"
+                        type="submit"
+                        className="me-3"
+                        onClick={() => setPage((prev) => (prev - 1))}
+                        disabled={page <= 1}
+                    >
+                        {"<"}
+                    </Button>
+                    <Button variant="outline-secondary"
+                        size="sm"
+                        className="me-3"
+                        disabled>
+                        {page}/{totalPage}
+                    </Button>
+                    <Button variant="outline-secondary"
+                        onClick={() => setPage((prev) => (prev + 1))}
+                        disabled={page >= totalPage}
+                    >
+                        {">"}
+                    </Button>
+                </Col>
             </Card.Body>
         </Card >
     );
