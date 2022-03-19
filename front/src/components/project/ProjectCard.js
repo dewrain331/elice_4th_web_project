@@ -20,14 +20,10 @@ function ProjectCard({ project, isEditable, setIsEditing, setProjects, page, set
             // "projectlist/유저id?page={현재 페이지}&?perPage={데이터 수}"로 GET 요청하고,
             // response의 data로 totalPage와 projects를 세팅함.
             const res = await Api.get('projectlist', `${userId}?page=${page}&perPage=3`);
-            let { totalPage, projects } = res.data;
+            const { totalPage, projects } = res.data;
             if (page > totalPage) {
                 setPage((prev) => prev - 1);
             }
-            // if (page > totalPage + 1) {
-            //     setPage((prev) => prev - 1);
-            // }
-            // totalPage와 proje
             setTotalPage(totalPage);
             setProjects(projects);
 

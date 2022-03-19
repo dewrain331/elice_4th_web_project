@@ -43,6 +43,7 @@ function ProjectAddForm({ portfolioOwnerId, setProjects, setIsAdding, page, setT
         try {
             const res = await Api.get("projectlist", `${userId}?page=${page}&perPage=3`);
             const { totalPage, projects } = res.data;
+            console.log(totalPage, "/", page);
             setPage(totalPage);
             setTotalPage(totalPage);
             setProjects(projects);
