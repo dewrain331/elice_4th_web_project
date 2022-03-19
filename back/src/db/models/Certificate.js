@@ -8,7 +8,7 @@ class Certificate {
             title : newCertificate.title
         });
         if (checkAlreadyExist) {
-            return checkAlreadyExist;
+            return false;
         }
         const createdNewCertificate = await CertificateModel.create(newCertificate);
         return createdNewCertificate;
