@@ -195,7 +195,7 @@ userAuthRouter.patch(
       const orgFileName = req.file.originalname; // 원본 파일명
       const saveFileName = req.file.filename; // 저장된 파일명​ 
       // const saveFilePath = req.file.path; // 업로드된 파일의 전체 경로
-      const saveFilePath = `.\\images\\${saveFileName}`
+      const saveFilePath = `\\images\\${saveFileName}`
       console.log({user_id, orgFileName, saveFileName, saveFilePath})
     
       const imageInfo = { "orgFileName": orgFileName, "saveFileName": saveFileName, "saveFilePath": saveFilePath };
