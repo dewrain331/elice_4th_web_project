@@ -16,7 +16,7 @@ const CertificateCard = ({ certificate, isEditable, setIsEditing, setCertificate
         const {id, user_id} = certificate
         await Api.delete(`certificate/${id}`)
         const res = await Api.get("certificatelist", `${user_id}?page=${page}&perPage=3`)
-        const {total, certificates} = res
+        const {total, certificates} = res.data
         if(page > Math.ceil(total / 3)) {
             setPage(page - 1)
         }
