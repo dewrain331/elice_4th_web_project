@@ -11,7 +11,7 @@ function Projects({ portfolioOwnerId, isEditable }) {
     const [isAdding, setIsAdding] = useState(false);
     // useState로 totalPage, page 상태를 생성함.
     const [totalPage, setTotalPage] = useState(1);
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(0);
 
 
     useEffect(() => {
@@ -19,6 +19,10 @@ function Projects({ portfolioOwnerId, isEditable }) {
         // response의 data로 totalPage와 projects를 세팅함.
         const fetchProjects = async () => {
             try {
+                // page가 0일 순 없으므로 page 1을 setting함
+                if (page === 0) {
+                    setPage(1);
+                }
                 const res = await Api.get("projectlist", `${portfolioOwnerId}?page=${page}&perPage=3`)
                 const { totalPage, projects } = res.data;
                 setTotalPage(totalPage);
@@ -45,28 +49,6 @@ function Projects({ portfolioOwnerId, isEditable }) {
                         setPage={setPage}
                     />
                 ))}
-                <Col className="text-center">
-                    <Button variant="secondary"
-                        type="submit"
-                        className="me-3"
-                        onClick={() => setPage((prev) => (prev - 1))}
-                        disabled={page === 1}
-                    >
-                        {"<"}
-                    </Button>
-                    <Button variant="outline-secondary"
-                        size="sm"
-                        className="me-3"
-                        disabled>
-                        {page}/{totalPage === 0 ? 1 : totalPage}
-                    </Button>
-                    <Button variant="secondary"
-                        onClick={() => setPage((prev) => (prev + 1))}
-                        disabled={page >= totalPage}
-                    >
-                        {">"}
-                    </Button>
-                </Col>
                 {isEditable && (
                     <Row className="mt-3 text-center mb-4">
                         <Col sm={{ span: 20 }}>
@@ -84,6 +66,29 @@ function Projects({ portfolioOwnerId, isEditable }) {
                         setPage={setPage}
                     />
                 )}
+                <Col className="text-center">
+                    <Button variant="outline-secondary"
+                        type="submit"
+                        className="me-3"
+                        onClick={() => setPage((prev) => (prev - 1))}
+                        disabled={page <= 1}
+                    >
+                        {"<"}
+                    </Button>
+                    {/* totalPage가 0인 경우 현재 page 표시도 0으로 함 */}
+                    <Button variant="outline-secondary"
+                        size="sm"
+                        className="me-3"
+                        disabled>
+                        {totalPage === 0 ? 0 : page}/{totalPage}
+                    </Button>
+                    <Button variant="outline-secondary"
+                        onClick={() => setPage((prev) => (prev + 1))}
+                        disabled={page >= totalPage}
+                    >
+                        {">"}
+                    </Button>
+                </Col>
             </Card.Body>
         </Card >
     );

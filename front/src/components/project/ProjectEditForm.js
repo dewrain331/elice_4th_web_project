@@ -30,11 +30,6 @@ function ProjectEditForm({ currentProject, setProjects, setIsEditing, page }) {
                 fromDate: fromDate.toJSON(),
                 toDate: toDate.toJSON(),
             });
-        } catch (error) {
-            console.error(error);
-        }
-
-        try {
             // "projectlist/유저id?page={현재 페이지}&?perPage={데이터 수}"로 GET 요청하고,
             // response의 data로 totalPage와 projects를 세팅함.
             const res = await Api.get("projectlist", `${userId}?page=${page}&perPage=3`);

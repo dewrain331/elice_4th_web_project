@@ -28,7 +28,7 @@ function ProjectAddForm({ portfolioOwnerId, setProjects, setIsAdding, page, setT
         // date의 타입을 object에서 string으로 변환하여 전달
         try {
             await Api.post("project/create", {
-                userId: portfolioOwnerId,
+                userId,
                 title,
                 description,
                 fromDate: fromDate.toJSON(),
@@ -43,9 +43,10 @@ function ProjectAddForm({ portfolioOwnerId, setProjects, setIsAdding, page, setT
         try {
             const res = await Api.get("projectlist", `${userId}?page=${page}&perPage=3`);
             const { totalPage, projects } = res.data;
+            console.log(totalPage, "/", page);
+            setPage(totalPage);
             setTotalPage(totalPage);
             setProjects(projects);
-            setPage(totalPage);
         } catch (error) {
             console.error(error);
         }
