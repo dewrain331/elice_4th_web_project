@@ -1,4 +1,5 @@
 import { UserModel } from "../schemas/user";
+import fs from "fs";
 
 class User {
   static async create({ newUser }) {
@@ -38,6 +39,15 @@ class User {
     const filter = { id: user_id };
     const update = { image: imageInfo };
     const option = { returnOriginal: false };
+
+    const user = await UserModel.findOne({ id: user_id });
+    const fileName = user.image.saveFileName;
+    const filePath = "..\\front\\public\\images" + "\\" + fileName
+    const dir = fs.existsSync(filePath)
+    fs.unlink(filePath, (err) => {
+      if(err) throw err;
+      console.log('the file was deleted.')
+    })
 
     const uploadedImage = await UserModel.findOneAndUpdate(
       filter,

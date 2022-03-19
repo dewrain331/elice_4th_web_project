@@ -156,31 +156,12 @@ const storage = multer.diskStorage({
     cb(null, '../front/public/images/')
   },
   filename: function (req, file, cb) {
-    var mimeType;
-
-    switch (file.mimetype) {
-      case "image/jpeg":
-        mimeType = "jpg";
-      break;
-      case "image/png":
-        mimeType = "png";
-      break;
-      case "image/gif":
-        mimeType = "gif";
-      break;
-      case "image/bmp":
-        mimeType = "bmp";
-      break;
-      default:
-        mimeType = "jpg";
-      break;
-    }
-
     cb(null, Date.now() + `_${file.originalname}`)
   }
 })
 
-const upload = multer({ storage: storage })
+//이미지 크기를 3MB로 제한
+const upload = multer({ storage: storage, limits: {fileSize: 3 * 1024 * 1024} }) 
 
 userAuthRouter.patch(
   "/users/:id/image",
@@ -194,9 +175,8 @@ userAuthRouter.patch(
       // req.file 은 `profile` 라는 필드의 파일 정보입니다.
       const orgFileName = req.file.originalname; // 원본 파일명
       const saveFileName = req.file.filename; // 저장된 파일명​ 
-      // const saveFilePath = req.file.path; // 업로드된 파일의 전체 경로
-      const saveFilePath = `\\images\\${saveFileName}`
-      console.log({user_id, orgFileName, saveFileName, saveFilePath})
+      const saveFilePath = `\\images\\${saveFileName}` // 업로드된 파일의 전체 경로
+      // console.log({user_id, orgFileName, saveFileName, saveFilePath})
     
       const imageInfo = { "orgFileName": orgFileName, "saveFileName": saveFileName, "saveFilePath": saveFilePath };
 
