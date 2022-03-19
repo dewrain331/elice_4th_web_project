@@ -11,19 +11,25 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
     // 초기 상태는 생성 중이 아니므로, 초기값은 false
     const [isAdding, setIsAdding] = useState(false)
     // Pagination 관련
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState(0)
     const [allPage, setAllPage] = useState(1)
 
     useEffect(() => {
-        // DB에 저장된 유저의 Certificate들을 Certificates 변수에 넣음.
-        Api.get("certificatelist", `${portfolioOwnerId}?page=${page}&perPage=3`)
-            .then(res => {
+        const fetch = async () => {
+            try {
+                if(page === 0) {
+                    setPage(1)
+                }
+                const res = await Api.get("certificatelist", `${portfolioOwnerId}?page=${page}&perPage=3`)
                 const { total, certificates } = res.data
                 setAllPage(total)
                 setCertificates(certificates)
-            })
-            .catch(err => console.error(err))
-    }, [portfolioOwnerId, page])
+            } catch (err) {
+                console.error(err)
+            }
+        }
+        fetch()
+    }, [portfolioOwnerId, page, allPage])
 
     return (
         <Card>
@@ -73,7 +79,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                             variant="outline-secondary"
                             size="sm"
                         >
-                            {page} / {Math.ceil(allPage / 3)}
+                            {Math.ceil(allPage / 3) === 0 ? 0 : page} / {Math.ceil(allPage / 3)}
                         </Button>
                         <Button
                             variant="outline-secondary"
