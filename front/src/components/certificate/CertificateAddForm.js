@@ -19,21 +19,29 @@ const CertificateAddForm = ({ portfolioOwnerId, setCertificates, setIsAdding, pa
         const user_id = portfolioOwnerId
 
         // post 요청
-        await Api.post("certificate/create", {
-            user_id,
-            title,
-            description,
-            date: date.toJSON()
-        })
+        try {
+            await Api.post("certificate/create", {
+                user_id,
+                title,
+                description,
+                date: date.toJSON()
+            })
+        } catch (err) {
+            console.error(err)
+        }
 
         // post 요청값과 함께 각각의 Certificate들의 모임인 Certificates를 다시 렌더링
-        const res = await Api.get("certificatelist", `${user_id}?page=${page}&perPage=3`)
-        const {total, certificates} = res.data
-        setPage(Math.ceil(total / 3))
-        setAllPage(Math.ceil(total / 3))
-        setCertificates(certificates)
-        // 생성 상태 종료.
-        setIsAdding(false)
+        try {
+            const res = await Api.get("certificatelist", `${user_id}?page=${page}&perPage=3`)
+            const {total, certificates} = res.data
+            setPage(Math.ceil(total / 3))
+            setAllPage(Math.ceil(total / 3))
+            setCertificates(certificates)
+            // 생성 상태 종료.
+            setIsAdding(false)
+        } catch (err) {
+            console.error(err)
+        }
     }
 
     return (
