@@ -6,7 +6,7 @@ import * as Api from "../../api";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-function ProjectAddForm({ portfolioOwnerId, setProjects, setIsAdding, page }) {
+function ProjectAddForm({ portfolioOwnerId, setProjects, setIsAdding, page, setTotalPage, setPage }) {
     // useState로 title 상태를 생성함.
     const [title, setTitle] = useState("");
     // useState로 description 상태를 생성함.
@@ -36,8 +36,11 @@ function ProjectAddForm({ portfolioOwnerId, setProjects, setIsAdding, page }) {
 
         // "projectlist/유저id" 엔드포인트로 get요청함.
         const res = await Api.get("projectlist", `${userId}?page=${page}&perPage=3`);
+        const { totalPage, projects } = res.data;
         // projects를 response의 data로 세팅함.
-        setProjects(res.data.projects);
+        setTotalPage(totalPage);
+        setProjects(projects);
+        setPage(totalPage);
         // project를 추가하는 과정이 끝났으므로, isAdding을 false로 세팅함.
         setIsAdding(false);
     };

@@ -2,7 +2,7 @@ import { Card, Button, Row, Col, Modal } from "react-bootstrap";
 import { useState } from 'react'
 import * as Api from "../../api"
 
-function ProjectCard({ project, isEditable, setIsEditing, setProjects }) {
+function ProjectCard({ project, isEditable, setIsEditing, setProjects, page, setTotalPage, setPage }) {
     const slicingDate = (date) => {
         return date.slice(0, 10);
     }
@@ -13,18 +13,19 @@ function ProjectCard({ project, isEditable, setIsEditing, setProjects }) {
     const handleClose = () => setShow(false)
 
     // 삭제 기능을 하는 함수
-    const handleDelete = async (id) => {
-        const res = await Api.delete(`projects/${id}`)
-        const { status, message } = res
-        if (status === 200) {
-            setProjects((cur) => {
-                const newProjects = [...cur]
-                let filtered = newProjects.filter(project => project.id !== id)
-                return filtered
-            })
+    const handleDelete = async () => {
+        const { id, userId } = project;
+        await Api.delete('projects', id);
+
+        const res = await Api.get('projectlist', `${userId}?page=${page}&perPage=3`)
+        let {totalPage, projects} = res.data
+        if(projects.length === 0) {
+            setPage((prev) => prev - 1);
         } else {
-            console.error(message)
+            setTotalPage(totalPage);
+            setProjects(projects);
         }
+        setShow(false);
     }
 
     return (
