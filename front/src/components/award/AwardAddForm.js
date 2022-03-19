@@ -16,20 +16,28 @@ const AwardAddForm = ({ portfolioOwnerId, setAwards, setIsAdding, page, setAllPa
         const user_id = portfolioOwnerId
 
         // post 요청
-        await Api.post("award/create", {
+        try { 
+            await Api.post("award/create", {
             user_id,
             award,
             description,
         })
+        } catch (err) {
+            console.error(err)
+        }
 
         // post 요청값과 함께 각각의 Award들의 모임인 Awards를 다시 렌더링
-        const res = await Api.get("awardlist", `${user_id}?page=${page}&perPage=3`)
-        const {total, awards} = res.data
-        setPage(Math.ceil(total / 3))
-        setAllPage(Math.ceil(total / 3))
-        setAwards(awards)
-        // 생성 상태 종료.
-        setIsAdding(false)
+        try {
+            const res = await Api.get("awardlist", `${user_id}?page=${page}&perPage=3`)
+            const {total, awards} = res.data
+            setPage(Math.ceil(total / 3))
+            setAllPage(Math.ceil(total / 3))
+            setAwards(awards)
+            // 생성 상태 종료.
+            setIsAdding(false)
+        } catch (err) {
+            console.error(err)
+        }
     }
 
     return (
