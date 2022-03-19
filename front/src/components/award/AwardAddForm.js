@@ -2,14 +2,15 @@ import { useState } from "react"
 import { Button, Form, Col, Row } from "react-bootstrap"
 import * as Api from "../../api"
 import { useRecoilState } from 'recoil'
-import { isAddingState } from './AwardAtom'
+import { isAddingState, pageState } from './AwardAtom'
 
-const AwardAddForm = ({ portfolioOwnerId, setAwards, page, setAllPage, setPage }) => {
+const AwardAddForm = ({ portfolioOwnerId, setAwards, setAllPage }) => {
     // useState로 수상내역의 내용을 담을 title 변수 선언.
     const [award, setAward] = useState("")
     // useState로 상세내용을 담을 description 변수 선언.
     const [description, setDescription] = useState("")
     const [isAdding, setIsAdding] = useRecoilState(isAddingState)
+    const [page, setPage] = useRecoilState(pageState)
 
     const handleSubmit = async (evt) => {
         // Form의 기본기능을 막기 위한 코드 선언.

@@ -4,7 +4,7 @@ import * as Api from "../../api"
 import Award from "./Award"
 import AwardAddForm from "./AwardAddForm"
 import { useRecoilState } from 'recoil'
-import { isAddingState } from './AwardAtom'
+import { isAddingState, pageState } from './AwardAtom'
 
 const Awards = ({ portfolioOwnerId, isEditable }) => {
     // useState로 낱개의 award들을 담을 배열 선언
@@ -13,7 +13,7 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
     // 초기 상태는 생성 중이 아니므로, 초기값은 false
     const [isAdding, setIsAdding] = useRecoilState(isAddingState)
     // Pagination 관련
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useRecoilState(pageState)
     const [allPage, setAllPage] = useState(1)
 
     useEffect(() => {
@@ -36,8 +36,6 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
                         setAwards={setAwards}
                         isEditable={isEditable}
                         setAllPage={setAllPage}
-                        page={page}
-                        setPage={setPage}
                     />
                 ))}
                 {isEditable && (
@@ -51,8 +49,6 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
                     <AwardAddForm 
                         portfolioOwnerId={portfolioOwnerId}
                         setAwards={setAwards}
-                        setPage={setPage}
-                        page={page}
                         setAllPage={setAllPage}
                         allPage={allPage}
                     />
