@@ -42,14 +42,14 @@ commentRouter.get("/comment/:id", login_required, async (req, res, next) => {
             );
         }
 
-        const getReply = {
+        const getComment = {
             id : req.params.id
         }
 
-        console.log('getReply');
-        console.log(getReply);
+        console.log('getComment');
+        console.log(getComment);
         
-        const reply = await commentService.getCommentAndReply({ getReply });
+        const reply = await commentService.getCommentAndReply({ getComment });
     
         if (reply.errorMessage) {
             throw new Error(reply.errorMessage);
@@ -69,14 +69,14 @@ commentRouter.get("/user/comment/:user_id", login_required, async (req, res, nex
             );
         }
 
-        const getReply = {
+        const getComment = {
             user_id : req.params.user_id
         }
 
-        console.log('getReply To User');
-        console.log(getReply);
+        console.log('getComment To User');
+        console.log(getComment);
         
-        const reply = await commentService.getCommentToUser({ getReply });
+        const reply = await commentService.getCommentToUser({ getComment });
     
         if (reply.errorMessage) {
             throw new Error(reply.errorMessage);

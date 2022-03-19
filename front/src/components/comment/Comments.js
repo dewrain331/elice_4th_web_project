@@ -13,6 +13,8 @@ const Comments=({ userId, author })=>{
         .then((res)=>setComments(res.data))
     },[userId])
 
+    console.log(comments);
+
     return(
         <Card>
             <Card.Body>
