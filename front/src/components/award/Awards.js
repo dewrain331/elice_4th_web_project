@@ -21,6 +21,7 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
                 setAllPage(total)
                 setAwards(awards)
             })
+            .catch(err => console.error(err))
     }, [portfolioOwnerId, page])
 
     return (

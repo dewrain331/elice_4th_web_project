@@ -16,16 +16,23 @@ const AwardEditForm = ({ currentAward, setAwards, setIsEditing, page }) => {
         const user_id = currentAward.user_id
 
         // put 요청.
-        await Api.post(`award/${currentAward.id}`, {
+        try { await Api.post(`award/${currentAward.id}`, {
             changeAward: award,
             changeDescription: description,
         })
+        } catch (err) {
+            console.error(err)
+        } 
 
         // put 요청값과 함께 각각의 Award들의 모임인 Awards를 다시 렌더링
-        const res = await Api.get("awardlist", `${user_id}?page=${page}&perPage=3`)
-        setAwards(res.data.awards)
-        // 편집 상태 종료.
-        setIsEditing(false)
+        try {
+            const res = await Api.get("awardlist", `${user_id}?page=${page}&perPage=3`)
+            setAwards(res.data.awards)
+            // 편집 상태 종료.
+            setIsEditing(false)
+        } catch (err) {
+            console.error(err)
+        }
     }
 
     return (
