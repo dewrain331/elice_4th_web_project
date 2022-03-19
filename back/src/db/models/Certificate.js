@@ -3,7 +3,6 @@ import { CertificateModel } from "../schemas/certificate";
 class Certificate {
 
     static async create({ newCertificate }) {
-        console.log("create");
         const checkAlreadyExist = await CertificateModel.findOne({
             user_id : newCertificate.user_id,
             title : newCertificate.title
@@ -16,7 +15,6 @@ class Certificate {
     }
 
     static async delete({ deleteCertificate }) {
-        console.log("delete");
         const deleteCertificateResult = await CertificateModel.deleteOne({ 
             id : deleteCertificate.id,
             user_id : deleteCertificate.user_id 
@@ -26,7 +24,6 @@ class Certificate {
     }
 
     static async findAllToUser({ getCertificates }) {
-        console.log("findAll");
 
         const total = await CertificateModel.countDocuments({ 
             user_id : getCertificates.user_id,
@@ -55,7 +52,6 @@ class Certificate {
     }
 
     static async update({ updateCertificate }) {
-        console.log("update");
         const filter = { 
             id : updateCertificate.id ,
         };

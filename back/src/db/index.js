@@ -1,10 +1,6 @@
 import mongoose from "mongoose";
 import { User } from "./models/User";
-import { Award } from "./models/Award";
 import { Certificate } from "./models/Certificate";
-
-// todo 원본 북구
-import { Awards } from "./models/Awards";
 
 const DB_URL =
   process.env.MONGODB_URL ||
@@ -20,5 +16,4 @@ db.on("error", (error) =>
   console.error("MongoDB 연결에 실패하였습니다...\n" + DB_URL + "\n" + error)
 );
 
-// todo 원본 북구
-export { User, Award, Certificate, Awards };
+export { User, Certificate };

@@ -7,6 +7,13 @@ const certificateRouter = Router();
 
 certificateRouter.post("/certificate/create", login_required, async (req, res, next) => {
     try {
+
+        if (is.emptyObject(req.body)) {
+            throw new Error(
+              "headers의 Content-Type을 application/json으로 설정해주세요"
+            );
+        }
+
         const newCertificate = {
             user_id : req.body.user_id,
             title : req.body.title,
@@ -32,6 +39,12 @@ certificateRouter.post("/certificate/create", login_required, async (req, res, n
 certificateRouter.get("/certificatelist/:user_id", login_required, async (req, res, next) => {
     try {
         
+        if (is.emptyObject(req.query) || is.emptyObject(req.params)) {
+            throw new Error(
+              "pagination을 위한 쿼리 혹은 유저 아이디가 없습니다."
+            );
+        }
+
         const page = Number(req.query.page || 1);
         const perPage = Number(req.query.perPage || 3);
 
@@ -40,7 +53,6 @@ certificateRouter.get("/certificatelist/:user_id", login_required, async (req, r
             page : page,
             perPage : perPage,
         }
-        console.log(getCertificates);
         const certificate = await certificateService.getCertificates({ getCertificates });
 
         if (certificate.errorMessage) {
@@ -57,11 +69,16 @@ certificateRouter.get("/certificatelist/:user_id", login_required, async (req, r
 
 certificateRouter.get("/certificate/:id", login_required, async (req, res, next) => {
     try {
+
+        if (is.emptyObject(req.params)) {
+            throw new Error(
+              "자격증 아이디를 입력해주세요."
+            );
+        }
         
         const getCertificate = {
             id : req.params.id,
         }
-        console.log(getCertificate);
         const certificate = await certificateService.getCertificate({ getCertificate });
 
         if (certificate.errorMessage) {
@@ -78,6 +95,12 @@ certificateRouter.get("/certificate/:id", login_required, async (req, res, next)
 
 certificateRouter.post("/certificate/:id", login_required, async (req, res, next) => {
     try {
+
+        if (is.emptyObject(req.body) || is.emptyObject(req.params)) {
+            throw new Error(
+              "자격증 업데이트에 실패했습니다. 데이터를 확인해주세요."
+            );
+        }
 
         const updateCertificate = {
             id : req.params.id,
@@ -102,12 +125,17 @@ certificateRouter.post("/certificate/:id", login_required, async (req, res, next
 
 certificateRouter.delete("/certificate/:id", login_required, async (req, res, next) => {
     try {
+
+        if (is.emptyObject(req.params)) {
+            throw new Error(
+              "자격증 아이디를 확인해주세요."
+            );
+        }
         
         const deleteCertificate = {
             id : req.params.id,
             user_id : req.currentUserId,
         }
-        console.log(deleteCertificate);
         
         const certificate = await certificateService.deleteCertificate({ deleteCertificate });
 

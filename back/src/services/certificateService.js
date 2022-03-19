@@ -6,7 +6,6 @@ const certificateService = {
         const id = uuidv4();
         newCertificate.id = id;
 
-        console.log(newCertificate);
         const createNewCertificateResult = await Certificate.create({ newCertificate });
         
         if (!createNewCertificateResult) {
@@ -17,7 +16,7 @@ const certificateService = {
         return createNewCertificateResult;
     },
     getCertificates : async ({ getCertificates }) => {
-        console.log(getCertificates);
+        
         const getCertificatesResult = await Certificate.findAllToUser({ getCertificates });
 
         if (!getCertificatesResult) {
@@ -28,7 +27,7 @@ const certificateService = {
         return getCertificatesResult;
     },
     getCertificate : async ({ getCertificate }) => {
-        console.log(getCertificate);
+        
         const getCertificateResult = await Certificate.findOne({ getCertificate });
 
         if (!getCertificateResult) {
@@ -39,7 +38,6 @@ const certificateService = {
         return getCertificateResult;
     },
     deleteCertificate : async({ deleteCertificate }) => {
-        console.log(deleteCertificate);
 
         const deleteCertificateResult = await Certificate.delete({ deleteCertificate });
 
@@ -51,7 +49,6 @@ const certificateService = {
         return deleteCertificateResult;
     },
     updateCertificate : async({ updateCertificate }) => {
-        console.log(updateCertificate);
 
         const updateCertificateResult = await Certificate.update({ updateCertificate });
 
