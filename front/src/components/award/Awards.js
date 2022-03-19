@@ -33,6 +33,9 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
                         _award={v}
                         setAwards={setAwards}
                         isEditable={isEditable}
+                        setAllPage={setAllPage}
+                        page={page}
+                        setPage={setPage}
                     />
                 ))}
                 {isEditable && (
@@ -47,8 +50,10 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
                         portfolioOwnerId={portfolioOwnerId}
                         setAwards={setAwards}
                         setIsAdding={setIsAdding}
+                        setPage={setPage}
                         page={page}
                         setAllPage={setAllPage}
+                        allPage={allPage}
                     />
                 )}
                 <Row className="mt-3 text-center mb-4">

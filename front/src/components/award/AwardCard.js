@@ -2,24 +2,23 @@ import { Card, Button, Row, Col, Modal } from "react-bootstrap"
 import {useState} from 'react'
 import * as Api from "../../api"
 
-const AwardCard = ({ _award, isEditable, setIsEditing, setAwards, page }) => {
+const AwardCard = ({ _award, isEditable, setIsEditing, setAwards, setAllPage, page, setPage }) => {
     // Modal 관련 State
     const [show, setShow] = useState(false)
     const handleShow = () => setShow(true)
     const handleClose = () => setShow(false)
 
-    const handleDelete = async (id) => {
-        const res = await Api.delete(`awards/${id}`)
-        const {status, message} = res
-        if(status === 200) {
-            setAwards((cur) => {
-                const newAwards = [...cur]
-                let filtered = newAwards.filter(v => v.id !== id)
-                return filtered
-            })
-        } else {
-            console.error(message)
+    const handleDelete = async () => {
+        const {id, user_id} = _award
+        await Api.delete(`awards/${id}`)
+        const res = await Api.get("awardlist", `${user_id}?page=${page}&perPage=3`)
+        const {total, awards} = res.data
+        if(page > Math.ceil(total / 3)) {
+            setPage(page - 1)
         }
+        setAllPage(Math.ceil(total / 3))
+        setAwards(awards)
+        setShow(false)
     }
 
     return (
@@ -61,7 +60,7 @@ const AwardCard = ({ _award, isEditable, setIsEditing, setAwards, page }) => {
                 </Button>
                 <Button variant="danger" onClick={() => {
                     handleClose()
-                    handleDelete(_award.id)
+                    handleDelete()
                     }
                 }>
                     삭제
