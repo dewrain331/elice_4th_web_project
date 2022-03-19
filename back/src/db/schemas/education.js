@@ -31,4 +31,3 @@ const educationSchema = new Schema(
 const educationModel = model("Education", educationSchema);
 
 export { educationModel };
-// user_id: mongoose.Schema.Types.ObjectId,

@@ -79,7 +79,7 @@ educationRouter.put("/educations/:id", async function (req, res, next) {
 
 educationRouter.get("/educationlist/:userId", async function (req, res, next) {
     try {
-      // 특정 사용자의 전체 프로젝트 목록을 얻음
+      // 특정 사용자의 전체 학력 목록을 얻음
       const userId = req.params.userId;
       
       const page = Number(req.query.page || 1) // url 쿼리에서 page 받기, 기본값 1
