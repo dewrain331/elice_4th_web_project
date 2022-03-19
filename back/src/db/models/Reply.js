@@ -11,6 +11,17 @@ class Reply {
         return reply;
     }
 
+    static async findToID({ getReply }) {
+        console.log('getReply');
+        console.log(getReply);
+
+        const reply = await ReplyModel.findOne({
+            id : getReply.id
+        });
+
+        return reply;
+    }
+
     static async deleteAll({ deleteReply }) {
         console.log('deleteReply');
         console.log(deleteReply);
@@ -19,53 +30,41 @@ class Reply {
             parent_comment_id: deleteReply.parent_comment_id,
         })
 
-        return reply;
+        if(reply) {
+            return { status : true }
+        }
+
+        return { status : false };
     }
 
-    // static async findCommentsToUserID({ newComment }) {
-    //     const comments = await CommentsModel.findOne({ 
-    //         user_id : newComment.user_id,
-    //     });
+    static async delete({ deleteReply }) {
 
-    //     return comments;
-    // }
+        console.log('deleteOne');
+        console.log(deleteReply);
 
-    // static async findOneAndUpdate({ newComment }, { commentList }) {
-    //     console.log('findOneAndUpdate');
-    //     console.log(commentList);
+        const reply = await ReplyModel.deleteOne({
+            parent_comment_id : deleteReply.parent_comment_id,
+            id : deleteReply.id
+        })
 
-    //     const comments = await CommentsModel.findOneAndUpdate({
-    //         user_id : newComment.user_id,
-    //     }, {
-    //         $set : {comments : commentList}
-    //     })
+        return reply;
 
-    //     return comments;
+    }
 
-    // }
+    static async update({ updateReply }) {
 
-//   static async findById({ user_id }) {
-//     const user = await UserModel.findOne({ id: user_id });
-//     return user;
-//   }
+        const filter = { id: updateReply.id };
+        const update = { text : updateReply.text };
+        const option = { returnOriginal: false };
 
-//   static async findAll() {
-//     const users = await UserModel.find({});
-//     return users;
-//   }
+        const updatedUser = await ReplyModel.findOneAndUpdate(
+            filter,
+            update,
+            option
+        );
+        return updatedUser;
+    }       
 
-//   static async update({ user_id, fieldToUpdate, newValue }) {
-//     const filter = { id: user_id };
-//     const update = { [fieldToUpdate]: newValue };
-//     const option = { returnOriginal: false };
-
-//     const updatedUser = await UserModel.findOneAndUpdate(
-//       filter,
-//       update,
-//       option
-//     );
-//     return updatedUser;
-//   }
 }
 
 export { Reply };

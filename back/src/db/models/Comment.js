@@ -35,49 +35,61 @@ class Comment {
         return findComment;
     }
 
-    static async getCommentAndReply({ getReply }) {
+    static async getCommentAndReply({ getComment }) {
         const comment = await CommentModel.find({
-            id : getReply.id
+            id : getComment.id
         }).populate('replys');
 
         return comment;
     }
 
-    static async getCommentToUser({ getReply }) {
+    static async getCommentToUser({ getComment }) {
         const comment = await CommentModel.find({
-            user_id : getReply.user_id
+            user_id : getComment.user_id
         }).populate('replys');
 
         return comment;
     }
 
-    // static async findByEmail({ email }) {
-    //     const user = await UserModel.findOne({ email });
-    //     return user;
-    // }
+    static async delete({ deleteComment }) {
 
-    // static async findById({ user_id }) {
-    //     const user = await UserModel.findOne({ id: user_id });
-    //     return user;
-    // }
+        const comment = await CommentModel.deleteOne({
+            id : deleteComment.id
+        });
 
-    // static async findAll() {
-    //     const users = await UserModel.find({});
-    //     return users;
-    // }
+        return comment;
+    }
 
-    // static async update({ user_id, fieldToUpdate, newValue }) {
-    //     const filter = { id: user_id };
-    //     const update = { [fieldToUpdate]: newValue };
-    //     const option = { returnOriginal: false };
+    static async update({ updateComment }) {
+        const filter = { id: updateComment.id };
+        const update = { text: updateComment.text };
+        const option = { returnOriginal: false };
 
-    //     const updatedUser = await UserModel.findOneAndUpdate(
-    //         filter,
-    //         update,
-    //         option
-    //     );
-    //     return updatedUser;
-    // }
+        const updatedUser = await CommentModel.findOneAndUpdate(
+            filter,
+            update,
+            option
+        );
+        return updatedUser;
+    }
+
+    static async disConnectReply({ sendReply }) {
+
+        console.log('sendReply');
+        console.log(sendReply);
+        const reply = await CommentModel.findOneAndUpdate({
+            parent_comment_id : sendReply.parent_comment_id
+        }, {
+            $pull : {replys : sendReply.id}
+        }, {returnOriginal: false});
+
+        if (reply) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
 
 export { Comment };

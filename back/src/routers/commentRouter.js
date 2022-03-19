@@ -34,35 +34,6 @@ commentRouter.post("/comment", login_required, async (req, res, next) => {
     }
 })
 
-commentRouter.post("/comment/reply", login_required, async (req, res, next) => {
-    try {
-        if (is.emptyObject(req.body)) {
-            throw new Error(
-                "headers의 Content-Type을 application/json으로 설정해주세요"
-            );
-        }
-
-        const newReply = {
-            parent_comment_id : req.body.parent_comment_id,
-            author_id : req.body.author_id,
-            author_name : req.body.author_name,
-            text : req.body.text,
-        }
-        console.log('Router Reply');
-        console.log(newReply);
-        
-        const reply = await commentService.addReply({ newReply });
-    
-        if (reply.errorMessage) {
-            throw new Error(reply.errorMessage);
-        }
-    
-        res.status(201).json(reply);
-    } catch (error) {
-        next(error);
-    }
-})
-
 commentRouter.get("/comment/:id", login_required, async (req, res, next) => {
     try {
         if (is.emptyObject(req.params)) {
@@ -106,6 +77,147 @@ commentRouter.get("/user/comment/:user_id", login_required, async (req, res, nex
         console.log(getReply);
         
         const reply = await commentService.getCommentToUser({ getReply });
+    
+        if (reply.errorMessage) {
+            throw new Error(reply.errorMessage);
+        }
+    
+        res.status(201).json(reply);
+    } catch (error) {
+        next(error);
+    }
+})
+
+commentRouter.delete("/comment/:id", login_required, async (req, res, next) => {
+    try {
+        if (is.emptyObject(req.params)) {
+            throw new Error(
+                "param에 받고싶은 댓글 아이디를 입력하세요."
+            );
+        }
+
+        const deleteComment = {
+            id : req.params.id
+        }
+
+        console.log('deleteComment');
+        console.log(deleteComment);
+        
+        const reply = await commentService.deleteComment({ deleteComment });
+    
+        if (reply.errorMessage) {
+            throw new Error(reply.errorMessage);
+        }
+    
+        res.status(201).json(reply);
+    } catch (error) {
+        next(error);
+    }
+})
+
+commentRouter.post("/comment/:id", login_required, async (req, res, next) => {
+    try {
+        if (is.emptyObject(req.params) || is.emptyObject(req.body)) {
+            throw new Error(
+                "param 혹은 body를 체워주세요."
+            );
+        }
+
+        const updateComment = {
+            id : req.params.id,
+            text : req.body.text
+        }
+
+        console.log('updateComment');
+        console.log(updateComment);
+        
+        const reply = await commentService.updateComment({ updateComment });
+    
+        if (reply.errorMessage) {
+            throw new Error(reply.errorMessage);
+        }
+    
+        res.status(201).json(reply);
+    } catch (error) {
+        next(error);
+    }
+})
+
+//-------------------------------- reply ---------------------------
+
+commentRouter.post("/reply", login_required, async (req, res, next) => {
+    try {
+        if (is.emptyObject(req.body)) {
+            throw new Error(
+                "headers의 Content-Type을 application/json으로 설정해주세요"
+            );
+        }
+
+        const newReply = {
+            parent_comment_id : req.body.parent_comment_id,
+            author_id : req.body.author_id,
+            author_name : req.body.author_name,
+            text : req.body.text,
+        }
+        console.log('Router Reply');
+        console.log(newReply);
+        
+        const reply = await commentService.addReply({ newReply });
+    
+        if (reply.errorMessage) {
+            throw new Error(reply.errorMessage);
+        }
+    
+        res.status(201).json(reply);
+    } catch (error) {
+        next(error);
+    }
+})
+
+commentRouter.delete("/comment/reply/:parent_comment_id/:id", login_required, async (req, res, next) => {
+    try {
+        if (is.emptyObject(req.params)) {
+            throw new Error(
+                "대댓글의 ID를 입력해주세요. 혹은 부모 comment id를 입력해주세요."
+            );
+        }
+
+        const deleteReply = {
+            id : req.params.id,
+            parent_comment_id : req.params.parent_comment_id
+        }
+
+        console.log('Router delete');
+        console.log(deleteReply);
+        
+        const reply = await commentService.deleteReply({ deleteReply });
+    
+        if (reply.errorMessage) {
+            throw new Error(reply.errorMessage);
+        }
+    
+        res.status(201).json(reply);
+    } catch (error) {
+        next(error);
+    }
+})
+
+commentRouter.post("/comment/reply/:id", login_required, async (req, res, next) => {
+    try {
+        if (is.emptyObject(req.body) || is.emptyObject(req.params)) {
+            throw new Error(
+                "API를 다시 확인해주세요. 입력된 정보가 부족합니다."
+            );
+        }
+
+        const updateReply = {
+            id : req.params.id,
+            text : req.body.text,
+        }
+        console.log('Router update');
+        console.log(updateReply);
+        
+        const reply = await commentService.updateReply({ updateReply });
     
         if (reply.errorMessage) {
             throw new Error(reply.errorMessage);
