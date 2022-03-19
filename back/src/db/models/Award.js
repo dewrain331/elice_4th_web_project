@@ -3,7 +3,6 @@ import { AwardModel } from "../schemas/award";
 class Award {
 
     static async create({ newAward }) {
-        console.log(newAward);
         const checkAlreadyExist = await AwardModel.findOne({
             award : newAward.award
         });
@@ -15,8 +14,6 @@ class Award {
     }
 
     static async delete({ deleteAward }) {
-        console.log("delete");
-        console.log(deleteAward);
 
         const deleteAwardResult = await AwardModel.deleteOne({ 
             id : deleteAward.id,
@@ -27,8 +24,6 @@ class Award {
     }
 
     static async findAllToUser({ getAwards }) {
-        console.log("findAll");
-        console.log(getAwards);
 
         const total = await AwardModel.countDocuments({ 
             user_id : getAwards.user_id,
@@ -57,7 +52,7 @@ class Award {
     }
 
     static async update({ updateAward }) {
-        console.log(updateAward);
+
         const filter = { 
             id : updateAward.id ,
         };
