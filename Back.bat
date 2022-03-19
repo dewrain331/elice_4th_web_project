@@ -1,2 +1,0 @@
-cd back
-yarn start

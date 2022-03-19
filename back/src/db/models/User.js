@@ -1,7 +1,6 @@
 import { UserModel } from "../schemas/user";
 
 class User {
-
   static async create({ newUser }) {
     const createdNewUser = await UserModel.create(newUser);
     return createdNewUser;
