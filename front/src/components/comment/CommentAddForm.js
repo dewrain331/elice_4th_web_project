@@ -8,16 +8,16 @@ const CommentAddForm=({ user_id, author, setComments })=>{
     const handleSubmit= async (e)=>{
         e.preventDefault()
         //post
-        await Api.post('comment',{
+        const res=await Api.post('comment',{
             user_id,
             author_id : id,
             author_name : name,
             text : comment
         })
         
-        //get
-        const res=await Api.get('user/comment',user_id)
-        setComments(res.data)
+     
+        setComments((comments)=>[...comments,res.data])
+        setComment("")
     }
 
     return(
