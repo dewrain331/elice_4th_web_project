@@ -40,7 +40,6 @@ certificateRouter.get("/certificatelist/:user_id", login_required, async (req, r
             page : page,
             perPage : perPage,
         }
-        console.log(getCertificates);
         const certificate = await certificateService.getCertificates({ getCertificates });
 
         if (certificate.errorMessage) {
@@ -61,7 +60,6 @@ certificateRouter.get("/certificate/:id", login_required, async (req, res, next)
         const getCertificate = {
             id : req.params.id,
         }
-        console.log(getCertificate);
         const certificate = await certificateService.getCertificate({ getCertificate });
 
         if (certificate.errorMessage) {
@@ -107,7 +105,6 @@ certificateRouter.delete("/certificate/:id", login_required, async (req, res, ne
             id : req.params.id,
             user_id : req.currentUserId,
         }
-        console.log(deleteCertificate);
         
         const certificate = await certificateService.deleteCertificate({ deleteCertificate });
 
