@@ -5,6 +5,7 @@ import CommentEditForm from './CommentEditForm'
 
 const Comment=({ comment, setComments, isEditable })=>{
     const [isEditing, setIsEditing]=useState(false)
+    
     return(
         <>
             {isEditing ? (
@@ -16,6 +17,7 @@ const Comment=({ comment, setComments, isEditable })=>{
             ):(
                 <CommentCard
                     comment={comment}
+                    setComments={setComments}
                     isEditable={isEditable}
                     setIsEditing={setIsEditing}
                 />
