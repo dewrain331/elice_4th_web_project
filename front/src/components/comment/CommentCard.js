@@ -1,6 +1,6 @@
 import { Card, Col, Row, ButtonGroup, Button } from 'react-bootstrap'
 
-const CommentCard=({comment,isEditable,setIsEditing})=>{
+const CommentCard=({ comment, isEditable, setIsEditing })=>{
     const { author_name, text, createdAt }=comment    
     return(
         <Card.Body className="mt-2 text-justify float-left">
