@@ -7,7 +7,6 @@ const awardService = {
         const id = uuidv4();
         newAward.id = id;
 
-        console.log(newAward);
         const createNewAwardResult = await Award.create({ newAward });
         
         if (!createNewAwardResult) {
@@ -19,7 +18,7 @@ const awardService = {
     },
 
     getAwards : async ({ getAwards }) => {
-        console.log(getAwards);
+
         const getAwardsResult = await Award.findAllToUser({ getAwards });
 
         if (!getAwardsResult) {
@@ -30,7 +29,7 @@ const awardService = {
         return getAwardsResult;
     },
     getAward : async ({ getAward }) => {
-        console.log(getAward);
+
         const getAwardResult = await Award.findOne({ getAward });
 
         if (!getAwardResult) {
@@ -41,7 +40,6 @@ const awardService = {
         return getAwardResult;
     },
     deleteAward : async({ deleteAward }) => {
-        console.log(deleteAward);
 
         const deleteAwardResult = await Award.delete({ deleteAward });
 
@@ -53,7 +51,6 @@ const awardService = {
         return deleteAwardResult;
     },
     updateAward : async({ updateAward }) => {
-        console.log(updateAward);
 
         const updateAwardResult = await Award.update({ updateAward });
 
