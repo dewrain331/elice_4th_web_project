@@ -1,8 +1,12 @@
 import { Card, Button, Row, Col, Modal } from "react-bootstrap"
 import {useState} from 'react'
 import * as Api from "../../api"
+import { useRecoilState } from 'recoil'
+import { pageState, allPageState } from './AwardAtom'
 
-const AwardCard = ({ _award, isEditable, setIsEditing, setAwards, setAllPage, page, setPage }) => {
+const AwardCard = ({ _award, isEditable, setIsEditing, setAwards }) => {
+    const [page, setPage] = useRecoilState(pageState)
+    const [allPage, setAllPage] = useRecoilState(allPageState)
     // Modal 관련 State
     const [show, setShow] = useState(false)
     const handleShow = () => setShow(true)

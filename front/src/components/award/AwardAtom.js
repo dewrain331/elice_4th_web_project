@@ -14,3 +14,8 @@ export const pageState = atom({
     key: 'pageState',
     default: 1
 })
+
+export const allPageState = atom({
+    key: 'allPageState',
+    default: 1
+})
