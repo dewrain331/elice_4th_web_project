@@ -1,13 +1,13 @@
-import {useState} from 'react'
+import { useState } from 'react'
 import EducationCard from './EducationCard'
 import EducationEditForm from './EducationEditForm'
 
-const Education=({ education, setEducations, isEditable, page, setPage, setAllPage})=>{
-    const [isEditing, setIsEditing]=useState(false)
+const Education=({ education, setEducations, isEditable, page, setPage, setAllPage })=>{
+    const [ isEditing, setIsEditing ]=useState(false)
     
     return(
         <>
-          {isEditing ? (
+          { isEditing ? (
               <EducationEditForm
                 education={education}
                 setEducations={setEducations}
@@ -24,7 +24,7 @@ const Education=({ education, setEducations, isEditable, page, setPage, setAllPa
                 setPage={setPage}
                 setAllPage={setAllPage}
               />
-          )}  
+          ) }  
         </>
     )
 }

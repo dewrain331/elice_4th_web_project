@@ -1,10 +1,10 @@
 import { Card, Button, Row, Col, Modal } from "react-bootstrap"
-import {useState,useEffect} from "react"
+import { useState, useEffect } from "react"
 import * as Api from "../../api"
 
 const EducationCard=({ education, setEducations, setIsEditing, isEditable, page, setPage, setAllPage })=>{
     
-    const [show,setShow]=useState(false)
+    const [ show, setShow ]=useState(false)
     
     const handleDelete = async () => {
         const { id, userId } = education

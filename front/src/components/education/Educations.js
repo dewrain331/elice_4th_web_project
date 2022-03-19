@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from 'react'
+import React,{ useEffect, useState } from 'react'
 import { Card, Button, Row, Col} from 'react-bootstrap'
 import * as Api from '../../api'
 import EducationAddForm from './EducationAddForm'
@@ -6,10 +6,10 @@ import Education from './Education'
 
 const Educations = ({ portfolioOwnerId, isEditable }) => {
 
-    const [allPage,setAllPage]=useState(0)
-    const [page,setPage]=useState(1)
-    const [educations, setEducations]=useState([])
-    const [isAdding, setIsAdding]=useState(false)
+    const [ allPage, setAllPage ]=useState(0)
+    const [ page, setPage ]=useState(1)
+    const [ educations, setEducations ]=useState([])
+    const [ isAdding, setIsAdding ]=useState(false)
 
     useEffect(()=>{
         Api
@@ -19,13 +19,13 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
             setAllPage(totalPage)
             setEducations(educations)
         })
-    },[portfolioOwnerId,page,allPage])
+    },[ portfolioOwnerId, page, allPage ])
     
     return(
         <Card>
             <Card.Body>
                 <Card.Title>학력</Card.Title>
-                {educations.map((edu)=>(
+                { educations.map((edu)=>(
                     <Education 
                         key={edu.id}
                         education={edu}
@@ -34,14 +34,14 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
                         page={page}
                         setPage={setPage}
                         setAllPage={setAllPage}
-                        />))}
-                {isEditable && (
+                        />)) }
+                { isEditable && (
                     <Row className="mt-3 text-center mb-4">
                          <Col>
                              <Button onClick={()=>setIsAdding(true)}>+</Button>
                          </Col>
                     </Row>
-                )}
+                ) }
                 {isAdding && 
                 <EducationAddForm 
                     userId={portfolioOwnerId} 

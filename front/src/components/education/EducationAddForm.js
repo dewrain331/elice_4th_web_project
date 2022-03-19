@@ -1,6 +1,8 @@
-import React,{useState} from 'react'
+import React,{ useState } from 'react'
 import { Button, Form, Col, Row } from "react-bootstrap";
 import * as Api from '../../api'
+
+const VALUES=["재학중","학사졸업","석사졸업","박사졸업"]
 
 const EducationAddForm=({ userId, setEducations, setIsAdding, page, setPage, setAllPage })=>{
     //학력 정보를 post할 때 필요한 school, major, position을 state로 지정
@@ -18,7 +20,7 @@ const EducationAddForm=({ userId, setEducations, setIsAdding, page, setPage, set
             position
         })
         const res=await Api.get('educationlist', `${userId}?page=${page}&perPage=3`)
-        const {totalPage, educations}=res.data
+        const { totalPage, educations }=res.data
         setPage(totalPage)
         setAllPage(totalPage)
         setEducations(educations)
@@ -26,12 +28,12 @@ const EducationAddForm=({ userId, setEducations, setIsAdding, page, setPage, set
     }
 
    return(
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={ handleSubmit }>
     <Form.Group controlId="formBasicTitle">
         <Form.Control
             type="text"
             placeholder="학교 이름"
-            value={school}
+            value={ school }
             onChange={(e) => setSchool(e.target.value)}
         />
     </Form.Group>
@@ -39,44 +41,24 @@ const EducationAddForm=({ userId, setEducations, setIsAdding, page, setPage, set
         <Form.Control
             type="text"
             placeholder="전공"
-            value={major}
+            value={ major }
             onChange={(e) => setMajor(e.target.value)}
         />
     </Form.Group>
 
     <div key='inline-radio' className="mb-3" onChange={(e)=>setPosition(e.target.value)}>
-        <Form.Check
-            inline
-            label="재학중"
-            value="재학중"
-            name="position"
-            type="radio"
-            id="inline-radio-1"
-        />
-        <Form.Check
-            inline
-            label="학사졸업"
-            value="학사졸업"
-            name="position"
-            type="radio"
-            id="inline-radio-2"
-        />
-        <Form.Check
-            inline
-            label="석사졸업"
-            value="석사졸업"
-            name="position"
-            type="radio"
-            id="inline-radio-3"
-        />
-        <Form.Check
-            inline
-            label="박사졸업"
-            value="박사졸업"
-            name="position"
-            type="radio"
-            id="inline-radio-4"
-        />
+        {
+            VALUES.map(( value, idx )=>(
+                <Form.Check
+                    inline
+                    label={ value }
+                    value={ value }
+                    name="position"
+                    type="radio"
+                    id={ `inline-radio-${idx}` }
+                />
+            ))
+        }
     </div>
 
     <Form.Group as={Row} className="mt-3 text-center mb-4">
