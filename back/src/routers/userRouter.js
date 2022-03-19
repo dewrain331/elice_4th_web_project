@@ -97,7 +97,6 @@ userAuthRouter.put(
   login_required,
   async function (req, res, next) {
     try {
-      console.log("success");
       // URI로부터 사용자 id를 추출함.
       const user_id = req.params.id;
       // body data 로부터 업데이트할 사용자 정보를 추출함.
@@ -152,7 +151,36 @@ userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
 
 
 // image
-const upload = multer({ dest: 'src/db/images/' })
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, '../front/public/images/')
+  },
+  filename: function (req, file, cb) {
+    var mimeType;
+
+    switch (file.mimetype) {
+      case "image/jpeg":
+        mimeType = "jpg";
+      break;
+      case "image/png":
+        mimeType = "png";
+      break;
+      case "image/gif":
+        mimeType = "gif";
+      break;
+      case "image/bmp":
+        mimeType = "bmp";
+      break;
+      default:
+        mimeType = "jpg";
+      break;
+    }
+
+    cb(null, Date.now() + `_${file.originalname}`)
+  }
+})
+
+const upload = multer({ storage: storage })
 
 userAuthRouter.patch(
   "/users/:id/image",
@@ -166,11 +194,12 @@ userAuthRouter.patch(
       // req.file 은 `profile` 라는 필드의 파일 정보입니다.
       const orgFileName = req.file.originalname; // 원본 파일명
       const saveFileName = req.file.filename; // 저장된 파일명​ 
-      const saveFilePath = req.file.path; // 업로드된 파일의 전체 경로
+      // const saveFilePath = req.file.path; // 업로드된 파일의 전체 경로
+      const saveFilePath = `.\\images\\${saveFileName}`
       console.log({user_id, orgFileName, saveFileName, saveFilePath})
     
       const imageInfo = { "orgFileName": orgFileName, "saveFileName": saveFileName, "saveFilePath": saveFilePath };
-      console.log(imageInfo)
+
       // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
       const updatedImage = await userAuthService.uploadImage({ user_id, imageInfo });
 
