@@ -12,14 +12,21 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
     const [ isAdding, setIsAdding ]=useState(false)
 
     useEffect(()=>{
-        Api
-        .get('educationlist', `${portfolioOwnerId}?page=${page}&perPage=3`)
-        .then((res)=>{
-            const {totalPage, educations}=res.data
-            setAllPage(totalPage)
-            setEducations(educations)
-        })
-        .catch(err=>console.log(err.message))
+        const fetchProjects = async () => {
+            try {
+                // page가 0일 순 없으므로 page 1을 setting함
+                if (page === 0) {
+                    setPage(1)
+                }
+                const res = await Api.get("educationlist", `${portfolioOwnerId}?page=${page}&perPage=3`)
+                const { totalPage, educations } = res.data
+                setAllPage(totalPage)
+                setEducations(educations)
+            } catch (error) {
+                console.error(error.message)
+            }
+        }
+        fetchProjects()
     },[ portfolioOwnerId, page, allPage ])
     
     return(
@@ -59,14 +66,14 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
                                 size="sm" 
                                 className="me-3"
                                 onClick={()=>setPage((prev)=>prev-1)}
-                                disabled={page===1}
+                                disabled={page<=1}
                                 id="prevBtn">
                                 {"<"}
                             </Button>
                             <Button 
                                 variant="outline-secondary" 
                                 size="sm" disabled>
-                                {page}/{allPage}
+                                {allPage===0?0:page}/{allPage}
                             </Button>
                             <Button 
                                 variant="outline-secondary" 
