@@ -22,6 +22,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                 setAllPage(total)
                 setCertificates(certificates)
             })
+            .catch(err => console.error(err))
     }, [portfolioOwnerId, page])
 
     return (

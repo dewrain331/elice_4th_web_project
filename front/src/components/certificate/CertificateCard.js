@@ -13,16 +13,20 @@ const CertificateCard = ({ certificate, isEditable, setIsEditing, setCertificate
     const handleClose = () => setShow(false)
 
     const handleDelete = async () => {
-        const {id, user_id} = certificate
-        await Api.delete(`certificate/${id}`)
-        const res = await Api.get("certificatelist", `${user_id}?page=${page}&perPage=3`)
-        const {total, certificates} = res.data
-        if(page > Math.ceil(total / 3)) {
-            setPage(page - 1)
+        try {
+            const {id, user_id} = certificate
+            await Api.delete(`certificate/${id}`)
+            const res = await Api.get("certificatelist", `${user_id}?page=${page}&perPage=3`)
+            const {total, certificates} = res.data
+            if(page > Math.ceil(total / 3)) {
+                setPage(page - 1)
+            }
+            setAllPage(Math.ceil(total / 3))
+            setCertificates(certificates)
+            setShow(false)
+        } catch (err) {
+            console.error(err)
         }
-        setAllPage(Math.ceil(total / 3))
-        setCertificates(certificates)
-        setShow(false)
     }
 
     return (
