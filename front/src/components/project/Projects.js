@@ -15,13 +15,19 @@ function Projects({ portfolioOwnerId, isEditable }) {
 
 
     useEffect(() => {
-        // "projectlist/유저id?page={현재 페이지}&?perPage={한 페이지에 담길 데이터 수}"로 GET 요청하고, response의 data로 projects를 세팅함.
-        Api.get("projectlist", `${portfolioOwnerId}?page=${page}&perPage=3`)
-            .then((res) => {
+        // "projectlist/유저id?page={현재 페이지}&?perPage={데이터 수}"로 GET 요청하고,
+        // response의 data로 totalPage와 projects를 세팅함.
+        const fetchProjects = async () => {
+            try {
+                const res = await Api.get("projectlist", `${portfolioOwnerId}?page=${page}&perPage=3`)
                 const { totalPage, projects } = res.data;
                 setTotalPage(totalPage);
                 setProjects(projects);
-            });
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        fetchProjects();
     }, [portfolioOwnerId, page, totalPage]);
 
     return (
@@ -49,10 +55,10 @@ function Projects({ portfolioOwnerId, isEditable }) {
                         {"<"}
                     </Button>
                     <Button variant="outline-secondary"
-                            size="sm"
-                            className="me-3"
-                            disabled>
-                            {page}/{totalPage}
+                        size="sm"
+                        className="me-3"
+                        disabled>
+                        {page}/{totalPage}
                     </Button>
                     <Button variant="secondary"
                         onClick={() => setPage((prev) => (prev + 1))}

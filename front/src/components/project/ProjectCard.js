@@ -15,17 +15,26 @@ function ProjectCard({ project, isEditable, setIsEditing, setProjects, page, set
     // 삭제 기능을 하는 함수
     const handleDelete = async () => {
         const { id, userId } = project;
-        await Api.delete('projects', id);
-
-        const res = await Api.get('projectlist', `${userId}?page=${page}&perPage=3`)
-        let {totalPage, projects} = res.data
-        if(projects.length === 0) {
-            setPage((prev) => prev - 1);
-        } else {
-            setTotalPage(totalPage);
-            setProjects(projects);
+        try {
+            await Api.delete('projects', id);
+        } catch (error) {
+            console.error(error);
         }
-        setShow(false);
+
+        try {
+            const res = await Api.get('projectlist', `${userId}?page=${page}&perPage=3`)
+            let { totalPage, projects } = res.data
+            // 현재 페이지에 더 이상 프로젝트가 없다면 데이터가 있는 이전 페이지로 넘어감
+            if (projects.length === 0) {
+                setPage((prev) => prev - 1);
+            } else {
+                setTotalPage(totalPage);
+                setProjects(projects);
+            }
+            setShow(false);
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (

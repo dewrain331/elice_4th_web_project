@@ -23,17 +23,25 @@ function ProjectEditForm({ currentProject, setProjects, setIsEditing, page }) {
         const { id, userId } = currentProject;
 
         // "projects/프로젝트id" 엔드포인트로 PUT 요청함.
-        await Api.put(`projects/${id}`, {
-            title,
-            description,
-            fromDate: fromDate.toJSON(),
-            toDate: toDate.toJSON(),
-        });
+        try {
+            await Api.put(`projects/${id}`, {
+                title,
+                description,
+                fromDate: fromDate.toJSON(),
+                toDate: toDate.toJSON(),
+            });
+        } catch (error) {
+            console.error(error);
+        }
 
-        // "projectlist/유저id" 엔드포인트로 GET 요청함.
-        const res = await Api.get("projectlist", `${userId}?page=${page}&perPage=3`);
-        // projects를 response의 data로 세팅함.
-        setProjects(res.data.projects);
+        try {
+            // "projectlist/유저id" 엔드포인트로 GET 요청함.
+            const res = await Api.get("projectlist", `${userId}?page=${page}&perPage=3`);
+            // projects를 response의 data로 세팅함.
+            setProjects(res.data.projects);
+        } catch (error) {
+            console.error(error);
+        }
         // 편집 과정이 끝났으므로, isEditing을 false로 세팅함.
         setIsEditing(false);
     };

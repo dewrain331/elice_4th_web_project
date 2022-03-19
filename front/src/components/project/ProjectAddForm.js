@@ -25,22 +25,31 @@ function ProjectAddForm({ portfolioOwnerId, setProjects, setIsAdding, page, setT
         const userId = portfolioOwnerId;
 
         // "project/create" 엔드포인트로 post요청함.
-        // date의 타입이 object이므로 string에서 object로 api 형식 변환
-        await Api.post("project/create", {
-            userId: portfolioOwnerId,
-            title,
-            description,
-            fromDate: fromDate.toJSON(),
-            toDate: toDate.toJSON(),
-        });
+        // date의 타입을 object에서 string으로 변환하여 전달
+        try {
+            await Api.post("project/create", {
+                userId: portfolioOwnerId,
+                title,
+                description,
+                fromDate: fromDate.toJSON(),
+                toDate: toDate.toJSON(),
+            });
+        } catch (error) {
+            console.error(error);
+        }
 
-        // "projectlist/유저id" 엔드포인트로 get요청함.
-        const res = await Api.get("projectlist", `${userId}?page=${page}&perPage=3`);
-        const { totalPage, projects } = res.data;
-        // projects를 response의 data로 세팅함.
-        setTotalPage(totalPage);
-        setProjects(projects);
-        setPage(totalPage);
+        // "projectlist/유저id?page={현재 페이지}&?perPage={데이터 수}"로 GET 요청하고,
+        // response의 data로 totalPage와 projects를 세팅함.
+        try {
+            const res = await Api.get("projectlist", `${userId}?page=${page}&perPage=3`);
+            const { totalPage, projects } = res.data;
+            setTotalPage(totalPage);
+            setProjects(projects);
+            setPage(totalPage);
+        } catch (error) {
+            console.error(error);
+        }
+
         // project를 추가하는 과정이 끝났으므로, isAdding을 false로 세팅함.
         setIsAdding(false);
     };
