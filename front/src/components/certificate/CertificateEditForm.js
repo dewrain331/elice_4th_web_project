@@ -19,17 +19,25 @@ const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing
         const user_id = currentCertificate.user_id
 
         // put 요청.
-        await Api.post(`certificate/${currentCertificate.id}`, {
-            title,
-            description,
-            date: date.toJSON()
-        })
+        try {
+            await Api.post(`certificate/${currentCertificate.id}`, {
+                title,
+                description,
+                date: date.toJSON()
+            })
+        } catch (err) {
+            console.error(err)
+        }
 
         // put 요청값과 함께 각각의 Certificate들의 모임인 Certificates를 다시 렌더링
-        const res = await Api.get("certificatelist", `${user_id}?page=${page}&perPage=3`)
-        setCertificates(res.data.certificates)
-        // 편집 상태 종료.
-        setIsEditing(false)
+        try {
+            const res = await Api.get("certificatelist", `${user_id}?page=${page}&perPage=3`)
+            setCertificates(res.data.certificates)
+            // 편집 상태 종료.
+            setIsEditing(false)
+        } catch (err) {
+            console.error(err)
+        }
     }
 
     return (
