@@ -12,13 +12,17 @@ const EducationEditForm=({ education, setEducations, setIsEditing, page })=>{
 
     const handleSubmit= async (e)=>{
         e.preventDefault()
-        await Api.put('educations/'+id, {
-            school,
-            major,
-            position
-        })
-        const res=await Api.get('educationlist', `${userId}?page=${page}&perPage=3`)
-        setEducations(res.data.educations)
+        try{
+            await Api.put('educations/'+id, {
+                school,
+                major,
+                position
+            })
+            const res=await Api.get('educationlist', `${userId}?page=${page}&perPage=3`)
+            setEducations(res.data.educations)
+        }catch(err){
+            console.log(err.message)
+        }
         setIsEditing(false)
     }
     return(
@@ -49,7 +53,7 @@ const EducationEditForm=({ education, setEducations, setIsEditing, page })=>{
                                 value={ value }
                                 name="position"
                                 type="radio"
-                                id={ `inline-radio-${idx}` }
+                                key={ `inline-radio-${idx}` }
                                 defaultChecked={ position===value }
                             />
                         ))

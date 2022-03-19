@@ -3,20 +3,23 @@ import { useState, useEffect } from "react"
 import * as Api from "../../api"
 
 const EducationCard=({ education, setEducations, setIsEditing, isEditable, page, setPage, setAllPage })=>{
-    
+    const { id, userId } = education
     const [ show, setShow ]=useState(false)
     
     const handleDelete = async () => {
-        const { id, userId } = education
-        await Api.delete('educations',id)
+        try{
+            await Api.delete('educations',id)
         
-        const res=await Api.get('educationlist', `${userId}?page=${page}&perPage=3`)
-        const { totalPage, educations }=res.data
-        if(page>totalPage){
-            setPage(page-1)
+            const res=await Api.get('educationlist', `${userId}?page=${page}&perPage=3`)
+            const { totalPage, educations }=res.data
+            if(page>totalPage){
+                setPage(page-1)
+            }
+            setAllPage(totalPage)
+            setEducations(educations)
+        }catch(err){
+            console.log(err.message)
         }
-        setAllPage(totalPage)
-        setEducations(educations)
 
         setShow(false)   
     }

@@ -13,17 +13,25 @@ const EducationAddForm=({ userId, setEducations, setIsAdding, page, setPage, set
     //확인 버튼을 눌렀을 때 post요청 보낼 함수
     const handleSubmit= async (e)=>{
         e.preventDefault()
-        await Api.post('education/create',{ 
-            userId,
-            school,
-            major,
-            position
-        })
-        const res=await Api.get('educationlist', `${userId}?page=${page}&perPage=3`)
-        const { totalPage, educations }=res.data
-        setPage(totalPage)
-        setAllPage(totalPage)
-        setEducations(educations)
+        try{
+            await Api.post('education/create',{ 
+                userId,
+                school,
+                major,
+                position
+            })
+
+            const res=await Api.get('educationlist', `${userId}?page=${page}&perPage=3`)
+            
+            const { totalPage, educations }=res.data
+            
+            setPage(totalPage)
+            setAllPage(totalPage)
+            setEducations(educations)
+        
+        }catch(err){
+            console.log(err.message)
+        }
         setIsAdding(false)
     }
 
@@ -55,7 +63,7 @@ const EducationAddForm=({ userId, setEducations, setIsAdding, page, setPage, set
                     value={ value }
                     name="position"
                     type="radio"
-                    id={ `inline-radio-${idx}` }
+                    key={ `inline-radio-${idx}` }
                 />
             ))
         }

@@ -19,6 +19,7 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
             setAllPage(totalPage)
             setEducations(educations)
         })
+        .catch(err=>console.log(err.message))
     },[ portfolioOwnerId, page, allPage ])
     
     return(
