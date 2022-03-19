@@ -5,8 +5,9 @@ import { Card, Row, Button, Col } from "react-bootstrap";
 // 1. ".\\images\\default_img.jpg" 와 같은 형식으로 프론트에서 문자열 슬라이스를 변경하기
 // 2. 백엔드에서 문자열 슬라이스한 값을 프론트 기준으로 보내주기
 
-function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
+function UserCard({ user, setIsEditing, isEditable, isNetwork, path }) {
   const navigate = useNavigate();
+  console.log(`path: ${path}`)
   return (
     <Card className="mb-2 ms-3 mr-5" style={{ width: "18rem" }}>
       <Card.Body>
@@ -14,7 +15,7 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
           <Card.Img
             style={{ width: "10rem", height: "8rem" }}
             className="mb-3"
-            src={user?.image?.saveFilePath}
+            src={(isNetwork ? user?.image?.saveFilePath : path)}
             alt="프로필 이미지"
           />
         </Row>
