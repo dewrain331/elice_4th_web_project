@@ -2,14 +2,20 @@ import { useState } from "react"
 import { Button, Form, Col, Row } from "react-bootstrap"
 import * as Api from "../../api"
 import DatePicker from 'react-datepicker'
+import { useRecoilState } from 'recoil'
+import { isAddingState, pageState, allPageState } from './CertAtom'
 
-const CertificateAddForm = ({ portfolioOwnerId, setCertificates, setIsAdding, page, setAllPage, setPage }) => {
+const CertificateAddForm = ({ portfolioOwnerId, setCertificates }) => {
     // useState로 자격증 이름을 담을 title 변수 선언.
     const [title, setTitle] = useState("")
     // useState로 상세내용을 담을 description 변수 선언.
     const [description, setDescription] = useState("")
     // useState로 취득일자를 담을 date 변수 선언
     const [date, setDate] = useState(new Date())
+
+    const [isAdding, setIsAdding] = useRecoilState(isAddingState)
+    const [page, setPage] = useRecoilState(pageState)
+    const [allPage, setAllPage] = useRecoilState(allPageState)
 
     const handleSubmit = async (evt) => {
         // Form의 기본기능을 막기 위한 코드 선언.

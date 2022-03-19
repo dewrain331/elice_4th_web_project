@@ -1,12 +1,17 @@
 import { Card, Button, Row, Col, Modal } from "react-bootstrap"
 import {useState} from 'react'
 import * as Api from "../../api"
+import { useRecoilState } from 'recoil'
+import { pageState, allPageState } from './CertAtom'
 
-const CertificateCard = ({ certificate, isEditable, setIsEditing, setCertificates, setAllPage, page, setPage }) => {
+const CertificateCard = ({ certificate, isEditable, setIsEditing, setCertificates }) => {
     // Modal 관련 State
     const slicingDate = (date) => {
         return date.slice(0, 10)
     }
+
+    const [page, setPage] = useRecoilState(pageState)
+    const [allPage, setAllPage] = useRecoilState(allPageState)
 
     const [show, setShow] = useState(false)
     const handleShow = () => setShow(true)

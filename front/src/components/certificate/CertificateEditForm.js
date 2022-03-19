@@ -2,8 +2,11 @@ import { useState } from "react"
 import { Button, Form, Col, Row } from "react-bootstrap"
 import * as Api from "../../api"
 import DatePicker from 'react-datepicker'
+import { useRecoilState } from 'recoil'
+import { pageState } from './CertAtom'
 
-const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing, page }) => {
+const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing }) => {
+    const [page, setPage] = useRecoilState(pageState)
     // 편집 버튼을 누른 항목의 자격증 제목을 담을 title 변수 선언.
     const [title, setTitle] = useState(currentCertificate.title)
     // 편집 버튼을 누른 항목의 상세내용을 담을 description 변수 선언.
