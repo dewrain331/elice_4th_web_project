@@ -9,17 +9,26 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   const [email, setEmail] = useState(user.email);
   //useState로 description 상태를 생성함.
   const [description, setDescription] = useState(user.description);
-  const [image, setImage] = useState({
+  //선택된 이미지의 상태
+  const [pickedImage, setPickedImage] = useState({
     preview: "",
     data: ""
   })
 
+  const [image, setImage] = useState(user.image)
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData()
-    formData.append('profile', image.data)
-    await Api.post(`users/${user.id}/image`, formData).then(res => console.log(res)).catch(err => console.log(err))
+    // 선택된 이미지 여부 판단, 없을시 편집 이전 이미지
+    if (pickedImage.data !== "") {
+      const formData = new FormData();
+      formData.append('profile', pickedImage.data);
+      const response = await Api.patch(`users/${user.id}/image`, formData);
+      setImage(response.data.image); // 이미지 정보
+    } else {
+      setImage(image);
+    }
 
     // "users/유저id" 엔드포인트로 PUT 요청함.
     const res = await Api.put(`users/${user.id}`, {
@@ -29,30 +38,32 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     });
     // 유저 정보는 response의 data임.
     const updatedUser = res.data;
+    // updatedUser.image = image;
     // 해당 유저 정보로 user을 세팅함.
     setUser(updatedUser);
-
+    // console.log(user);
     // isEditing을 false로 세팅함.
     setIsEditing(false);
   };
+
 
   const handleFileChange = (evt) => {
     const img = {
       preview: URL.createObjectURL(evt.target.files[0]),
       data: evt.target.files[0],
     }
-    setImage(img)
+    setPickedImage(img)
   }
 
   return (
     <Card className="mb-2">
       <Card.Body>
         <Form onSubmit={handleSubmit}>
-          {image.preview && <img src={image.preview} width="136px" height="128px" alt="profile_image" />}
+          {pickedImage.preview && <img src={pickedImage.preview} width="136px" height="128px" alt="profile_image" />}
           <Form.Group controlId="useEditImage" className="mb-3">
             <Form.Control
               type="file"
-              accept=".jpg"
+              accept="pickedImage/*"
               onChange={handleFileChange}
             />
           </Form.Group>
