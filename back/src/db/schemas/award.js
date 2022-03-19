@@ -10,7 +10,7 @@ const AwardSchema = new Schema(
             type: String,
             required: true,
         },
-        award : {
+        title : {
             type: String,
             required: true,
         },

@@ -74,7 +74,7 @@ awardRouter.post("/award/create", login_required, async (req, res, next) => {
 
         const newAward = {
             user_id : req.body.user_id,
-            award : req.body.award,
+            title : req.body.title,
             description : req.body.description,
         }
 
@@ -131,7 +131,7 @@ awardRouter.post("/award/:id", login_required, async (req, res, next) => {
 
         const updateAward = {
             id : req.params.id,
-            changeAward : req.body.changeAward,
+            changeTitle : req.body.changeTitle,
             changeDescription : req.body.changeDescription
         }
 

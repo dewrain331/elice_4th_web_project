@@ -7,7 +7,7 @@ class Award {
             award : newAward.award
         });
         if (checkAlreadyExist) {
-            return checkAlreadyExist;
+            return false;
         }
         const createdNewAward = await AwardModel.create(newAward);
         return createdNewAward;
@@ -57,7 +57,7 @@ class Award {
             id : updateAward.id ,
         };
         const update = {
-            award : updateAward.changeAward,
+            title : updateAward.changeTitle,
             description : updateAward.changeDescription
         };
         const option = { returnOriginal: false };
