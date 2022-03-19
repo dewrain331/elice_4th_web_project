@@ -14,8 +14,8 @@ awardRouter.get("/awardlist/:user_id", login_required, async (req, res, next) =>
             );
         }
 
-        const page = Number(req.query.page || 1);
-        const perPage = Number(req.query.perPage || 3);
+        const page = Number(req.query.page) || 1;
+        const perPage = Number(req.query.perPage) || 3;
 
         const getAwards = {
             user_id : req.params.user_id,

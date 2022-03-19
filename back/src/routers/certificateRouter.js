@@ -45,8 +45,8 @@ certificateRouter.get("/certificatelist/:user_id", login_required, async (req, r
             );
         }
 
-        const page = Number(req.query.page || 1);
-        const perPage = Number(req.query.perPage || 3);
+        const page = Number(req.query.page) || 1;
+        const perPage = Number(req.query.perPage) || 3;
 
         const getCertificates = {
             user_id : req.params.user_id,
