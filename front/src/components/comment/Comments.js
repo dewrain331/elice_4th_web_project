@@ -13,7 +13,6 @@ const Comments=({ userId, author })=>{
         .then((res)=>setComments(res.data))
     },[userId])
 
-    console.log(comments);
 
     return(
         <Card>
@@ -26,6 +25,7 @@ const Comments=({ userId, author })=>{
                             comment={comment}
                             setComments={setComments}
                             isEditable={author.id===comment.author_id}
+                            author={author}
                         />
                     ))
                 }

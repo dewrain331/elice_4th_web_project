@@ -3,7 +3,7 @@ import CommentCard from './CommentCard'
 import CommentEditForm from './CommentEditForm'
 
 
-const Comment=({ comment, setComments, isEditable })=>{
+const Comment=({ comment, setComments, isEditable, author })=>{
     const [isEditing, setIsEditing]=useState(false)
     
     return(
@@ -20,6 +20,7 @@ const Comment=({ comment, setComments, isEditable })=>{
                     setComments={setComments}
                     isEditable={isEditable}
                     setIsEditing={setIsEditing}
+                    author={author}
                 />
             )}
         </>
