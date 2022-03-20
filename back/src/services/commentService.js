@@ -107,7 +107,7 @@ class commentService {
       return { errorMessage };
     }
 
-    return findComment;
+    return reply;
   }
 
   static async deleteReply({ deleteReply }) {
