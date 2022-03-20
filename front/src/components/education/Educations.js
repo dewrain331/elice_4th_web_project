@@ -4,6 +4,8 @@ import * as Api from '../../api'
 import EducationAddForm from './EducationAddForm'
 import Education from './Education'
 
+const PER_PAGE=3
+
 const Educations = ({ portfolioOwnerId, isEditable }) => {
 
     const [ allPage, setAllPage ]=useState(0)
@@ -15,10 +17,10 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
         const fetchProjects = async () => {
             try {
                 // page가 0일 순 없으므로 page 1을 setting함
-                if (page === 0) {
-                    setPage(1)
-                }
-                const res = await Api.get("educationlist", `${portfolioOwnerId}?page=${page}&perPage=3`)
+                // if (page === 0) {
+                //     setPage(1)
+                // }
+                const res = await Api.get("educationlist", `${portfolioOwnerId}?page=${page}&perPage=${PER_PAGE}`)
                 const { totalPage, educations } = res.data
                 setAllPage(totalPage)
                 setEducations(educations)

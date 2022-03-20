@@ -2,6 +2,8 @@ import { Card, Button, Row, Col, Modal } from "react-bootstrap"
 import { useState, useEffect } from "react"
 import * as Api from "../../api"
 
+const PER_PAGE=3
+
 const EducationCard=({ education, setEducations, setIsEditing, isEditable, page, setPage, setAllPage })=>{
     const { id, userId } = education
     const [ show, setShow ]=useState(false)
@@ -10,7 +12,7 @@ const EducationCard=({ education, setEducations, setIsEditing, isEditable, page,
         try{
             await Api.delete('educations',id)
         
-            const res=await Api.get('educationlist', `${userId}?page=${page}&perPage=3`)
+            const res=await Api.get('educationlist', `${userId}?page=${page}&perPage=${PER_PAGE}`)
             const { totalPage, educations }=res.data
             if(page>totalPage){
                 setPage(page-1)

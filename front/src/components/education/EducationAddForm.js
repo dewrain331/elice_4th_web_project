@@ -3,6 +3,7 @@ import { Button, Form, Col, Row } from "react-bootstrap";
 import * as Api from '../../api'
 
 const VALUES=["재학중","학사졸업","석사졸업","박사졸업"]
+const PER_PAGE=3
 
 const EducationAddForm=({ userId, setEducations, setIsAdding, page, setPage, setAllPage })=>{
     //학력 정보를 post할 때 필요한 school, major, position을 state로 지정
@@ -21,7 +22,7 @@ const EducationAddForm=({ userId, setEducations, setIsAdding, page, setPage, set
                 position
             })
 
-            const res=await Api.get('educationlist', `${userId}?page=${page}&perPage=3`)
+            const res=await Api.get('educationlist', `${userId}?page=${page}&perPage=${PER_PAGE}`)
             
             const { totalPage, educations }=res.data
             
@@ -54,7 +55,7 @@ const EducationAddForm=({ userId, setEducations, setIsAdding, page, setPage, set
         />
     </Form.Group>
 
-    <div key='inline-radio' className="mb-3" onChange={(e)=>setPosition(e.target.value)}>
+    <div className="mb-3" onChange={(e)=>setPosition(e.target.value)}>
         {
             VALUES.map(( value, idx )=>(
                 <Form.Check
