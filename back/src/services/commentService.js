@@ -12,7 +12,7 @@ class commentService {
 
     if (!comment) {
       const errorMessage =
-        "댓글 작성에 실패하였습니다. 다시 시도해주세요.";
+        "Create Comment Error.";
       return { errorMessage };
     }
 
@@ -21,12 +21,12 @@ class commentService {
 
   static async getComment({}) {}
 
-  static async getCommentAndReply({ getComment }) {
-    const commentAll = await Comment.getCommentAndReply({ getComment });
+  static async getComment({ getComment }) {
+    const commentAll = await Comment.getComment({ getComment });
 
     if (!commentAll) {
       const errorMessage =
-        "댓글을 가져오는 데 실패하였습니다.";
+        "Get Comment Error";
       return { errorMessage };
     }
 
@@ -38,7 +38,7 @@ class commentService {
 
     if (!commentAll) {
       const errorMessage =
-        "댓글을 가져오는 데 실패하였습니다.";
+        "Get Comment Error";
       return { errorMessage };
     }
 
@@ -52,18 +52,18 @@ class commentService {
     }
 
     const replyDelete = await Reply.deleteAll({ deleteReply })
-
-    if (!replyDelete) {
+    
+    if (!replyDelete.status) {
       const errorMessage =
-        "댓글에 있는 대댓글을 지우는 데 실패하였습니다.";
+        "Delete Reply in Comment Error";
       return { errorMessage };
     }
 
     const deleteResult = await Comment.delete({ deleteComment })
 
-    if (!deleteResult) {
+    if (!deleteResult.status) {
       const errorMessage =
-        "댓글을 지우는 데 실패하였습니다.";
+        "Delete Comment Error";
       return { errorMessage };
     }
 
@@ -75,7 +75,7 @@ class commentService {
 
     if (!updateResult) {
       const errorMessage =
-        "댓글을 수정하는 데 실패하였습니다.";
+        "Update Comment Error";
       return { errorMessage };
     }
 
@@ -95,7 +95,7 @@ class commentService {
 
     if (!reply) {
       const errorMessage =
-        "대댓글을 가져오는 데 실패하였습니다.";
+        "Create Reply Error";
       return { errorMessage };
     }
 
@@ -103,7 +103,7 @@ class commentService {
 
     if (!findComment) {
       const errorMessage =
-        "댓글에 대댓글을 추가하는데 실패하였습니다.";
+        "Get Reply Error";
       return { errorMessage };
     }
 
@@ -120,7 +120,7 @@ class commentService {
 
     if (!reply) {
       const errorMessage =
-        "대댓글을 찾는 데 실패했습니다.";
+        "Get Reply Error";
       return { errorMessage };
     }
     
@@ -133,15 +133,15 @@ class commentService {
 
     if (!parent) {
       const errorMessage =
-        "댓글과 대댓글 연결 취소에 실패하였습니다.";
+        "Disconnect Reply to Comment Error";
       return { errorMessage };
     }
 
     const deleteReplyResult = await Reply.delete({ deleteReply });
 
-    if (!deleteReplyResult) {
+    if (!deleteReplyResult.status) {
       const errorMessage =
-        "대댓글 삭제에 실패하였습니다.";
+        "Delete Reply Error";
       return { errorMessage };
     }
 
@@ -154,7 +154,7 @@ class commentService {
 
     if (!updateReplyResult) {
       const errorMessage =
-        "대댓글 수정에 실패하였습니다.";
+        "Update Reply Error";
       return { errorMessage };
     }
 

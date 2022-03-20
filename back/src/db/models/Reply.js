@@ -2,18 +2,11 @@ import { ReplyModel } from "../schemas/reply";
 
 class Reply {
     static async create({ newReply }) {
-
-        console.log('newReply');
-        console.log(newReply);
-
         const reply = await ReplyModel.create(newReply);
-
         return reply;
     }
 
     static async findToID({ getReply }) {
-        console.log('getReply');
-        console.log(getReply);
 
         const reply = await ReplyModel.findOne({
             id : getReply.id
@@ -23,14 +16,12 @@ class Reply {
     }
 
     static async deleteAll({ deleteReply }) {
-        console.log('deleteReply');
-        console.log(deleteReply);
 
         const reply = await ReplyModel.deleteMany({
             parent_comment_id: deleteReply.parent_comment_id,
         })
-
-        if(reply) {
+        
+        if(reply.deletedCount > 0) {
             return { status : true }
         }
 
@@ -39,15 +30,16 @@ class Reply {
 
     static async delete({ deleteReply }) {
 
-        console.log('deleteOne');
-        console.log(deleteReply);
-
         const reply = await ReplyModel.deleteOne({
             parent_comment_id : deleteReply.parent_comment_id,
             id : deleteReply.id
         })
 
-        return reply;
+        if(reply.deletedCount > 0) {
+            return {status : true}
+        }
+
+        return {status : false};
 
     }
 

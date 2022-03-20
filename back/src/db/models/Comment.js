@@ -20,8 +20,6 @@ class Comment {
     }
 
     static async pushReply({ reply }) {
-        console.log('reply');
-        console.log(reply);
 
         const findComment = await CommentModel.findOneAndUpdate({
             id : reply.parent_comment_id
@@ -35,7 +33,7 @@ class Comment {
         return findComment;
     }
 
-    static async getCommentAndReply({ getComment }) {
+    static async getComment({ getComment }) {
         const comment = await CommentModel.find({
             id : getComment.id
         }).populate('replys');
@@ -57,7 +55,11 @@ class Comment {
             id : deleteComment.id
         });
 
-        return comment;
+        if(comment.deletedCount > 0) {
+            return { status : true }
+        }
+
+        return { status : false }
     }
 
     static async update({ updateComment }) {
@@ -75,8 +77,6 @@ class Comment {
 
     static async disConnectReply({ sendReply }) {
 
-        console.log('sendReply');
-        console.log(sendReply);
         const reply = await CommentModel.findOneAndUpdate({
             parent_comment_id : sendReply.parent_comment_id
         }, {
