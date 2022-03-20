@@ -22,7 +22,6 @@ const Replies=({ id, author })=>{
                         reply={reply}
                         isEditable={author.id===reply.author_id}
                         setReplies={setReplies}
-                        commentId={id}
                         />
                 ))
             }

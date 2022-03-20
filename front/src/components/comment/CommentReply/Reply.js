@@ -1,7 +1,7 @@
 import { Card, Col, Row, Button } from 'react-bootstrap'
 import * as Api from '../../../api'
 
-const Reply=({ reply, isEditable, setReplies, commentId })=>{
+const Reply=({ reply, isEditable, setReplies })=>{
     const { id, author_name, text, parent_comment_id, createdAt } = reply
 
     const handleDelete= async ()=>{
