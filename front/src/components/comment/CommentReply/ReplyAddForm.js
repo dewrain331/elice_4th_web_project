@@ -2,7 +2,7 @@ import { useState } from 'react'
 import * as Api from '../../../api'
 import { Form, Button, Card } from 'react-bootstrap'
 
-const ReplyAddForm=({ author, CommentId })=>{
+const ReplyAddForm=({ author, CommentId, setReplies })=>{
     const { id, name } = author
 
     const [reply, setReply]=useState("")
@@ -10,13 +10,13 @@ const ReplyAddForm=({ author, CommentId })=>{
     const handleSubmit= async (e)=> {
         e.preventDefault()
         
-        await Api.post('reply',{
+        const res=await Api.post('reply',{
             parent_comment_id: CommentId,
             author_id: id,
             author_name: name,
             text: reply
         })
-        
+        setReplies((replies)=>[...replies,res.data])
         setReply("")
     }
 
