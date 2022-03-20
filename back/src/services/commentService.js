@@ -53,7 +53,7 @@ class commentService {
 
     const replyDelete = await Reply.deleteAll({ deleteReply })
     
-    if (!replyDelete.status) {
+    if (!replyDelete) {
       const errorMessage =
         "Delete Reply in Comment Error";
       return { errorMessage };

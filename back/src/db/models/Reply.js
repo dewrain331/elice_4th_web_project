@@ -21,11 +21,7 @@ class Reply {
             parent_comment_id: deleteReply.parent_comment_id,
         })
         
-        if(reply.deletedCount > 0) {
-            return { status : true }
-        }
-
-        return { status : false };
+        return reply;
     }
 
     static async delete({ deleteReply }) {
