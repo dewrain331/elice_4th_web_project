@@ -41,12 +41,10 @@ class User {
     const option = { returnOriginal: false };
 
     const user = await UserModel.findOne({ id: user_id });
-    const fileName = user.image.saveFileName;
-    const filePath = "..\\front\\public\\images" + "\\" + fileName
-    const dir = fs.existsSync(filePath)
+    const filePath = "..\\front\\public\\images\\" + user.image.saveFileName
+    // const dir = fs.existsSync(filePath) // filePath에 파일이 있는지 체크하는 메서드
     fs.unlink(filePath, (err) => {
       if(err) throw err;
-      console.log('the file was deleted.')
     })
 
     const uploadedImage = await UserModel.findOneAndUpdate(

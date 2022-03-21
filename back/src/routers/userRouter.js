@@ -4,7 +4,6 @@ import { login_required } from "../middlewares/login_required";
 import { userAuthService } from "../services/userService";
 import multer from "multer";
 
-
 const userAuthRouter = Router();
 
 userAuthRouter.post("/user/register", async function (req, res, next) {
@@ -150,7 +149,7 @@ userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
 });
 
 
-// image
+// profile image 변경 라우터
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, '../front/public/images/')
@@ -159,9 +158,7 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + `_${file.originalname}`)
   }
 })
-
-//이미지 크기를 3MB로 제한
-const upload = multer({ storage: storage, limits: {fileSize: 3 * 1024 * 1024} }) 
+const upload = multer({ storage: storage, limits: {fileSize: 3 * 1024 * 1024} }) // storage에 저장, 이미지 크기는 3MB로 제한
 
 userAuthRouter.patch(
   "/users/:id/image",
@@ -173,14 +170,12 @@ userAuthRouter.patch(
       const user_id = req.params.id;
 
       // req.file 은 `profile` 라는 필드의 파일 정보입니다.
-      const orgFileName = req.file.originalname; // 원본 파일명
       const saveFileName = req.file.filename; // 저장된 파일명​ 
-      const saveFilePath = `\\images\\${saveFileName}` // 업로드된 파일의 전체 경로
-      // console.log({user_id, orgFileName, saveFileName, saveFilePath})
+      const saveFilePath = `\\images\\${saveFileName}` // 업로드된 파일의 경로 (index.html 기준)
     
-      const imageInfo = { "orgFileName": orgFileName, "saveFileName": saveFileName, "saveFilePath": saveFilePath };
+      const imageInfo = { saveFileName, saveFilePath };
 
-      // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
+      // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트합니다. 업데이트 요소가 없을 시 생략합니다.
       const updatedImage = await userAuthService.uploadImage({ user_id, imageInfo });
 
       if (updatedImage.errorMessage) {

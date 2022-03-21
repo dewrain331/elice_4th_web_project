@@ -2,10 +2,6 @@ import { Schema, model } from "mongoose";
 
 const imageSchema = new Schema(
   {
-    orgFileName: {
-      type: String,
-      required: true,
-    },
     saveFileName: {
       type: String,
       required: true,
@@ -46,7 +42,6 @@ const UserSchema = new Schema(
     image: {
       type: imageSchema,
       default: {
-        orgFileName: "default_img.jpg",
         saveFileName: "default_img.jpg",
         saveFilePath: "\\images\\default_img.jpg",
       }
