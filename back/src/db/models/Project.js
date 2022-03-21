@@ -15,17 +15,15 @@ class Project {
     const total = await projectModel.countDocuments({ userId });
     const totalPage = Math.ceil(total / perPage);
     const projects = await projectModel.find({ userId }).sort({ createdAt: 1 }).skip(perPage * (page -1)).limit(perPage);
-    return { totalPage, "projects": projects};
+    return { totalPage, projects };
   }
 
-  static update = async ({ projectId, userId, fieldToUpdate, newValue }) => {
+  static update = async ({ projectId, toUpdate }) => {
     const filter = { id: projectId };
-    const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
-
     const updatedProject = await projectModel.findOneAndUpdate(
       filter,
-      update,
+      toUpdate,
       option
     );
     return updatedProject;

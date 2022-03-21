@@ -15,17 +15,15 @@ class Education {
     const total = await educationModel.countDocuments({ userId });
     const totalPage = Math.ceil(total / perPage);
     const educations = await educationModel.find({ userId }).sort({ createdAt: 1 }).skip(perPage * (page -1)).limit(perPage);
-    return { totalPage, "educations": educations };
+    return { totalPage, educations };
   }
 
-  static update = async ({ educationId, userId, fieldToUpdate, newValue }) => {
+  static update = async ({ educationId, toUpdate }) => {
     const filter = { id: educationId };
-    const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
-
     const updatedEducation = await educationModel.findOneAndUpdate(
       filter,
-      update,
+      toUpdate,
       option
     );
     return updatedEducation;
