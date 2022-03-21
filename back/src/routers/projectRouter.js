@@ -60,13 +60,13 @@ projectRouter.put("/projects/:id", async function (req, res, next) {
       const toUpdate = { title, description, fromDate, toDate };
 
       // 위 추출된 정보를 이용하여 db의 데이터 수정함
-      const project = await projectService.setProject({ projectId, toUpdate });
+      const updatedProject = await projectService.setProject({ projectId, toUpdate });
 
-      if (project.errorMessage) {
-        throw new Error(project.errorMessage);
+      if (updatedProject.errorMessage) {
+        throw new Error(updatedProject.errorMessage);
       }
 
-      res.status(200).json(project);
+      res.status(200).json(updatedProject);
     } catch (error) {
       next(error);
     }

@@ -41,7 +41,8 @@ class projectService {
       return { errorMessage };
     }
 
-    return await Project.update({ projectId, toUpdate });
+    const updatedProject = await Project.update({ projectId, toUpdate });
+    return updatedProject;
   }
 
   static async deleteProject({ projectId }) {

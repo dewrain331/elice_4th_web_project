@@ -41,7 +41,8 @@ class educationService {
       return { errorMessage };
     }
 
-    return await Education.update({ educationId, toUpdate });
+    const updatedEducation = await Education.update({ educationId, toUpdate });
+    return updatedEducation;
   }
 
   static async deleteEducation({ educationId }) {

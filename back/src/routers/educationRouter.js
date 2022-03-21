@@ -59,13 +59,13 @@ educationRouter.put("/educations/:id", async function (req, res, next) {
       const toUpdate = { school, major, position };
 
       // 위 추출된 정보를 이용하여 db의 데이터 수정함
-      const education = await educationService.setEducation({ educationId, toUpdate });
+      const updatedEducation = await educationService.setEducation({ educationId, toUpdate });
 
-      if (education.errorMessage) {
-        throw new Error(education.errorMessage);
+      if (updatedEducation.errorMessage) {
+        throw new Error(updatedEducation.errorMessage);
       }
 
-      res.status(200).json(education);
+      res.status(200).json(updatedEducation);
     } catch (error) {
       next(error);
     }
