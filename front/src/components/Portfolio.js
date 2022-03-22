@@ -11,13 +11,18 @@ import Projects from "./project/Projects";
 import Educations from "./education/Educations"
 import Awards from "./award/Awards"
 import Certificates from "./certificate/Certificates"
-import { RecoilRoot } from "recoil"
+import { RecoilRoot, atom, useRecoilState } from "recoil"
+
+export const portfolioOwnerState = atom({
+  key: 'portfolioOwnerState',
+  default: null
+})
 
 function Portfolio() {
   const navigate = useNavigate();
   const params = useParams();
   // useState 훅을 통해 portfolioOwner 상태를 생성함.
-  const [portfolioOwner, setPortfolioOwner] = useState(null);
+  const [portfolioOwner, setPortfolioOwner] = useRecoilState(portfolioOwnerState);
   // fetchPorfolioOwner 함수가 완료된 이후에만 (isFetchCompleted가 true여야) 컴포넌트가 구현되도록 함.
   // 아래 코드를 보면, isFetchCompleted가 false이면 "loading..."만 반환되어서, 화면에 이 로딩 문구만 뜨게 됨.
   const [isFetchCompleted, setIsFetchCompleted] = useState(false);
