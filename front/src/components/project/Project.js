@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import ProjectCard from "./ProjectCard";
 import ProjectEditForm from "./ProjectEditForm";
-// recoil 사용
 
 function Project({ project, isEditable }) {
   // useState로 isEditing 상태를 생성함.
