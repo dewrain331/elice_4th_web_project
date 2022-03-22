@@ -5,6 +5,8 @@
 
  import { atom } from 'recoil'
 
+ export const PER_PAGE = 3
+
  export const isAddingState = atom({
      key: 'isAddingStateCert',
      default: false

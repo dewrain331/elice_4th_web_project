@@ -4,7 +4,7 @@ import * as Api from "../../api"
 import Certificate from "./Certificate"
 import CertificateAddForm from "./CertificateAddForm"
 import { useRecoilState } from 'recoil'
-import { isAddingState, pageState, allPageState, certsState } from './CertAtom'
+import { isAddingState, pageState, allPageState, certsState, PER_PAGE } from './CertAtom'
 
 const Certificates = ({ portfolioOwnerId, isEditable }) => {
     // RecoilStates
@@ -19,7 +19,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                 if(page === 0) {
                     setPage(1)
                 }
-                const res = await Api.get("certificatelist", `${portfolioOwnerId}?page=${page}&perPage=3`)
+                const res = await Api.get("certificatelist", `${portfolioOwnerId}?page=${page}&perPage=${PER_PAGE}`)
                 const { total, certificates } = res.data
                 setAllPage(total)
                 setCertificates(certificates)
@@ -28,7 +28,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
             }
         }
         fetch()
-    }, [portfolioOwnerId, page, allPage, setAllPage, setPage, setCertificates])
+    }, [portfolioOwnerId, page, allPage])
 
     return (
         <Card>
@@ -68,13 +68,13 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                             variant="outline-secondary"
                             size="sm"
                         >
-                            {Math.ceil(allPage / 3) === 0 ? 0 : page} / {Math.ceil(allPage / 3)}
+                            {Math.ceil(allPage / PER_PAGE) === 0 ? 0 : page} / {Math.ceil(allPage / PER_PAGE)}
                         </Button>
                         <Button
                             variant="outline-secondary"
                             size="sm"
                             onClick={() => setPage(prev => prev + 1)}
-                            disabled={page >= Math.ceil(allPage / 3)}
+                            disabled={page >= Math.ceil(allPage / PER_PAGE)}
                             className="ms-3"
                         >
                             {">"}

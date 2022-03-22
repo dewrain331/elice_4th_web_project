@@ -3,7 +3,7 @@ import { Button, Form, Col, Row } from "react-bootstrap"
 import * as Api from "../../api"
 import DatePicker from 'react-datepicker'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { isAddingState, pageState, allPageState, certsState } from './CertAtom'
+import { isAddingState, pageState, allPageState, certsState, PER_PAGE } from './CertAtom'
 
 const CertificateAddForm = ({ portfolioOwnerId }) => {
     // RecoilStates
@@ -40,10 +40,10 @@ const CertificateAddForm = ({ portfolioOwnerId }) => {
 
         // post 요청값과 함께 각각의 Certificate들의 모임인 Certificates를 다시 렌더링
         try {
-            const res = await Api.get("certificatelist", `${user_id}?page=${page}&perPage=3`)
+            const res = await Api.get("certificatelist", `${user_id}?page=${page}&perPage=${PER_PAGE}`)
             const {total, certificates} = res.data
-            setPage(Math.ceil(total / 3))
-            setAllPage(Math.ceil(total / 3))
+            setPage(Math.ceil(total / PER_PAGE))
+            setAllPage(Math.ceil(total / PER_PAGE))
             setCertificates(certificates)
             // 생성 상태 종료.
             setIsAdding(false)

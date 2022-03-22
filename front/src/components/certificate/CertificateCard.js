@@ -2,7 +2,7 @@ import { Card, Button, Row, Col, Modal } from "react-bootstrap"
 import {useState} from 'react'
 import * as Api from "../../api"
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { pageState, allPageState, certsState } from './CertAtom'
+import { pageState, allPageState, certsState, PER_PAGE } from './CertAtom'
 
 const CertificateCard = ({ certificate, isEditable, setIsEditing }) => {
     // RecoilStates
@@ -23,12 +23,12 @@ const CertificateCard = ({ certificate, isEditable, setIsEditing }) => {
         try {
             const {id, user_id} = certificate
             await Api.delete(`certificate/${id}`)
-            const res = await Api.get("certificatelist", `${user_id}?page=${page}&perPage=3`)
+            const res = await Api.get("certificatelist", `${user_id}?page=${page}&perPage=${PER_PAGE}`)
             const {total, certificates} = res.data
-            if(page > Math.ceil(total / 3)) {
+            if(page > Math.ceil(total / PER_PAGE)) {
                 setPage(page - 1)
             }
-            setAllPage(Math.ceil(total / 3))
+            setAllPage(Math.ceil(total / PER_PAGE))
             setCertificates(certificates)
             setShow(false)
         } catch (err) {
