@@ -1,14 +1,14 @@
 import { useState } from "react"
 import { Button, Form, Col, Row } from "react-bootstrap"
 import * as Api from "../../api"
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import { isAddingState, pageState, allPageState } from './AwardAtom'
 
 const AwardAddForm = ({ portfolioOwnerId, setAwards }) => {
     // RecoilStates
-    const [isAdding, setIsAdding] = useRecoilState(isAddingState)
+    const setIsAdding = useSetRecoilState(isAddingState)
     const [page, setPage] = useRecoilState(pageState)
-    const [allPage, setAllPage] = useRecoilState(allPageState)
+    const setAllPage = useSetRecoilState(allPageState)
 
     // useState로 수상내역의 내용을 담을 title 변수 선언.
     const [award, setAward] = useState("")

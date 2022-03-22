@@ -1,12 +1,12 @@
 import { useState } from "react"
 import { Button, Form, Col, Row } from "react-bootstrap"
 import * as Api from "../../api"
-import { useRecoilState } from 'recoil'
+import { useRecoilValue } from 'recoil'
 import { pageState } from './AwardAtom'
 
 const AwardEditForm = ({ currentAward, setAwards, setIsEditing }) => {
     // RecoilStates
-    const [page, setPage] = useRecoilState(pageState)
+    const page = useRecoilValue(pageState)
 
     // 편집 버튼을 누른 항목의 수상내용을 담을 title 변수 선언.
     const [award, setAward] = useState(currentAward.award)
@@ -18,7 +18,7 @@ const AwardEditForm = ({ currentAward, setAwards, setIsEditing }) => {
         evt.preventDefault()
         evt.stopPropagation()
 
-        const user_id = currentAward.user_id
+        const userId = currentAward.user_id
 
         // put 요청.
         try { await Api.post(`award/${currentAward.id}`, {
@@ -31,7 +31,7 @@ const AwardEditForm = ({ currentAward, setAwards, setIsEditing }) => {
 
         // put 요청값과 함께 각각의 Award들의 모임인 Awards를 다시 렌더링
         try {
-            const res = await Api.get("awardlist", `${user_id}?page=${page}&perPage=3`)
+            const res = await Api.get("awardlist", `${userId}?page=${page}&perPage=3`)
             setAwards(res.data.awards)
             // 편집 상태 종료.
             setIsEditing(false)
