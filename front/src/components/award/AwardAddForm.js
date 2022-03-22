@@ -13,12 +13,12 @@ const AwardAddForm = ({ portfolioOwnerId, setAwards, setIsAdding, page, setAllPa
         evt.preventDefault()
         evt.stopPropagation()
 
-        const user_id = portfolioOwnerId
+        const userId = portfolioOwnerId
 
         // post 요청
         try { 
             await Api.post("award/create", {
-            user_id,
+            userId,
             award,
             description,
         })
@@ -28,7 +28,7 @@ const AwardAddForm = ({ portfolioOwnerId, setAwards, setIsAdding, page, setAllPa
 
         // post 요청값과 함께 각각의 Award들의 모임인 Awards를 다시 렌더링
         try {
-            const res = await Api.get("awardlist", `${user_id}?page=${page}&perPage=3`)
+            const res = await Api.get("awardlist", `${userId}?page=${page}&perPage=3`)
             const {total, awards} = res.data
             setPage(Math.ceil(total / 3))
             setAllPage(Math.ceil(total / 3))

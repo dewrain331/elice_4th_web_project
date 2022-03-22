@@ -4,7 +4,8 @@ class Award {
 
     static async create({ newAward }) {
         const checkAlreadyExist = await AwardModel.findOne({
-            award : newAward.award
+            award : newAward.award,
+            active : true,
         });
         if (checkAlreadyExist) {
             return checkAlreadyExist;
@@ -17,7 +18,8 @@ class Award {
 
         const deleteAwardResult = await AwardModel.deleteOne({ 
             id : deleteAward.id,
-            user_id : deleteAward.user_id 
+            userId : deleteAward.userId,
+            active : true,
         });
 
         return deleteAwardResult;
@@ -26,14 +28,15 @@ class Award {
     static async findAllToUser({ getAwards }) {
 
         const total = await AwardModel.countDocuments({ 
-            user_id : getAwards.user_id,
+            userId : getAwards.userId,
         });
 
         const limit = getAwards.perPage;
         const offset = (getAwards.page - 1) * limit;
 
         const awards = await AwardModel.find({ 
-            user_id : getAwards.user_id,
+            userId : getAwards.userId,
+            active : true,
         }).limit(limit).skip(offset);
 
         const newAwards = { 
@@ -47,6 +50,7 @@ class Award {
     static async findOne({ getAward }) {
         const award = await AwardModel.findOne({
             id : getAward.id,
+            active : true,
         })
         return award;
     }
@@ -55,10 +59,12 @@ class Award {
 
         const filter = { 
             id : updateAward.id ,
+            active : true,
         };
         const update = {
             award : updateAward.changeAward,
-            description : updateAward.changeDescription
+            description : updateAward.changeDescription,
+            active : true,
         };
         const option = { returnOriginal: false };
 
@@ -69,6 +75,25 @@ class Award {
         );
 
         return updatedAward;
+    }
+
+    static async withdrawByUserId({ userId, delayTime }) {
+        const withdrawResult = await AwardModel.updateMany(
+          { userId : userId, active : true, },
+          { $set : { expiredAt : delayTime, active : false } },
+          { returnOriginal : false },
+        )
+        return withdrawResult;
+    }
+
+    static async recoveryByUserId({ userId }) {
+        const recoveryResult = await AwardModel.updateMany(
+          { userId : userId, active : false, },
+          { $set : { active : true }, $unset : { expiredAt : true } },
+          { returnOriginal : false },
+        )
+    
+        return recoveryResult;
     }
 }
 

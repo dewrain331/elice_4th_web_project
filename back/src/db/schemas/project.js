@@ -25,6 +25,20 @@ const projectSchema = new Schema(
     toDate: {
         type: Date,
         required: true,
+    },
+    active : {
+      type: Boolean,
+      required : true,
+      default : true
+    },
+    createdAt : {
+        type : Date,
+        required : true,
+        default : Date.now
+    },
+    expiredAt : {
+        type : Date,
+        expires:0
     }
   },
   {
