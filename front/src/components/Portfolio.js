@@ -11,6 +11,7 @@ import Projects from "./project/Projects";
 import Educations from "./education/Educations"
 import Awards from "./award/Awards"
 import Certificates from "./certificate/Certificates"
+import { RecoilRoot } from "recoil"
 
 function Portfolio() {
   const navigate = useNavigate();
@@ -58,47 +59,47 @@ function Portfolio() {
   }
 
   return (
-    <Container fluid>
-      <Row >
-        <Col md="3" lg="3">
-          <User
-            portfolioOwnerId={portfolioOwner.id}
-            isEditable={portfolioOwner.id === userState.user?.id}
-          />
-        </Col>
-        <Col>
-
-          <div style={{ textAlign: "center" }}>
-            학력 목록, 수상이력 목록, 프로젝트 목록, 자격증 목록 만들기
-          </div>
-
-          <div className="mb-3">
-            <Projects
+    <RecoilRoot>
+      <Container fluid>
+        <Row >
+          <Col md="3" lg="3">
+            <User
               portfolioOwnerId={portfolioOwner.id}
               isEditable={portfolioOwner.id === userState.user?.id}
             />
-          </div>
-          <Row className="mb-4">
-            <Educations
-              portfolioOwnerId={portfolioOwner.id}
-              isEditable={portfolioOwner.id === userState.user?.id}
-            />
-          </Row>
-          <Row className="mb-4">
-            <Awards
-              portfolioOwnerId={portfolioOwner.id}
-              isEditable={portfolioOwner.id === userState.user?.id}
-            />
-          </Row>
-          <Row className="mb-4">
-            <Certificates
-              portfolioOwnerId={portfolioOwner.id}
-              isEditable={portfolioOwner.id === userState.user?.id}
-            />
-          </Row>
-        </Col>
-      </Row>
-    </Container>
+          </Col>
+          <Col>
+            <div style={{ textAlign: "center" }}>
+              학력 목록, 수상이력 목록, 프로젝트 목록, 자격증 목록 만들기
+            </div>
+            <div className="mb-3">
+              <Projects
+                portfolioOwnerId={portfolioOwner.id}
+                isEditable={portfolioOwner.id === userState.user?.id}
+              />
+            </div>
+            <Row className="mb-4">
+              <Educations
+                portfolioOwnerId={portfolioOwner.id}
+                isEditable={portfolioOwner.id === userState.user?.id}
+              />
+            </Row>
+            <Row className="mb-4">
+              <Awards
+                portfolioOwnerId={portfolioOwner.id}
+                isEditable={portfolioOwner.id === userState.user?.id}
+              />
+            </Row>
+            <Row className="mb-4">
+              <Certificates
+                portfolioOwnerId={portfolioOwner.id}
+                isEditable={portfolioOwner.id === userState.user?.id}
+              />
+            </Row>
+          </Col>
+        </Row>
+      </Container>
+    </RecoilRoot>
   );
 }
 
