@@ -24,12 +24,12 @@ const CertificateAddForm = ({ portfolioOwnerId }) => {
         evt.preventDefault()
         evt.stopPropagation()
 
-        const user_id = portfolioOwnerId
+        const userId = portfolioOwnerId
 
         // post 요청
         try {
             await Api.post("certificate/create", {
-                user_id,
+                userId,
                 title,
                 description,
                 date: date.toJSON()
@@ -40,7 +40,7 @@ const CertificateAddForm = ({ portfolioOwnerId }) => {
 
         // post 요청값과 함께 각각의 Certificate들의 모임인 Certificates를 다시 렌더링
         try {
-            const res = await Api.get("certificatelist", `${user_id}?page=${page}&perPage=${PER_PAGE}`)
+            const res = await Api.get("certificatelist", `${userId}?page=${page}&perPage=${PER_PAGE}`)
             const {total, certificates} = res.data
             setPage(Math.ceil(total / PER_PAGE))
             setAllPage(Math.ceil(total / PER_PAGE))
