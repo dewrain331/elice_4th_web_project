@@ -26,7 +26,7 @@ const AwardAddForm = ({ portfolioOwnerId }) => {
         // post 요청
         try { 
             await Api.post("award/create", {
-            user_id : userId,
+            userId,
             award,
             description,
         })
