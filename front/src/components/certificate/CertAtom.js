@@ -19,3 +19,8 @@
      key: 'allPageStateCert',
      default: 1
  })
+
+ export const certsState = atom({
+     key: 'certsState',
+     default: []
+ })

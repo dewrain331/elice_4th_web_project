@@ -1,19 +1,17 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { Card, Button, Row, Col } from "react-bootstrap"
 import * as Api from "../../api"
 import Certificate from "./Certificate"
 import CertificateAddForm from "./CertificateAddForm"
 import { useRecoilState } from 'recoil'
-import { isAddingState, pageState, allPageState } from './CertAtom'
+import { isAddingState, pageState, allPageState, certsState } from './CertAtom'
 
 const Certificates = ({ portfolioOwnerId, isEditable }) => {
     // RecoilStates
     const [isAdding, setIsAdding] = useRecoilState(isAddingState)
     const [page, setPage] = useRecoilState(pageState)
     const [allPage, setAllPage] = useRecoilState(allPageState)
-
-    // useState로 낱개의 certificate들을 담을 배열 선언
-    const [certificates, setCertificates] = useState([])
+    const [certificates, setCertificates] = useRecoilState(certsState)
 
     useEffect(() => {
         const fetch = async () => {
@@ -30,7 +28,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
             }
         }
         fetch()
-    }, [portfolioOwnerId, page, allPage, setAllPage, setPage])
+    }, [portfolioOwnerId, page, allPage, setAllPage, setPage, setCertificates])
 
     return (
         <Card>
@@ -40,7 +38,6 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                     <Certificate
                         key={v.id}
                         certificate={v}
-                        setCertificates={setCertificates}
                         isEditable={isEditable}
                     />
                 ))}
@@ -54,7 +51,6 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                 {isAdding && (
                     <CertificateAddForm 
                         portfolioOwnerId={portfolioOwnerId}
-                        setCertificates={setCertificates}
                     />
                 )}
                 <Row className="mt-3 text-center mb-4">
