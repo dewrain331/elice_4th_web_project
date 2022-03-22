@@ -14,11 +14,11 @@ awardRouter.get("/awardlist/:user_id", login_required, async (req, res, next) =>
             );
         }
 
-        const page = Number(req.query.page || 1);
-        const perPage = Number(req.query.perPage || 3);
+        const page = Number(req.query.page) || 1;
+        const perPage = Number(req.query.perPage) || 3;
 
         const getAwards = {
-            user_id : req.params.user_id,
+            user_id : req.params.user_id ?? req.currentUserId,
             page : page,
             perPage : perPage,
         }
@@ -27,7 +27,6 @@ awardRouter.get("/awardlist/:user_id", login_required, async (req, res, next) =>
         const award = await awardService.getAwards({ getAwards });
 
         if (award.errorMessage) {
-            console.log(award.errorMessage);
             throw new Error(award.errorMessage);
         }
 
@@ -53,7 +52,6 @@ awardRouter.get("/awards/:id", login_required, async (req, res, next) => {
         const award = await awardService.getAward({ getAward });
 
         if (award.errorMessage) {
-            console.log(award.errorMessage);
             throw new Error(award.errorMessage);
         }
 
@@ -66,7 +64,7 @@ awardRouter.get("/awards/:id", login_required, async (req, res, next) => {
 awardRouter.post("/award/create", login_required, async (req, res, next) => {
     try {
 
-        if (is.emptyObject(req.body)) {
+        if (is.emptyObject(req.body) || !req.body.user_id || !req.body.title || !req.body.description) {
             throw new Error(
                 "데이터를 다시 확인해주세요."
             );
@@ -81,7 +79,6 @@ awardRouter.post("/award/create", login_required, async (req, res, next) => {
         const award = await awardService.addAward({ newAward });
 
         if (award.errorMessage) {
-            console.log(award.errorMessage);
             throw new Error(award.errorMessage);
         }
 
@@ -110,7 +107,6 @@ awardRouter.delete("/awards/:id", login_required, async (req, res, next) => {
         const award = await awardService.deleteAward({ deleteAward });
 
         if (award.errorMessage) {
-            console.log(award.errorMessage);
             throw new Error(award.errorMessage);
         }
 
@@ -125,7 +121,7 @@ awardRouter.post("/award/:id", login_required, async (req, res, next) => {
     try {
         if (is.emptyObject(req.params) || is.emptyObject(req.body)) {
             throw new Error(
-                "award 수정에 실패했습니다. 다시 확인해주세요."
+                "award 수정에 실패했습니다. awardID 혹은 body안의 데이터를 확인해주세요."
             );
         }
 
@@ -138,7 +134,6 @@ awardRouter.post("/award/:id", login_required, async (req, res, next) => {
         const award = await awardService.updateAward({ updateAward });
 
         if (award.errorMessage) {
-            console.log(award.errorMessage);
             throw new Error(award.errorMessage);
         }
 
