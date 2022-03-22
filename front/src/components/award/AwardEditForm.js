@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Button, Form, Col, Row } from "react-bootstrap"
 import * as Api from "../../api"
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { pageState, awardsState } from './AwardAtom'
+import { pageState, awardsState, PER_PAGE } from './AwardAtom'
 
 const AwardEditForm = ({ currentAward, setIsEditing }) => {
     // RecoilStates
@@ -32,7 +32,7 @@ const AwardEditForm = ({ currentAward, setIsEditing }) => {
 
         // put 요청값과 함께 각각의 Award들의 모임인 Awards를 다시 렌더링
         try {
-            const res = await Api.get("awardlist", `${userId}?page=${page}&perPage=3`)
+            const res = await Api.get("awardlist", `${userId}?page=${page}&perPage=${PER_PAGE}`)
             setAwards(res.data.awards)
             // 편집 상태 종료.
             setIsEditing(false)

@@ -4,7 +4,7 @@ import * as Api from "../../api"
 import Award from "./Award"
 import AwardAddForm from "./AwardAddForm"
 import { useRecoilState } from 'recoil'
-import { isAddingState, pageState, allPageState, awardsState } from './AwardAtom'
+import { isAddingState, pageState, allPageState, awardsState, PER_PAGE } from './AwardAtom'
 
 const Awards = ({ portfolioOwnerId, isEditable }) => {
     // RecoilStates
@@ -19,7 +19,7 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
                 if(page === 0) {
                     setPage(1)
                 }
-                const res = await Api.get("awardlist", `${portfolioOwnerId}?page=${page}&perPage=3`)
+                const res = await Api.get("awardlist", `${portfolioOwnerId}?page=${page}&perPage=${PER_PAGE}`)
                 const { total, awards } = res.data
                 setAllPage(total)
                 setAwards(awards)
@@ -28,7 +28,7 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
             }
         }
         fetch()
-    }, [portfolioOwnerId, page, allPage, setAllPage, setPage, setAwards])
+    }, [portfolioOwnerId, page, allPage])
 
     return (
         <Card>
@@ -68,13 +68,13 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
                             variant="outline-secondary"
                             size="sm"
                         >
-                            {Math.ceil(allPage / 3) === 0 ? 0 : page} / {Math.ceil(allPage / 3)}
+                            {Math.ceil(allPage / PER_PAGE) === 0 ? 0 : page} / {Math.ceil(allPage / PER_PAGE)}
                         </Button>
                         <Button
                             variant="outline-secondary"
                             size="sm"
                             onClick={() => setPage(prev => prev + 1)}
-                            disabled={page >= Math.ceil(allPage / 3)}
+                            disabled={page >= Math.ceil(allPage / PER_PAGE)}
                             className="ms-3"
                         >
                             {">"}
