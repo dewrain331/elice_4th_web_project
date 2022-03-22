@@ -19,3 +19,8 @@
      key: 'allPageStateCert',
      default: 1
  })
+
+ export const perPageLimitState = atom({
+     key: 'perPageLimitStateCert',
+     default: 3
+ })
