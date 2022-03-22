@@ -3,16 +3,18 @@ import { Card, Button, Row, Col } from "react-bootstrap"
 import * as Api from "../../api"
 import Award from "./Award"
 import AwardAddForm from "./AwardAddForm"
+import { useRecoilState } from 'recoil'
+import { isAddingState, pageState, allPageState } from './AwardAtom'
 
 const Awards = ({ portfolioOwnerId, isEditable }) => {
+    // RecoilStates
+    const [isAdding, setIsAdding] = useRecoilState(isAddingState)
+    const [page, setPage] = useRecoilState(pageState)
+    const [allPage, setAllPage] = useRecoilState(allPageState)
+
     // useState로 낱개의 award들을 담을 배열 선언
     const [awards, setAwards] = useState([])
     // useState로 생성 상태를 관리할 변수를 선언
-    // 초기 상태는 생성 중이 아니므로, 초기값은 false
-    const [isAdding, setIsAdding] = useState(false)
-    // Pagination 관련
-    const [page, setPage] = useState(0)
-    const [allPage, setAllPage] = useState(1)
 
     useEffect(() => {
         const fetch = async () => {
@@ -41,9 +43,6 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
                         _award={v}
                         setAwards={setAwards}
                         isEditable={isEditable}
-                        setAllPage={setAllPage}
-                        page={page}
-                        setPage={setPage}
                     />
                 ))}
                 {isEditable && (
@@ -57,11 +56,6 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
                     <AwardAddForm 
                         portfolioOwnerId={portfolioOwnerId}
                         setAwards={setAwards}
-                        setIsAdding={setIsAdding}
-                        setPage={setPage}
-                        page={page}
-                        setAllPage={setAllPage}
-                        allPage={allPage}
                     />
                 )}
                 <Row className="mt-3 text-center mb-4">
