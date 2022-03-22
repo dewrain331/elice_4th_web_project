@@ -2,6 +2,8 @@ import { Card, Button, Row, Col, Modal } from "react-bootstrap";
 import { useState } from 'react'
 import * as Api from "../../api"
 
+const PER_PAGE = 3;
+
 function ProjectCard({ project, isEditable, setIsEditing, setProjects, page, setTotalPage, setPage }) {
     const slicingDate = (date) => {
         return date.slice(0, 10);
@@ -9,8 +11,8 @@ function ProjectCard({ project, isEditable, setIsEditing, setProjects, page, set
 
     // Modal 관련 State
     const [show, setShow] = useState(false)
-    const handleShow = () => setShow(true)
-    const handleClose = () => setShow(false)
+    const handleAlertShow = () => setShow(true)
+    const handleAlertCancel = () => setShow(false)
 
     // 삭제 기능을 하는 함수
     const handleDelete = async () => {
@@ -19,7 +21,7 @@ function ProjectCard({ project, isEditable, setIsEditing, setProjects, page, set
             await Api.delete('projects', id);
             // "projectlist/유저id?page={현재 페이지}&?perPage={데이터 수}"로 GET 요청하고,
             // response의 data로 totalPage와 projects를 세팅함.
-            const res = await Api.get('projectlist', `${userId}?page=${page}&perPage=3`);
+            const res = await Api.get('projectlist', `${userId}?page=${page}&perPage=${PER_PAGE}`);
             const { totalPage, projects } = res.data;
             if (page > totalPage) {
                 setPage((prev) => prev - 1);
@@ -66,7 +68,7 @@ function ProjectCard({ project, isEditable, setIsEditing, setProjects, page, set
                             <Button
                                 variant="outline-secondary"
                                 size="sm"
-                                onClick={handleShow}
+                                onClick={handleAlertShow}
                                 className="mr-3"
                             >삭제
                             </Button>
@@ -75,13 +77,13 @@ function ProjectCard({ project, isEditable, setIsEditing, setProjects, page, set
                 </Row>
             </Card.Body>
 
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleAlertCancel}>
                 <Modal.Header closeButton>
                     <Modal.Title>삭제 확인</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>정말로 삭제하시겠습니까?</Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant="secondary" onClick={handleAlertCancel}>
                         취소
                     </Button>
                     <Button variant="danger" onClick={handleDelete}>

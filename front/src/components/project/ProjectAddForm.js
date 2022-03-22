@@ -6,6 +6,8 @@ import * as Api from "../../api";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+const PER_PAGE = 3;
+
 function ProjectAddForm({ portfolioOwnerId, setProjects, setIsAdding, page, setTotalPage, setPage }) {
     // useState로 title 상태를 생성함.
     const [title, setTitle] = useState("");
@@ -41,9 +43,8 @@ function ProjectAddForm({ portfolioOwnerId, setProjects, setIsAdding, page, setT
         // "projectlist/유저id?page={현재 페이지}&?perPage={데이터 수}"로 GET 요청하고,
         // response의 data로 totalPage와 projects를 세팅함.
         try {
-            const res = await Api.get("projectlist", `${userId}?page=${page}&perPage=3`);
+            const res = await Api.get("projectlist", `${userId}?page=${page}&perPage=${PER_PAGE}`);
             const { totalPage, projects } = res.data;
-            console.log(totalPage, "/", page);
             setPage(totalPage);
             setTotalPage(totalPage);
             setProjects(projects);
