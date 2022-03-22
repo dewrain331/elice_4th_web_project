@@ -4,6 +4,42 @@ import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
 
 class userAuthService {
+
+  static async withdrawUser({ user_id, password }) {
+    const user = await User.findById({ user_id });
+    if (!user) {
+      const errorMessage =
+        "해당 아이디는 없는 아이디입니다. 다른 아이디를 입력해 주세요.";
+      return { errorMessage };
+    }
+
+    // 비밀번호 일치 여부 확인
+    const correctPasswordHash = user.password;
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      correctPasswordHash
+    );
+
+    if (!isPasswordCorrect) {
+      const errorMessage =
+        "비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+
+    const withdrawResult = User.withdraw({ user_id });
+
+    if (withdrawResult) {
+      return {
+        status : "success"
+      }
+    }
+
+    const errorMessage =
+        "회원탈퇴에 실패하였습니다. 다시 시도해주세요.";
+    return { errorMessage };
+
+  }
+
   static async addUser({ name, email, password }) {
     // 이메일 중복 확인
     const user = await User.findByEmail({ email });
@@ -30,6 +66,13 @@ class userAuthService {
   static async getUser({ email, password }) {
     // 이메일 db에 존재 여부 확인
     const user = await User.findByEmail({ email });
+
+    if (!user.active) {
+      const errorMessage =
+        "해당 계정은 비활성화 되었습니다. ";
+      return { errorMessage };
+    }
+
     if (!user) {
       const errorMessage =
         "해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
