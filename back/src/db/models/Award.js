@@ -7,7 +7,7 @@ class Award {
             award : newAward.award
         });
         if (checkAlreadyExist) {
-            return false;
+            return checkAlreadyExist;
         }
         const createdNewAward = await AwardModel.create(newAward);
         return createdNewAward;
