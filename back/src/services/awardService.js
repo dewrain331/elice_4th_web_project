@@ -9,10 +9,7 @@ const awardService = {
 
         const createNewAwardResult = await Award.create({ newAward });
         
-        if (!createNewAwardResult) {
-            const errorMessage = "수상 이력 추가에 실패했습니다.";
-            return { errorMessage };
-        }
+        createNewAwardResult.errorMessage = null
 
         return createNewAwardResult;
     },

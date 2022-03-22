@@ -7,11 +7,8 @@ const certificateService = {
         newCertificate.id = id;
 
         const createNewCertificateResult = await Certificate.create({ newCertificate });
-        
-        if (!createNewCertificateResult) {
-            const errorMessage = "자격증 추가에 실패했습니다.";
-            return { errorMessage };
-        }
+    
+        createNewCertificateResult.errorMessage = null
 
         return createNewCertificateResult;
     },
