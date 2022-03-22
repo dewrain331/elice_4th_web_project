@@ -2,9 +2,16 @@ import { useNavigate } from "react-router-dom";
 import { Card, Row, Button, Col } from "react-bootstrap";
 import Like from "./Like";
 
-function UserCard({ user, setIsEditing, isEditable, isNetwork, author }) {
+function UserCard({
+  user,
+  setIsEditing,
+  isEditable,
+  isNetwork,
+  authorId,
+  isDisabled,
+}) {
   const navigate = useNavigate();
-  console.log(user);
+
   return (
     <Card className="mb-2 ms-3 mr-5" style={{ width: "18rem" }}>
       <Card.Body>
@@ -19,7 +26,9 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, author }) {
         <Card.Title>{user?.name}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{user?.email}</Card.Subtitle>
         <Card.Text>{user?.description}</Card.Text>
-        <Like user={user} author={author} />
+        {user && (
+          <Like user={user} authorId={authorId} isDisabled={isDisabled} />
+        )}
 
         {isEditable && (
           <Col>
