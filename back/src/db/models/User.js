@@ -33,6 +33,44 @@ class User {
     );
     return updatedUser;
   }
+
+  static addLike = async ({ user_id, currentUserId }) => {
+    const owner = await UserModel.findOne({ id: user_id });
+    const userCheck = owner.likeUsers.includes(currentUserId);
+    if (userCheck) {
+      throw new Error('이미 좋아요를 눌렀습니다.');
+    }
+
+    const filter = { id: user_id };
+    const update = { likeCount: owner.likeCount + 1, $push: { likeUsers: currentUserId } }
+    const option = { returnOriginal: false };
+
+    const addedLike = await UserModel.findOneAndUpdate(
+      filter,
+      update,
+      option
+    );
+    return addedLike;
+  }
+
+  static removeLike = async ({ user_id, currentUserId }) => {
+    const owner = await UserModel.findOne({ id: user_id });
+    const userCheck = owner.likeUsers.includes(currentUserId);
+    if (!userCheck) {
+      throw new Error('좋아요를 누른 적이 없습니다.');
+    }
+
+    const filter = { id: user_id };
+    const update = { likeCount: owner.likeCount - 1, $pull: { likeUsers: currentUserId } }
+    const option = { returnOriginal: false };
+
+    const removedLike = await UserModel.findOneAndUpdate(
+      filter,
+      update,
+      option
+    );
+    return removedLike;
+  }
 }
 
 export { User };

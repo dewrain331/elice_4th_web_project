@@ -23,6 +23,16 @@ const UserSchema = new Schema(
       required: false,
       default: "설명이 아직 없습니다. 추가해 주세요.",
     },
+    likeCount: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    likeUsers: {
+      type: Array,
+      required: true,
+      default: [],
+    }
   },
   {
     timestamps: true,
