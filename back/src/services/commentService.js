@@ -10,12 +10,6 @@ class commentService {
     
     const comment = await Comment.create({ newComment });
 
-    if (!comment) {
-      const errorMessage =
-        "Create Comment Error.";
-      return { errorMessage };
-    }
-
     return comment;
   }
 
@@ -92,12 +86,6 @@ class commentService {
     newReply.depth = 1;
 
     const reply = await Reply.create({ newReply });
-
-    if (!reply) {
-      const errorMessage =
-        "Create Reply Error";
-      return { errorMessage };
-    }
 
     const findComment = await Comment.pushReply({ reply });
 
