@@ -1,19 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Card, Button, Row, Col } from "react-bootstrap";
 import * as Api from "../../api";
 import Project from "./Project";
 import ProjectAddForm from "./ProjectAddForm";
+// recoil 사용
+import { useRecoilState } from "recoil";
+import {
+  projectsState,
+  isAddingState,
+  pageState,
+  totalPageState,
+} from "./ProjectAtom";
 
 const PER_PAGE = 3;
 
 function Projects({ portfolioOwnerId, isEditable }) {
   // useState로 projects 상태를 생성함.
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useRecoilState(projectsState);
   // useState로 isAdding 상태를 생성함.
-  const [isAdding, setIsAdding] = useState(false);
+  const [isAdding, setIsAdding] = useRecoilState(isAddingState);
   // useState로 totalPage, page 상태를 생성함.
-  const [totalPage, setTotalPage] = useState(1);
-  const [page, setPage] = useState(0);
+  const [totalPage, setTotalPage] = useRecoilState(totalPageState);
+  const [page, setPage] = useRecoilState(pageState);
 
   useEffect(() => {
     // "projectlist/유저id?page={현재 페이지}&?perPage={데이터 수}"로 GET 요청하고,
