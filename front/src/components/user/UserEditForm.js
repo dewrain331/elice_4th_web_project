@@ -22,10 +22,15 @@ function UserEditForm({ user, setIsEditing, setUser }) {
 
     // 선택된 이미지 여부 판단, 없을시 편집 이전 이미지
     if (pickedImage.data !== "") {
-      const formData = new FormData();
-      formData.append('profile', pickedImage.data);
-      const response = await Api.patch(`users/${user.id}/image`, formData);
-      setImage(response.data.image); // 이미지 정보
+      try {
+        const formData = new FormData();
+        formData.append('profile', pickedImage.data);
+        const response = await Api.patch(`users/${user.id}/image`, formData);
+        setImage(response.data.image); // 이미지 정보
+      } catch (err) {
+        console.log("파일크기가 3MB로 제한되어 있습니다.");
+        alert('파일크기는 3MB이하여야 합니다.');
+      }
     } else {
       setImage(image);
     }
