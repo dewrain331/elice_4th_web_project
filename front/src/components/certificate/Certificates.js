@@ -4,13 +4,14 @@ import * as Api from "../../api"
 import Certificate from "./Certificate"
 import CertificateAddForm from "./CertificateAddForm"
 import { useRecoilState } from 'recoil'
-import { isAddingState, pageState, allPageState } from './CertAtom'
+import { isAddingState, pageState, allPageState, perPageLimitState } from './CertAtom'
 
 const Certificates = ({ portfolioOwnerId, isEditable }) => {
     // RecoilStates
     const [isAdding, setIsAdding] = useRecoilState(isAddingState)
     const [page, setPage] = useRecoilState(pageState)
     const [allPage, setAllPage] = useRecoilState(allPageState)
+    const [perPageLimit, setPerPageLimit] = useRecoilState(perPageLimitState)
 
     // useState로 낱개의 certificate들을 담을 배열 선언
     const [certificates, setCertificates] = useState([])
@@ -21,7 +22,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                 if(page === 0) {
                     setPage(1)
                 }
-                const res = await Api.get("certificatelist", `${portfolioOwnerId}?page=${page}&perPage=3`)
+                const res = await Api.get("certificatelist", `${portfolioOwnerId}?page=${page}&perPage=${perPageLimit}`)
                 const { total, certificates } = res.data
                 setAllPage(total)
                 setCertificates(certificates)
@@ -72,13 +73,13 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                             variant="outline-secondary"
                             size="sm"
                         >
-                            {Math.ceil(allPage / 3) === 0 ? 0 : page} / {Math.ceil(allPage / 3)}
+                            {Math.ceil(allPage / {perPageLimit}) === 0 ? 0 : page} / {Math.ceil(allPage / {perPageLimit})}
                         </Button>
                         <Button
                             variant="outline-secondary"
                             size="sm"
                             onClick={() => setPage(prev => prev + 1)}
-                            disabled={page >= Math.ceil(allPage / 3)}
+                            disabled={page >= Math.ceil(allPage / {perPageLimit})}
                             className="ms-3"
                         >
                             {">"}

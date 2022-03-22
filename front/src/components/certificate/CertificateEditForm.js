@@ -5,9 +5,10 @@ import DatePicker from 'react-datepicker'
 import { useRecoilState } from 'recoil'
 import { pageState } from './CertAtom'
 
-const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing }) => {
+const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing, perPageLimitState }) => {
     // RecoilStates
     const [page, setPage] = useRecoilState(pageState)
+    const [perPageLimit, setPerPageLimit] = useRecoilState(perPageLimitState)
 
     // 편집 버튼을 누른 항목의 자격증 제목을 담을 title 변수 선언.
     const [title, setTitle] = useState(currentCertificate.title)
@@ -36,7 +37,7 @@ const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing
 
         // put 요청값과 함께 각각의 Certificate들의 모임인 Certificates를 다시 렌더링
         try {
-            const res = await Api.get("certificatelist", `${userId}?page=${page}&perPage=3`)
+            const res = await Api.get("certificatelist", `${userId}?page=${page}&perPage=${perPageLimit}`)
             setCertificates(res.data.certificates)
             // 편집 상태 종료.
             setIsEditing(false)

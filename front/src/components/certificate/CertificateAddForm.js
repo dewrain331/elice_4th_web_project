@@ -3,13 +3,14 @@ import { Button, Form, Col, Row } from "react-bootstrap"
 import * as Api from "../../api"
 import DatePicker from 'react-datepicker'
 import { useRecoilState } from 'recoil'
-import { isAddingState, pageState, allPageState } from './CertAtom'
+import { isAddingState, pageState, allPageState, perPageLimitState } from './CertAtom'
 
 const CertificateAddForm = ({ portfolioOwnerId, setCertificates }) => {
     // RecoilStates
     const [isAdding, setIsAdding] = useRecoilState(isAddingState)
     const [page, setPage] = useRecoilState(pageState)
     const [allPage, setAllPage] = useRecoilState(allPageState)
+    const [perPageLimit, setPerPageLimit] = useRecoilState(perPageLimitState)
 
     // useState로 자격증 이름을 담을 title 변수 선언.
     const [title, setTitle] = useState("")
@@ -39,10 +40,10 @@ const CertificateAddForm = ({ portfolioOwnerId, setCertificates }) => {
 
         // post 요청값과 함께 각각의 Certificate들의 모임인 Certificates를 다시 렌더링
         try {
-            const res = await Api.get("certificatelist", `${user_id}?page=${page}&perPage=3`)
+            const res = await Api.get("certificatelist", `${user_id}?page=${page}&perPage=${perPageLimit}`)
             const {total, certificates} = res.data
-            setPage(Math.ceil(total / 3))
-            setAllPage(Math.ceil(total / 3))
+            setPage(Math.ceil(total / {perPageLimit}))
+            setAllPage(Math.ceil(total / {perPageLimit}))
             setCertificates(certificates)
             // 생성 상태 종료.
             setIsAdding(false)

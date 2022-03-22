@@ -4,10 +4,11 @@ import * as Api from "../../api"
 import { useRecoilState } from 'recoil'
 import { pageState, allPageState } from './CertAtom'
 
-const CertificateCard = ({ certificate, isEditable, setIsEditing, setCertificates }) => {
+const CertificateCard = ({ certificate, isEditable, setIsEditing, setCertificates, perPageLimitState }) => {
     // RecoilStates
     const [page, setPage] = useRecoilState(pageState)
     const [allPage, setAllPage] = useRecoilState(allPageState)
+    const [perPageLimit, setPerPageLimit] = useRecoilState(perPageLimitState)
 
     // Modal 관련 State
     const slicingDate = (date) => {
@@ -22,12 +23,12 @@ const CertificateCard = ({ certificate, isEditable, setIsEditing, setCertificate
         try {
             const {id, user_id} = certificate
             await Api.delete(`certificate/${id}`)
-            const res = await Api.get("certificatelist", `${user_id}?page=${page}&perPage=3`)
+            const res = await Api.get("certificatelist", `${user_id}?page=${page}&perPage=${perPageLimit}`)
             const {total, certificates} = res.data
-            if(page > Math.ceil(total / 3)) {
+            if(page > Math.ceil(total / {perPageLimit})) {
                 setPage(page - 1)
             }
-            setAllPage(Math.ceil(total / 3))
+            setAllPage(Math.ceil(total / {perPageLimit}))
             setCertificates(certificates)
             setShow(false)
         } catch (err) {
