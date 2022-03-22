@@ -1,20 +1,17 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { Card, Button, Row, Col } from "react-bootstrap"
 import * as Api from "../../api"
 import Award from "./Award"
 import AwardAddForm from "./AwardAddForm"
 import { useRecoilState } from 'recoil'
-import { isAddingState, pageState, allPageState } from './AwardAtom'
+import { isAddingState, pageState, allPageState, awardsState } from './AwardAtom'
 
 const Awards = ({ portfolioOwnerId, isEditable }) => {
     // RecoilStates
     const [isAdding, setIsAdding] = useRecoilState(isAddingState)
     const [page, setPage] = useRecoilState(pageState)
     const [allPage, setAllPage] = useRecoilState(allPageState)
-
-    // useState로 낱개의 award들을 담을 배열 선언
-    const [awards, setAwards] = useState([])
-    // useState로 생성 상태를 관리할 변수를 선언
+    const [awards, setAwards] = useRecoilState(awardsState)
 
     useEffect(() => {
         const fetch = async () => {
@@ -31,7 +28,7 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
             }
         }
         fetch()
-    }, [portfolioOwnerId, page, allPage, setAllPage, setPage])
+    }, [portfolioOwnerId, page, allPage, setAllPage, setPage, setAwards])
 
     return (
         <Card>
@@ -41,7 +38,6 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
                     <Award
                         key={v.id}
                         _award={v}
-                        setAwards={setAwards}
                         isEditable={isEditable}
                     />
                 ))}
@@ -55,7 +51,6 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
                 {isAdding && (
                     <AwardAddForm 
                         portfolioOwnerId={portfolioOwnerId}
-                        setAwards={setAwards}
                     />
                 )}
                 <Row className="mt-3 text-center mb-4">

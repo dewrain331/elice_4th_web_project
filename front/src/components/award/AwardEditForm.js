@@ -1,12 +1,13 @@
 import { useState } from "react"
 import { Button, Form, Col, Row } from "react-bootstrap"
 import * as Api from "../../api"
-import { useRecoilValue } from 'recoil'
-import { pageState } from './AwardAtom'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { pageState, awardsState } from './AwardAtom'
 
-const AwardEditForm = ({ currentAward, setAwards, setIsEditing }) => {
+const AwardEditForm = ({ currentAward, setIsEditing }) => {
     // RecoilStates
     const page = useRecoilValue(pageState)
+    const setAwards = useSetRecoilState(awardsState)
 
     // 편집 버튼을 누른 항목의 수상내용을 담을 title 변수 선언.
     const [award, setAward] = useState(currentAward.award)

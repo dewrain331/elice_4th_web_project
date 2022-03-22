@@ -18,3 +18,8 @@
      key: 'allPageStateAward',
      default: 1
  })
+
+ export const awardsState = atom({
+     key: 'awardsState',
+     default: []
+ })
