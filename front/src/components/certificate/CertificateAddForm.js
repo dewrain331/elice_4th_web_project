@@ -2,14 +2,14 @@ import { useState } from "react"
 import { Button, Form, Col, Row } from "react-bootstrap"
 import * as Api from "../../api"
 import DatePicker from 'react-datepicker'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import { isAddingState, pageState, allPageState } from './CertAtom'
 
 const CertificateAddForm = ({ portfolioOwnerId, setCertificates }) => {
     // RecoilStates
-    const [isAdding, setIsAdding] = useRecoilState(isAddingState)
+    const setIsAdding = useSetRecoilState(isAddingState)
     const [page, setPage] = useRecoilState(pageState)
-    const [allPage, setAllPage] = useRecoilState(allPageState)
+    const setAllPage = useSetRecoilState(allPageState)
 
     // useState로 자격증 이름을 담을 title 변수 선언.
     const [title, setTitle] = useState("")
