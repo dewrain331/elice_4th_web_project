@@ -127,7 +127,7 @@ class userAuthService {
   }
 
   static addLike = async ({ user_id, currentUserId }) => {
-    // project db에 존재 여부 확인 & db에서 찾지 못한 경우, 에러 메시지 반환
+    // user db에 존재 여부 확인 & db에서 찾지 못한 경우, 에러 메시지 반환
     const likeInfo = await User.findById({ user_id });
     if (!likeInfo) {
       const errorMessage =
@@ -140,7 +140,7 @@ class userAuthService {
   }
 
   static removeLike = async ({ user_id, currentUserId }) => {
-    // project db에 존재 여부 확인 & db에서 찾지 못한 경우, 에러 메시지 반환
+    // user db에 존재 여부 확인 & db에서 찾지 못한 경우, 에러 메시지 반환
     const likeInfo = await User.findById({ user_id });
     if (!likeInfo) {
       const errorMessage =

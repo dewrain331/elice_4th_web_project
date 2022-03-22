@@ -36,55 +36,40 @@ class User {
 
   static addLike = async ({ user_id, currentUserId }) => {
     const owner = await UserModel.findOne({ id: user_id });
-    const likeUserList = owner.likeUsers;
-    // likeUserList.map((likeUser)=>{
-    //   if (likeUser === currentUserId) throw new Error('이미 좋아요를 눌렀습니다.');
-    // })
-    const userCheck = likeUserList.includes(currentUserId);
+    const userCheck = owner.likeUsers.includes(currentUserId);
     if (userCheck) {
       throw new Error('이미 좋아요를 눌렀습니다.');
     }
-    const addLikeCount = owner.likeCount + 1;
 
     const filter = { id: user_id };
-    const update = { likeCount: addLikeCount, $push: { likeUsers: currentUserId } }
+    const update = { likeCount: owner.likeCount + 1, $push: { likeUsers: currentUserId } }
     const option = { returnOriginal: false };
 
-    const addLikeUser = await UserModel.findOneAndUpdate(
+    const addedLike = await UserModel.findOneAndUpdate(
       filter,
       update,
       option
     );
-    return addLikeUser;
+    return addedLike;
   }
 
   static removeLike = async ({ user_id, currentUserId }) => {
     const owner = await UserModel.findOne({ id: user_id });
-    const likeUserList = owner.likeUsers;
-    // likeUserList.map((likeUser)=>{
-    //   if (likeUser === currentUserId) {
-    //     return owner.likeCount;
-    //   }
-    //   else {
-    //     throw new Error('좋아요를 누른 적이 없습니다.')
-    //   }
-    // })
-    const userCheck = likeUserList.includes(currentUserId);
+    const userCheck = owner.likeUsers.includes(currentUserId);
     if (!userCheck) {
       throw new Error('좋아요를 누른 적이 없습니다.');
     }
-    const subtractLikeCount = owner.likeCount - 1;
 
     const filter = { id: user_id };
-    const update = { likeCount: subtractLikeCount, $pull: { likeUsers: currentUserId } }
+    const update = { likeCount: owner.likeCount - 1, $pull: { likeUsers: currentUserId } }
     const option = { returnOriginal: false };
 
-    const removeLikeUser = await UserModel.findOneAndUpdate(
+    const removedLike = await UserModel.findOneAndUpdate(
       filter,
       update,
       option
     );
-    return removeLikeUser;
+    return removedLike;
   }
 }
 

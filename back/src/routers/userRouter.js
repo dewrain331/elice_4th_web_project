@@ -149,7 +149,7 @@ userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
 
 userAuthRouter.put("/users/:id/like", async function (req, res, next) {
   try {
-    // URI로부터 data id를 추출함.
+    // URI로부터 포트폴리오 user_id를 추출함.
     const user_id = req.params.id;
 
     // body data 로부터 업데이트할 사용자 정보를 추출함.
@@ -170,7 +170,7 @@ userAuthRouter.put("/users/:id/like", async function (req, res, next) {
 
 userAuthRouter.put("/users/:id/dislike", async function (req, res, next) {
   try {
-    // URI로부터 data id를 추출함.
+    // URI로부터 포트폴리오 user_id를 추출함.
     const user_id = req.params.id;
 
     // body data 로부터 업데이트할 사용자 정보를 추출함.
