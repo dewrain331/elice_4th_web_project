@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { Button, Form, Card, Col, Row } from "react-bootstrap";
 import * as Api from "../../api";
+// recoil 사용
+import { useSetRecoilState } from "recoil";
+import { isEditingState } from "./UserAtom";
 
-function UserEditForm({ user, setIsEditing, setUser }) {
+function UserEditForm({ user, setUser }) {
+  const setIsEditing = useSetRecoilState(isEditingState);
   //useState로 name 상태를 생성함.
   const [name, setName] = useState(user.name);
   //useState로 email 상태를 생성함.
@@ -12,10 +16,10 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   //선택된 이미지의 상태
   const [pickedImage, setPickedImage] = useState({
     preview: "",
-    data: ""
-  })
-
-  const [image, setImage] = useState(user.image)
+    data: "",
+  });
+  //적용될 이미지
+  const [image, setImage] = useState(user.image);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,12 +28,12 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     if (pickedImage.data !== "") {
       try {
         const formData = new FormData();
-        formData.append('profile', pickedImage.data);
+        formData.append("profile", pickedImage.data);
         const response = await Api.patch(`users/${user.id}/image`, formData);
         setImage(response.data.image); // 이미지 정보
       } catch (err) {
         console.log("파일크기가 3MB로 제한되어 있습니다.");
-        alert('파일크기는 3MB이하여야 합니다.');
+        alert("파일크기는 3MB이하여야 합니다.");
       }
     } else {
       setImage(image);
@@ -51,20 +55,26 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     setIsEditing(false);
   };
 
-
   const handleFileChange = (evt) => {
     const img = {
       preview: URL.createObjectURL(evt.target.files[0]),
       data: evt.target.files[0],
-    }
-    setPickedImage(img)
-  }
+    };
+    setPickedImage(img);
+  };
 
   return (
     <Card className="mb-2">
       <Card.Body>
         <Form onSubmit={handleSubmit}>
-          {pickedImage.preview && <img src={pickedImage.preview} width="136px" height="128px" alt="profile_image" />}
+          {pickedImage.preview && (
+            <img
+              src={pickedImage.preview}
+              width="136px"
+              height="128px"
+              alt="profile_image"
+            />
+          )}
           <Form.Group controlId="useEditImage" className="mb-3">
             <Form.Control
               type="file"

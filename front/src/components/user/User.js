@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import UserEditForm from "./UserEditForm";
 import UserCard from "./UserCard";
 import * as Api from "../../api";
+// recoil 사용
+import { useRecoilValue } from "recoil";
+import { isEditingState } from "./UserAtom";
 
 function User({ portfolioOwnerId, isEditable }) {
-  // useState 훅을 통해 isEditing 상태를 생성함.
-  const [isEditing, setIsEditing] = useState(false);
+  // isEditing 상태를 생성함.
+  const isEditing = useRecoilValue(isEditingState);
   // useState 훅을 통해 user 상태를 생성함.
   const [user, setUser] = useState(null);
 
@@ -17,17 +20,9 @@ function User({ portfolioOwnerId, isEditable }) {
   return (
     <>
       {isEditing ? (
-        <UserEditForm
-          user={user}
-          setIsEditing={setIsEditing}
-          setUser={setUser}
-        />
+        <UserEditForm user={user} setUser={setUser} />
       ) : (
-        <UserCard
-          user={user}
-          setIsEditing={setIsEditing}
-          isEditable={isEditable}
-        />
+        <UserCard user={user} isEditable={isEditable} />
       )}
     </>
   );

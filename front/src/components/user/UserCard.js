@@ -1,8 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { Card, Row, Button, Col } from "react-bootstrap";
+// recoil 사용
+import { useSetRecoilState } from "recoil";
+import { isEditingState } from "./UserAtom";
 
-function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
+function UserCard({ user, isEditable, isNetwork }) {
   const navigate = useNavigate();
+  const setIsEditing = useSetRecoilState(isEditingState);
   return (
     <Card className="mb-2 ms-3 mr-5" style={{ width: "18rem" }}>
       <Card.Body>
