@@ -12,6 +12,8 @@ import {
   totalPageState,
 } from "./ProjectAtom";
 
+const PER_PAGE = 3;
+
 function Projects({ portfolioOwnerId, isEditable }) {
   // useState로 projects 상태를 생성함.
   const [projects, setProjects] = useRecoilState(projectsState);
@@ -26,13 +28,13 @@ function Projects({ portfolioOwnerId, isEditable }) {
     // response의 data로 totalPage와 projects를 세팅함.
     const fetchProjects = async () => {
       try {
-        // page가 0일 순 없으므로 page 1을 setting함
+        // 데이터 전송을 위한 page를 1로 setting함
         if (page === 0) {
           setPage(1);
         }
         const res = await Api.get(
           "projectlist",
-          `${portfolioOwnerId}?page=${page}&perPage=3`
+          `${portfolioOwnerId}?page=${page}&perPage=${PER_PAGE}`
         );
         const { totalPage, projects } = res.data;
         setTotalPage(totalPage);
