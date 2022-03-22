@@ -25,7 +25,6 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                 const { total, certificates } = res.data
                 setAllPage(total)
                 setCertificates(certificates)
-                console.log(Math.ceil(allPage / 3))
             } catch (err) {
                 console.error(err)
             }
