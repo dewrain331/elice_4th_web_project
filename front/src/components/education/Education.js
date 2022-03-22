@@ -1,32 +1,23 @@
-import { useState } from 'react'
-import EducationCard from './EducationCard'
-import EducationEditForm from './EducationEditForm'
+import { useState } from "react";
+import EducationCard from "./EducationCard";
+import EducationEditForm from "./EducationEditForm";
 
-const Education=({ education, setEducations, isEditable, page, setPage, setAllPage })=>{
-    const [ isEditing, setIsEditing ]=useState(false)
-    
-    return(
-        <>
-          { isEditing ? (
-              <EducationEditForm
-                education={education}
-                setEducations={setEducations}
-                setIsEditing={setIsEditing}
-                page={page}
-              />
-          ):(
-              <EducationCard
-                education={education}
-                setEducations={setEducations}
-                isEditable={isEditable}
-                setIsEditing={setIsEditing}
-                page={page}
-                setPage={setPage}
-                setAllPage={setAllPage}
-              />
-          ) }  
-        </>
-    )
-}
+const Education = ({ education, isEditable }) => {
+  const [isEditing, setIsEditing] = useState(false);
 
-export default Education
+  return (
+    <>
+      {isEditing ? (
+        <EducationEditForm education={education} setIsEditing={setIsEditing} />
+      ) : (
+        <EducationCard
+          education={education}
+          isEditable={isEditable}
+          setIsEditing={setIsEditing}
+        />
+      )}
+    </>
+  );
+};
+
+export default Education;
