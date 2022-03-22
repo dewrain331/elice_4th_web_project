@@ -35,6 +35,32 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
   }
 });
 
+userAuthRouter.post("/user/withdraw", login_required, async function (req, res, next) {
+  try {
+
+    if (is.emptyObject(req.body) || !req.body.password) {
+      throw new Error(
+        "회원탈퇴 시 비밀번호가 필요합니다. 현재 입력된 비밀번호가 없습니다."
+      );
+    }
+
+    // req (request) 에서 데이터 가져오기
+    const password = req.body.password;
+    const user_id = req.currentUserId;  
+
+    // 위 데이터를 이용하여 유저 db에서 유저 찾기
+    const user = await userAuthService.withdrawUser({ user_id, password });
+
+    if (user.errorMessage) {
+      throw new Error(user.errorMessage);
+    }
+
+    res.status(200).send(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
 userAuthRouter.post("/user/login", async function (req, res, next) {
   try {
     // req (request) 에서 데이터 가져오기
