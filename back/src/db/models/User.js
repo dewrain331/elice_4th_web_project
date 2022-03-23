@@ -63,40 +63,17 @@ class User {
       userId, delayTime : Date.now() + EXPIRE_DELAY_TIME
     })
 
-    console.log('pResult');
-    console.log(pResult);
-
-    if(pResult.err) { return null; }
-
     const eResult = await Education.withdrawByUserId({
       userId, delayTime : Date.now() + EXPIRE_DELAY_TIME
     })
-
-    if(eResult.err) { 
-      await Project.recoveryByUserId({ userId })
-      return null; 
-    }
 
     const cResult = await Certificate.withdrawByUserId({
       userId, delayTime : Date.now() + EXPIRE_DELAY_TIME
     })
 
-    if(cResult.err) { 
-      await Education.recoveryByUserId({ userId })
-      await Project.recoveryByUserId({ userId })
-      return null; 
-    }
-
     const aResult = await Award.withdrawByUserId({
       userId, delayTime : Date.now() + EXPIRE_DELAY_TIME
     })
-
-    if(aResult.err) { 
-      await Education.recoveryByUserId({ userId })
-      await Project.recoveryByUserId({ userId })
-      await Certificate.recoveryByUserId({ userId })
-      return null; 
-    }
 
     return result;
   }
