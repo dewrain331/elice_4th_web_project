@@ -70,18 +70,8 @@ function ProjectCard({ project, isEditable, setIsEditing }) {
     setShow(false);
   };
 
-  // const DetailOpenSpan = styled.span`
-  //   max-height: 100%;
-  //   line-height: 30px;
-  // `;
-
   const handleDetailButton = () => {
     setShowDetail(!showDetail);
-    handleIsLong();
-  };
-
-  const handleIsLong = () => {
-    // console.log(project.description);
   };
 
   return (
