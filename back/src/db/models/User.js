@@ -36,6 +36,21 @@ class User {
     return updatedUser;
   }
 
+  static async changePassword ({ userId, password }) {
+    console.log(password);
+    
+    const filter = { id: userId, active : true, };
+    const update = { password: password };
+    const option = { returnOriginal: false };
+
+    const updatedUser = await UserModel.findOneAndUpdate(
+      filter,
+      update,
+      option
+    );
+    return updatedUser;
+  }
+
       /** 유저 탈퇴 기능
      *  유저의 모든 데이터 비활성화
      *  exired를 추가해주고, active를 false로 해준다.

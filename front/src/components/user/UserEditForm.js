@@ -15,7 +15,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await Api.post(`users/password`, {
+    await Api.post(`user/password`, {
       password: changePw
     })
 

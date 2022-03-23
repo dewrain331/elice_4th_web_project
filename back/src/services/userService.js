@@ -135,9 +135,9 @@ class userAuthService {
 
     // 비밀번호 재생성
     const hashedPassword = await bcrypt.hash(password, 10);
-
     // db에 저장
-    const createdNewUser = await User.update({ userId, password, hashedPassword });
+    const createdNewUser = await User.changePassword({ userId, password : hashedPassword});
+    
     createdNewUser.errorMessage = null; // 문제 없이 db 저장 완료되었으므로 에러가 없음.
 
     return createdNewUser;
@@ -165,6 +165,9 @@ class userAuthService {
       password,
       correctPasswordHash
     );
+
+    console.log(correctPasswordHash);
+
     if (!isPasswordCorrect) {
       const errorMessage =
         "비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요.";
