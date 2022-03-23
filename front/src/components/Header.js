@@ -34,7 +34,9 @@ function Header() {
 
   const discardId = async () => {
     try {
-      await Api.delete(url)
+      await Api.post(`user/withdraw`, {
+        password: userState.user?.password
+      })
       dispatch({type : "LOGOUT"})
       alert("회원탈퇴가 완료되었습니다.")
       navigate("/")
