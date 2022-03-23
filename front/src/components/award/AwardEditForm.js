@@ -13,7 +13,7 @@ const AwardEditForm = ({ currentAward, setAwards, setIsEditing, page }) => {
         evt.preventDefault()
         evt.stopPropagation()
 
-        const user_id = currentAward.user_id
+        const userId = currentAward.userId
 
         // put 요청.
         try { await Api.post(`award/${currentAward.id}`, {
@@ -26,7 +26,7 @@ const AwardEditForm = ({ currentAward, setAwards, setIsEditing, page }) => {
 
         // put 요청값과 함께 각각의 Award들의 모임인 Awards를 다시 렌더링
         try {
-            const res = await Api.get("awardlist", `${user_id}?page=${page}&perPage=3`)
+            const res = await Api.get("awardlist", `${userId}?page=${page}&perPage=3`)
             setAwards(res.data.awards)
             // 편집 상태 종료.
             setIsEditing(false)

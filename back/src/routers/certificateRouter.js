@@ -15,7 +15,7 @@ certificateRouter.post("/certificate/create", login_required, async (req, res, n
         }
 
         const newCertificate = {
-            user_id : req.body.user_id,
+            userId : req.body.userId,
             title : req.body.title,
             description : req.body.description,
             date : req.body.date
@@ -35,7 +35,7 @@ certificateRouter.post("/certificate/create", login_required, async (req, res, n
     }
 });
 
-certificateRouter.get("/certificatelist/:user_id", login_required, async (req, res, next) => {
+certificateRouter.get("/certificatelist/:userId", login_required, async (req, res, next) => {
     try {
         
         if (is.emptyObject(req.query) || is.emptyObject(req.params)) {
@@ -48,7 +48,7 @@ certificateRouter.get("/certificatelist/:user_id", login_required, async (req, r
         const perPage = Number(req.query.perPage) || 3;
 
         const getCertificates = {
-            user_id : req.params.user_id,
+            userId : req.params.userId,
             page : page,
             perPage : perPage,
         }
@@ -130,7 +130,7 @@ certificateRouter.delete("/certificate/:id", login_required, async (req, res, ne
         
         const deleteCertificate = {
             id : req.params.id,
-            user_id : req.currentUserId,
+            userId : req.currentUserId,
         }
         
         const certificate = await certificateService.deleteCertificate({ deleteCertificate });

@@ -10,9 +10,9 @@ const AwardCard = ({ _award, isEditable, setIsEditing, setAwards, setAllPage, pa
 
     const handleDelete = async () => {
         try {
-            const {id, user_id} = _award
+            const {id, userId} = _award
             await Api.delete(`awards/${id}`)
-            const res = await Api.get("awardlist", `${user_id}?page=${page}&perPage=3`)
+            const res = await Api.get("awardlist", `${userId}?page=${page}&perPage=3`)
             const {total, awards} = res.data
             if(page > Math.ceil(total / 3)) {
                 setPage(page - 1)

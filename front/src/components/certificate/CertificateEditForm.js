@@ -16,7 +16,7 @@ const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing
         evt.preventDefault()
         evt.stopPropagation()
 
-        const user_id = currentCertificate.user_id
+        const userId = currentCertificate.userId
 
         // put 요청.
         try {
@@ -31,7 +31,7 @@ const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing
 
         // put 요청값과 함께 각각의 Certificate들의 모임인 Certificates를 다시 렌더링
         try {
-            const res = await Api.get("certificatelist", `${user_id}?page=${page}&perPage=3`)
+            const res = await Api.get("certificatelist", `${userId}?page=${page}&perPage=3`)
             setCertificates(res.data.certificates)
             // 편집 상태 종료.
             setIsEditing(false)

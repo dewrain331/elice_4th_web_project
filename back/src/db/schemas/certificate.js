@@ -6,7 +6,7 @@ const CertificateSchema = new Schema(
             type: String,
             required: true,
         },
-        user_id: {
+        userId: {
             type: String,
             required: true,
         },
@@ -21,6 +21,20 @@ const CertificateSchema = new Schema(
         date : {
             type : String,
             required : true,
+        },
+        active : {
+            type: Boolean,
+            required : true,
+            default : true
+          },
+        createdAt : {
+            type : Date,
+            required : true,
+            default : Date.now
+        },
+        expiredAt : {
+            type : Date,
+            expires:0
         }
     },
     {
