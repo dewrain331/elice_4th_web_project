@@ -9,6 +9,24 @@ import styled from "styled-components";
 
 const PER_PAGE = 3;
 
+const DetailSpan = styled.div`
+  ${({ show }) => {
+    if (show) {
+      return `max-height: 100%;`;
+    } else {
+      return `overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;`;
+    }
+  }}
+`;
+
+const DetailButton = styled.button`
+  border: 0;
+`;
+
 function ProjectCard({ project, isEditable, setIsEditing }) {
   // 날짜 표시를 위한 슬라이싱
   const slicingDate = (date) => {
@@ -27,7 +45,7 @@ function ProjectCard({ project, isEditable, setIsEditing }) {
 
   // 더보기 버튼 state
   const [showDetail, setShowDetail] = useState(false);
-  const [isLong, setIsLong] = useState(false);
+  // const [isLong, setIsLong] = useState(false); // overflow 판단 처리 필요
 
   // 삭제 기능을 하는 함수
   const handleDelete = async () => {
@@ -57,36 +75,13 @@ function ProjectCard({ project, isEditable, setIsEditing }) {
   //   line-height: 30px;
   // `;
 
-  const DetailSpan = styled.span`
-    ${({ show }) => {
-      if (show) {
-        return `max-height: 100%; line-height: 30px;`;
-      } else {
-        return `overflow: hidden;
-          text-overflow: ellipsis;
-          display: -webkit-box;
-          -webkit-line-clamp: 1;
-          -webkit-box-orient: vertical;`;
-      }
-    }}
-  `;
-
-  const DetailButton = styled.button`
-    border: 0;
-    background: rgb(2, 0, 36);
-    background: linear-gradient(
-      90deg,
-      rgba(2, 0, 36, 1) 0%,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 1) 18%
-    );
-    &.hide {
-      display: none;
-    }
-  `;
-
   const handleDetailButton = () => {
     setShowDetail(!showDetail);
+    handleIsLong();
+  };
+
+  const handleIsLong = () => {
+    // console.log(project.description);
   };
 
   return (
