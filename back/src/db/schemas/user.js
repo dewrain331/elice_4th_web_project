@@ -39,6 +39,20 @@ const UserSchema = new Schema(
       required: false,
       default: "설명이 아직 없습니다. 추가해 주세요.",
     },
+    active : {
+      type: Boolean,
+      required : true,
+      default : true
+    },
+    createdAt : {
+      type : Date,
+      required : true,
+      default : Date.now
+    },
+    expiredAt : {
+      type : Date,
+      expires:0
+    },
     image: {
       type: imageSchema,
       default: {

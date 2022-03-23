@@ -4,6 +4,63 @@ import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
 
 class userAuthService {
+
+  static async withdrawUser({ userId, password }) {
+    const user = await User.findById({ userId : userId });
+    if (!user) {
+      const errorMessage =
+        "해당 아이디는 없는 아이디입니다. 다른 아이디를 입력해 주세요.";
+      return { errorMessage };
+    }
+
+    // 비밀번호 일치 여부 확인
+    const correctPasswordHash = user.password;
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      correctPasswordHash
+    );
+
+    if (!isPasswordCorrect) {
+      const errorMessage =
+        "비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+
+    const withdrawResult = User.withdraw({ userId });
+
+    if (withdrawResult) {
+      return {
+        status : "success"
+      }
+    }
+
+    const errorMessage =
+        "회원탈퇴에 실패하였습니다. 다시 시도해주세요.";
+    return { errorMessage };
+
+  }
+
+  static async recoveryUser({ userId }) {
+    const user = await User.findById({ userId : userId, active:false });
+    if (!user) {
+      const errorMessage =
+        "해당 아이디는 없는 아이디입니다. 다른 아이디를 입력해 주세요.";
+      return { errorMessage };
+    }
+
+    const recoveryResult = User.recovery({ userId });
+
+    if (recoveryResult) {
+      return {
+        status : "success"
+      }
+    }
+
+    const errorMessage =
+        "회원복구에 실패했습니다. 다시 시도해주세요.";
+    return { errorMessage };
+  }
+
   static async addUser({ name, email, password }) {
     // 이메일 중복 확인
     const user = await User.findByEmail({ email });
@@ -30,6 +87,13 @@ class userAuthService {
   static async getUser({ email, password }) {
     // 이메일 db에 존재 여부 확인
     const user = await User.findByEmail({ email });
+
+    if (!user.active) {
+      const errorMessage =
+        "해당 계정은 비활성화 되었습니다. ";
+      return { errorMessage };
+    }
+
     if (!user) {
       const errorMessage =
         "해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
@@ -50,13 +114,12 @@ class userAuthService {
 
     // 로그인 성공 -> JWT 웹 토큰 생성
     const secretKey = process.env.JWT_SECRET_KEY || "jwt-secret-key";
-    const token = jwt.sign({ user_id: user.id }, secretKey);
+    const token = jwt.sign({ userId: user.id }, secretKey);
 
     // 반환할 loginuser 객체를 위한 변수 설정
     const id = user.id;
     const name = user.name;
     const description = user.description;
-    const image = user.image;
 
     const loginUser = {
       token,
@@ -64,7 +127,6 @@ class userAuthService {
       email,
       name,
       description,
-      image,
       errorMessage: null,
     };
 
@@ -76,9 +138,9 @@ class userAuthService {
     return users;
   }
 
-  static async setUser({ user_id, toUpdate }) {
+  static async setUser({ userId, toUpdate }) {
     // 우선 해당 id 의 유저가 db에 존재하는지 여부 확인
-    let user = await User.findById({ user_id });
+    let user = await User.findById({ userId });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user) {
@@ -91,32 +153,32 @@ class userAuthService {
     if (toUpdate.name) {
       const fieldToUpdate = "name";
       const newValue = toUpdate.name;
-      user = await User.update({ user_id, fieldToUpdate, newValue });
+      user = await User.update({ userId, fieldToUpdate, newValue });
     }
 
     if (toUpdate.email) {
       const fieldToUpdate = "email";
       const newValue = toUpdate.email;
-      user = await User.update({ user_id, fieldToUpdate, newValue });
+      user = await User.update({ userId, fieldToUpdate, newValue });
     }
 
     if (toUpdate.password) {
       const fieldToUpdate = "password";
       const newValue = toUpdate.password;
-      user = await User.update({ user_id, fieldToUpdate, newValue });
+      user = await User.update({ userId, fieldToUpdate, newValue });
     }
 
     if (toUpdate.description) {
       const fieldToUpdate = "description";
       const newValue = toUpdate.description;
-      user = await User.update({ user_id, fieldToUpdate, newValue });
+      user = await User.update({ userId, fieldToUpdate, newValue });
     }
 
     return user;
   }
 
-  static async getUserInfo({ user_id }) {
-    const user = await User.findById({ user_id });
+  static async getUserInfo({ userId }) {
+    const user = await User.findById({ userId });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user) {
@@ -128,9 +190,9 @@ class userAuthService {
     return user;
   }
 
-  static async uploadImage({ user_id, imageInfo }) {
+  static async uploadImage({ userId, imageInfo }) {
     // 우선 해당 id 의 유저가 db에 존재하는지 여부 확인
-    let user = await User.findById({ user_id });
+    let user = await User.findById({ userId });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user) {
@@ -139,7 +201,7 @@ class userAuthService {
       return { errorMessage };
     }
 
-    user = await User.upload({ user_id, imageInfo })
+    user = await User.upload({ userId, imageInfo })
     
     return user;
   }
