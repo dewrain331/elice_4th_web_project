@@ -20,7 +20,7 @@ function Header() {
     // dispatch 함수를 이용해 로그아웃함.
     dispatch({ type: "LOGOUT" });
     // 기본 페이지로 돌아감.
-    navigate("/");
+    navigate("/login");
   };
 
   return (
