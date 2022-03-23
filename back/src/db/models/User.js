@@ -1,11 +1,5 @@
 import { UserModel } from "../schemas/user";
-import { Award } from "./Award";
-import { Certificate } from "./Certificate";
-import { Education } from "./Education";
-import { Project } from "./Project";
-
-// 한달
-const EXPIRE_DELAY_TIME = 30*86400*1000;
+import { EXPIRE_DELAY_TIME } from "../../constant";
 
 class User {
   static async create({ newUser }) {
@@ -42,6 +36,10 @@ class User {
     return updatedUser;
   }
 
+      /** 유저 탈퇴 기능
+     *  유저의 모든 데이터 비활성화
+     *  exired를 추가해주고, active를 false로 해준다.
+     */
   static async withdraw({ userId }) {
     const filter = { id: userId, active : true, };
     const update = { $set : { expiredAt : Date.now() + EXPIRE_DELAY_TIME, active : false } };
@@ -53,35 +51,12 @@ class User {
       option
     );
 
-    if(!result) { return null; }
-    /** todo
-     *  이부분에서 사용자의 모든 정보를 비활성화 시켜놔야 한다.
-     *  exired를 추가해주고, active를 false로 해주고.
-     */
-
-    const pResult = await Project.withdrawByUserId({
-      userId, delayTime : Date.now() + EXPIRE_DELAY_TIME
-    })
-
-    const eResult = await Education.withdrawByUserId({
-      userId, delayTime : Date.now() + EXPIRE_DELAY_TIME
-    })
-
-    const cResult = await Certificate.withdrawByUserId({
-      userId, delayTime : Date.now() + EXPIRE_DELAY_TIME
-    })
-
-    const aResult = await Award.withdrawByUserId({
-      userId, delayTime : Date.now() + EXPIRE_DELAY_TIME
-    })
-
     return result;
   }
 
   /** todo
-   * 유저 복구 기능도 추가
-   * 사용자의 expried를 0으로 바꿔주고
-   * 나머지 사용자들의 
+   * 유저 복구 기능
+   * 복구 실패시 return null
    */
   static async recovery({ userId }) {
     const filter = { id: userId, active : false, };
@@ -93,16 +68,6 @@ class User {
       update,
       option
     );
-
-    if(!result) { return null; }
-
-    const pResult = await Project.recoveryByUserId({ userId });
-
-    const eResult = await Education.recoveryByUserId({ userId })
-
-    const cResult = await Certificate.recoveryByUserId({ userId })
-
-    const aResult = await Award.recoveryByUserId({ userId })
     
     return result;
 

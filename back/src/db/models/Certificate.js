@@ -77,23 +77,31 @@ class Certificate {
     }
 
     static async withdrawByUserId({ userId, delayTime }) {
-        const withdrawResult = await CertificateModel.updateMany(
-          { userId : userId, active : true, },
-          { $set : { expiredAt : delayTime, active : false } },
-          { returnOriginal : false },
-        )
-    
-        return withdrawResult;
+        try {
+            const withdrawResult = await CertificateModel.updateMany(
+                { userId : userId, active : true, },
+                { $set : { expiredAt : delayTime, active : false } },
+                { returnOriginal : false },
+              )
+          
+            return withdrawResult;
+        } catch (err) {
+            return { error : err.message };
+        }
     }
 
     static async recoveryByUserId({ userId }) {
-        const recoveryResult = await CertificateModel.updateMany(
-          { userId : userId, active : false, },
-          { $set : { active : true }, $unset : { expiredAt : true } },
-          { returnOriginal : false },
-        )
-    
-        return recoveryResult;
+        try {
+            const recoveryResult = await CertificateModel.updateMany(
+                { userId : userId, active : false, },
+                { $set : { active : true }, $unset : { expiredAt : true } },
+                { returnOriginal : false },
+              )
+          
+            return recoveryResult;
+        } catch (err) {
+            return { error : err.message };
+        }
     }
 }
 

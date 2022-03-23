@@ -37,23 +37,32 @@ class Project {
   }
 
   static async withdrawByUserId({ userId, delayTime }) {
-    const withdrawResult = await projectModel.updateMany(
-      { userId : userId, active : true, },
-      { $set : { expiredAt : delayTime, active : false} },
-      { returnOriginal : false },
-    )
+    try {
+      const withdrawResult = await projectModel.updateMany(
+        { userId : userId, active : true, },
+        { $set : { expiredAt : delayTime, active : false} },
+        { returnOriginal : false },
+      )
 
-    return withdrawResult;
+      return withdrawResult;
+
+    } catch(err) {
+      return { error: err.message };
+    }
   }
 
   static async recoveryByUserId({ userId }) {
-    const recoveryResult = await projectModel.updateMany(
-      { userId : userId, active : false, },
-      { $set : { active : true }, $unset : { expiredAt : true } },
-      { returnOriginal : false },
-    )
+    try {
+      const recoveryResult = await projectModel.updateMany(
+        { userId : userId, active : false, },
+        { $set : { active : true }, $unset : { expiredAt : true } },
+        { returnOriginal : false },
+      )
 
-    return recoveryResult;
+      return recoveryResult;
+    } catch (err) {
+      return { error : err.message };
+    }
   }
 }
 
