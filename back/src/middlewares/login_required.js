@@ -33,8 +33,7 @@ async function login_required(req, res, next) {
 }
 
 const isUserActive = async ({ userId }) => {
-  const userCheck = await User.findById({ userId });
-
+  const userCheck = await User.findById({ userId, active:true });
   if (!userCheck) {
     return false;
   }

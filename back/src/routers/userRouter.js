@@ -106,6 +106,26 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
   }
 });
 
+userAuthRouter.post("/user/password", login_required, async function (req, res, next) {
+    try {
+
+      if (is.emptyObject(req.body) || !req.body.password) {
+        throw new Error(
+          "변경할 패스워드를 입력해주세요. 패스워드가 없습니다."
+        );
+      }
+      
+      const userId = req.currentUserId;
+      const password = req.body.password;
+
+      const users = await userAuthService.changePassword({ userId, password });
+      res.status(200).send(users);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 userAuthRouter.get(
   "/userlist",
   login_required,

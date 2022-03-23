@@ -1,7 +1,8 @@
-import { User } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+import { User, Award, Certificate, Education, Project } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
+import { EXPIRE_DELAY_TIME } from "../constant";
 
 class userAuthService {
 
@@ -26,18 +27,43 @@ class userAuthService {
       return { errorMessage };
     }
 
-    const withdrawResult = User.withdraw({ userId });
+    try {
+      const withdrawResult = User.withdraw({ userId });
+      if (!withdrawResult) { throw new Error("User withdraw Error") };
 
-    if (withdrawResult) {
-      return {
-        status : "success"
-      }
+
+      const pResult = await Project.withdrawByUserId({
+        userId, delayTime : Date.now() + EXPIRE_DELAY_TIME
+      })
+
+      if (pResult.error) { throw new Error("Project withdraw Error") };
+
+      const eResult = await Education.withdrawByUserId({
+        userId, delayTime : Date.now() + EXPIRE_DELAY_TIME
+      })
+
+      if (eResult.error) { throw new Error("Education withdraw Error") };
+
+      const cResult = await Certificate.withdrawByUserId({
+        userId, delayTime : Date.now() + EXPIRE_DELAY_TIME
+      })
+
+      if (cResult.error) { throw new Error("Certificate withdraw Error") };
+
+      const aResult = await Award.withdrawByUserId({
+        userId, delayTime : Date.now() + EXPIRE_DELAY_TIME
+      })
+
+      if (aResult.error) { throw new Error("Award withdraw Error") };
+      
+      return { status : "success" }
+
+    } catch (e) {
+      await this.recoveryUser({ userId });
+      const errorMessage =
+        "회원탈퇴에 실패했습니다. 다시 시도해주세요.";
+      return { errorMessage };
     }
-
-    const errorMessage =
-        "회원탈퇴에 실패하였습니다. 다시 시도해주세요.";
-    return { errorMessage };
-
   }
 
   static async recoveryUser({ userId }) {
@@ -48,17 +74,30 @@ class userAuthService {
       return { errorMessage };
     }
 
-    const recoveryResult = User.recovery({ userId });
+    try {
 
-    if (recoveryResult) {
-      return {
-        status : "success"
-      }
-    }
+      const recoveryResult = User.recovery({ userId });
+      if (!recoveryResult) { throw new Error("User withdraw Error") };
 
-    const errorMessage =
+      const pResult = await Project.recoveryByUserId({ userId });
+      if (pResult.error) { throw new Error("Project withdraw Error") };
+
+      const eResult = await Education.recoveryByUserId({ userId });
+      if (eResult.error) { throw new Error("Education withdraw Error") };
+
+      const cResult = await Certificate.recoveryByUserId({ userId });
+      if (cResult.error) { throw new Error("Certificate withdraw Error") };
+
+      const aResult = await Award.recoveryByUserId({ userId })
+      if (aResult.error) { throw new Error("Award withdraw Error") };
+
+      return { status : "success" };
+
+    } catch(e) {
+      const errorMessage =
         "회원복구에 실패했습니다. 다시 시도해주세요.";
-    return { errorMessage };
+      return { errorMessage };
+    }
   }
 
   static async addUser({ name, email, password }) {
@@ -79,6 +118,26 @@ class userAuthService {
 
     // db에 저장
     const createdNewUser = await User.create({ newUser });
+    createdNewUser.errorMessage = null; // 문제 없이 db 저장 완료되었으므로 에러가 없음.
+
+    return createdNewUser;
+  }
+
+  static async changePassword({ userId, password }) {
+    
+    const user = await User.findById({ userId });
+
+    if (!user) {
+      const errorMessage =
+        "회원을 탈퇴한 유저 혹은 없는 유저입니다. 비밀번호 변경에 실패했습니다.";
+      return { errorMessage };
+    }
+
+    // 비밀번호 재생성
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // db에 저장
+    const createdNewUser = await User.update({ userId, password, hashedPassword });
     createdNewUser.errorMessage = null; // 문제 없이 db 저장 완료되었으므로 에러가 없음.
 
     return createdNewUser;
