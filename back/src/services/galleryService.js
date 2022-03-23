@@ -46,7 +46,7 @@ class galleryService {
         "해당 id를 가진 이미지 데이터는 없습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
-    console.log(2, description)
+
     const updatedImageContent = await Gallery.update({ imageId, description });
     return updatedImageContent;
   }

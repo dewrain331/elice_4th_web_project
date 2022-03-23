@@ -33,7 +33,6 @@ class Gallery {
   }
 
   static update = async ({ imageId, description }) => {
-    console.log(3, description)
     const filter = { id: imageId, active : true, };
     const option = { returnOriginal: false };
     const updatedImageContent = await galleryModel.findOneAndUpdate(

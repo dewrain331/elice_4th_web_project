@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage, limits: {fileSize: 5 * 1024 * 1024} }) // storage에 저장, 이미지 크기는 5MB로 제한
 
-galleryRouter.post("/gallery/create", upload.single('uploadImage'), async function (req, res, next) {
+galleryRouter.post("/gallery/create", upload.single('gallery'), async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
@@ -29,7 +29,7 @@ galleryRouter.post("/gallery/create", upload.single('uploadImage'), async functi
     // req (request) 에서 데이터 가져오기
     const { userId, description } = req.body;
 
-    // req.file 은 `uploadImage` 라는 필드의 파일 정보입니다.
+    // req.file 은 `gallery` 라는 필드의 파일 정보입니다.
     const saveFileName = req.file.filename; // 저장된 파일명​ 
     const saveFilePath = `\\images\\${saveFileName}` // 업로드된 파일의 경로 (index.html 기준)
     const newImage = { userId, description, saveFileName, saveFilePath };
@@ -97,10 +97,7 @@ galleryRouter.patch("/gallery/:userId/:id", upload.none(), async function (req, 
     try {
       // URI로부터 data id를 추출함.
       const imageId = req.params.id;
-
-      // body data 로부터 업데이트할 사용자 정보를 추출함.
       const { description } = req.body ?? null;
-      console.log(1, description)
 
       // 위 추출된 정보를 이용하여 db의 데이터 수정함
       const updatedImageContent = await galleryService.setImageContent({ imageId, description });
