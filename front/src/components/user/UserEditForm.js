@@ -10,17 +10,20 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   //useState로 description 상태를 생성함.
   const [description, setDescription] = useState(user.description);
   //useState로 password 상태를 생성함.
-  const [password, setPassword] = useState(user.password)
+  const [changePw, setChangePassword] = useState("")
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    await Api.post(`users/password`, {
+      password: changePw
+    })
 
     // "users/유저id" 엔드포인트로 PUT 요청함.
     const res = await Api.put(`users/${user.id}`, {
       name,
       email,
-      description,
-      password
+      description
     });
     // 유저 정보는 response의 data임.
     const updatedUser = res.data;
@@ -66,8 +69,8 @@ function UserEditForm({ user, setIsEditing, setUser }) {
             <Form.Control
               type="password"
               placeholder="변경할 비밀번호를 입력하세요"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={changePw}
+              onChange={(e) => setChangePassword(e.target.value)}
             />
           </Form.Group>
 
