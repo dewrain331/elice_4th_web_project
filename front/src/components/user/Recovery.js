@@ -25,7 +25,7 @@ const Recovery = () => {
         evt.preventDefault()
 
         try {
-            await Api.post(`/user/recovery`, {
+            await Api.post(`user/recovery`, {
                 email,
                 password
             })
