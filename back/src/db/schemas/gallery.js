@@ -12,7 +12,7 @@ const gallerySchema = new Schema(
     },
     description: {
         type: String,
-        required: true,
+        required: false,
     },
     active : {
       type: Boolean,
