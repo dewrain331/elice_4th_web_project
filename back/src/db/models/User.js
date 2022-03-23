@@ -3,6 +3,7 @@ import { Award } from "./Award";
 import { Certificate } from "./Certificate";
 import { Education } from "./Education";
 import { Project } from "./Project";
+import { Gallery } from "./Gallery";
 
 // 한달
 const EXPIRE_DELAY_TIME = 30*86400*1000;
@@ -75,6 +76,10 @@ class User {
       userId, delayTime : Date.now() + EXPIRE_DELAY_TIME
     })
 
+    const gResult = await Gallery.withdrawByUserId({
+      userId, delayTime : Date.now() + EXPIRE_DELAY_TIME
+    })
+
     return result;
   }
 
@@ -103,6 +108,8 @@ class User {
     const cResult = await Certificate.recoveryByUserId({ userId })
 
     const aResult = await Award.recoveryByUserId({ userId })
+
+    const gResult = await Gallery.recoveryByUserId({ userId })
     
     return result;
 
