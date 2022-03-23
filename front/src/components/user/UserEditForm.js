@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { useNavigate } from 'react-router-dom'
+import { DispatchContext } from '../../App'
 import { Button, Form, Card, Col, Row } from "react-bootstrap";
 import * as Api from "../../api";
 
 function UserEditForm({ user, setIsEditing, setUser }) {
+  const navigate = useNavigate()
+  const dispatch = useContext(DispatchContext)
   //useState로 name 상태를 생성함.
   const [name, setName] = useState(user.name);
   //useState로 email 상태를 생성함.
@@ -33,6 +37,20 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     // isEditing을 false로 세팅함.
     setIsEditing(false);
   };
+
+  const handleUserWithdraw = async () => {
+    const pwInput = prompt("비밀번호를 입력해주세요")
+    try {
+      await Api.post('user/withdraw', {
+        password: pwInput
+      })
+      sessionStorage.removeItem("userToken");
+      dispatch({ type: "LOGOUT" })
+      navigate("/login")
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   return (
     <Card className="mb-2">
@@ -65,13 +83,21 @@ function UserEditForm({ user, setIsEditing, setUser }) {
             />
           </Form.Group>
 
-          <Form.Group controlId="userEditPw">
+          <Form.Group controlId="userEditPw" className="mb-3">
             <Form.Control
               type="password"
               placeholder="변경할 비밀번호를 입력하세요"
               value={changePw}
               onChange={(e) => setChangePassword(e.target.value)}
             />
+          </Form.Group>
+
+          <Form.Group controlId="userWithdraw">
+            <Button
+              type="button"
+              variant="danger"
+              onClick={handleUserWithdraw}
+            >회원 탈퇴</Button>
           </Form.Group>
 
           <Form.Group as={Row} className="mt-3 text-center">
