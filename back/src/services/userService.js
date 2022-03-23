@@ -100,6 +100,53 @@ class userAuthService {
     }
   }
 
+  static async recoveryByUser({ email, password }) {
+    const user = await User.findByEmail({ email:email, active:false });
+
+    if (!user) {
+      const errorMessage =
+        "해당 아이디는 비활성화 되지 않았습니다. 다른 아이디를 입력해 주세요.";
+      return { errorMessage };
+    }
+
+    const correctPasswordHash = user.password;
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      correctPasswordHash
+    );
+
+    if (!isPasswordCorrect) {
+      const errorMessage =
+        "비밀번호가 맞지 않습니다. 다시 확인해주세요.";
+      return { errorMessage };
+    }
+
+    try {
+
+      const recoveryResult = User.recovery({ userId : user.id });
+      if (!recoveryResult) { throw new Error("User withdraw Error") };
+
+      const pResult = await Project.recoveryByUserId({ userId : user.id });
+      if (pResult.error) { throw new Error("Project withdraw Error") };
+
+      const eResult = await Education.recoveryByUserId({ userId : user.id });
+      if (eResult.error) { throw new Error("Education withdraw Error") };
+
+      const cResult = await Certificate.recoveryByUserId({ userId : user.id });
+      if (cResult.error) { throw new Error("Certificate withdraw Error") };
+
+      const aResult = await Award.recoveryByUserId({ userId : user.id })
+      if (aResult.error) { throw new Error("Award withdraw Error") };
+
+      return { status : "success" };
+
+    } catch(e) {
+      const errorMessage =
+        "회원복구에 실패했습니다. 다시 시도해주세요.";
+      return { errorMessage };
+    }
+  }
+
   static async addUser({ name, email, password }) {
     // 이메일 중복 확인
     const user = await User.findByEmail({ email });

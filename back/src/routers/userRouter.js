@@ -61,7 +61,7 @@ userAuthRouter.post("/user/withdraw", login_required, async function (req, res, 
   }
 });
 
-userAuthRouter.post("/user/recovery", login_required, async function (req, res, next) {
+userAuthRouter.post("/recovery", login_required, async function (req, res, next) {
   try {
 
     if (is.emptyObject(req.body) || !req.body.userId) {
@@ -75,6 +75,33 @@ userAuthRouter.post("/user/recovery", login_required, async function (req, res, 
 
     // 위 데이터를 이용하여 유저 db에서 유저 찾기
     const user = await userAuthService.recoveryUser({ userId });
+
+    if (user.errorMessage) {
+      throw new Error(user.errorMessage);
+    }
+
+    res.status(200).send(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
+userAuthRouter.post("/user/recovery", async function (req, res, next) {
+  try {
+
+    if (is.emptyObject(req.body) || !req.body.email || !req.body.password) {
+      throw new Error(
+        "복구시킬 유저의 email과 password가 없습니다. 다시 시도해주세요."
+      );
+    }
+
+    // req (request) 에서 데이터 가져오기
+    const email = req.body.email;  
+    const password = req.body.password;  
+    console.log('email, password');
+    console.log(email, password);
+    // 위 데이터를 이용하여 유저 db에서 유저 찾기
+    const user = await userAuthService.recoveryByUser({ email, password });
 
     if (user.errorMessage) {
       throw new Error(user.errorMessage);
