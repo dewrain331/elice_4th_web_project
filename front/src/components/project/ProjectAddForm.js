@@ -32,6 +32,11 @@ function ProjectAddForm({ portfolioOwnerId }) {
   const [page, setPage] = useRecoilState(pageState);
   const setTotalPage = useSetRecoilState(totalPageState);
 
+  // 입력 확인
+  const isTitleValid = title.length !== 0;
+  const isDescriptionValid = description.length !== 0;
+  const isProjectValid = isTitleValid && isDescriptionValid;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -82,6 +87,11 @@ function ProjectAddForm({ portfolioOwnerId }) {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
+        {!isTitleValid && (
+          <Form.Text className="text-success">
+            프로젝트 제목을 입력해 주세요.
+          </Form.Text>
+        )}
       </Form.Group>
 
       <Form.Group controlId="formBasicDescription" className="mt-3">
@@ -91,6 +101,11 @@ function ProjectAddForm({ portfolioOwnerId }) {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
+        {!isDescriptionValid && (
+          <Form.Text className="text-success">
+            상세내역을 입력해 주세요.
+          </Form.Text>
+        )}
       </Form.Group>
 
       <Form.Group as={Row} className="mt-3">
@@ -107,7 +122,12 @@ function ProjectAddForm({ portfolioOwnerId }) {
 
       <Form.Group as={Row} className="mt-3 text-center">
         <Col sm={{ span: 20 }}>
-          <Button variant="primary" type="submit" className="me-3">
+          <Button
+            variant="primary"
+            type="submit"
+            className="me-3"
+            disabled={!isProjectValid}
+          >
             확인
           </Button>
           <Button variant="secondary" onClick={() => setIsAdding(false)}>
