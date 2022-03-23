@@ -105,9 +105,8 @@ class User {
   }
 
   static addLike = async ({ userId, currentUserId }) => {
-    const owner = await UserModel.findOne({ id: userId });
     const filter = { id: userId };
-    const update = { likeCount: owner.likeCount + 1, $push: { likeUsers: currentUserId } }
+    const update = { $inc: { likeCount: 1 }, $push: { likeUsers: currentUserId } }
     const option = { returnOriginal: false };
 
     const addedLike = await UserModel.findOneAndUpdate(
@@ -119,9 +118,8 @@ class User {
   }
 
   static removeLike = async ({ userId, currentUserId }) => {
-    const owner = await UserModel.findOne({ id: userId });
     const filter = { id: userId };
-    const update = { likeCount: owner.likeCount - 1, $pull: { likeUsers: currentUserId } }
+    const update = { $inc: { likeCount: -1 }, $pull: { likeUsers: currentUserId } }
     const option = { returnOriginal: false };
 
     const removedLike = await UserModel.findOneAndUpdate(
