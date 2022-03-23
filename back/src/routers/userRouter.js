@@ -230,7 +230,7 @@ userAuthRouter.patch(
       const updatedImage = await userAuthService.uploadImage({ userId, imageInfo });
 
       if (updatedImage.errorMessage) {
-        throw new Error(updatedUser.errorMessage);
+        throw new Error(updatedImage.errorMessage);
       }
 
       res.status(200).json(updatedImage);
