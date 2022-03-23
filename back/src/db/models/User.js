@@ -7,8 +7,9 @@ class User {
     return createdNewUser;
   }
 
-  static async findByEmail({ email }) {
-    const user = await UserModel.findOne({ email, active : true, });
+  static async findByEmail({ email, active }) {
+    const reqActive = active ?? true;
+    const user = await UserModel.findOne({ email, active : reqActive, });
     return user;
   }
 
@@ -37,8 +38,7 @@ class User {
   }
 
   static async changePassword ({ userId, password }) {
-    console.log(password);
-    
+
     const filter = { id: userId, active : true, };
     const update = { password: password };
     const option = { returnOriginal: false };
