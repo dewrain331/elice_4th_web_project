@@ -78,7 +78,7 @@ function ProjectAddForm({ portfolioOwnerId }) {
         <Form.Control
           type="text"
           placeholder="프로젝트 제목 (20자 이내)"
-          maxlength="20"
+          maxLength="20"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
