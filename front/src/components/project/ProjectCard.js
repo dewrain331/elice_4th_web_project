@@ -9,9 +9,9 @@ import styled from "styled-components";
 
 const PER_PAGE = 3;
 
-const DetailSpan = styled.div`
-  ${({ show }) => {
-    if (show) {
+const DetailDiv = styled.div`
+  ${({ showDetail }) => {
+    if (showDetail) {
       return `max-height: 100%;`;
     } else {
       return `overflow: hidden;
@@ -82,9 +82,9 @@ function ProjectCard({ project, isEditable, setIsEditing }) {
           <Col>
             <span>{project.title}</span>
             <br />
-            <DetailSpan show={showDetail} className="text-muted">
+            <DetailDiv showDetail={showDetail} className="text-muted">
               {project.description}
-            </DetailSpan>
+            </DetailDiv>
             <DetailButton onClick={handleDetailButton}>
               {showDetail ? "다시 접기" : "더보기"}
             </DetailButton>
