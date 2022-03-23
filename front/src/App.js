@@ -8,6 +8,7 @@ import Header from "./components/Header";
 import LoginForm from "./components/user/LoginForm";
 import Network from "./components/user/Network";
 import RegisterForm from "./components/user/RegisterForm";
+import Recovery from "./components/user/Recovery"
 import Portfolio from "./components/Portfolio";
 
 export const UserStateContext = createContext(null);
@@ -63,6 +64,7 @@ function App() {
             <Route path="/register" element={<RegisterForm />} />
             <Route path="/users/:userId" element={<Portfolio />} />
             <Route path="/network" element={<Network />} />
+            <Route path="/recovery" element={<Recovery />} />
             <Route path="*" element={<Portfolio />} />
           </Routes>
         </Router>

@@ -109,6 +109,14 @@ function LoginForm() {
                 </Button>
               </Col>
             </Form.Group>
+
+            <Form.Group as={Row} className="mt-3 text-center">
+              <Col sm={{ span: 20 }}>
+                <Button variant="light" onClick={() => navigate("/recovery")}>
+                  회원복구하기
+                </Button>
+              </Col>
+            </Form.Group>
           </Form>
         </Col>
       </Row>
