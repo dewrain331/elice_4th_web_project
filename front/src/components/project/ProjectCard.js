@@ -4,6 +4,8 @@ import * as Api from "../../api";
 // recoil 사용
 import { useSetRecoilState, useRecoilState } from "recoil";
 import { projectsState, pageState, totalPageState } from "./ProjectAtom";
+// styled 사용
+import styled from "styled-components";
 
 const PER_PAGE = 3;
 
@@ -22,6 +24,10 @@ function ProjectCard({ project, isEditable, setIsEditing }) {
   const setProjects = useSetRecoilState(projectsState);
   const [page, setPage] = useRecoilState(pageState);
   const setTotalPage = useSetRecoilState(totalPageState);
+
+  // 더보기 버튼 state
+  const [showDetail, setShowDetail] = useState(false);
+  const [isLong, setIsLong] = useState(false);
 
   // 삭제 기능을 하는 함수
   const handleDelete = async () => {
@@ -46,6 +52,43 @@ function ProjectCard({ project, isEditable, setIsEditing }) {
     setShow(false);
   };
 
+  // const DetailOpenSpan = styled.span`
+  //   max-height: 100%;
+  //   line-height: 30px;
+  // `;
+
+  const DetailSpan = styled.span`
+    ${({ show }) => {
+      if (show) {
+        return `max-height: 100%; line-height: 30px;`;
+      } else {
+        return `overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;`;
+      }
+    }}
+  `;
+
+  const DetailButton = styled.button`
+    border: 0;
+    background: rgb(2, 0, 36);
+    background: linear-gradient(
+      90deg,
+      rgba(2, 0, 36, 1) 0%,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 1) 18%
+    );
+    &.hide {
+      display: none;
+    }
+  `;
+
+  const handleDetailButton = () => {
+    setShowDetail(!showDetail);
+  };
+
   return (
     <>
       <Card.Body>
@@ -54,7 +97,12 @@ function ProjectCard({ project, isEditable, setIsEditing }) {
           <Col>
             <span>{project.title}</span>
             <br />
-            <span className="text-muted">{project.description}</span>
+            <DetailSpan show={showDetail} className="text-muted">
+              {project.description}
+            </DetailSpan>
+            <DetailButton onClick={handleDetailButton}>
+              {showDetail ? "다시 접기" : "더보기"}
+            </DetailButton>
             <br />
             {/* project의 기간을 object로 받고 출력형식에 맞게 변경 */}
             <span className="text-muted">
