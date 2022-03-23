@@ -206,7 +206,7 @@ const storage = multer.diskStorage({
     cb(null, '../front/public/images/')
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + `_${file.originalname}`)
+    cb(null, `${file.fieldname}_`+ Date.now() + `_${file.originalname}`)
   }
 })
 const upload = multer({ storage: storage, limits: {fileSize: 3 * 1024 * 1024} }) // storage에 저장, 이미지 크기는 3MB로 제한
