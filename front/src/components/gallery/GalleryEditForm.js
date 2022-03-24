@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Form, Col, Row } from "react-bootstrap";
+import { Button, Form, Col, Row, Card } from "react-bootstrap";
 import * as Api from "../../api";
 // recoil 사용
 import { useSetRecoilState } from "recoil";
@@ -19,7 +19,9 @@ function GalleryEditForm({ gallery, setIsEditing }) {
       const { id, userId } = gallery;
       const formData = new FormData();
       formData.append("description", description);
+      // patch 요청을 하여 formData를 보냄
       await Api.patchDescription(`gallery/${userId}/${id}`, formData);
+
       const res = await Api.get("gallery", userId);
       setGallerys(res.data.images);
     } catch (err) {
@@ -31,6 +33,12 @@ function GalleryEditForm({ gallery, setIsEditing }) {
 
   return (
     <Form onSubmit={handleSubmit}>
+      <Card.Img
+        style={{ width: "10rem", height: "10rem" }}
+        className="mb-3"
+        src={gallery?.saveFilePath}
+        alt="프로필 이미지"
+      />
       <Form.Group controlId="formBasicDescription" className="mt-3">
         <Form.Control
           type="text"
