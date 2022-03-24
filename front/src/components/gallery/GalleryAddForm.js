@@ -29,18 +29,15 @@ function GalleryAddForm({ portfolioOwnerId }) {
       try {
         const formData = new FormData();
         formData.append("gallery", pickedImage.data);
-        const data = [{ userId: userId, description: description }];
+        formData.append("userId", userId);
+        formData.append("description", description);
+
         // "gallery/create" 엔드포인트로 post요청함.
-        formData.append(
-          "data",
-          new Blob([JSON.stringify(data)], { type: "application/json" })
-        );
         await Api.postImage("gallery/create", formData);
 
         // "gallery/유저id/갤러리id
         const res = await Api.get(`gallery/${userId}`);
-        const { gallerys } = res.data;
-        setGallerys(gallerys);
+        setGallerys(res.data.gallerys);
       } catch (err) {
         console.error(err);
       }
