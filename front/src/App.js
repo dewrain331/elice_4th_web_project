@@ -5,6 +5,7 @@ import * as Api from "./api";
 import { loginReducer } from "./reducer";
 
 import Header from "./components/Header";
+import HamburgerBar from "./components/HamburgerBar";
 import LoginForm from "./components/user/LoginForm";
 import Network from "./components/user/Network";
 import RegisterForm from "./components/user/RegisterForm";
@@ -18,6 +19,11 @@ function App() {
   const [userState, dispatch] = useReducer(loginReducer, {
     user: null,
   });
+
+  const [innerWidth, setInnerWidth] = useState(window.innerWidth)
+  const handleResize = () => {
+    setInnerWidth(window.innerWidth)
+  }
 
   // 아래의 fetchCurrentUser 함수가 실행된 다음에 컴포넌트가 구현되도록 함.
   // 아래 코드를 보면 isFetchCompleted 가 true여야 컴포넌트가 구현됨.
@@ -48,6 +54,13 @@ function App() {
     fetchCurrentUser();
   }, []);
 
+  useEffect(() => {
+    window.addEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
   if (!isFetchCompleted) {
     return "loading...";
   }
@@ -56,7 +69,9 @@ function App() {
     <DispatchContext.Provider value={dispatch}>
       <UserStateContext.Provider value={userState}>
         <Router>
-          <Header />
+          { innerWidth >= 660 ?
+            <Header /> : <HamburgerBar/>
+          }
           <Routes>
             <Route path="/" exact element={<Portfolio />} />
             <Route path="/login" element={<LoginForm />} />

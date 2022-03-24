@@ -23,6 +23,11 @@ function Portfolio() {
   const [isFetchCompleted, setIsFetchCompleted] = useState(false);
   const userState = useContext(UserStateContext);
 
+  const [innerWidth, setInnerWidth] = useState(window.innerWidth)
+  const handleResize = () => {
+    setInnerWidth(window.innerWidth)
+  }
+
   const fetchPorfolioOwner = async (ownerId) => {
     // 유저 id를 가지고 "/users/유저id" 엔드포인트로 요청해 사용자 정보를 불러옴.
     const res = await Api.get("users", ownerId);
@@ -54,6 +59,13 @@ function Portfolio() {
     }
   }, [params, userState, navigate]);
 
+  useEffect(() => {
+    window.addEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
   if (!isFetchCompleted) {
     return "loading...";
   }
@@ -61,23 +73,28 @@ function Portfolio() {
   return (
     <RecoilRoot>
       <Container fluid>
-        <Row >
-          <Col md="3" lg="3">
-            <User
-              portfolioOwnerId={portfolioOwner.id}
-              isEditable={portfolioOwner.id === userState.user?.id}
-            />
-          </Col>
+        <Row xxl="2" xl="1">
+          {innerWidth >= 1400 ? 
+            (<Col md="3">
+              <User
+                portfolioOwnerId={portfolioOwner.id}
+                isEditable={portfolioOwner.id === userState.user?.id}
+              />
+            </Col>) :
+            (<Row className="justify-content-center">
+              <User
+                portfolioOwnerId={portfolioOwner.id}
+                isEditable={portfolioOwner.id === userState.user?.id}
+              />
+            </Row>)
+          }
           <Col>
-            <div style={{ textAlign: "center" }}>
-              학력 목록, 수상이력 목록, 프로젝트 목록, 자격증 목록 만들기
-            </div>
-            <div className="mb-3">
+            <Row className="mb-4">
               <Projects
                 portfolioOwnerId={portfolioOwner.id}
                 isEditable={portfolioOwner.id === userState.user?.id}
               />
-            </div>
+            </Row>
             <Row className="mb-4">
               <Educations
                 portfolioOwnerId={portfolioOwner.id}
