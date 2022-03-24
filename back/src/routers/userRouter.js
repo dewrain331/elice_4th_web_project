@@ -98,8 +98,6 @@ userAuthRouter.post("/user/recovery", async function (req, res, next) {
     // req (request) 에서 데이터 가져오기
     const email = req.body.email;  
     const password = req.body.password;  
-    console.log('email, password');
-    console.log(email, password);
     // 위 데이터를 이용하여 유저 db에서 유저 찾기
     const user = await userAuthService.recoveryByUser({ email, password });
 
@@ -283,6 +281,56 @@ userAuthRouter.put("/users/:id/dislike", async function (req, res, next) {
     }
 
     res.status(200).json(removedLike);
+  } catch (error) {
+    next(error);
+  }
+});
+
+
+userAuthRouter.post("/user/auth", async function (req, res, next) {
+  try {
+    // URI로부터 포트폴리오 userId를 추출함.
+    if (is.emptyObject(req.body) || !req.body.email) {
+      throw new Error(
+        "찾고자 하는 계정의 이메일을 입력하세요."
+      );
+    }
+
+    const email = req.body.email;
+
+    // 위 추출된 정보를 이용하여 db의 데이터 수정함
+    const result = await userAuthService.findPassword({ email });
+
+    if (result.errorMessage) {
+      throw new Error(result.errorMessage);
+    }
+
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+});
+
+userAuthRouter.post("/user/auth/code", async function (req, res, next) {
+  try {
+    // URI로부터 포트폴리오 userId를 추출함.
+    if (is.emptyObject(req.body) || !req.body.email || !req.body.code) {
+      throw new Error(
+        "찾고자 하는 계정의 이메일 혹은 코드를 입력해주세요."
+      );
+    }
+
+    const email = req.body.email;
+    const code = req.body.code;
+
+    // 위 추출된 정보를 이용하여 db의 데이터 수정함
+    const result = await userAuthService.userEmailAuth({ email, code });
+
+    if (result.errorMessage) {
+      throw new Error(result.errorMessage);
+    }
+
+    res.status(200).json(result);
   } catch (error) {
     next(error);
   }
