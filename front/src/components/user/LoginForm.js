@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Col, Row, Form, Button } from "react-bootstrap";
+import { Container, Col, Row, Form, Button, Modal } from "react-bootstrap";
 
 import * as Api from "../../api";
 import { DispatchContext } from "../../App";
@@ -13,6 +13,9 @@ function LoginForm() {
   const [email, setEmail] = useState("");
   //useState로 password 상태를 생성함.
   const [password, setPassword] = useState("");
+
+  //로그인 실패를 알려줄 모달창을 보여줄지 말지 결정함
+  const [show, setShow] = useState(false);
 
   //이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
   const validateEmail = (email) => {
@@ -56,6 +59,9 @@ function LoginForm() {
       navigate("/", { replace: true });
     } catch (err) {
       console.log("로그인에 실패하였습니다.\n", err);
+      setShow(true);
+      setEmail("");
+      setPassword("");
     }
   };
 
@@ -101,6 +107,21 @@ function LoginForm() {
                 </Button>
               </Col>
             </Form.Group>
+
+            {/* 로그인 실패 시 모달창 */}
+            <Modal show={show} onHide={() => setShow(false)}>
+              <Modal.Header closeButton>
+                <Modal.Title>Modal heading</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                로그인에 실패했습니다. 이메일과 비밀번호를 확인하세요.
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={() => setShow(false)}>
+                  확인
+                </Button>
+              </Modal.Footer>
+            </Modal>
 
             <Form.Group as={Row} className="mt-3 text-center">
               <Col sm={{ span: 20 }}>
