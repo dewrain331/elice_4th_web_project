@@ -45,7 +45,7 @@ class educationService {
     return updatedEducation;
   }
 
-  static async deleteEducation({ educationId }) {
+  static deleteEducation = async ({ educationId }) => {
     // education db에 존재 여부 확인 & db에서 찾지 못한 경우, 에러 메시지 반환
     const isDataDeleted = await Education.deleteById({ educationId });
     if (!isDataDeleted) {

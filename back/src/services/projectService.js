@@ -45,7 +45,7 @@ class projectService {
     return updatedProject;
   }
 
-  static async deleteProject({ projectId }) {
+  static deleteProject = async ({ projectId }) => {
     // project db에 존재 여부 확인 & db에서 찾지 못한 경우, 에러 메시지 반환
     const isDataDeleted = await Project.deleteById({ projectId });
     if (!isDataDeleted) {
