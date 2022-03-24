@@ -1,4 +1,4 @@
-import { Card, Button, Row, Col, Modal } from "react-bootstrap";
+import { Card, Button, Modal } from "react-bootstrap";
 import { useState } from "react";
 import * as Api from "../../api";
 // recoil 사용
@@ -32,45 +32,39 @@ function GalleryCard({ gallery, isEditable, setIsEditing }) {
     <>
       <Card.Body>
         {/* gallery의 제목, 상세내용, 기간 */}
-        <Row className="align-items-center">
-          <Col>
-            <Card.Img
-              style={{ width: "10rem", height: "10rem" }}
-              className="mb-3"
-              src={gallery?.saveFilePath}
-              alt="프로필 이미지"
-            />
-            <br />
-            <span className="text-muted">{gallery.description}</span>
-            <br />
-          </Col>
-          {/* gallery 편집 버튼 */}
-          {isEditable && (
-            <Col xs lg="1">
-              <Button
-                variant="outline-info"
-                size="sm"
-                onClick={() => setIsEditing((prev) => !prev)}
-                className="mr-3"
-              >
-                편집
-              </Button>
-            </Col>
-          )}
-          {/* gallery 삭제 버튼 */}
-          {isEditable && (
-            <Col xs lg="1">
-              <Button
-                variant="outline-secondary"
-                size="sm"
-                onClick={handleAlertShow}
-                className="mr-3"
-              >
-                삭제
-              </Button>
-            </Col>
-          )}
-        </Row>
+        <div style={{ width: "200px", height: "200px", overflow: "hidden" }}>
+          <Card.Img
+            style={{ width: "200px", height: "auto", borderRadius: 10 }}
+            className="mb-3"
+            src={gallery?.saveFilePath}
+            alt="갤러리 이미지"
+          />
+        </div>
+        <br />
+        <span className="text-muted">{gallery.description}</span>
+        <br />
+        {/* gallery 편집 버튼 */}
+        {isEditable && (
+          <Button
+            variant="outline-info"
+            size="sm"
+            onClick={() => setIsEditing((prev) => !prev)}
+            className="mr-3"
+          >
+            편집
+          </Button>
+        )}
+        {/* gallery 삭제 버튼 */}
+        {isEditable && (
+          <Button
+            variant="outline-secondary"
+            size="sm"
+            onClick={handleAlertShow}
+            className="mr-3"
+          >
+            삭제
+          </Button>
+        )}
       </Card.Body>
 
       <Modal show={show} onHide={handleAlertCancel}>

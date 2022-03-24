@@ -32,33 +32,37 @@ function GalleryEditForm({ gallery, setIsEditing }) {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Card.Img
-        style={{ width: "10rem", height: "10rem" }}
-        className="mb-3"
-        src={gallery?.saveFilePath}
-        alt="프로필 이미지"
-      />
-      <Form.Group controlId="formBasicDescription" className="mt-3">
-        <Form.Control
-          type="text"
-          placeholder="상세내역"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-      </Form.Group>
+    <Card.Body>
+      <Form onSubmit={handleSubmit}>
+        <div style={{ width: "200px", height: "200px", overflow: "hidden" }}>
+          <Card.Img
+            style={{ width: "200px", height: "auto", borderRadius: 10 }}
+            className="mb-3"
+            src={gallery?.saveFilePath}
+            alt="갤러리 이미지"
+          />
+        </div>
+        <Form.Group controlId="formBasicDescription" className="mt-3">
+          <Form.Control
+            type="text"
+            placeholder="상세내역"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </Form.Group>
 
-      <Form.Group as={Row} className="mt-3 text-center mb-4">
-        <Col sm={{ span: 20 }}>
-          <Button variant="primary" type="submit" className="me-3">
-            확인
-          </Button>
-          <Button variant="secondary" onClick={() => setIsEditing(false)}>
-            취소
-          </Button>
-        </Col>
-      </Form.Group>
-    </Form>
+        <Form.Group as={Row} className="mt-3 text-center mb-4">
+          <Col sm={{ span: 20 }}>
+            <Button variant="primary" type="submit" className="me-3">
+              확인
+            </Button>
+            <Button variant="secondary" onClick={() => setIsEditing(false)}>
+              취소
+            </Button>
+          </Col>
+        </Form.Group>
+      </Form>
+    </Card.Body>
   );
 }
 

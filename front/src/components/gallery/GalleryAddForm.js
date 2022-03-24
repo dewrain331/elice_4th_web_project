@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Form, Col, Row } from "react-bootstrap";
+import { Button, Form, Col, Row, Card } from "react-bootstrap";
 import * as Api from "../../api";
 // recoil 사용
 import { useSetRecoilState } from "recoil";
@@ -58,43 +58,44 @@ function GalleryAddForm({ portfolioOwnerId }) {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      {pickedImage.preview && (
-        <img
-          src={pickedImage.preview}
-          width="136px"
-          height="128px"
-          alt="profile_image"
-        />
-      )}
-      <Form.Group controlId="useEditImage" className="mb-3">
-        <Form.Control
-          type="file"
-          accept="pickedImage/*"
-          onChange={handleFileChange}
-        />
-      </Form.Group>
+    <Card.Body>
+      <Form onSubmit={handleSubmit}>
+        {pickedImage.preview && (
+          <Card.Img
+            src={pickedImage.preview}
+            style={{ width: "200px", height: "auto", borderRadius: 10 }}
+            alt="profile_image"
+          />
+        )}
+        <Form.Group controlId="useEditImage" className="mb-3">
+          <Form.Control
+            type="file"
+            accept="pickedImage/*"
+            onChange={handleFileChange}
+          />
+        </Form.Group>
 
-      <Form.Group controlId="formBasicDescription" className="mt-3">
-        <Form.Control
-          type="text"
-          placeholder="상세내역"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-      </Form.Group>
+        <Form.Group controlId="formBasicDescription" className="mt-3">
+          <Form.Control
+            type="text"
+            placeholder="상세내역"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </Form.Group>
 
-      <Form.Group as={Row} className="mt-3 text-center">
-        <Col sm={{ span: 20 }}>
-          <Button variant="primary" type="submit" className="me-3">
-            확인
-          </Button>
-          <Button variant="secondary" onClick={() => setIsAdding(false)}>
-            취소
-          </Button>
-        </Col>
-      </Form.Group>
-    </Form>
+        <Form.Group as={Row} className="mt-3 text-center">
+          <Col sm={{ span: 20 }}>
+            <Button variant="primary" type="submit" className="me-3">
+              확인
+            </Button>
+            <Button variant="secondary" onClick={() => setIsAdding(false)}>
+              취소
+            </Button>
+          </Col>
+        </Form.Group>
+      </Form>
+    </Card.Body>
   );
 }
 

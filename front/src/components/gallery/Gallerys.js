@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Card, Button, Row, Col } from "react-bootstrap";
+import { Card, Button, Row, Col, Container } from "react-bootstrap";
 import * as Api from "../../api";
 import Gallery from "./Gallery";
 import GalleryAddForm from "./GalleryAddForm";
@@ -31,9 +31,17 @@ function Gallerys({ portfolioOwnerId, isEditable }) {
     <Card>
       <Card.Body>
         <Card.Title>갤러리</Card.Title>
-        {gallerys.map((gallery) => (
-          <Gallery key={gallery.id} gallery={gallery} isEditable={isEditable} />
-        ))}
+        <Container>
+          <Row xs="auto" className="jusify-content-center">
+            {gallerys.map((gallery) => (
+              <Gallery
+                key={gallery.id}
+                gallery={gallery}
+                isEditable={isEditable}
+              />
+            ))}
+          </Row>
+        </Container>
         {isEditable && (
           <Row className="mt-3 text-center mb-4">
             <Col sm={{ span: 20 }}>
