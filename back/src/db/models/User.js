@@ -2,29 +2,29 @@ import { UserModel } from "../schemas/user";
 import { EXPIRE_DELAY_TIME } from "../../constant";
 
 class User {
-  static async create({ newUser }) {
+  static create = async ({ newUser }) => {
     const createdNewUser = await UserModel.create(newUser);
     return createdNewUser;
   }
 
-  static async findByEmail({ email, active }) {
+  static findByEmail = async ({ email, active }) => {
     const reqActive = active ?? true;
     const user = await UserModel.findOne({ email, active : reqActive, });
     return user;
   }
 
-  static async findById({ userId, active }) {
+  static findById = async ({ userId, active }) => {
     const reqActive = active ?? true;
     const user = await UserModel.findOne({ id: userId, active: reqActive, });
     return user;
   }
 
-  static async findAll() {
+  static findAll = async () => {
     const users = await UserModel.find({ active : true, });
     return users;
   }
 
-  static async update({ userId, fieldToUpdate, newValue }) {
+  static update = async ({ userId, fieldToUpdate, newValue }) => {
     const filter = { id: userId, active : true, };
     const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
@@ -37,7 +37,7 @@ class User {
     return updatedUser;
   }
 
-  static async changePassword ({ userId, password }) {
+  static changePassword = async ({ userId, password }) => {
 
     const filter = { id: userId, active : true, };
     const update = { password: password };
@@ -55,7 +55,7 @@ class User {
      *  유저의 모든 데이터 비활성화
      *  exired를 추가해주고, active를 false로 해준다.
      */
-  static async withdraw({ userId }) {
+  static withdraw = async ({ userId }) => {
     const filter = { id: userId, active : true, };
     const update = { $set : { expiredAt : Date.now() + EXPIRE_DELAY_TIME, active : false } };
     const option = { returnOriginal: false };
@@ -73,7 +73,7 @@ class User {
    * 유저 복구 기능
    * 복구 실패시 return null
    */
-  static async recovery({ userId }) {
+  static recovery = async ({ userId }) => {
     const filter = { id: userId, active : false, };
     const update = { $set : { active : true }, $unset : {expiredAt : true} };
     const option = { returnOriginal: false };

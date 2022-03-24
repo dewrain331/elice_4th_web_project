@@ -24,3 +24,4 @@ export { Project };
 export { Award };
 export { Certificate };
 export { Education };
+export { db };

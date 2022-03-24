@@ -2,7 +2,7 @@ import { CertificateModel } from "../schemas/certificate";
 
 class Certificate {
 
-    static async create({ newCertificate }) {
+    static create = async ({ newCertificate }) => {
         const checkAlreadyExist = await CertificateModel.findOne({
             userId : newCertificate.userId,
             title : newCertificate.title,
@@ -15,7 +15,7 @@ class Certificate {
         return createdNewCertificate;
     }
 
-    static async delete({ deleteCertificate }) {
+    static delete = async ({ deleteCertificate }) => {
         const deleteCertificateResult = await CertificateModel.deleteOne({ 
             id : deleteCertificate.id,
             userId : deleteCertificate.userId,
@@ -25,7 +25,7 @@ class Certificate {
 
     }
 
-    static async findAllToUser({ getCertificates }) {
+    static findAllToUser = async ({ getCertificates }) => {
 
         const total = await CertificateModel.countDocuments({ 
             userId : getCertificates.userId,
@@ -47,7 +47,7 @@ class Certificate {
         return newCertificates;
     }
 
-    static async findOne({ getCertificate }) {
+    static findOne = async ({ getCertificate }) => {
         const certificate = await CertificateModel.findOne({
             id : getCertificate.id,
             active : true,
@@ -55,7 +55,7 @@ class Certificate {
         return certificate;
     }
 
-    static async update({ updateCertificate }) {
+    static update = async ({ updateCertificate }) =>{
         const filter = { 
             id : updateCertificate.id ,
             active : true,
@@ -76,7 +76,7 @@ class Certificate {
         return updateCertificateResult;
     }
 
-    static async withdrawByUserId({ userId, delayTime }) {
+    static withdrawByUserId = async ({ userId, delayTime }) => {
         try {
             const withdrawResult = await CertificateModel.updateMany(
                 { userId : userId, active : true, },
@@ -90,7 +90,7 @@ class Certificate {
         }
     }
 
-    static async recoveryByUserId({ userId }) {
+    static recoveryByUserId = async ({ userId }) => {
         try {
             const recoveryResult = await CertificateModel.updateMany(
                 { userId : userId, active : false, },

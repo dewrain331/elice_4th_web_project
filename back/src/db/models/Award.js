@@ -2,7 +2,7 @@ import { AwardModel } from "../schemas/award";
 
 class Award {
 
-    static async create({ newAward }) {
+    static create = async ({ newAward }) => {
         const checkAlreadyExist = await AwardModel.findOne({
             award : newAward.award,
             active : true,
@@ -14,7 +14,7 @@ class Award {
         return createdNewAward;
     }
 
-    static async delete({ deleteAward }) {
+    static delete = async ({ deleteAward }) => {
 
         const deleteAwardResult = await AwardModel.deleteOne({ 
             id : deleteAward.id,
@@ -25,7 +25,7 @@ class Award {
         return deleteAwardResult;
     }
 
-    static async findAllToUser({ getAwards }) {
+    static findAllToUser = async ({ getAwards }) => {
 
         const total = await AwardModel.countDocuments({ 
             userId : getAwards.userId,
@@ -47,7 +47,7 @@ class Award {
         return newAwards;
     }
 
-    static async findOne({ getAward }) {
+    static findOne = async ({ getAward }) => {
         const award = await AwardModel.findOne({
             id : getAward.id,
             active : true,
@@ -55,7 +55,7 @@ class Award {
         return award;
     }
 
-    static async update({ updateAward }) {
+    static update = async ({ updateAward }) => {
 
         const filter = { 
             id : updateAward.id ,
@@ -77,7 +77,7 @@ class Award {
         return updatedAward;
     }
 
-    static async withdrawByUserId({ userId, delayTime }) {
+    static withdrawByUserId = async ({ userId, delayTime }) => {
         try {
             const withdrawResult = await AwardModel.updateMany(
                 { userId : userId, active : true, },
@@ -90,7 +90,7 @@ class Award {
         }
     }
 
-    static async recoveryByUserId({ userId }) {
+    static recoveryByUserId = async ({ userId }) => {
         try {
             const recoveryResult = await AwardModel.updateMany(
                 { userId : userId, active : false, },

@@ -1,4 +1,4 @@
-import { User, Award, Certificate, Education, Project } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+import { User, Award, Certificate, Education, Project, db } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
@@ -6,7 +6,7 @@ import { EXPIRE_DELAY_TIME } from "../constant";
 
 class userAuthService {
 
-  static async withdrawUser({ userId, password }) {
+  static withdrawUser = async ({ userId, password }) => {
     const user = await User.findById({ userId : userId });
     if (!user) {
       const errorMessage =
@@ -27,7 +27,12 @@ class userAuthService {
       return { errorMessage };
     }
 
+    const session = await db.startSession();
+
     try {
+      
+      session.startTransaction();
+
       const withdrawResult = User.withdraw({ userId });
       if (!withdrawResult) { throw new Error("User withdraw Error") };
 
@@ -55,18 +60,24 @@ class userAuthService {
       })
 
       if (aResult.error) { throw new Error("Award withdraw Error") };
+
+      session.commitTransaction();
       
       return { status : "success" }
 
     } catch (e) {
-      await this.recoveryUser({ userId });
+
+      await session.abortTransaction();
       const errorMessage =
         "회원탈퇴에 실패했습니다. 다시 시도해주세요.";
       return { errorMessage };
+
+    } finally {
+      session.endSession();
     }
   }
 
-  static async recoveryUser({ userId }) {
+  static recoveryUser = async ({ userId }) => {
     const user = await User.findById({ userId : userId, active:false });
     if (!user) {
       const errorMessage =
@@ -74,7 +85,10 @@ class userAuthService {
       return { errorMessage };
     }
 
+    const session = await db.startSession();
+
     try {
+      session.startTransaction();
 
       const recoveryResult = User.recovery({ userId });
       if (!recoveryResult) { throw new Error("User withdraw Error") };
@@ -91,16 +105,23 @@ class userAuthService {
       const aResult = await Award.recoveryByUserId({ userId })
       if (aResult.error) { throw new Error("Award withdraw Error") };
 
+      session.commitTransaction();
+
       return { status : "success" };
 
     } catch(e) {
+
+      await session.abortTransaction();
       const errorMessage =
         "회원복구에 실패했습니다. 다시 시도해주세요.";
       return { errorMessage };
+
+    } finally {
+      session.endSession();
     }
   }
 
-  static async recoveryByUser({ email, password }) {
+  static recoveryByUser = async ({ email, password }) => {
     const user = await User.findByEmail({ email:email, active:false });
 
     if (!user) {
@@ -120,8 +141,10 @@ class userAuthService {
         "비밀번호가 맞지 않습니다. 다시 확인해주세요.";
       return { errorMessage };
     }
+    const session = await db.startSession();
 
     try {
+      session.startTransaction();
 
       const recoveryResult = User.recovery({ userId : user.id });
       if (!recoveryResult) { throw new Error("User withdraw Error") };
@@ -138,16 +161,23 @@ class userAuthService {
       const aResult = await Award.recoveryByUserId({ userId : user.id })
       if (aResult.error) { throw new Error("Award withdraw Error") };
 
+      session.commitTransaction();
       return { status : "success" };
 
     } catch(e) {
+
+      await session.abortTransaction();
       const errorMessage =
         "회원복구에 실패했습니다. 다시 시도해주세요.";
       return { errorMessage };
+      
+    } finally {
+      session.endSession();
     }
+
   }
 
-  static async addUser({ name, email, password }) {
+  static addUser = async ({ name, email, password }) => {
     // 이메일 중복 확인
     const user = await User.findByEmail({ email });
     if (user) {
@@ -170,7 +200,7 @@ class userAuthService {
     return createdNewUser;
   }
 
-  static async changePassword({ userId, password }) {
+  static changePassword = async ({ userId, password }) => {
     
     const user = await User.findById({ userId });
 
@@ -190,7 +220,7 @@ class userAuthService {
     return createdNewUser;
   }
 
-  static async getUser({ email, password }) {
+  static getUser = async ({ email, password }) => {
     // 이메일 db에 존재 여부 확인
     const user = await User.findByEmail({ email });
 
@@ -213,8 +243,6 @@ class userAuthService {
       correctPasswordHash
     );
 
-    console.log(correctPasswordHash);
-
     if (!isPasswordCorrect) {
       const errorMessage =
         "비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요.";
@@ -223,7 +251,7 @@ class userAuthService {
 
     // 로그인 성공 -> JWT 웹 토큰 생성
     const secretKey = process.env.JWT_SECRET_KEY || "jwt-secret-key";
-    const token = jwt.sign({ userId: user.id }, secretKey);
+    const token = jwt.sign({ userId: user.id }, secretKey, {expiresIn : '1 days'});
 
     // 반환할 loginuser 객체를 위한 변수 설정
     const id = user.id;
@@ -242,12 +270,12 @@ class userAuthService {
     return loginUser;
   }
 
-  static async getUsers() {
+  static getUsers = async () => {
     const users = await User.findAll();
     return users;
   }
 
-  static async setUser({ userId, toUpdate }) {
+  static setUser = async ({ userId, toUpdate }) => {
     // 우선 해당 id 의 유저가 db에 존재하는지 여부 확인
     let user = await User.findById({ userId });
 
@@ -286,7 +314,7 @@ class userAuthService {
     return user;
   }
 
-  static async getUserInfo({ userId }) {
+  static getUserInfo = async ({ userId }) => {
     const user = await User.findById({ userId });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환

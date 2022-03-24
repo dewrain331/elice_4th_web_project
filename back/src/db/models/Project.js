@@ -29,14 +29,14 @@ class Project {
     return updatedProject;
   }
 
-  static async deleteById({ projectId }) {
+  static deleteById = async ({ projectId }) => {
     const deleteResult = await projectModel.deleteOne({ id: projectId, active : true, });
     // returns: { "acknowledged" : true, "deletedCount" : 1 }
     const isDataDeleted = deleteResult.deletedCount === 1;
     return isDataDeleted;
   }
 
-  static async withdrawByUserId({ userId, delayTime }) {
+  static withdrawByUserId = async ({ userId, delayTime }) => {
     try {
       const withdrawResult = await projectModel.updateMany(
         { userId : userId, active : true, },
@@ -51,7 +51,7 @@ class Project {
     }
   }
 
-  static async recoveryByUserId({ userId }) {
+  static recoveryByUserId = async ({ userId }) => {
     try {
       const recoveryResult = await projectModel.updateMany(
         { userId : userId, active : false, },

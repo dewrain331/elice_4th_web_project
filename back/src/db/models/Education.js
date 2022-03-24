@@ -29,14 +29,14 @@ class Education {
     return updatedEducation;
   }
 
-  static async deleteById({ educationId }) {
+  static deleteById = async ({ educationId }) => {
     const deleteResult = await educationModel.deleteOne({ id: educationId, active : true, });
     // returns: { "acknowledged" : true, "deletedCount" : 1 }
     const isDataDeleted = deleteResult.deletedCount === 1;
     return isDataDeleted;
   }
 
-  static async withdrawByUserId({ userId, delayTime }) {
+  static withdrawByUserId = async ({ userId, delayTime }) => {
     try{
       const withdrawResult = await educationModel.updateMany(
         { userId : userId, active : true, },
@@ -51,7 +51,7 @@ class Education {
     
   }
 
-  static async recoveryByUserId({ userId }) {
+  static recoveryByUserId = async ({ userId }) => {
     try {
       const recoveryResult = await educationModel.updateMany(
         { userId : userId, active : false, },
