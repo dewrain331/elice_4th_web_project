@@ -11,6 +11,7 @@ import Projects from "./project/Projects";
 import Educations from "./education/Educations"
 import Awards from "./award/Awards"
 import Certificates from "./certificate/Certificates"
+import Comments from "./comment/comments"
 import { RecoilRoot } from "recoil"
 import { useMediaQuery } from '@material-ui/core'
 
@@ -118,6 +119,13 @@ function Portfolio() {
                   />
                 </div>
               </Tab>
+              <Tab eventKey="comment" title="Comment">
+                <Comments 
+                  userId={portfolioOwner.id} 
+                  author={userState.user} 
+                />
+              </Tab>
+              <Tab eventKey="gallery" title="Gallery"></Tab>
             </Tabs>
           </Col>
         </Row>
