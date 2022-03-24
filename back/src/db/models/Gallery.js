@@ -2,7 +2,7 @@ import { galleryModel } from "../schemas/gallery";
 import fs from "fs";
 
 class Gallery {
-  static async create({ newImageContent }) {
+  static create = async ({ newImageContent }) => {
     const createdNewImage = await galleryModel.create(newImageContent);
     return createdNewImage;
   }
@@ -41,26 +41,6 @@ class Gallery {
       option
     );
     return updatedImageContent;
-  }
-
-  static withdrawByUserId = async ({ userId, delayTime }) => {
-    const withdrawResult = await projectModel.updateMany(
-      { userId : userId, active : true, },
-      { $set : { expiredAt : delayTime, active : false} },
-      { returnOriginal : false },
-    )
-
-    return withdrawResult;
-  }
-
-  static recoveryByUserId = async ({ userId }) => {
-    const recoveryResult = await projectModel.updateMany(
-      { userId : userId, active : false, },
-      { $set : { active : true }, $unset : { expiredAt : true } },
-      { returnOriginal : false },
-    )
-
-    return recoveryResult;
   }
 }
 

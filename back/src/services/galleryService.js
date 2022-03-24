@@ -12,7 +12,7 @@ class galleryService {
     return createdNewImage;
   }
 
-  static async deleteImage({ userId, imageId }) {
+  static deleteImage = async ({ userId, imageId }) => {
     const isDataDeleted = await Gallery.deleteById({ userId, imageId });
     if (!isDataDeleted) {
       const errorMessage =
