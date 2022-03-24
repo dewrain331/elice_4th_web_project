@@ -2,17 +2,10 @@ import { Card, Button, Row, Col, Modal } from "react-bootstrap";
 import { useState } from "react";
 import * as Api from "../../api";
 // recoil 사용
-import { useSetRecoilState, useRecoilState } from "recoil";
-import { gallerysState, pageState, totalPageState } from "./GalleryAtom";
-
-const PER_PAGE = 3;
+import { useSetRecoilState } from "recoil";
+import { gallerysState } from "./GalleryAtom";
 
 function GalleryCard({ gallery, isEditable, setIsEditing }) {
-  // 날짜 표시를 위한 슬라이싱
-  const slicingDate = (date) => {
-    return date.slice(0, 10);
-  };
-
   // Modal 관련 State
   const [show, setShow] = useState(false);
   const handleAlertShow = () => setShow(true);
@@ -20,26 +13,15 @@ function GalleryCard({ gallery, isEditable, setIsEditing }) {
 
   // recoil 적용
   const setGallerys = useSetRecoilState(gallerysState);
-  const [page, setPage] = useRecoilState(pageState);
-  const setTotalPage = useSetRecoilState(totalPageState);
 
   // 삭제 기능을 하는 함수
   const handleDelete = async () => {
     const { id, userId } = gallery;
     try {
-      await Api.delete("gallerys", id);
-      // "gallerylist/유저id?page={현재 페이지}&?perPage={데이터 수}"로 GET 요청하고,
-      // response의 data로 totalPage와 gallerys를 세팅함.
-      const res = await Api.get(
-        "gallerylist",
-        `${userId}?page=${page}&perPage=${PER_PAGE}`
-      );
-      const { totalPage, gallerys } = res.data;
-      if (page > totalPage) {
-        setPage((prev) => prev - 1);
-      }
-      setTotalPage(totalPage);
-      setGallerys(gallerys);
+      await Api.delete(`gallery/${userId}/${id}`);
+      // "gallery
+      const res = await Api.get(`gallery/${userId}`);
+      setGallerys(res.data.gallerys);
     } catch (error) {
       console.error(error);
     }
@@ -52,14 +34,15 @@ function GalleryCard({ gallery, isEditable, setIsEditing }) {
         {/* gallery의 제목, 상세내용, 기간 */}
         <Row className="align-items-center">
           <Col>
-            <span>{gallery.title}</span>
+            <Card.Img
+              style={{ width: "10rem", height: "8rem" }}
+              className="mb-3"
+              src={gallery?.saveFilePath}
+              alt="프로필 이미지"
+            />
             <br />
             <span className="text-muted">{gallery.description}</span>
             <br />
-            {/* gallery의 기간을 object로 받고 출력형식에 맞게 변경 */}
-            <span className="text-muted">
-              {slicingDate(gallery.fromDate)} ~ {slicingDate(gallery.toDate)}
-            </span>
           </Col>
           {/* gallery 편집 버튼 */}
           {isEditable && (
