@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Col, Row, Form, Button, Modal } from "react-bootstrap";
+import { Container, Col, Row, Form, Button, Modal, InputGroup, FormControl } from "react-bootstrap";
 
 import * as Api from "../../api";
 import { DispatchContext } from "../../App";
@@ -29,7 +29,7 @@ function LoginForm() {
   const isPasswordValid = password.length >= 4;
   // 이메일과 비밀번호 조건이 동시에 만족되는지 확인함.
   const isFormValid = isEmailValid && isPasswordValid;
-
+  const [isFindingPw, setIsFindingPw] = useState(false)
 
   const [show, setShow] = useState(false)
   const handleShow = () => setShow(true)
@@ -37,26 +37,36 @@ function LoginForm() {
 
   const handleFindPwStepOne = async () => {
     const emailForFindPw = document.querySelector('#findPwEmailInput').value
-    const isEmailForFindPwValid = validateEmail(emailForFindPw)
-    if(isEmailForFindPwValid === true) {
       try {
-        await Api.xxx('url')
-
+        await Api.post('user/auth', {
+          email: emailForFindPw
+        })
+        setIsFindingPw(true)
+        alert("이메일을 확인하고, 인증코드를 입력해주세요.")
       } catch (err) {
         console.error(err)
         alert("등록된 이메일이 아니거나, 이메일을 잘못 입력했습니다. 다시 시도해주세요.")
       }
-    }
-    else {
-      alert("올바른 이메일 형식이 아닙니다. 다시 시도해주세요.")
-    }
   }
 
   const handleFindPwStepTwo = async () => {
+    const emailForFindPw = document.querySelector('#findPwEmailInput').value
     const authForFindPw = document.querySelector('#findPwAuthInput').value
       try {
-        await Api.xxx('url')
+        const res = await Api.post('user/auth/code', {
+          email: emailForFindPw,
+          code: authForFindPw
+        })
+        const user = res.data
+        const jwtToken = user.token
+        sessionStorage.setItem("userToken", jwtToken)
+        setIsFindingPw(false)
+        dispatch({
+          type: "LOGIN_SUCCESS",
+          payload: user,
+        })
         alert("로그인되었습니다. 편집 버튼을 눌러 비밀번호를 변경해주세요.")
+        navigate("/", { replace: true })
       } catch (err) {
         console.error(err)
         alert("잘못된 인증번호입니다. 다시 시도해주세요.")
@@ -149,7 +159,7 @@ function LoginForm() {
               <Form.Group as={Row} className="mt-3 text-center">
                 <Col sm={{ span: 20 }}>
                   <Button variant="success" onClick={(handleShow)}>
-                    비밀번호 찾기
+                    비밀번호를 잊으셨나요?
                   </Button>
                 </Col>
               </Form.Group>
@@ -160,17 +170,22 @@ function LoginForm() {
 
       <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>비밀번호 변경</Modal.Title>
+            <Modal.Title>비밀번호</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            비밀번호 변경을 위해 이메일 인증이 필요합니다.
-            <p>
-              <input type="email" id="findPwEmailInput" placeholder="가입한 이메일을 입력해주세요." />
-              <Button variant="primary" onClick={handleFindPwStepOne}>인증번호 발송</Button>
-            </p>
-            <p>
-              <input type="text" id="findPwAuthInput" placeholder="이메일을 확인하고 인증번호를 입력해주세요." />
-            </p>
+            이메일 인증이 필요합니다.
+            <InputGroup className="mb-3 mt-3">
+              <FormControl
+                placeholder="이메일을 입력해주세요."
+                id="findPwEmailInput"
+              />
+              <Button variant="outline-primary" onClick={handleFindPwStepOne}>인증번호 발송</Button>
+            </InputGroup>
+            <FormControl
+              placeholder="인증번호를 입력해주세요."
+              id="findPwAuthInput"
+              disabled={!isFindingPw}
+            />
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
