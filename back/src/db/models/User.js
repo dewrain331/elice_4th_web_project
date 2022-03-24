@@ -1,8 +1,5 @@
 import { UserModel } from "../schemas/user";
 
-// 한달
-const EXPIRE_DELAY_TIME = 30*86400*1000;
-
 class User {
   static async create({ newUser }) {
     const createdNewUser = await UserModel.create(newUser);
