@@ -393,12 +393,7 @@ class userAuthService {
     const user = process.env.user;
     const pass = process.env.pass;
 
-    const deleteResult = await Auth.deleteAuth({ email });
-    if (!deleteResult) {
-      const errorMessage =
-        "코드 초기화에 실패했습니다. 다시 시도해주세요.";
-      return { errorMessage };
-    }
+    await Auth.deleteAuth({ email });
 
     const code = randomString();
 
@@ -419,7 +414,7 @@ class userAuthService {
     })
 
     const mailOption = {
-      from : user,
+      from : `관리자@PortfolioTeam2<${user}>`,
       to : email,
       subject : "portfolio password auth code",
       html : `code : <strong>${code}</strong>`,
