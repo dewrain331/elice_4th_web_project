@@ -25,12 +25,12 @@ function GalleryCard({ gallery, isEditable, setIsEditing }) {
     } catch (error) {
       console.error(error);
     }
-    setShow(false);
+    // setShow(false); unmount돼서 modal 사라짐
   };
 
   return (
     <>
-      <Card.Body>
+      <Card.Body style={{ maxWidth: "300px" }}>
         {/* gallery의 제목, 상세내용, 기간 */}
         <div style={{ width: "200px", height: "200px", overflow: "hidden" }}>
           <Card.Img
@@ -41,7 +41,9 @@ function GalleryCard({ gallery, isEditable, setIsEditing }) {
           />
         </div>
         <br />
-        <span className="text-muted">{gallery.description}</span>
+        <span className="text-muted" style={{ width: "200px" }}>
+          {gallery.description}
+        </span>
         <br />
         {/* gallery 편집 버튼 */}
         {isEditable && (
