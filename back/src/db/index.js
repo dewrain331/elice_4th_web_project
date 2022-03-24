@@ -4,6 +4,8 @@ import { Project } from "./models/Project"
 import { Award } from "./models/Award";
 import { Certificate } from "./models/Certificate";
 import { Education } from "./models/Education";
+import { Comment } from "./models/Comment";
+import { Reply } from "./models/Reply";
 
 const DB_URL =
   process.env.MONGODB_URL ||
@@ -25,3 +27,5 @@ export { Award };
 export { Certificate };
 export { Education };
 export { db };
+export { Comment };
+export { Reply };

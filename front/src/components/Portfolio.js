@@ -12,6 +12,7 @@ import Educations from "./education/Educations"
 import Awards from "./award/Awards"
 import Certificates from "./certificate/Certificates"
 import { RecoilRoot } from "recoil"
+import Comments from "./comment/Comments"
 
 function Portfolio() {
   const navigate = useNavigate();
@@ -99,7 +100,24 @@ function Portfolio() {
           </Col>
         </Row>
       </Container>
+      <Container fluid>
+        <Row>
+          <Col md="3" lg="3">
+            <User
+              portfolioOwnerId={portfolioOwner.id}
+              isEditable={portfolioOwner.id === userState.user?.id}
+            />
+          </Col>
+          <Col>
+            <Comments 
+              userId={portfolioOwner.id}
+              author={userState.user}
+            />
+          </Col>
+        </Row>
+      </Container>
     </RecoilRoot>
+
   );
 }
 
