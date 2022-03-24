@@ -12,6 +12,7 @@ import Educations from "./education/Educations"
 import Awards from "./award/Awards"
 import Certificates from "./certificate/Certificates"
 import { RecoilRoot } from "recoil"
+import { useMediaQuery } from '@material-ui/core'
 
 function Portfolio() {
   const navigate = useNavigate();
@@ -33,6 +34,8 @@ function Portfolio() {
     // fetchPorfolioOwner 과정이 끝났으므로, isFetchCompleted를 true로 바꿈.
     setIsFetchCompleted(true);
   };
+
+  const matches = useMediaQuery('(min-width: 1400px)')
 
   useEffect(() => {
     // 전역 상태의 user가 null이라면 로그인이 안 된 상태이므로, 로그인 페이지로 돌림.
@@ -61,23 +64,28 @@ function Portfolio() {
   return (
     <RecoilRoot>
       <Container fluid>
-        <Row >
-          <Col md="3" lg="3">
-            <User
-              portfolioOwnerId={portfolioOwner.id}
-              isEditable={portfolioOwner.id === userState.user?.id}
-            />
-          </Col>
+        <Row xxl="2" xl="1">
+          {matches ? 
+            (<Col md="3">
+              <User
+                portfolioOwnerId={portfolioOwner.id}
+                isEditable={portfolioOwner.id === userState.user?.id}
+              />
+            </Col>) :
+            (<Row className="justify-content-center">
+              <User
+                portfolioOwnerId={portfolioOwner.id}
+                isEditable={portfolioOwner.id === userState.user?.id}
+              />
+            </Row>)
+          }
           <Col>
-            <div style={{ textAlign: "center" }}>
-              학력 목록, 수상이력 목록, 프로젝트 목록, 자격증 목록 만들기
-            </div>
-            <div className="mb-3">
+            <Row className="mb-4">
               <Projects
                 portfolioOwnerId={portfolioOwner.id}
                 isEditable={portfolioOwner.id === userState.user?.id}
               />
-            </div>
+            </Row>
             <Row className="mb-4">
               <Educations
                 portfolioOwnerId={portfolioOwner.id}
