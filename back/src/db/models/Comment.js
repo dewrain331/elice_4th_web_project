@@ -1,16 +1,13 @@
 import { CommentModel } from "../schemas/comment";
 
 class Comment {
-    static async create({ newComment }) {
-
-        console.log('newComment');
-        console.log(newComment);
+    static create = async ({ newComment }) => {
 
         const createdNewComment = await CommentModel.create(newComment);
         return createdNewComment;
     }
 
-    static async findToUserID({ newComment }) {
+    static findToUserID = async ({ newComment }) => {
         const findComment = await CommentModel.find({
             user_id : newComment.user_id,
             depth : newComment.depth
@@ -19,7 +16,7 @@ class Comment {
         return findComment;
     }
 
-    static async pushReply({ reply }) {
+    static pushReply = async ({ reply }) => {
 
         const findComment = await CommentModel.findOneAndUpdate({
             id : reply.parent_comment_id
@@ -33,7 +30,7 @@ class Comment {
         return findComment;
     }
 
-    static async getComment({ getComment }) {
+    static getComment = async ({ getComment }) => {
         const comment = await CommentModel.find({
             id : getComment.id
         }).populate('replys');
@@ -41,7 +38,7 @@ class Comment {
         return comment;
     }
 
-    static async getCommentToUser({ getComment }) {
+    static getCommentToUser = async ({ getComment }) => {
         const comment = await CommentModel.find({
             user_id : getComment.user_id
         }).populate('replys');
@@ -49,7 +46,7 @@ class Comment {
         return comment;
     }
 
-    static async delete({ deleteComment }) {
+    static delete = async ({ deleteComment }) => {
 
         const comment = await CommentModel.deleteOne({
             id : deleteComment.id
@@ -62,7 +59,7 @@ class Comment {
         return { status : false }
     }
 
-    static async update({ updateComment }) {
+    static update = async ({ updateComment }) => {
         const filter = { id: updateComment.id };
         const update = { text: updateComment.text };
         const option = { returnOriginal: false };
@@ -75,7 +72,7 @@ class Comment {
         return updatedUser;
     }
 
-    static async disConnectReply({ sendReply }) {
+    static disConnectReply = async ({ sendReply }) => {
 
         const reply = await CommentModel.findOneAndUpdate({
             parent_comment_id : sendReply.parent_comment_id
@@ -88,6 +85,34 @@ class Comment {
         }
         else {
             return false;
+        }
+    }
+
+    static withdrawByUserId = async ({ userId, delayTime }) => {
+        try {
+            const withdrawResult = await CommentModel.updateMany(
+                { userId : userId, active : true, },
+                { $set : { expiredAt : delayTime, active : false } },
+                { returnOriginal : false },
+              )
+          
+            return withdrawResult;
+        } catch (err) {
+            return { error : err.message };
+        }
+    }
+
+    static recoveryByUserId = async ({ userId }) => {
+        try {
+            const recoveryResult = await CommentModel.updateMany(
+                { userId : userId, active : false, },
+                { $set : { active : true }, $unset : { expiredAt : true } },
+                { returnOriginal : false },
+              )
+          
+            return recoveryResult;
+        } catch (err) {
+            return { error : err.message };
         }
     }
 }

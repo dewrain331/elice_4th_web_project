@@ -1,4 +1,4 @@
-import { User, Award, Certificate, Education, Project, db } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+import { User, Award, Certificate, Education, Project, Comment, Reply, db } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
@@ -61,6 +61,18 @@ class userAuthService {
 
       if (aResult.error) { throw new Error("Award withdraw Error") };
 
+      const coResult = await Comment.withdrawByUserId({
+        userId, delayTime : Date.now() + EXPIRE_DELAY_TIME
+      })
+
+      if (coResult.error) { throw new Error("Award withdraw Error") };
+
+      const rResult = await Reply.withdrawByUserId({
+        userId, delayTime : Date.now() + EXPIRE_DELAY_TIME
+      })
+
+      if (rResult.error) { throw new Error("Award withdraw Error") };
+
       session.commitTransaction();
       
       return { status : "success" }
@@ -104,6 +116,13 @@ class userAuthService {
 
       const aResult = await Award.recoveryByUserId({ userId })
       if (aResult.error) { throw new Error("Award withdraw Error") };
+
+      const coResult = await Comment.recoveryByUserId({ userId })
+      if (coResult.error) { throw new Error("Award withdraw Error") };
+
+      const rResult = await Reply.recoveryByUserId({ userId })
+      if (rResult.error) { throw new Error("Award withdraw Error") };
+
 
       session.commitTransaction();
 
@@ -160,6 +179,12 @@ class userAuthService {
 
       const aResult = await Award.recoveryByUserId({ userId : user.id })
       if (aResult.error) { throw new Error("Award withdraw Error") };
+
+      const coResult = await Comment.recoveryByUserId({ userId : user.id })
+      if (coResult.error) { throw new Error("Award withdraw Error") };
+
+      const rResult = await Reply.recoveryByUserId({ userId : user.id })
+      if (rResult.error) { throw new Error("Award withdraw Error") };
 
       session.commitTransaction();
       return { status : "success" };

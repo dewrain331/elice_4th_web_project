@@ -1,12 +1,12 @@
 import { ReplyModel } from "../schemas/reply";
 
 class Reply {
-    static async create({ newReply }) {
+    static create = async ({ newReply }) => {
         const reply = await ReplyModel.create(newReply);
         return reply;
     }
 
-    static async findToID({ getReply }) {
+    static findToID = async ({ getReply }) => {
 
         const reply = await ReplyModel.findOne({
             id : getReply.id
@@ -15,7 +15,7 @@ class Reply {
         return reply;
     }
 
-    static async deleteAll({ deleteReply }) {
+    static deleteAll = async ({ deleteReply }) => {
 
         const reply = await ReplyModel.deleteMany({
             parent_comment_id: deleteReply.parent_comment_id,
@@ -24,7 +24,7 @@ class Reply {
         return reply;
     }
 
-    static async delete({ deleteReply }) {
+    static delete = async ({ deleteReply }) => {
 
         const reply = await ReplyModel.deleteOne({
             parent_comment_id : deleteReply.parent_comment_id,
@@ -39,7 +39,7 @@ class Reply {
 
     }
 
-    static async update({ updateReply }) {
+    static update = async ({ updateReply }) => {
 
         const filter = { id: updateReply.id };
         const update = { text : updateReply.text };
@@ -51,6 +51,34 @@ class Reply {
             option
         );
         return updatedUser;
+    }
+
+    static withdrawByUserId = async ({ userId, delayTime }) => {
+        try {
+            const withdrawResult = await ReplyModel.updateMany(
+                { userId : userId, active : true, },
+                { $set : { expiredAt : delayTime, active : false } },
+                { returnOriginal : false },
+              )
+          
+            return withdrawResult;
+        } catch (err) {
+            return { error : err.message };
+        }
+    }
+
+    static recoveryByUserId = async ({ userId }) => {
+        try {
+            const recoveryResult = await ReplyModel.updateMany(
+                { userId : userId, active : false, },
+                { $set : { active : true }, $unset : { expiredAt : true } },
+                { returnOriginal : false },
+              )
+          
+            return recoveryResult;
+        } catch (err) {
+            return { error : err.message };
+        }
     }       
 
 }
