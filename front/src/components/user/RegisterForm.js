@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Col, Row, Form, Button } from "react-bootstrap";
+import { Container, Col, Row, Form, Button, Modal } from "react-bootstrap";
 
 import * as Api from "../../api";
 
@@ -15,6 +15,10 @@ function RegisterForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   //useState로 name 상태를 생성함.
   const [name, setName] = useState("");
+
+  const [show, setShow] = useState(false);
+
+  const [errorMessage, setErrorMessage] = useState("");
 
   //이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
   const validateEmail = (email) => {
@@ -52,7 +56,12 @@ function RegisterForm() {
       // 로그인 페이지로 이동함.
       navigate("/login");
     } catch (err) {
-      console.log("회원가입에 실패하였습니다.", err.response);
+      setErrorMessage(err.response.data.errormessage);
+      setShow(true);
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+      setName("");
     }
   };
 
@@ -128,6 +137,19 @@ function RegisterForm() {
                 </Button>
               </Col>
             </Form.Group>
+
+            {/* 회원가입 실패 시 모달창 */}
+            <Modal show={show} onHide={() => setShow(false)}>
+              <Modal.Header closeButton>
+                <Modal.Title>Modal heading</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>{errorMessage}</Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={() => setShow(false)}>
+                  확인
+                </Button>
+              </Modal.Footer>
+            </Modal>
 
             <Form.Group as={Row} className="mt-3 text-center">
               <Col sm={{ span: 20 }}>
