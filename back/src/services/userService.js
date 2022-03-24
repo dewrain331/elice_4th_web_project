@@ -393,7 +393,12 @@ class userAuthService {
     const user = process.env.user;
     const pass = process.env.pass;
 
-    console.log(user, pass);
+    const deleteResult = await Auth.deleteAuth({ email });
+    if (!deleteResult) {
+      const errorMessage =
+        "코드 초기화에 실패했습니다. 다시 시도해주세요.";
+      return { errorMessage };
+    }
 
     const code = randomString();
 
@@ -449,10 +454,6 @@ class userAuthService {
     const auth = await Auth.findAuth({ email });
 
     if (auth.code !== code) {
-
-      if (!result) {
-        console.log("DB에 auth데이터가 없습니다.");
-      }
 
       const errorMessage =
         "코드가 다릅니다. 다시 인증시도 해주세요.";
