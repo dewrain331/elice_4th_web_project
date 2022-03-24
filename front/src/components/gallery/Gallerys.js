@@ -14,19 +14,18 @@ function Gallerys({ portfolioOwnerId, isEditable }) {
   const [isAdding, setIsAdding] = useRecoilState(isAddingState);
 
   useEffect(() => {
-    // "gallerylist/유저id?page={현재 페이지}&?perPage={데이터 수}"로 GET 요청하고,
-    // response의 data로 totalPage와 gallerys를 세팅함.
+    // "gallery/유저id로 get요청을 하여 gallerys를 세팅함.
     const fetchGallerys = async () => {
       try {
-        const res = await Api.get("gallery", `${portfolioOwnerId}`);
-        const { gallerys } = res.data;
-        setGallerys(gallerys);
+        const res = await Api.get("gallery", portfolioOwnerId);
+        setGallerys(res.data.images);
       } catch (error) {
         console.error(error);
       }
     };
     fetchGallerys();
-  }, [portfolioOwnerId, setGallerys]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [portfolioOwnerId]);
 
   return (
     <Card>

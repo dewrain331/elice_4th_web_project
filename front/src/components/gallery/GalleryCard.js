@@ -18,10 +18,10 @@ function GalleryCard({ gallery, isEditable, setIsEditing }) {
   const handleDelete = async () => {
     const { id, userId } = gallery;
     try {
-      await Api.delete(`gallery/${userId}/${id}`);
+      await Api.delete("gallery", `${userId}/${id}`);
       // "gallery
-      const res = await Api.get(`gallery/${userId}`);
-      setGallerys(res.data.gallerys);
+      const res = await Api.get("gallery", userId);
+      setGallerys(res.data.images);
     } catch (error) {
       console.error(error);
     }
@@ -35,7 +35,7 @@ function GalleryCard({ gallery, isEditable, setIsEditing }) {
         <Row className="align-items-center">
           <Col>
             <Card.Img
-              style={{ width: "10rem", height: "8rem" }}
+              style={{ width: "10rem", height: "10rem" }}
               className="mb-3"
               src={gallery?.saveFilePath}
               alt="프로필 이미지"

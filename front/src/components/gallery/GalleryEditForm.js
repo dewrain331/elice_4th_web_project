@@ -1,25 +1,30 @@
 import React, { useState } from "react";
 import { Button, Form, Col, Row } from "react-bootstrap";
-// import * as Api from "../../api";
+import * as Api from "../../api";
 // recoil 사용
-// import { useSetRecoilState } from "recoil";
-// import { gallerysState } from "./GalleryAtom";
+import { useSetRecoilState } from "recoil";
+import { gallerysState } from "./GalleryAtom";
 
 function GalleryEditForm({ gallery, setIsEditing }) {
   // useState로 description 상태를 생성함.
   const [description, setDescription] = useState(gallery.description);
   // recoil 적용
-  // const setGallerys = useSetRecoilState(gallerysState);
+  const setGallerys = useSetRecoilState(gallerysState);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     e.stopPropagation();
 
-    // patch
-    const formData = new FormData();
-    const data = [{ description: description }];
-    formData.append("gallery", data);
-
+    try {
+      const { id, userId } = gallery;
+      const formData = new FormData();
+      formData.append("description", description);
+      await Api.patchDescription(`gallery/${userId}/${id}`, formData);
+      const res = await Api.get("gallery", userId);
+      setGallerys(res.data.images);
+    } catch (err) {
+      console.error(err);
+    }
     // 편집 과정이 끝났으므로, isEditing을 false로 세팅함.
     setIsEditing(false);
   };
