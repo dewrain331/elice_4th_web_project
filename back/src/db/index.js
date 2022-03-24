@@ -6,6 +6,7 @@ import { Certificate } from "./models/Certificate";
 import { Education } from "./models/Education";
 import { Comment } from "./models/Comment";
 import { Reply } from "./models/Reply";
+import { Auth } from "./models/Auth";
 
 const DB_URL =
   process.env.MONGODB_URL ||
@@ -29,3 +30,4 @@ export { Education };
 export { db };
 export { Comment };
 export { Reply };
+export { Auth };

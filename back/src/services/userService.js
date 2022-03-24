@@ -1,8 +1,10 @@
-import { User, Award, Certificate, Education, Project, Comment, Reply, db } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+import { User, Award, Certificate, Education, Project, Comment, Reply, Auth, db } from "../db";
+ // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
-import { EXPIRE_DELAY_TIME } from "../constant";
+import { EXPIRE_DELAY_TIME, randomString } from "../constant";
+import nodemailer from "nodemailer";
 
 class userAuthService {
 
@@ -377,6 +379,115 @@ class userAuthService {
     const removedLike = await User.removeLike({ userId, currentUserId });
     return removedLike;
   }
+
+  static findPassword = async ({ email }) => {
+
+    /**
+     * todolist
+     * 노드 메일러 추가
+     * authentication 스키마 작성
+     * 유저 이메일, 랜덤 숫자 6개 데이터 생성 5분 뒤 지워지는 것두 추가
+     * 메일로 랜덤 숫자 6개를 보낸다.
+     * 끝
+     */
+    const user = process.env.user;
+    const pass = process.env.pass;
+
+    await Auth.deleteAuth({ email });
+
+    const code = randomString();
+
+    const result = await Auth.create({ email, code });
+
+    if (!result) {
+      const errorMessage =
+        "코드 생성에 실패했습니다. 다시 시도해주세요.";
+      return { errorMessage };
+    }
+
+    const transport = nodemailer.createTransport({
+      service : "Gmail",
+      auth : {
+        user : user,
+        pass : pass,
+      }
+    })
+
+    const mailOption = {
+      from : `관리자@PortfolioTeam2<${user}>`,
+      to : email,
+      subject : "portfolio password auth code",
+      html : `code : <strong>${code}</strong>`,
+    }
+
+    transport.sendMail(
+      mailOption, (error, info) => { 
+        if (error) { 
+          console.log(error, info);
+          const errorMessage =
+            "메일 전송에 실패했습니다.";
+          return { errorMessage };
+        } 
+        transporter.close(); 
+      }
+    );
+
+    return { status : "success" };
+  }
+
+  static userEmailAuth = async ({ email, code }) => {
+
+    /**
+     * todolist
+     * 유저가 보낸 랜덤 번호와 이메일이 DB에 있는지 체크
+     * 만약 랜덤 번호가 틀렸으면 지운다. -> 에러 전송
+     * 이메일이 틀렸으면 아예 검사 안됨
+     * 맞았으면 로그인 시켜주고 디비에서 데이터를 지운다.
+     * 
+     */
+
+    const auth = await Auth.findAuth({ email });
+
+    if (auth.code !== code) {
+
+      const errorMessage =
+        "코드가 다릅니다. 다시 인증시도 해주세요.";
+      return { errorMessage };
+
+    }
+    else {
+      const result = await Auth.deleteAuth({ email });
+
+      if (!result) {
+        console.log("DB에 auth데이터가 없습니다.");
+      }
+
+      return await this.getUserForAuth({ email });
+    }
+  }
+
+  static getUserForAuth = async ({ email }) => {
+    const user = await User.findByEmail({ email });
+
+    const secretKey = process.env.JWT_SECRET_KEY || "jwt-secret-key";
+    const token = jwt.sign({ userId: user.id }, secretKey, {expiresIn : '1 days'});
+
+    const id = user.id;
+    const name = user.name;
+    const description = user.description;
+
+    const loginUser = {
+      token,
+      id,
+      email,
+      name,
+      description,
+      errorMessage: null,
+    };
+
+    return loginUser;
+  }
+
 }
 
 export { userAuthService };
