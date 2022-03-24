@@ -176,6 +176,7 @@ function LoginForm() {
             이메일 인증이 필요합니다.
             <InputGroup className="mb-3 mt-3">
               <FormControl
+                type="email"
                 placeholder="이메일을 입력해주세요."
                 id="findPwEmailInput"
               />
