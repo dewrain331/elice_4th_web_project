@@ -36,6 +36,16 @@ const UserSchema = new Schema(
     expiredAt : {
       type : Date,
       expires:0
+    },
+    likeCount: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    likeUsers: {
+      type: Array,
+      required: true,
+      default: [],
     }
   },
   {

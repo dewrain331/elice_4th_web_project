@@ -246,4 +246,46 @@ userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
     );
 });
 
+userAuthRouter.put("/users/:id/like", async function (req, res, next) {
+  try {
+    // URI로부터 포트폴리오 userId를 추출함.
+    const userId = req.params.id;
+
+    // body data 로부터 업데이트할 사용자 정보를 추출함.
+    const { currentUserId } = req.body ?? null;
+
+    // 위 추출된 정보를 이용하여 db의 데이터 수정함
+    const addedLike = await userAuthService.addLike({ userId, currentUserId });
+
+    if (addedLike.errorMessage) {
+      throw new Error(addedLike.errorMessage);
+    }
+
+    res.status(200).json(addedLike);
+  } catch (error) {
+    next(error);
+  }
+});
+
+userAuthRouter.put("/users/:id/dislike", async function (req, res, next) {
+  try {
+    // URI로부터 포트폴리오 userId를 추출함.
+    const userId = req.params.id;
+
+    // body data 로부터 업데이트할 사용자 정보를 추출함.
+    const { currentUserId } = req.body ?? null;
+
+    // 위 추출된 정보를 이용하여 db의 데이터 수정함
+    const removedLike = await userAuthService.removeLike({ userId, currentUserId });
+
+    if (removedLike.errorMessage) {
+      throw new Error(removedLike.errorMessage);
+    }
+
+    res.status(200).json(removedLike);
+  } catch (error) {
+    next(error);
+  }
+});
+
 export { userAuthRouter };

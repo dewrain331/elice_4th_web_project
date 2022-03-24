@@ -51,10 +51,10 @@ class User {
     return updatedUser;
   }
 
-      /** 유저 탈퇴 기능
-     *  유저의 모든 데이터 비활성화
-     *  exired를 추가해주고, active를 false로 해준다.
-     */
+    /** 유저 탈퇴 기능
+   *  유저의 모든 데이터 비활성화
+   *  exired를 추가해주고, active를 false로 해준다.
+   */
   static withdraw = async ({ userId }) => {
     const filter = { id: userId, active : true, };
     const update = { $set : { expiredAt : Date.now() + EXPIRE_DELAY_TIME, active : false } };
@@ -65,7 +65,6 @@ class User {
       update,
       option
     );
-
     return result;
   }
 
@@ -85,7 +84,33 @@ class User {
     );
     
     return result;
+  }
 
+  static addLike = async ({ userId, currentUserId }) => {
+    const filter = { id: userId };
+    const update = { $inc: { likeCount: 1 }, $push: { likeUsers: currentUserId } }
+    const option = { returnOriginal: false };
+
+    const addedLike = await UserModel.findOneAndUpdate(
+      filter,
+      update,
+      option
+    );
+    return addedLike;
+  }
+
+  static removeLike = async ({ userId, currentUserId }) => {
+    const filter = { id: userId };
+    const update = { $inc: { likeCount: -1 }, $pull: { likeUsers: currentUserId } }
+    const option = { returnOriginal: false };
+
+    const removedLike = await UserModel.findOneAndUpdate(
+      filter,
+      update,
+      option
+    );
+
+    return removedLike;
   }
 }
 
