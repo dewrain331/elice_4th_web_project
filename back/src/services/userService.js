@@ -461,11 +461,35 @@ class userAuthService {
     }
     else {
       const result = await Auth.deleteAuth({ email });
+
       if (!result) {
         console.log("DB에 auth데이터가 없습니다.");
       }
-      return {status : "success"};
+
+      return await this.getUserForAuth({ email });
     }
+  }
+
+  static getUserForAuth = async ({ email }) => {
+    const user = await User.findByEmail({ email });
+
+    const secretKey = process.env.JWT_SECRET_KEY || "jwt-secret-key";
+    const token = jwt.sign({ userId: user.id }, secretKey, {expiresIn : '1 days'});
+
+    const id = user.id;
+    const name = user.name;
+    const description = user.description;
+
+    const loginUser = {
+      token,
+      id,
+      email,
+      name,
+      description,
+      errorMessage: null,
+    };
+
+    return loginUser;
   }
 
 }
