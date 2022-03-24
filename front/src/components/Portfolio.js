@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Container, Col, Row } from "react-bootstrap";
+import { Container, Col, Row, Tabs, Tab } from "react-bootstrap";
 
 import { UserStateContext } from "../App";
 import * as Api from "../api";
@@ -36,6 +36,13 @@ function Portfolio() {
   };
 
   const matches = useMediaQuery('(min-width: 1400px)')
+  const myStorage = window.localStorage;
+  const [checkedTab, setCheckedTab] = useState(myStorage.getItem("checkedTab"));
+
+  const handleSelect = (k) => {
+    setCheckedTab(k);
+    myStorage.setItem("checkedTab", k);
+  };
 
   useEffect(() => {
     // 전역 상태의 user가 null이라면 로그인이 안 된 상태이므로, 로그인 페이지로 돌림.
@@ -80,30 +87,38 @@ function Portfolio() {
             </Row>)
           }
           <Col>
-            <Row className="mb-4">
-              <Projects
-                portfolioOwnerId={portfolioOwner.id}
-                isEditable={portfolioOwner.id === userState.user?.id}
-              />
-            </Row>
-            <Row className="mb-4">
-              <Educations
-                portfolioOwnerId={portfolioOwner.id}
-                isEditable={portfolioOwner.id === userState.user?.id}
-              />
-            </Row>
-            <Row className="mb-4">
-              <Awards
-                portfolioOwnerId={portfolioOwner.id}
-                isEditable={portfolioOwner.id === userState.user?.id}
-              />
-            </Row>
-            <Row className="mb-4">
-              <Certificates
-                portfolioOwnerId={portfolioOwner.id}
-                isEditable={portfolioOwner.id === userState.user?.id}
-              />
-            </Row>
+            <Tabs
+              className="mb-3"
+              defaultActiveKey={checkedTab}
+              onSelect={handleSelect}
+            >
+              <Tab eventKey="portfolio" title="Portfolio">
+                <div className="mb-3">
+                  <Projects
+                    portfolioOwnerId={portfolioOwner.id}
+                    isEditable={portfolioOwner.id === userState.user?.id}
+                  />
+                </div>
+                <div className="mb-4">
+                  <Educations
+                    portfolioOwnerId={portfolioOwner.id}
+                    isEditable={portfolioOwner.id === userState.user?.id}
+                  />
+                </div>
+                <div className="mb-4">
+                  <Awards
+                    portfolioOwnerId={portfolioOwner.id}
+                    isEditable={portfolioOwner.id === userState.user?.id}
+                  />
+                </div>
+                <div className="mb-4">
+                  <Certificates
+                    portfolioOwnerId={portfolioOwner.id}
+                    isEditable={portfolioOwner.id === userState.user?.id}
+                  />
+                </div>
+              </Tab>
+            </Tabs>
           </Col>
         </Row>
       </Container>
