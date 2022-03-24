@@ -6,7 +6,7 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
   return (
     <Card className="mb-2 ms-3 mr-5" style={{ width: "18rem" }}>
       <Card.Body>
-        <Row className="justify-content-md-center">
+        <Row className="justify-content-center">
           <Card.Img
             style={{ width: "10rem", height: "8rem" }}
             className="mb-3"

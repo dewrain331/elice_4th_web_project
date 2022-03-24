@@ -22,6 +22,9 @@ function Portfolio() {
   // 아래 코드를 보면, isFetchCompleted가 false이면 "loading..."만 반환되어서, 화면에 이 로딩 문구만 뜨게 됨.
   const [isFetchCompleted, setIsFetchCompleted] = useState(false);
   const userState = useContext(UserStateContext);
+  const [isWidthUnder1300, setIsWidthUnder1300] = useState(false)
+  const [isWidthUnder770, setIsWidthUnder770] = useState(false)
+  const [isWidthUnder660, setIsWidthUnder660] = useState(false)
 
   const fetchPorfolioOwner = async (ownerId) => {
     // 유저 id를 가지고 "/users/유저id" 엔드포인트로 요청해 사용자 정보를 불러옴.
@@ -52,6 +55,13 @@ function Portfolio() {
       // 해당 유저 id로 fetchPorfolioOwner 함수를 실행함.
       fetchPorfolioOwner(ownerId);
     }
+
+    window.onresize = () => {
+      const innerWidth = window.innerWidth
+      innerWidth > 1300 ? setIsWidthUnder1300(false) : setIsWidthUnder1300(true)
+      innerWidth > 770 ? setIsWidthUnder770(false) : setIsWidthUnder770(true)
+      innerWidth > 660 ? setIsWidthUnder660(false) : setIsWidthUnder660(true)
+    }
   }, [params, userState, navigate]);
 
   if (!isFetchCompleted) {
@@ -60,24 +70,22 @@ function Portfolio() {
 
   return (
     <RecoilRoot>
+      { isWidthUnder1300 === false && isWidthUnder770 === false && isWidthUnder660 === false &&
       <Container fluid>
-        <Row >
-          <Col md="3" lg="3">
+        <Row>
+          <Col>
             <User
               portfolioOwnerId={portfolioOwner.id}
               isEditable={portfolioOwner.id === userState.user?.id}
             />
           </Col>
           <Col>
-            <div style={{ textAlign: "center" }}>
-              학력 목록, 수상이력 목록, 프로젝트 목록, 자격증 목록 만들기
-            </div>
-            <div className="mb-3">
+            <Row className="mb-4">
               <Projects
                 portfolioOwnerId={portfolioOwner.id}
                 isEditable={portfolioOwner.id === userState.user?.id}
               />
-            </div>
+            </Row>
             <Row className="mb-4">
               <Educations
                 portfolioOwnerId={portfolioOwner.id}
@@ -99,6 +107,79 @@ function Portfolio() {
           </Col>
         </Row>
       </Container>
+      }
+      { isWidthUnder1300 === true && isWidthUnder770 === false && isWidthUnder660 === false &&
+      <Container fluid>
+          <Col>
+              <Row className="mb-4 justify-content-center">
+                <User
+                  portfolioOwnerId={portfolioOwner.id}
+                  isEditable={portfolioOwner.id === userState.user?.id}
+                />
+              </Row>
+              <Row className="mb-4">
+                <Projects
+                  portfolioOwnerId={portfolioOwner.id}
+                  isEditable={portfolioOwner.id === userState.user?.id}
+                />
+              </Row>
+              <Row className="mb-4">
+                <Educations
+                  portfolioOwnerId={portfolioOwner.id}
+                  isEditable={portfolioOwner.id === userState.user?.id}
+                />
+              </Row>
+              <Row className="mb-4">
+                <Awards
+                  portfolioOwnerId={portfolioOwner.id}
+                  isEditable={portfolioOwner.id === userState.user?.id}
+                />
+              </Row>
+              <Row className="mb-4">
+                <Certificates
+                  portfolioOwnerId={portfolioOwner.id}
+                  isEditable={portfolioOwner.id === userState.user?.id}
+                />
+              </Row>
+          </Col>
+      </Container>
+      }
+      { isWidthUnder1300 === true && isWidthUnder770 === true && isWidthUnder660 === false &&
+      <Container fluid>
+          <Col>
+              <Row className="mb-4 justify-content-center">
+                <User
+                  portfolioOwnerId={portfolioOwner.id}
+                  isEditable={portfolioOwner.id === userState.user?.id}
+                />
+              </Row>
+              <Row className="mb-4">
+                <Projects
+                  portfolioOwnerId={portfolioOwner.id}
+                  isEditable={portfolioOwner.id === userState.user?.id}
+                />
+              </Row>
+              <Row className="mb-4">
+                <Educations
+                  portfolioOwnerId={portfolioOwner.id}
+                  isEditable={portfolioOwner.id === userState.user?.id}
+                />
+              </Row>
+              <Row className="mb-4">
+                <Awards
+                  portfolioOwnerId={portfolioOwner.id}
+                  isEditable={portfolioOwner.id === userState.user?.id}
+                />
+              </Row>
+              <Row className="mb-4">
+                <Certificates
+                  portfolioOwnerId={portfolioOwner.id}
+                  isEditable={portfolioOwner.id === userState.user?.id}
+                />
+              </Row>
+          </Col>
+      </Container>
+      }
     </RecoilRoot>
   );
 }
