@@ -72,7 +72,7 @@ function Portfolio() {
   return (
     <RecoilRoot>
       <Container fluid>
-        <Row xxl="2" xl="1">
+        <Row>
           {matches ? 
             (<Col md="3">
               <User
