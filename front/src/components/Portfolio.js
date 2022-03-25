@@ -55,6 +55,7 @@ function Portfolio() {
     if (window.location.search.split("=")[1] === "gallery") {
       setCheckedTab("gallery");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [window.location.search]);
 
   useEffect(() => {
