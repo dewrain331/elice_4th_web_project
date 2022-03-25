@@ -359,7 +359,7 @@ userAuthRouter.patch(
 
       // req.file 은 `profile` 라는 필드의 파일 정보입니다.
       const saveFileName = req.file.filename; // 저장된 파일명​ 
-      const saveFilePath = `\\images\\${saveFileName}` // 업로드된 파일의 경로 (index.html 기준)
+      const saveFilePath = `/images/${saveFileName}` // 업로드된 파일의 경로 (index.html 기준)
     
       const imageInfo = { saveFileName, saveFilePath };
 

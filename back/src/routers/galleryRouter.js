@@ -31,7 +31,7 @@ galleryRouter.post("/gallery/create", upload.single('gallery'), async function (
 
     // req.file 은 `gallery` 라는 필드의 파일 정보입니다.
     const saveFileName = req.file.filename; // 저장된 파일명​ 
-    const saveFilePath = `\\images\\${saveFileName}` // 업로드된 파일의 경로 (index.html 기준)
+    const saveFilePath = `/images/${saveFileName}` // 업로드된 파일의 경로 (index.html 기준)
     const newImage = { userId, description, saveFileName, saveFilePath };
 
     const newImageContent = await galleryService.addImageContent( newImage );

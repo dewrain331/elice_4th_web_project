@@ -120,7 +120,7 @@ class User {
     const option = { returnOriginal: false };
 
     const user = await UserModel.findOne({ id: userId });
-    const filePath = "..\\front\\public\\images\\" + user.image.saveFileName
+    const filePath = "../front/public/images/" + user.image.saveFileName
     // const dir = fs.existsSync(filePath) // filePath에 파일이 있는지 체크하는 메서드
     if (user.image.saveFileName !== "default_img.jpg") {
       fs.unlink(filePath, (err) => {
