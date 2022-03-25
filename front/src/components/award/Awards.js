@@ -1,18 +1,17 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { Card, Button, Row, Col } from "react-bootstrap"
 import * as Api from "../../api"
 import Award from "./Award"
 import AwardAddForm from "./AwardAddForm"
+import { useRecoilState } from 'recoil'
+import { isAddingState, pageState, allPageState, awardsState, PER_PAGE } from './AwardAtom'
 
 const Awards = ({ portfolioOwnerId, isEditable }) => {
-    // useState로 낱개의 award들을 담을 배열 선언
-    const [awards, setAwards] = useState([])
-    // useState로 생성 상태를 관리할 변수를 선언
-    // 초기 상태는 생성 중이 아니므로, 초기값은 false
-    const [isAdding, setIsAdding] = useState(false)
-    // Pagination 관련
-    const [page, setPage] = useState(0)
-    const [allPage, setAllPage] = useState(1)
+    // RecoilStates
+    const [isAdding, setIsAdding] = useRecoilState(isAddingState)
+    const [page, setPage] = useRecoilState(pageState)
+    const [allPage, setAllPage] = useRecoilState(allPageState)
+    const [awards, setAwards] = useRecoilState(awardsState)
 
     useEffect(() => {
         const fetch = async () => {
@@ -20,7 +19,7 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
                 if(page === 0) {
                     setPage(1)
                 }
-                const res = await Api.get("awardlist", `${portfolioOwnerId}?page=${page}&perPage=3`)
+                const res = await Api.get("awardlist", `${portfolioOwnerId}?page=${page}&perPage=${PER_PAGE}`)
                 const { total, awards } = res.data
                 setAllPage(total)
                 setAwards(awards)
@@ -39,11 +38,7 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
                     <Award
                         key={v.id}
                         _award={v}
-                        setAwards={setAwards}
                         isEditable={isEditable}
-                        setAllPage={setAllPage}
-                        page={page}
-                        setPage={setPage}
                     />
                 ))}
                 {isEditable && (
@@ -56,12 +51,6 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
                 {isAdding && (
                     <AwardAddForm 
                         portfolioOwnerId={portfolioOwnerId}
-                        setAwards={setAwards}
-                        setIsAdding={setIsAdding}
-                        setPage={setPage}
-                        page={page}
-                        setAllPage={setAllPage}
-                        allPage={allPage}
                     />
                 )}
                 <Row className="mt-3 text-center mb-4">
@@ -79,13 +68,13 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
                             variant="outline-secondary"
                             size="sm"
                         >
-                            {Math.ceil(allPage / 3) === 0 ? 0 : page} / {Math.ceil(allPage / 3)}
+                            {Math.ceil(allPage / PER_PAGE) === 0 ? 0 : page} / {Math.ceil(allPage / PER_PAGE)}
                         </Button>
                         <Button
                             variant="outline-secondary"
                             size="sm"
                             onClick={() => setPage(prev => prev + 1)}
-                            disabled={page >= Math.ceil(allPage / 3)}
+                            disabled={page >= Math.ceil(allPage / PER_PAGE)}
                             className="ms-3"
                         >
                             {">"}

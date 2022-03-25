@@ -1,8 +1,16 @@
 import { useState } from "react"
 import { Button, Form, Col, Row } from "react-bootstrap"
 import * as Api from "../../api"
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import { isAddingState, pageState, allPageState, awardsState, PER_PAGE } from './AwardAtom'
 
-const AwardAddForm = ({ portfolioOwnerId, setAwards, setIsAdding, page, setAllPage, setPage }) => {
+const AwardAddForm = ({ portfolioOwnerId }) => {
+    // RecoilStates
+    const setIsAdding = useSetRecoilState(isAddingState)
+    const [page, setPage] = useRecoilState(pageState)
+    const setAllPage = useSetRecoilState(allPageState)
+    const setAwards = useSetRecoilState(awardsState)
+
     // useState로 수상내역의 내용을 담을 title 변수 선언.
     const [award, setAward] = useState("")
     // useState로 상세내용을 담을 description 변수 선언.
@@ -28,10 +36,10 @@ const AwardAddForm = ({ portfolioOwnerId, setAwards, setIsAdding, page, setAllPa
 
         // post 요청값과 함께 각각의 Award들의 모임인 Awards를 다시 렌더링
         try {
-            const res = await Api.get("awardlist", `${userId}?page=${page}&perPage=3`)
+            const res = await Api.get("awardlist", `${userId}?page=${page}&perPage=${PER_PAGE}`)
             const {total, awards} = res.data
-            setPage(Math.ceil(total / 3))
-            setAllPage(Math.ceil(total / 3))
+            setPage(Math.ceil(total / PER_PAGE))
+            setAllPage(Math.ceil(total / PER_PAGE))
             setAwards(awards)
             // 생성 상태 종료.
             setIsAdding(false)

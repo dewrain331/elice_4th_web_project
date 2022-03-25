@@ -2,8 +2,14 @@ import { useState } from "react"
 import { Button, Form, Col, Row } from "react-bootstrap"
 import * as Api from "../../api"
 import DatePicker from 'react-datepicker'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { pageState, certsState, PER_PAGE } from './CertAtom'
 
-const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing, page }) => {
+const CertificateEditForm = ({ currentCertificate, setIsEditing }) => {
+    // RecoilStates
+    const page = useRecoilValue(pageState)
+    const setCertificates = useSetRecoilState(certsState)
+
     // 편집 버튼을 누른 항목의 자격증 제목을 담을 title 변수 선언.
     const [title, setTitle] = useState(currentCertificate.title)
     // 편집 버튼을 누른 항목의 상세내용을 담을 description 변수 선언.
@@ -16,7 +22,7 @@ const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing
         evt.preventDefault()
         evt.stopPropagation()
 
-        const userId = currentCertificate.userId
+        const userId = currentCertificate.user_id
 
         // put 요청.
         try {
@@ -31,7 +37,7 @@ const CertificateEditForm = ({ currentCertificate, setCertificates, setIsEditing
 
         // put 요청값과 함께 각각의 Certificate들의 모임인 Certificates를 다시 렌더링
         try {
-            const res = await Api.get("certificatelist", `${userId}?page=${page}&perPage=3`)
+            const res = await Api.get("certificatelist", `${userId}?page=${page}&perPage=${PER_PAGE}`)
             setCertificates(res.data.certificates)
             // 편집 상태 종료.
             setIsEditing(false)

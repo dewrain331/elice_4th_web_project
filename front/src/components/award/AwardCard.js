@@ -1,8 +1,15 @@
 import { Card, Button, Row, Col, Modal } from "react-bootstrap"
 import {useState} from 'react'
 import * as Api from "../../api"
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import { pageState, allPageState, awardsState, PER_PAGE } from './AwardAtom'
 
-const AwardCard = ({ _award, isEditable, setIsEditing, setAwards, setAllPage, page, setPage }) => {
+const AwardCard = ({ _award, isEditable, setIsEditing }) => {
+    // RecoilStates
+    const [page, setPage] = useRecoilState(pageState)
+    const setAllPage = useSetRecoilState(allPageState)
+    const setAwards = useSetRecoilState(awardsState)
+
     // Modal 관련 State
     const [show, setShow] = useState(false)
     const handleShow = () => setShow(true)
@@ -10,14 +17,14 @@ const AwardCard = ({ _award, isEditable, setIsEditing, setAwards, setAllPage, pa
 
     const handleDelete = async () => {
         try {
-            const {id, userId} = _award
+            const {id, user_id} = _award
             await Api.delete(`awards/${id}`)
-            const res = await Api.get("awardlist", `${userId}?page=${page}&perPage=3`)
+            const res = await Api.get("awardlist", `${user_id}?page=${page}&perPage=${PER_PAGE}`)
             const {total, awards} = res.data
-            if(page > Math.ceil(total / 3)) {
+            if(page > Math.ceil(total / PER_PAGE)) {
                 setPage(page - 1)
             }
-            setAllPage(Math.ceil(total / 3))
+            setAllPage(Math.ceil(total / PER_PAGE))
             setAwards(awards)
             setShow(false)
         } catch (err) {
