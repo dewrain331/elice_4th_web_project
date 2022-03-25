@@ -38,13 +38,24 @@ function Portfolio() {
   };
 
   const matches = useMediaQuery("(min-width: 1400px)");
-  const myStorage = window.localStorage;
-  const [checkedTab, setCheckedTab] = useState(myStorage.getItem("checkedTab"));
+  const [checkedTab, setCheckedTab] = useState("portfolio");
 
-  const handleSelect = (k) => {
-    setCheckedTab(k);
-    myStorage.setItem("checkedTab", k);
+  const handleSelect = (key) => {
+    navigate(`/portfolio?tab=${key}`, { replace: true });
+    setCheckedTab(key);
   };
+
+  useEffect(() => {
+    if (window.location.search.split("=")[1] === "portfolio") {
+      setCheckedTab("portfolio");
+    }
+    if (window.location.search.split("=")[1] === "comment") {
+      setCheckedTab("comment");
+    }
+    if (window.location.search.split("=")[1] === "gallery") {
+      setCheckedTab("gallery");
+    }
+  }, [window.location.search]);
 
   useEffect(() => {
     // 전역 상태의 user가 null이라면 로그인이 안 된 상태이므로, 로그인 페이지로 돌림.
