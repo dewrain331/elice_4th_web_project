@@ -423,7 +423,6 @@ class userAuthService {
     transport.sendMail(
       mailOption, (error, info) => { 
         if (error) { 
-          console.log(error, info);
           const errorMessage =
             "메일 전송에 실패했습니다.";
           return { errorMessage };
