@@ -17,7 +17,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   //useState로 description 상태를 생성함.
   const [description, setDescription] = useState(user.description);
   //useState로 password 상태를 생성함.
-  const [changePw, setChangePassword] = useState("")
+  const [changePw, setChangePw] = useState("")
   const [pwInput, setPwInput] = useState("")
   //선택된 이미지의 상태
   const [pickedImage, setPickedImage] = useState({
@@ -34,6 +34,8 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     await Api.post(`user/password`, {
       password: changePw
     })
+    } else if(0 < changePw.length < 4) {
+      alert("비밀번호는 최소 4자리여야 합니다. 비밀번호 이외의 다른 변경사항들만 적용됩니다.")
     }
     // 선택된 이미지 여부 판단, 없을시 편집 이전 이미지
     if (pickedImage.data !== "") {
@@ -125,7 +127,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
                 type="password"
                 placeholder="변경할 비밀번호를 입력하세요"
                 value={changePw}
-                onChange={(e) => setChangePassword(e.target.value)}
+                onChange={(e) => setChangePw(e.target.value)}
               />
             </Form.Group>
             <Form.Group controlId="userWithdraw">
