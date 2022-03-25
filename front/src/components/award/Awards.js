@@ -28,7 +28,7 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
             }
         }
         fetch()
-    }, [portfolioOwnerId, page, allPage])
+    }, [portfolioOwnerId, page, allPage, setPage, setAllPage, setAwards])
 
     return (
         <Card>

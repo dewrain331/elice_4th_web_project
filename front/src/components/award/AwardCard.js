@@ -17,11 +17,11 @@ const AwardCard = ({ _award, isEditable, setIsEditing }) => {
 
   const handleDelete = async () => {
     try {
-      const { id, user_id } = _award;
+      const { id, userId } = _award;
       await Api.delete(`awards/${id}`);
       const res = await Api.get(
         "awardlist",
-        `${user_id}?page=${page}&perPage=${PER_PAGE}`
+        `${userId}?page=${page}&perPage=${PER_PAGE}`
       );
       const { total, awards } = res.data;
       if (page > Math.ceil(total / PER_PAGE)) {

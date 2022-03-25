@@ -22,7 +22,7 @@ const CertificateEditForm = ({ currentCertificate, setIsEditing }) => {
         evt.preventDefault()
         evt.stopPropagation()
 
-        const userId = currentCertificate.user_id
+        const userId = currentCertificate.userId
 
         // put 요청.
         try {

@@ -21,11 +21,10 @@ const CertificateCard = ({ certificate, isEditable, setIsEditing }) => {
 
   const handleDelete = async () => {
     try {
-      const { id, user_id } = certificate;
+      const { id, userId } = certificate;
       await Api.delete(`certificate/${id}`);
       const res = await Api.get(
-        "certificatelist",
-        `${user_id}?page=${page}&perPage=${PER_PAGE}`
+        "certificatelist", `${userId}?page=${page}&perPage=${PER_PAGE}`
       );
       const { total, certificates } = res.data;
       if (page > Math.ceil(total / PER_PAGE)) {

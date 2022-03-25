@@ -19,10 +19,11 @@ const AwardEditForm = ({ currentAward, setIsEditing }) => {
         evt.preventDefault()
         evt.stopPropagation()
 
-        const userId = currentAward.user_id
+        const userId = currentAward.userId
 
         // put 요청.
-        try { await Api.post(`award/${currentAward.id}`, {
+        try { 
+            await Api.post(`award/${currentAward.id}`, {
             changeAward: award,
             changeDescription: description,
         })
