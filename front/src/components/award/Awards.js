@@ -67,6 +67,7 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
                         <Button
                             variant="outline-secondary"
                             size="sm"
+                            disabled={true}
                         >
                             {Math.ceil(allPage / PER_PAGE) === 0 ? 0 : page} / {Math.ceil(allPage / PER_PAGE)}
                         </Button>
