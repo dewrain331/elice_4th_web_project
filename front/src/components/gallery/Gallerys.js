@@ -24,15 +24,14 @@ function Gallerys({ portfolioOwnerId, isEditable }) {
       }
     };
     fetchGallerys();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [portfolioOwnerId]);
+  }, [portfolioOwnerId, setGallerys]);
 
   return (
     <Card>
       <Card.Body>
         <Card.Title>갤러리</Card.Title>
         <Container>
-          <Row xs="auto" className="jusify-content-center">
+          <Row lg="auto" style={{ jusifyContent: "flex-start" }}>
             {gallerys.map((gallery) => (
               <Gallery
                 key={gallery.id}

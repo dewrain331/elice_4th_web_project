@@ -32,17 +32,20 @@ function GalleryEditForm({ gallery, setIsEditing }) {
   };
 
   return (
-    <Card.Body>
+    <Card.Body style={{ maxWidth: "330px" }}>
       <Form onSubmit={handleSubmit}>
-        <div style={{ width: "200px", height: "200px", overflow: "hidden" }}>
-          <Card.Img
-            style={{ width: "200px", height: "auto", borderRadius: 10 }}
+        <div className="img-wrapper">
+          <img
             className="mb-3"
             src={gallery?.saveFilePath}
             alt="갤러리 이미지"
           />
         </div>
-        <Form.Group controlId="formBasicDescription" className="mt-3">
+        <Form.Group
+          controlId="formBasicDescription"
+          className="mt-3"
+          style={{ maxWidth: "260px" }}
+        >
           <Form.Control
             type="text"
             placeholder="상세내역"

@@ -5,6 +5,8 @@ import * as Api from "../../api";
 import { useSetRecoilState } from "recoil";
 import { gallerysState } from "./GalleryAtom";
 
+import "./Gallery.css";
+
 function GalleryCard({ gallery, isEditable, setIsEditing }) {
   // Modal 관련 State
   const [show, setShow] = useState(false);
@@ -19,22 +21,21 @@ function GalleryCard({ gallery, isEditable, setIsEditing }) {
     const { id, userId } = gallery;
     try {
       await Api.delete("gallery", `${userId}/${id}`);
-      // "gallery
+      setShow(false);
+      // "gallery/유저id" get 요청 후 setting
       const res = await Api.get("gallery", userId);
       setGallerys(res.data.images);
     } catch (error) {
       console.error(error);
     }
-    // setShow(false); unmount돼서 modal 사라짐
   };
 
   return (
     <>
-      <Card.Body style={{ maxWidth: "300px" }}>
+      <Card.Body style={{ maxWidth: "330px" }}>
         {/* gallery의 제목, 상세내용, 기간 */}
-        <div style={{ width: "200px", height: "200px", overflow: "hidden" }}>
-          <Card.Img
-            style={{ width: "200px", height: "auto", borderRadius: 10 }}
+        <div className="img-wrapper">
+          <img
             className="mb-3"
             src={gallery?.saveFilePath}
             alt="갤러리 이미지"
