@@ -17,6 +17,7 @@ function GalleryAddForm({ portfolioOwnerId }) {
     preview: "",
     data: "",
   });
+  const [isPicked, setIsPicked] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,6 +43,7 @@ function GalleryAddForm({ portfolioOwnerId }) {
         console.error(err);
       }
     }
+    setIsPicked(false);
     // gallery를 추가하는 과정이 끝났으므로, isAdding을 false로 세팅함.
     setIsAdding(false);
   };
@@ -52,17 +54,20 @@ function GalleryAddForm({ portfolioOwnerId }) {
       data: e.target.files[0],
     };
     setPickedImage(img);
+    setIsPicked(true);
   };
 
   return (
     <Card.Body>
       <Form onSubmit={handleSubmit}>
         {pickedImage.preview && (
-          <Card.Img
-            src={pickedImage.preview}
-            style={{ width: "200px", height: "auto", borderRadius: 10 }}
-            alt="profile_image"
-          />
+          <div className="img-wrapper">
+            <img
+              className="mb-3"
+              src={pickedImage.preview}
+              alt="미리보기 이미지"
+            />
+          </div>
         )}
         <Form.Group controlId="useEditImage" className="mb-3">
           <Form.Control
@@ -83,7 +88,12 @@ function GalleryAddForm({ portfolioOwnerId }) {
 
         <Form.Group as={Row} className="mt-3 text-center">
           <Col sm={{ span: 20 }}>
-            <Button variant="primary" type="submit" className="me-3">
+            <Button
+              variant="primary"
+              type="submit"
+              className="me-3"
+              disabled={!isPicked}
+            >
               확인
             </Button>
             <Button variant="secondary" onClick={() => setIsAdding(false)}>
