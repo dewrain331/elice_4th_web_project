@@ -13,8 +13,6 @@ class commentService {
     return comment;
   }
 
-  static async getComment({}) {}
-
   static async getComment({ getComment }) {
     const commentAll = await Comment.getComment({ getComment });
 
