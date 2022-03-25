@@ -35,60 +35,63 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
   }
 });
 
-userAuthRouter.post("/user/withdraw", login_required, async function (req, res, next) {
-  try {
+userAuthRouter.post(
+  "/user/withdraw",
+  login_required,
+  async function (req, res, next) {
+    try {
+      if (is.emptyObject(req.body) || !req.body.password) {
+        throw new Error(
+          "회원탈퇴 시 비밀번호가 필요합니다. 현재 입력된 비밀번호가 없습니다."
+        );
+      }
 
-    if (is.emptyObject(req.body) || !req.body.password) {
-      throw new Error(
-        "회원탈퇴 시 비밀번호가 필요합니다. 현재 입력된 비밀번호가 없습니다."
-      );
+      // req (request) 에서 데이터 가져오기
+      const password = req.body.password;
+      const userId = req.currentUserId;
+
+      // 위 데이터를 이용하여 유저 db에서 유저 찾기
+      const user = await userAuthService.withdrawUser({ userId, password });
+
+      if (user.errorMessage) {
+        throw new Error(user.errorMessage);
+      }
+
+      res.status(200).send(user);
+    } catch (error) {
+      next(error);
     }
-
-    // req (request) 에서 데이터 가져오기
-    const password = req.body.password;
-    const userId = req.currentUserId;  
-    
-    // 위 데이터를 이용하여 유저 db에서 유저 찾기
-    const user = await userAuthService.withdrawUser({ userId, password });
-
-    if (user.errorMessage) {
-      throw new Error(user.errorMessage);
-    }
-
-    res.status(200).send(user);
-  } catch (error) {
-    next(error);
   }
-});
+);
 
-userAuthRouter.post("/recovery", login_required, async function (req, res, next) {
-  try {
+userAuthRouter.post(
+  "/recovery",
+  login_required,
+  async function (req, res, next) {
+    try {
+      if (is.emptyObject(req.body) || !req.body.userId) {
+        throw new Error("복구시킬 유저 ID가 없습니다. 다시 시도해주세요.");
+      }
 
-    if (is.emptyObject(req.body) || !req.body.userId) {
-      throw new Error(
-        "복구시킬 유저 ID가 없습니다. 다시 시도해주세요."
-      );
+      // req (request) 에서 데이터 가져오기
+      const userId = req.body.userId;
+
+      // 위 데이터를 이용하여 유저 db에서 유저 찾기
+      const user = await userAuthService.recoveryUser({ userId });
+
+      if (user.errorMessage) {
+        throw new Error(user.errorMessage);
+      }
+
+      res.status(200).send(user);
+    } catch (error) {
+      next(error);
     }
-
-    // req (request) 에서 데이터 가져오기
-    const userId = req.body.userId;  
-
-    // 위 데이터를 이용하여 유저 db에서 유저 찾기
-    const user = await userAuthService.recoveryUser({ userId });
-
-    if (user.errorMessage) {
-      throw new Error(user.errorMessage);
-    }
-
-    res.status(200).send(user);
-  } catch (error) {
-    next(error);
   }
-});
+);
 
 userAuthRouter.post("/user/recovery", async function (req, res, next) {
   try {
-
     if (is.emptyObject(req.body) || !req.body.email || !req.body.password) {
       throw new Error(
         "복구시킬 유저의 email과 password가 없습니다. 다시 시도해주세요."
@@ -96,8 +99,8 @@ userAuthRouter.post("/user/recovery", async function (req, res, next) {
     }
 
     // req (request) 에서 데이터 가져오기
-    const email = req.body.email;  
-    const password = req.body.password;  
+    const email = req.body.email;
+    const password = req.body.password;
     // 위 데이터를 이용하여 유저 db에서 유저 찾기
     const user = await userAuthService.recoveryByUser({ email, password });
 
@@ -125,21 +128,20 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
     }
 
     res.status(200).send(user);
-
   } catch (error) {
     next(error);
   }
 });
 
-userAuthRouter.post("/user/password", login_required, async function (req, res, next) {
+userAuthRouter.post(
+  "/user/password",
+  login_required,
+  async function (req, res, next) {
     try {
-
       if (is.emptyObject(req.body) || !req.body.password) {
-        throw new Error(
-          "변경할 패스워드를 입력해주세요. 패스워드가 없습니다."
-        );
+        throw new Error("변경할 패스워드를 입력해주세요. 패스워드가 없습니다.");
       }
-      
+
       const userId = req.currentUserId;
       const password = req.body.password;
 
@@ -274,7 +276,10 @@ userAuthRouter.put("/users/:id/dislike", async function (req, res, next) {
     const { currentUserId } = req.body ?? null;
 
     // 위 추출된 정보를 이용하여 db의 데이터 수정함
-    const removedLike = await userAuthService.removeLike({ userId, currentUserId });
+    const removedLike = await userAuthService.removeLike({
+      userId,
+      currentUserId,
+    });
 
     if (removedLike.errorMessage) {
       throw new Error(removedLike.errorMessage);
@@ -286,14 +291,11 @@ userAuthRouter.put("/users/:id/dislike", async function (req, res, next) {
   }
 });
 
-
 userAuthRouter.post("/user/auth", async function (req, res, next) {
   try {
     // URI로부터 포트폴리오 userId를 추출함.
     if (is.emptyObject(req.body) || !req.body.email) {
-      throw new Error(
-        "찾고자 하는 계정의 이메일을 입력하세요."
-      );
+      throw new Error("찾고자 하는 계정의 이메일을 입력하세요.");
     }
 
     const email = req.body.email;
@@ -315,9 +317,7 @@ userAuthRouter.post("/user/auth/code", async function (req, res, next) {
   try {
     // URI로부터 포트폴리오 userId를 추출함.
     if (is.emptyObject(req.body) || !req.body.email || !req.body.code) {
-      throw new Error(
-        "찾고자 하는 계정의 이메일 혹은 코드를 입력해주세요."
-      );
+      throw new Error("찾고자 하는 계정의 이메일 혹은 코드를 입력해주세요.");
     }
 
     const email = req.body.email;

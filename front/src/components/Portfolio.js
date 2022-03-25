@@ -8,12 +8,13 @@ import User from "./user/User";
 // project import
 import Projects from "./project/Projects";
 // award import
-import Educations from "./education/Educations"
-import Awards from "./award/Awards"
-import Certificates from "./certificate/Certificates"
-import Comments from "./comment/Comments"
-import { RecoilRoot } from "recoil"
-import { useMediaQuery } from '@material-ui/core'
+import Educations from "./education/Educations";
+import Awards from "./award/Awards";
+import Certificates from "./certificate/Certificates";
+import Comments from "./comment/Comments";
+import Gallerys from "./gallery/Gallerys";
+import { RecoilRoot } from "recoil";
+import { useMediaQuery } from "@material-ui/core";
 
 function Portfolio() {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ function Portfolio() {
     setIsFetchCompleted(true);
   };
 
-  const matches = useMediaQuery('(min-width: 1400px)')
+  const matches = useMediaQuery("(min-width: 1400px)");
   const myStorage = window.localStorage;
   const [checkedTab, setCheckedTab] = useState(myStorage.getItem("checkedTab"));
 
@@ -73,22 +74,23 @@ function Portfolio() {
     <RecoilRoot>
       <Container fluid>
         <Row>
-          {matches ? 
-            (<Col md="3">
+          {matches ? (
+            <Col md="3">
               <User
                 portfolioOwnerId={portfolioOwner.id}
                 isEditable={portfolioOwner.id === userState.user?.id}
                 authorId={userState.user?.id}
               />
-            </Col>) :
-            (<Row className="justify-content-center">
+            </Col>
+          ) : (
+            <Row className="justify-content-center">
               <User
                 portfolioOwnerId={portfolioOwner.id}
                 isEditable={portfolioOwner.id === userState.user?.id}
                 authorId={userState.user?.id}
               />
-            </Row>)
-          }
+            </Row>
+          )}
           <Col>
             <Tabs
               className="mb-3"
@@ -122,12 +124,14 @@ function Portfolio() {
                 </div>
               </Tab>
               <Tab eventKey="comment" title="Comment">
-                <Comments 
-                  userId={portfolioOwner.id} 
-                  author={userState.user} 
+                <Comments userId={portfolioOwner.id} author={userState.user} />
+              </Tab>
+              <Tab eventKey="gallery" title="Gallery">
+                <Gallerys
+                  portfolioOwnerId={portfolioOwner.id}
+                  isEditable={portfolioOwner.id === userState.user?.id}
                 />
               </Tab>
-              <Tab eventKey="gallery" title="Gallery"></Tab>
             </Tabs>
           </Col>
         </Row>

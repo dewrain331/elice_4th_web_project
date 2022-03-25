@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
 import { User } from "./models/User";
-import { Project } from "./models/Project"
+import { Project } from "./models/Project";
 import { Award } from "./models/Award";
 import { Certificate } from "./models/Certificate";
 import { Education } from "./models/Education";
 import { Comment } from "./models/Comment";
 import { Reply } from "./models/Reply";
 import { Auth } from "./models/Auth";
+import { Gallery } from "./models/Gallery";
 
 const DB_URL =
   process.env.MONGODB_URL ||
@@ -31,3 +32,4 @@ export { db };
 export { Comment };
 export { Reply };
 export { Auth };
+export { Gallery };
