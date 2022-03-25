@@ -9,19 +9,16 @@ class Gallery {
 
   static deleteById = async ({ imageId }) => {
     const imageDoc = await galleryModel.findOne({ id: imageId });
-    const filePath = "..\\front\\public\\images\\" + imageDoc.saveFileName
-    const dir = fs.existsSync(filePath) // filePath에 파일이 있는지 체크하는 메서드
-    console.log(imageDoc)
-    console.log(filePath)
-    console.log(dir)
-    // fs.unlink(filePath, (err) => {
-    //   if(err) throw err;
-    // })
+    const filePath = "../front/public/images/" + imageDoc.saveFileName
+    // const dir = fs.existsSync(filePath) // filePath에 파일이 있는지 체크하는 메서드
+    fs.unlink(filePath, (err) => {
+      if(err) throw err;
+    })
 
-    // const deleteResult = await galleryModel.deleteOne({ id: imageId, active : true, });
-    // // returns: { "acknowledged" : true, "deletedCount" : 1 }
-    // const isDataDeleted = deleteResult.deletedCount === 1;
-    // return isDataDeleted;
+    const deleteResult = await galleryModel.deleteOne({ id: imageId, active : true, });
+    // returns: { "acknowledged" : true, "deletedCount" : 1 }
+    const isDataDeleted = deleteResult.deletedCount === 1;
+    return isDataDeleted;
   }
 
   static findById = async ({ imageId }) => {
