@@ -48,9 +48,8 @@ galleryRouter.post("/gallery/create", upload.single('gallery'), async function (
 
 galleryRouter.delete("/gallery/:userId/:id", async function (req, res, next) {
       try {
-        const userId = req.params.userId;
         const imageId = req.params.id;
-        const result = await galleryService.deleteImage({ userId, imageId });
+        const result = await galleryService.deleteImage({ imageId });
 
         if (result.errorMessage) {
           throw new Error(result.errorMessage);

@@ -12,8 +12,8 @@ class galleryService {
     return createdNewImage;
   }
 
-  static deleteImage = async ({ userId, imageId }) => {
-    const isDataDeleted = await Gallery.deleteById({ userId, imageId });
+  static deleteImage = async ({ imageId }) => {
+    const isDataDeleted = await Gallery.deleteById({ imageId });
     if (!isDataDeleted) {
       const errorMessage =
         "해당 id를 가진 이미지 데이터는 없습니다. 다시 한 번 확인해 주세요.";
