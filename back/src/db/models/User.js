@@ -1,5 +1,6 @@
 import { UserModel } from "../schemas/user";
 import { EXPIRE_DELAY_TIME } from "../../constant";
+import fs from "fs";
 
 class User {
   static create = async ({ newUser }) => {
@@ -112,6 +113,29 @@ class User {
 
     return removedLike;
   }
+
+  static upload = async ({ userId, imageInfo }) => {
+    const filter = { id: userId };
+    const update = { image: imageInfo };
+    const option = { returnOriginal: false };
+
+    const user = await UserModel.findOne({ id: userId });
+    const filePath = "..\\front\\public\\images\\" + user.image.saveFileName
+    // const dir = fs.existsSync(filePath) // filePath에 파일이 있는지 체크하는 메서드
+    if (user.image.saveFileName !== "default_img.jpg") {
+      fs.unlink(filePath, (err) => {
+        if(err) throw err;
+      })
+    }
+
+    const uploadedImage = await UserModel.findOneAndUpdate(
+      filter,
+      update,
+      option
+    );
+    return uploadedImage;
+  }
+
 }
 
 export { User };

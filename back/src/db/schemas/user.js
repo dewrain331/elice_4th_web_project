@@ -1,5 +1,21 @@
 import { Schema, model } from "mongoose";
 
+const imageSchema = new Schema(
+  {
+    saveFileName: {
+      type: String,
+      required: true,
+    },
+    saveFilePath: {
+      type: String,
+      required: true,
+    }
+  },
+  {
+    timestamps: true,
+  }
+);
+
 const UserSchema = new Schema(
   {
     id: {
@@ -46,6 +62,13 @@ const UserSchema = new Schema(
       type: Array,
       required: true,
       default: [],
+    },
+    image: {
+      type: imageSchema,
+      default: {
+        saveFileName: "default_img.jpg",
+        saveFilePath: "\\images\\default_img.jpg",
+      }
     }
   },
   {
