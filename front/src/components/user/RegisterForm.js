@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Col, Row, Form, Button, Modal } from "react-bootstrap";
-
+import { Container, Col, Row, Form, Button } from "react-bootstrap";
+import ModalPortal from "../ModalPortal";
+import ModalComp from "../ModalComp";
 import * as Api from "../../api";
 
 function RegisterForm() {
@@ -138,18 +139,16 @@ function RegisterForm() {
               </Col>
             </Form.Group>
 
-            {/* 회원가입 실패 시 모달창 */}
-            <Modal show={show} onHide={() => setShow(false)}>
-              <Modal.Header closeButton>
-                <Modal.Title>Modal heading</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>{errorMessage}</Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={() => setShow(false)}>
-                  확인
-                </Button>
-              </Modal.Footer>
-            </Modal>
+            <ModalPortal>
+              {show && (
+                <ModalComp
+                  setShow={setShow}
+                  show={show}
+                  title="회원가입 실패"
+                  message={errorMessage}
+                />
+              )}
+            </ModalPortal>
 
             <Form.Group as={Row} className="mt-3 text-center">
               <Col sm={{ span: 20 }}>
