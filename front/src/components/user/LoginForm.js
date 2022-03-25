@@ -196,7 +196,7 @@ function LoginForm() {
             <Button variant="secondary" onClick={handleClose}>
               취소
             </Button>
-            <Button variant="primary" onClick={() => {
+            <Button variant="primary" disabled={!isFindingPw} onClick={() => {
               handleClose()
               handleFindPwStepTwo()
               }

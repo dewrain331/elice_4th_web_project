@@ -30,9 +30,11 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if(changePw.length >= 4) {
     await Api.post(`user/password`, {
       password: changePw
     })
+    }
     // 선택된 이미지 여부 판단, 없을시 편집 이전 이미지
     if (pickedImage.data !== "") {
       const formData = new FormData();
