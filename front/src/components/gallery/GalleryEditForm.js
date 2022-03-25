@@ -46,8 +46,9 @@ function GalleryEditForm({ gallery, setIsEditing }) {
           className="mt-3"
           style={{ maxWidth: "260px" }}
         >
-          <Form.Control
-            type="text"
+          <textarea
+            className="form-control"
+            id="exampleFormControlTextarea1"
             placeholder="상세내역"
             value={description}
             onChange={(e) => setDescription(e.target.value)}

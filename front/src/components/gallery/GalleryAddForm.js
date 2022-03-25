@@ -41,9 +41,6 @@ function GalleryAddForm({ portfolioOwnerId }) {
       } catch (err) {
         console.error(err);
       }
-    } else {
-      // setImage(image);
-      // 이미지를 선택 안했을 경우 처리
     }
     // gallery를 추가하는 과정이 끝났으므로, isAdding을 false로 세팅함.
     setIsAdding(false);

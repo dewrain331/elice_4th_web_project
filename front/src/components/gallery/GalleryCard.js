@@ -42,9 +42,9 @@ function GalleryCard({ gallery, isEditable, setIsEditing }) {
           />
         </div>
         <br />
-        <span className="text-muted" style={{ width: "200px" }}>
+        <div className="text-muted" style={{ width: "260px" }}>
           {gallery.description}
-        </span>
+        </div>
         <br />
         {/* gallery 편집 버튼 */}
         {isEditable && (
@@ -52,7 +52,7 @@ function GalleryCard({ gallery, isEditable, setIsEditing }) {
             variant="outline-info"
             size="sm"
             onClick={() => setIsEditing((prev) => !prev)}
-            className="mr-3"
+            // className="mr-3"
           >
             편집
           </Button>
@@ -63,7 +63,7 @@ function GalleryCard({ gallery, isEditable, setIsEditing }) {
             variant="outline-secondary"
             size="sm"
             onClick={handleAlertShow}
-            className="mr-3"
+            // className="mr-3"
           >
             삭제
           </Button>
