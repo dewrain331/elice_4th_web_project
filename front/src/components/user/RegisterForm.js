@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Col, Row, Form, Button, Modal } from "react-bootstrap";
+import { Container, Col, Row, Form, Button } from "react-bootstrap";
 import ModalPortal from "../ModalPortal";
 import ModalComp from "../ModalComp";
 import * as Api from "../../api";
@@ -162,7 +162,11 @@ function RegisterForm() {
             show={show}
             title="회원가입 실패"
             message={errorMessage}
-          />
+          >
+            <Button variant="secondary" onClick={() => setShow(false)}>
+              확인
+            </Button>
+          </ModalComp>
         )}
       </ModalPortal>
     </>

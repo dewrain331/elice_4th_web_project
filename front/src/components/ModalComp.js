@@ -1,5 +1,5 @@
 import ModalPortal from "./ModalPortal";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 
 const ModalComp = ({ show, setShow, title, message, children }) => {
   return (
@@ -9,12 +9,7 @@ const ModalComp = ({ show, setShow, title, message, children }) => {
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>{message}</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShow(false)}>
-            확인
-          </Button>
-          {children}
-        </Modal.Footer>
+        <Modal.Footer>{children}</Modal.Footer>
       </Modal>
     </ModalPortal>
   );

@@ -1,9 +1,11 @@
-import { Card, Button, Row, Col, Modal } from "react-bootstrap";
+import { Card, Button, Row, Col } from "react-bootstrap";
 import { useState } from "react";
 import * as Api from "../../api";
 // recoil 사용
 import { useSetRecoilState, useRecoilState } from "recoil";
 import { projectsState, pageState, totalPageState } from "./ProjectAtom";
+import ModalComp from "../ModalComp";
+import ModalPortal from "../ModalPortal";
 
 const PER_PAGE = 3;
 
@@ -15,8 +17,6 @@ function ProjectCard({ project, isEditable, setIsEditing }) {
 
   // Modal 관련 State
   const [show, setShow] = useState(false);
-  const handleAlertShow = () => setShow(true);
-  const handleAlertCancel = () => setShow(false);
 
   // recoil 적용
   const setProjects = useSetRecoilState(projectsState);
@@ -80,7 +80,7 @@ function ProjectCard({ project, isEditable, setIsEditing }) {
               <Button
                 variant="outline-secondary"
                 size="sm"
-                onClick={handleAlertShow}
+                onClick={() => setShow(true)}
                 className="mr-3"
               >
                 삭제
@@ -90,20 +90,24 @@ function ProjectCard({ project, isEditable, setIsEditing }) {
         </Row>
       </Card.Body>
 
-      <Modal show={show} onHide={handleAlertCancel}>
-        <Modal.Header closeButton>
-          <Modal.Title>삭제 확인</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>정말로 삭제하시겠습니까?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleAlertCancel}>
-            취소
-          </Button>
-          <Button variant="danger" onClick={handleDelete}>
-            삭제
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <ModalPortal>
+        {show && (
+          <ModalComp
+            setShow={setShow}
+            show={show}
+            title="삭제 확인"
+            message="정말로 삭제하시겠습니까?"
+            children
+          >
+            <Button variant="secondary" onClick={() => setShow(false)}>
+              취소
+            </Button>
+            <Button variant="danger" onClick={() => handleDelete()}>
+              삭제
+            </Button>
+          </ModalComp>
+        )}
+      </ModalPortal>
     </>
   );
 }

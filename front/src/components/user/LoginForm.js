@@ -197,7 +197,14 @@ function LoginForm() {
             show={loginFailureShow}
             title="로그인 실패"
             message="로그인에 실패했습니다. 이메일과 비밀번호를 확인하세요."
-          />
+          >
+            <Button
+              variant="secondary"
+              onClick={() => setLoginFailureShow(false)}
+            >
+              확인
+            </Button>
+          </ModalComp>
         )}
       </ModalPortal>
 

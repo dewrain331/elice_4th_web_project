@@ -1,8 +1,10 @@
-import { Card, Button, Row, Col, Modal } from "react-bootstrap";
+import { Card, Button, Row, Col } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import * as Api from "../../api";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { EducationsState, pageState, allPageState } from "./EducationAtom";
+import ModalComp from "../ModalComp";
+import ModalPortal from "../ModalPortal";
 
 const PER_PAGE = 3;
 
@@ -73,20 +75,24 @@ const EducationCard = ({ education, setIsEditing, isEditable }) => {
         </Row>
       </Card.Body>
 
-      <Modal show={show} onHide={() => setShow(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>삭제 확인</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>정말로 삭제하시겠습니까?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShow(false)}>
-            취소
-          </Button>
-          <Button variant="danger" onClick={handleDelete}>
-            삭제
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <ModalPortal>
+        {show && (
+          <ModalComp
+            setShow={setShow}
+            show={show}
+            title="삭제 확인"
+            message="정말로 삭제하시겠습니까?"
+            children
+          >
+            <Button variant="secondary" onClick={() => setShow(false)}>
+              취소
+            </Button>
+            <Button variant="danger" onClick={() => handleDelete()}>
+              삭제
+            </Button>
+          </ModalComp>
+        )}
+      </ModalPortal>
     </>
   );
 };
