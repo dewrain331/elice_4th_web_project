@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
   }
 })
 
-const upload = multer({ storage: storage, limits: {fileSize: 5 * 1024 * 1024} }) // storage에 저장, 이미지 크기는 5MB로 제한
+const upload = multer({ storage: storage }) // storage에 저장, 이미지 크기는 5MB로 제한
 
 galleryRouter.post("/gallery/create", upload.single('gallery'), async function (req, res, next) {
   try {
