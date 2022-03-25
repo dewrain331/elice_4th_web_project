@@ -30,13 +30,14 @@ function LoginForm() {
   // 이메일과 비밀번호 조건이 동시에 만족되는지 확인함.
   const isFormValid = isEmailValid && isPasswordValid;
   const [isFindingPw, setIsFindingPw] = useState(false)
+  const [emailForFindPw, setEmailForFindPw] = useState("")
+  const [authForFindPw, setAuthForFindPw] = useState("")
 
   const [show, setShow] = useState(false)
   const handleShow = () => setShow(true)
   const handleClose = () => setShow(false)
 
   const handleFindPwStepOne = async () => {
-    const emailForFindPw = document.querySelector('#findPwEmailInput').value
       try {
         await Api.post('user/auth', {
           email: emailForFindPw
@@ -50,8 +51,6 @@ function LoginForm() {
   }
 
   const handleFindPwStepTwo = async () => {
-    const emailForFindPw = document.querySelector('#findPwEmailInput').value
-    const authForFindPw = document.querySelector('#findPwAuthInput').value
       try {
         const res = await Api.post('user/auth/code', {
           email: emailForFindPw,
@@ -125,7 +124,7 @@ function LoginForm() {
                 <Form.Label>비밀번호</Form.Label>
                 <Form.Control
                   type="password"
-                  autoComplete="on"
+                  autoComplete="off"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -179,13 +178,18 @@ function LoginForm() {
                 type="email"
                 placeholder="이메일을 입력해주세요."
                 id="findPwEmailInput"
+                value={emailForFindPw}
+                onChange={(e) => setEmailForFindPw(e.target.value)}
               />
               <Button variant="outline-primary" onClick={handleFindPwStepOne}>인증번호 발송</Button>
             </InputGroup>
             <FormControl
+              type="text"
               placeholder="인증번호를 입력해주세요."
               id="findPwAuthInput"
               disabled={!isFindingPw}
+              value={authForFindPw}
+              onChange={(e) => setAuthForFindPw(e.target.value)}
             />
           </Modal.Body>
           <Modal.Footer>

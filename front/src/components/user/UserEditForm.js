@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from 'react-router-dom'
 import { DispatchContext } from '../../App'
-import { Button, Form, Card, Col, Row, Modal } from "react-bootstrap";
+import { Button, Form, Card, Col, Row, Modal, FormControl } from "react-bootstrap";
 import * as Api from "../../api";
 
 function UserEditForm({ user, setIsEditing, setUser }) {
@@ -18,6 +18,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   const [description, setDescription] = useState(user.description);
   //useState로 password 상태를 생성함.
   const [changePw, setChangePassword] = useState("")
+  const [pwInput, setPwInput] = useState("")
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,7 +43,6 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   };
 
   const handleUserWithdraw = async () => {
-    const pwInput = document.querySelector("#withdrawConfirmPw").value
     try {
       await Api.post('user/withdraw', {
         password: pwInput
@@ -120,7 +120,13 @@ function UserEditForm({ user, setIsEditing, setUser }) {
           </Modal.Header>
           <Modal.Body>
             회원 탈퇴 확인을 위해 비밀번호를 입력해주세요.
-            <p><input type="password" id="withdrawConfirmPw" placeholder="현재 로그인한 계정의 비밀번호를 입력해주세요." /></p>
+            <FormControl
+                type="password"
+                placeholder="현재 로그인한 계정의 비밀번호를 입력해주세요."
+                id="withdrawConfirmPw"
+                value={pwInput}
+                onChange={(evt) => setPwInput(evt.target.value)}
+            />
           </Modal.Body>
           <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
