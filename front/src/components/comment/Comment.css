@@ -1,0 +1,13 @@
+#commentCard_radius {
+  border-radius: 10px;
+}
+.commentCard {
+  background-color: #c4e0f9;
+}
+.commentBody {
+  background-color: white;
+}
+
+#replyAddForm {
+  margin-top: 10px;
+}

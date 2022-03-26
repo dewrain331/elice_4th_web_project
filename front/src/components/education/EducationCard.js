@@ -5,6 +5,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { EducationsState, pageState, allPageState } from "./EducationAtom";
 import ModalComp from "../ModalComp";
 import ModalPortal from "../ModalPortal";
+import "../Components.css";
 
 const PER_PAGE = 3;
 
@@ -43,30 +44,28 @@ const EducationCard = ({ education, setIsEditing, isEditable }) => {
 
   return (
     <>
-      <Card.Body>
-        <Row className="align-items-center">
-          <Col>
-            <span>{education.school}</span>
+      <Card.Body className="portfolioBG">
+        <Row className="align-items-center portfolioBG">
+          <Col xs={9} className="portfolioBG">
+            <span className="portfolioBG">{education.school}</span>
             <br />
-            <span className="text-muted">
+            <span className="text-muted portfolioBG">
               {education.major} ({education.position})
             </span>
           </Col>
           {isEditable && (
-            <Col>
+            <Col xs={3} style={{ textAlign: "right" }} className="portfolioBG">
               <Button
-                variant="outline-info"
+                variant="info"
                 size="sm"
                 onClick={() => setIsEditing(true)}
-                className="mr-3"
               >
                 편집
-              </Button>
+              </Button>{" "}
               <Button
-                variant="outline-secondary"
+                variant="secondary"
                 size="sm"
                 onClick={() => setShow(true)}
-                className="mr-3"
               >
                 삭제
               </Button>

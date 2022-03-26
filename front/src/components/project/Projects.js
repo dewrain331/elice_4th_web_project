@@ -11,6 +11,7 @@ import {
   pageState,
   totalPageState,
 } from "./ProjectAtom";
+import "../Components.css";
 
 const PER_PAGE = 3;
 
@@ -48,8 +49,8 @@ function Projects({ portfolioOwnerId, isEditable }) {
 
   return (
     <Card>
-      <Card.Body>
-        <Card.Title>프로젝트</Card.Title>
+      <Card.Body className="portfolioBG">
+        <Card.Title className="portfolioBG">프로젝트</Card.Title>
         {projects.map((project) => (
           <Project
             key={project.id}
@@ -63,7 +64,7 @@ function Projects({ portfolioOwnerId, isEditable }) {
         ))}
         {isEditable && (
           <Row className="mt-3 text-center mb-4">
-            <Col sm={{ span: 20 }}>
+            <Col sm={{ span: 20 }} className="portfolioBG">
               <Button onClick={() => setIsAdding(true)}>+</Button>
             </Col>
           </Row>
@@ -78,9 +79,10 @@ function Projects({ portfolioOwnerId, isEditable }) {
             setPage={setPage}
           />
         )}
-        <Col className="text-center">
+        <Col className="text-center portfolioBG">
           <Button
             variant="outline-secondary"
+            size="sm"
             type="submit"
             className="me-3"
             onClick={() => setPage((prev) => prev - 1)}
@@ -95,10 +97,11 @@ function Projects({ portfolioOwnerId, isEditable }) {
             className="me-3"
             disabled
           >
-            {totalPage === 0 ? 0 : page}/{totalPage}
+            {totalPage === 0 ? 0 : page} / {totalPage}
           </Button>
           <Button
             variant="outline-secondary"
+            size="sm"
             onClick={() => setPage((prev) => prev + 1)}
             disabled={page >= totalPage}
           >

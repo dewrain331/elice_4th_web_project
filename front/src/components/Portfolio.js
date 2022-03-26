@@ -15,6 +15,7 @@ import Comments from "./comment/Comments";
 import Gallerys from "./gallery/Gallerys";
 import { RecoilRoot } from "recoil";
 import { useMediaQuery } from "@material-ui/core";
+import "./Components.css";
 
 function Portfolio() {
   const navigate = useNavigate();
@@ -105,11 +106,16 @@ function Portfolio() {
           )}
           <Col>
             <Tabs
+              id="tabs"
               className="mb-3"
               defaultActiveKey={checkedTab}
               onSelect={handleSelect}
             >
-              <Tab eventKey="portfolio" title="Portfolio">
+              <Tab
+                eventKey="portfolio"
+                title="Portfolio"
+                tabClassName="coloredTab"
+              >
                 <div className="mb-3">
                   <Projects
                     portfolioOwnerId={portfolioOwner.id}

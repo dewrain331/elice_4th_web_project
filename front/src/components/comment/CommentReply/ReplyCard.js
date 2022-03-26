@@ -1,5 +1,6 @@
 import { Card, Col, Row, Button } from "react-bootstrap";
 import * as Api from "../../../api";
+import "../Comment.css";
 
 const ReplyCard = ({ reply, isEditable, setReplies, setIsEditing }) => {
   const { id, author_name, text, parent_comment_id, createdAt } = reply;
@@ -22,18 +23,18 @@ const ReplyCard = ({ reply, isEditable, setReplies, setIsEditing }) => {
   };
 
   return (
-    <Card.Body className="mt-2 text-justify float-left">
+    <Card.Body className="mt-2 text-justify float-left commentBody">
       <Card className="p-3">
         <Row>
-          <Col xs={10} className="text-primary ">
-            <h4>{author_name}</h4>
+          <Col xs={10} className="text-primary commentBody">
+            <h4 className="commentBody">{author_name}</h4>
           </Col>
-          <Col xs={2} className="text-secondary">
-            <h6>{createdAt.slice(0, 10)}</h6>{" "}
+          <Col xs={2} className="text-secondary commentBody">
+            <h6 className="commentBody">{createdAt.slice(0, 10)}</h6>{" "}
           </Col>
         </Row>
-        <Card.Text className="mt-2">{text}</Card.Text>
-        <Col>
+        <Card.Text className="mt-2 commentBody">{text}</Card.Text>
+        <Col className="commentBody">
           {isEditable && (
             <>
               <Button

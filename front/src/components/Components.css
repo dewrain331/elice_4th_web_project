@@ -1,0 +1,15 @@
+/* tab */
+button#tabs-tab-portfolio.active,
+button#tabs-tab-comment.active,
+button#tabs-tab-gallery.active {
+  background-color: #c4e0f9;
+  border-bottom: none;
+}
+
+/*portfolio*/
+
+.portfolioBG,
+.react-datepicker__input-container,
+label.form-check-label {
+  background-color: #c4e0f9;
+}
