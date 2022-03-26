@@ -57,7 +57,7 @@ function GalleryEditForm({ gallery, setIsEditing }) {
         </Form.Group>
 
         <Form.Group as={Row} className="mt-3 text-center mb-4">
-          <Col sm={{ span: 20 }} style={{backgroundColor: "white"}}>
+          <Col sm={{ span: 20 }} style={{backgroundColor: "white", paddingRight: "45px"}}>
             <Button variant="primary" type="submit" className="me-3">
               확인
             </Button>

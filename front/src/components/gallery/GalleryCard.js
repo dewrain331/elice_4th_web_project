@@ -47,27 +47,29 @@ function GalleryCard({ gallery, isEditable, setIsEditing }) {
         </div>
         <br />
         {/* gallery 편집 버튼 */}
-        {isEditable && (
-          <Button
-            variant="outline-info"
-            size="sm"
-            onClick={() => setIsEditing((prev) => !prev)}
-            // className="mr-3"
-          >
-            편집
-          </Button>
-        )}
-        {/* gallery 삭제 버튼 */}
-        {isEditable && (
-          <Button
-            variant="outline-secondary"
-            size="sm"
-            onClick={handleAlertShow}
-            // className="mr-3"
-          >
-            삭제
-          </Button>
-        )}
+        <div style={{display: "flex", paddingLeft: "85px", backgroundColor: "white"}}>
+          {isEditable && (
+            <Button
+              variant="outline-info"
+              size="sm"
+              onClick={() => setIsEditing((prev) => !prev)}
+              // className="mr-3"
+            >
+              편집
+            </Button>
+          )}
+          {/* gallery 삭제 버튼 */}
+          {isEditable && (
+            <Button
+              variant="outline-secondary"
+              size="sm"
+              onClick={handleAlertShow}
+              // className="mr-3"
+            >
+              삭제
+            </Button>
+          )}
+        </div>
       </Card.Body>
 
       <Modal show={show} onHide={handleAlertCancel} style={{background: "transparent"}}>
