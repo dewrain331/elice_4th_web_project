@@ -340,7 +340,7 @@ userAuthRouter.post("/user/auth/code", async function (req, res, next) {
 // profile image 변경 라우터
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '/home/front/elice/portfoliomvp_2/images/')
+    cb(null, '../front/public/images/')
   },
   filename: function (req, file, cb) {
     cb(null, `${file.fieldname}_`+ Date.now() + `_${file.originalname}`)
@@ -359,7 +359,7 @@ userAuthRouter.patch(
 
       // req.file 은 `profile` 라는 필드의 파일 정보입니다.
       const saveFileName = req.file.filename; // 저장된 파일명​ 
-      const saveFilePath = `/images/${saveFileName}` // 업로드된 파일의 경로 (index.html 기준)
+      const saveFilePath = `/home/elice/portfoliomvp_2/front/public/images/${saveFileName}`; // 업로드된 파일의 경로 (index.html 기준)
     
       const imageInfo = { saveFileName, saveFilePath };
 
