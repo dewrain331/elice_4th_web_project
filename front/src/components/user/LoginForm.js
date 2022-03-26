@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Container,
   Col,
   Row,
   Form,
@@ -9,6 +8,7 @@ import {
   Modal,
   InputGroup,
   FormControl,
+  Card,
 } from "react-bootstrap";
 
 import ModalPortal from "../ModalPortal";
@@ -16,6 +16,8 @@ import ModalComp from "../ModalComp";
 
 import * as Api from "../../api";
 import { DispatchContext } from "../../App";
+
+import "./User.css";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -46,7 +48,11 @@ function LoginForm() {
   const [authForFindPw, setAuthForFindPw] = useState("");
 
   const [show, setShow] = useState(false);
-  const handleShow = () => setShow(true);
+  const handleShow = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShow(true);
+  };
   const handleClose = () => setShow(false);
 
   const [loginFailureShow, setLoginFailureShow] = useState(false);
@@ -121,74 +127,80 @@ function LoginForm() {
 
   return (
     <>
-      <Container>
-        <Row className="justify-content-md-center mt-5">
-          <Col lg={8}>
-            <Form onSubmit={handleSubmit}>
-              <Form.Group controlId="loginEmail">
-                <Form.Label>이메일 주소</Form.Label>
-                <Form.Control
-                  type="email"
-                  autoComplete="on"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                {!isEmailValid && (
-                  <Form.Text className="text-success">
-                    이메일 형식이 올바르지 않습니다.
-                  </Form.Text>
-                )}
-              </Form.Group>
-              <Form.Group controlId="loginPassword" className="mt-3">
-                <Form.Label>비밀번호</Form.Label>
-                <Form.Control
-                  type="password"
-                  autoComplete="off"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                {!isPasswordValid && (
-                  <Form.Text className="text-success">
-                    비밀번호는 4글자 이상입니다.
-                  </Form.Text>
-                )}
-              </Form.Group>
-              <Form.Group as={Row} className="mt-3 text-center">
-                <Col sm={{ span: 20 }}>
-                  <Button
-                    variant="primary"
-                    type="submit"
-                    disabled={!isFormValid}
-                  >
-                    로그인
-                  </Button>
-                </Col>
-              </Form.Group>
-              <Form.Group as={Row} className="mt-3 text-center">
-                <Col sm={{ span: 20 }}>
-                  <Button variant="light" onClick={() => navigate("/register")}>
-                    회원가입하기
-                  </Button>
-                </Col>
-              </Form.Group>
-              <Form.Group as={Row} className="mt-3 text-center">
-                <Col sm={{ span: 20 }}>
-                  <Button variant="info" onClick={() => navigate("/recovery")}>
-                    회원복구하기
-                  </Button>
-                </Col>
-              </Form.Group>
-              <Form.Group as={Row} className="mt-3 text-center">
-                <Col sm={{ span: 20 }}>
-                  <Button variant="success" onClick={handleShow}>
-                    비밀번호를 잊으셨나요?
-                  </Button>
-                </Col>
-              </Form.Group>
-            </Form>
-          </Col>
-        </Row>
-      </Container>
+      <div className="wrap">
+        <Card.Body className="form-wrap">
+          <Form onSubmit={handleSubmit} className="back-white">
+            <Form.Group controlId="loginEmail" className="back-white">
+              <input
+                type="email"
+                autoComplete="on"
+                value={email}
+                className="input-field"
+                placeholder="이메일"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              {!isEmailValid && (
+                <Form.Text className="text-success back-white">
+                  이메일 형식이 올바르지 않습니다.
+                </Form.Text>
+              )}
+            </Form.Group>
+
+            <Form.Group controlId="loginPassword" className="mt-3 back-white">
+              <input
+                type="password"
+                autoComplete="off"
+                value={password}
+                className="input-field"
+                placeholder="비밀번호"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              {!isPasswordValid && (
+                <Form.Text className="text-success back-white">
+                  비밀번호는 4글자 이상으로 설정해 주세요.
+                </Form.Text>
+              )}
+            </Form.Group>
+            <Form.Group as={Row} className="mt-3 text-center back-white">
+              <Col sm={{ span: 20 }} className="back-white">
+                <button
+                  className="submit-button"
+                  type="submit"
+                  disabled={!isFormValid}
+                >
+                  로그인
+                </button>
+              </Col>
+            </Form.Group>
+            <Form.Group
+              className="mt-3 text-center"
+              style={{ backgroundColor: "white" }}
+            >
+              <div className="back-white">
+                <button
+                  className="sub-button-left"
+                  onClick={() => navigate("/register")}
+                >
+                  회원 가입
+                </button>
+                <button className="sub-button-right" onClick={handleShow}>
+                  비밀번호 찾기
+                </button>
+              </div>
+            </Form.Group>
+            <Form.Group as={Row} className="mt-3 text-center">
+              <Col sm={{ span: 20 }} className="back-white">
+                <button
+                  className="sub-button"
+                  onClick={() => navigate("/recovery")}
+                >
+                  회원 복구
+                </button>
+              </Col>
+            </Form.Group>
+          </Form>
+        </Card.Body>
+      </div>
 
       <ModalPortal>
         {loginFailureShow && (
@@ -208,7 +220,11 @@ function LoginForm() {
         )}
       </ModalPortal>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        style={{ background: "transparent" }}
+      >
         <Modal.Header closeButton>
           <Modal.Title>비밀번호</Modal.Title>
         </Modal.Header>
