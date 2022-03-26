@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import * as Api from "../../api";
+import "./Comment.css";
 
 const CommentAddForm = ({ user_id, author, setComments }) => {
   const [comment, setComment] = useState("");
@@ -19,9 +20,12 @@ const CommentAddForm = ({ user_id, author, setComments }) => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-        <Form.Label>댓글을 입력해주세요!</Form.Label>
+    <Form onSubmit={handleSubmit} className="commentCard">
+      <Form.Group
+        className="mb-3 commentCard"
+        controlId="exampleForm.ControlTextarea1"
+      >
+        <Form.Label className="commentCard">댓글을 입력해주세요!</Form.Label>
         <Form.Control
           as="textarea"
           rows={3}

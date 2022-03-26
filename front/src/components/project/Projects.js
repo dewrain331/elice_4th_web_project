@@ -11,6 +11,7 @@ import {
   pageState,
   totalPageState,
 } from "./ProjectAtom";
+import "../Components.css";
 
 const PER_PAGE = 3;
 
@@ -47,66 +48,61 @@ function Projects({ portfolioOwnerId, isEditable }) {
   }, [portfolioOwnerId, page, totalPage, setProjects, setTotalPage, setPage]);
 
   return (
-    <Card>
-      <Card.Body>
-        <Card.Title>프로젝트</Card.Title>
-        {projects.map((project) => (
-          <Project
-            key={project.id}
-            project={project}
-            setProjects={setProjects}
-            isEditable={isEditable}
-            page={page}
-            setTotalPage={setTotalPage}
-            setPage={setPage}
-          />
-        ))}
-        {isEditable && (
-          <Row className="mt-3 text-center mb-4">
-            <Col sm={{ span: 20 }}>
-              <Button onClick={() => setIsAdding(true)}>+</Button>
-            </Col>
-          </Row>
-        )}
-        {isAdding && (
-          <ProjectAddForm
-            portfolioOwnerId={portfolioOwnerId}
-            setProjects={setProjects}
-            setIsAdding={setIsAdding}
-            page={page}
-            setTotalPage={setTotalPage}
-            setPage={setPage}
-          />
-        )}
-        <Col className="text-center">
-          <Button
-            variant="outline-secondary"
-            type="submit"
-            className="me-3"
-            onClick={() => setPage((prev) => prev - 1)}
-            disabled={page <= 1}
-          >
-            {"<"}
-          </Button>
-          {/* totalPage가 0인 경우 현재 page 표시도 0으로 함 */}
-          <Button
-            variant="outline-secondary"
-            size="sm"
-            className="me-3"
-            disabled
-          >
-            {totalPage === 0 ? 0 : page}/{totalPage}
-          </Button>
-          <Button
-            variant="outline-secondary"
-            onClick={() => setPage((prev) => prev + 1)}
-            disabled={page >= totalPage}
-          >
-            {">"}
-          </Button>
-        </Col>
-      </Card.Body>
-    </Card>
+    <Card.Body className="portfolioBG" style={{ borderRadius: "10px" }}>
+      <Card.Title className="portfolioBG">프로젝트</Card.Title>
+      {projects.map((project) => (
+        <Project
+          key={project.id}
+          project={project}
+          setProjects={setProjects}
+          isEditable={isEditable}
+          page={page}
+          setTotalPage={setTotalPage}
+          setPage={setPage}
+        />
+      ))}
+      {isEditable && (
+        <Row className="mt-3 text-center mb-4">
+          <Col sm={{ span: 20 }} className="portfolioBG">
+            <Button onClick={() => setIsAdding(true)}>+</Button>
+          </Col>
+        </Row>
+      )}
+      {isAdding && (
+        <ProjectAddForm
+          portfolioOwnerId={portfolioOwnerId}
+          setProjects={setProjects}
+          setIsAdding={setIsAdding}
+          page={page}
+          setTotalPage={setTotalPage}
+          setPage={setPage}
+        />
+      )}
+      <Col className="text-center portfolioBG">
+        <Button
+          variant="outline-secondary"
+          size="sm"
+          type="submit"
+          className="me-3"
+          onClick={() => setPage((prev) => prev - 1)}
+          disabled={page <= 1}
+        >
+          {"<"}
+        </Button>
+        {/* totalPage가 0인 경우 현재 page 표시도 0으로 함 */}
+        <Button variant="outline-secondary" size="sm" className="me-3" disabled>
+          {totalPage === 0 ? 0 : page} / {totalPage}
+        </Button>
+        <Button
+          variant="outline-secondary"
+          size="sm"
+          onClick={() => setPage((prev) => prev + 1)}
+          disabled={page >= totalPage}
+        >
+          {">"}
+        </Button>
+      </Col>
+    </Card.Body>
   );
 }
 

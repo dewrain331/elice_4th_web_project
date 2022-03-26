@@ -10,6 +10,7 @@ import {
   pageState,
   allPageState,
 } from "./EducationAtom";
+import "../Components.css";
 
 const PER_PAGE = 3;
 
@@ -38,53 +39,51 @@ const Educations = ({ portfolioOwnerId, isEditable }) => {
   }, [portfolioOwnerId, page, allPage, setAllPage, setEducations]);
 
   return (
-    <Card>
-      <Card.Body>
-        <Card.Title>학력</Card.Title>
-        {educations.map((edu) => (
-          <Education key={edu.id} education={edu} isEditable={isEditable} />
-        ))}
-        {isEditable && (
-          <Row className="mt-3 text-center mb-4">
-            <Col>
-              <Button onClick={() => setIsAdding(true)}>+</Button>
-            </Col>
-          </Row>
-        )}
-        {isAdding && (
-          <EducationAddForm
-            userId={portfolioOwnerId}
-            setEducations={setEducations}
-          />
-        )}
+    <Card.Body className="portfolioBG" style={{ borderRadius: "10px" }}>
+      <Card.Title className="portfolioBG">학력</Card.Title>
+      {educations.map((edu) => (
+        <Education key={edu.id} education={edu} isEditable={isEditable} />
+      ))}
+      {isEditable && (
         <Row className="mt-3 text-center mb-4">
-          <Col>
-            <Button
-              variant="outline-secondary"
-              size="sm"
-              className="me-3"
-              onClick={() => setPage((prev) => prev - 1)}
-              disabled={page <= 1}
-              id="prevBtn"
-            >
-              {"<"}
-            </Button>
-            <Button variant="outline-secondary" size="sm" disabled>
-              {allPage === 0 ? 0 : page}/{allPage}
-            </Button>
-            <Button
-              variant="outline-secondary"
-              size="sm"
-              className="ms-3"
-              onClick={() => setPage((prev) => prev + 1)}
-              disabled={page >= allPage}
-            >
-              {">"}
-            </Button>
+          <Col className="portfolioBG">
+            <Button onClick={() => setIsAdding(true)}>+</Button>
           </Col>
         </Row>
-      </Card.Body>
-    </Card>
+      )}
+      {isAdding && (
+        <EducationAddForm
+          userId={portfolioOwnerId}
+          setEducations={setEducations}
+        />
+      )}
+      <Row className="mt-3 text-center mb-4">
+        <Col className="portfolioBG">
+          <Button
+            variant="outline-secondary"
+            size="sm"
+            className="me-3"
+            onClick={() => setPage((prev) => prev - 1)}
+            disabled={page <= 1}
+            id="prevBtn"
+          >
+            {"<"}
+          </Button>
+          <Button variant="outline-secondary" size="sm" disabled>
+            {allPage === 0 ? 0 : page} / {allPage}
+          </Button>
+          <Button
+            variant="outline-secondary"
+            size="sm"
+            className="ms-3"
+            onClick={() => setPage((prev) => prev + 1)}
+            disabled={page >= allPage}
+          >
+            {">"}
+          </Button>
+        </Col>
+      </Row>
+    </Card.Body>
   );
 };
 

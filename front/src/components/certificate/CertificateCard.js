@@ -5,6 +5,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { pageState, allPageState, certsState, PER_PAGE } from "./CertAtom";
 import ModalComp from "../ModalComp";
 import ModalPortal from "../ModalPortal";
+import "../Components.css";
 
 const CertificateCard = ({ certificate, isEditable, setIsEditing }) => {
   // RecoilStates
@@ -24,7 +25,8 @@ const CertificateCard = ({ certificate, isEditable, setIsEditing }) => {
       const { id, userId } = certificate;
       await Api.delete(`certificate/${id}`);
       const res = await Api.get(
-        "certificatelist", `${userId}?page=${page}&perPage=${PER_PAGE}`
+        "certificatelist",
+        `${userId}?page=${page}&perPage=${PER_PAGE}`
       );
       const { total, certificates } = res.data;
       if (page > Math.ceil(total / PER_PAGE)) {
@@ -40,39 +42,43 @@ const CertificateCard = ({ certificate, isEditable, setIsEditing }) => {
 
   return (
     <>
-      <Card.Body>
+      <Card.Body className="portfolioBG">
         {/* certificate의 자격증 이름과 상세내용, 취득일자를 출력 */}
-        <Row className="align-items-center">
-          <Col>
-            <span>{certificate.title}</span>
-            <br />
-            <span className="text-muted">{certificate.description}</span>
-            <br />
-            <span className="text-muted">{slicingDate(certificate.date)}</span>
+        <Row className="align-items-center portfolioBG">
+          <Col xs={3} className="portfolioBG">
+            <h6 className="portfolioBG" style={{ color: "#03045E" }}>
+              {slicingDate(certificate.date)}
+            </h6>
           </Col>
-          <Col xs lg="1">
-            {/* 각 항목마다 편집 버튼을 생성 */}
-            {isEditable && (
+          <Col xs={6} className="portfolioBG">
+            <span className="portfolioBG">{certificate.title}</span>
+            <br />
+            <span className="text-muted portfolioBG">
+              {certificate.description}
+            </span>
+            <br />
+          </Col>
+          {/* 각 항목마다 편집 버튼을 생성 */}
+          {isEditable && (
+            <Col xs={3} style={{ textAlign: "right" }} className="portfolioBG">
               <Button
-                variant="outline-info"
+                variant="info"
                 size="sm"
                 onClick={() => setIsEditing((prev) => !prev)}
                 className="mr-3"
               >
                 편집
-              </Button>
-            )}
-            {/* 각 항목마다 삭제 버튼을 생성 */}
-            {isEditable && (
+              </Button>{" "}
+              {/* 각 항목마다 삭제 버튼을 생성 */}
               <Button
-                variant="outline-secondary"
+                variant="secondary"
                 size="sm"
                 onClick={() => setShow(true)}
               >
                 삭제
               </Button>
-            )}
-          </Col>
+            </Col>
+          )}
         </Row>
       </Card.Body>
 

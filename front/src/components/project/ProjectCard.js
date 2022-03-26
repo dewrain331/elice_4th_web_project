@@ -6,6 +6,7 @@ import { useSetRecoilState, useRecoilState } from "recoil";
 import { projectsState, pageState, totalPageState } from "./ProjectAtom";
 import ModalComp from "../ModalComp";
 import ModalPortal from "../ModalPortal";
+import "../Components.css";
 
 const PER_PAGE = 3;
 
@@ -48,37 +49,41 @@ function ProjectCard({ project, isEditable, setIsEditing }) {
 
   return (
     <>
-      <Card.Body>
+      <Card.Body className="portfolioBG">
         {/* project의 제목, 상세내용, 기간 */}
-        <Row className="align-items-center">
-          <Col>
-            <span>{project.title}</span>
+        <Row className="align-items-center portfolioBG">
+          {/* project의 기간을 object로 받고 출력형식에 맞게 변경 */}
+          <Col xs={3} className="portfolioBG">
+            <h6 className="portfolioBG" style={{ color: "#03045E" }}>
+              {slicingDate(project.fromDate)} ~ {slicingDate(project.toDate)}
+            </h6>
+          </Col>
+          <Col xs={6} className="portfolioBG">
+            <span className="portfolioBG">{project.title}</span>
             <br />
-            <span className="text-muted">{project.description}</span>
+            <span className="text-muted portfolioBG">
+              {project.description}
+            </span>
             <br />
             {/* project의 기간을 object로 받고 출력형식에 맞게 변경 */}
-            <span className="text-muted">
+            {/* <span className="text-muted portfolioBG">
               {slicingDate(project.fromDate)} ~ {slicingDate(project.toDate)}
-            </span>
+            </span> */}
           </Col>
           {/* project 편집 버튼 */}
           {isEditable && (
-            <Col xs lg="1">
+            <Col xs={3} style={{ textAlign: "right" }} className="portfolioBG">
               <Button
-                variant="outline-info"
+                variant="info"
                 size="sm"
                 onClick={() => setIsEditing((prev) => !prev)}
                 className="mr-3"
               >
                 편집
-              </Button>
-            </Col>
-          )}
-          {/* project 삭제 버튼 */}
-          {isEditable && (
-            <Col xs lg="1">
+              </Button>{" "}
+              {/* project 삭제 버튼 */}
               <Button
-                variant="outline-secondary"
+                variant="secondary"
                 size="sm"
                 onClick={() => setShow(true)}
                 className="mr-3"

@@ -4,7 +4,11 @@ import { Modal } from "react-bootstrap";
 const ModalComp = ({ show, setShow, title, message, children }) => {
   return (
     <ModalPortal>
-      <Modal show={show} onHide={() => setShow(false)}>
+      <Modal
+        show={show}
+        onHide={() => setShow(false)}
+        style={{ background: "transparent" }}
+      >
         <Modal.Header closeButton>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>

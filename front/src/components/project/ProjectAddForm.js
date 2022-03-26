@@ -12,6 +12,7 @@ import {
 // 기간 선택을 위한 react-datepicker 라이브러리 및 css import
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import "../Components.css";
 
 const PER_PAGE = 3;
 
@@ -73,7 +74,7 @@ function ProjectAddForm({ portfolioOwnerId }) {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit} className="portfolioBG">
       <Form.Group controlId="formBasicTitle">
         <Form.Control
           type="text"
@@ -92,20 +93,20 @@ function ProjectAddForm({ portfolioOwnerId }) {
         />
       </Form.Group>
 
-      <Form.Group as={Row} className="mt-3">
-        <Col className="col-3">
+      <Form.Group as={Row} className="mt-3 portfolioBG">
+        <Col className="col-3 portfolioBG">
           <DatePicker
             selected={fromDate}
             onChange={(date) => setFromDate(date)}
           />
         </Col>
-        <Col className="col-3">
+        <Col className="col-3 portfolioBG">
           <DatePicker selected={toDate} onChange={(date) => setToDate(date)} />
         </Col>
       </Form.Group>
 
-      <Form.Group as={Row} className="mt-3 text-center">
-        <Col sm={{ span: 20 }}>
+      <Form.Group as={Row} className="mt-3 text-center mb-4">
+        <Col sm={{ span: 20 }} className="portfolioBG">
           <Button variant="primary" type="submit" className="me-3">
             확인
           </Button>

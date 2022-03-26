@@ -5,6 +5,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { pageState, allPageState, awardsState, PER_PAGE } from "./AwardAtom";
 import ModalComp from "../ModalComp";
 import ModalPortal from "../ModalPortal";
+import "../Components.css";
 
 const AwardCard = ({ _award, isEditable, setIsEditing }) => {
   // RecoilStates
@@ -37,37 +38,35 @@ const AwardCard = ({ _award, isEditable, setIsEditing }) => {
 
   return (
     <>
-      <Card.Body>
+      <Card.Body className="portfolioBG">
         {/* award의 수상내용과 상세내용을 출력 */}
-        <Row className="align-items-center">
-          <Col>
-            <span>{_award.award}</span>
+        <Row className="align-items-center portfolioBG">
+          <Col xs={9} className="portfolioBG">
+            <span className="portfolioBG">{_award.award}</span>
             <br />
-            <span className="text-muted">{_award.description}</span>
+            <span className="text-muted portfolioBG">{_award.description}</span>
           </Col>
-          <Col xs lg="1">
-            {/* 각 항목마다 편집 버튼을 생성 */}
-            {isEditable && (
+          {/* 각 항목마다 편집 버튼을 생성 */}
+          {isEditable && (
+            <Col xs={3} style={{ textAlign: "right" }} className="portfolioBG">
               <Button
-                variant="outline-info"
+                variant="info"
                 size="sm"
                 onClick={() => setIsEditing((prev) => !prev)}
                 className="mr-3"
               >
                 편집
-              </Button>
-            )}
-            {/* 각 항목마다 삭제 버튼을 생성 */}
-            {isEditable && (
+              </Button>{" "}
+              {/* 각 항목마다 삭제 버튼을 생성 */}
               <Button
-                variant="outline-secondary"
+                variant="secondary"
                 size="sm"
                 onClick={() => setShow(true)}
               >
                 삭제
               </Button>
-            )}
-          </Col>
+            </Col>
+          )}
         </Row>
       </Card.Body>
 
