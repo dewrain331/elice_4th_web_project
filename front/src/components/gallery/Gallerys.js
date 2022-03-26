@@ -28,7 +28,7 @@ function Gallerys({ portfolioOwnerId, isEditable }) {
 
   return (
     <Card>
-      <Card.Body style={{backgroundColor: "white"}}>
+      <Card.Body style={{backgroundColor: "white", borderRadius: "10px"}}>
         <Card.Title style={{backgroundColor: "white"}}>갤러리</Card.Title>
         <Container style={{backgroundColor: "white"}}>
           <Row lg="auto" style={{ jusifyContent: "flex-start", backgroundColor: "white" }}>

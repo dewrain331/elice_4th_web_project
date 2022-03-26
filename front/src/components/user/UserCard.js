@@ -13,8 +13,8 @@ function UserCard({
   const navigate = useNavigate();
 
   return (
-    <Card className="mb-2 ms-3 mr-5" style={{ width: "18rem", backgroundColor: "white" }}>
-      <Card.Body style={{backgroundColor: "white"}}>
+    <Card className="mb-2 ms-3 mr-5" style={{ width: "18rem", backgroundColor: "white", borderRadius: "10px" }}>
+      <Card.Body style={{backgroundColor: "white", borderRadius: "10px"}}>
         <Row className="justify-content-center" style={{backgroundColor: "white"}}>
           <Card.Img
             style={{ width: "10rem", height: "8rem", backgroundColor: "white" }}

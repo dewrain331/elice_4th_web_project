@@ -41,7 +41,8 @@ const Recovery = () => {
 
   return (
     <div className="wrap">
-      <Card.Body className="form-wrap">
+      <Card.Body className="form-wrap" style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+      <img src="/images/Twogether.png" alt="ourLogo" style={{width: "12rem", height:"12rem", position: "relative", backgroundColor: "white"}} />
         <Form onSubmit={handleSubmit} className="back-white">
           <Form.Group controlId="registerEmail" className="back-white">
             <input

@@ -126,9 +126,10 @@ function LoginForm() {
   };
 
   return (
-    <>
+    <div>
       <div className="wrap">
-        <Card.Body className="form-wrap">
+        <Card.Body className="form-wrap mt-10" style={{display: "flex", flexDirection: "column", alignItems: "center", height: "580px"}}>
+        <img src="/images/Twogether.png" alt="ourLogo" style={{width: "12rem", height:"12rem", position: "relative", backgroundColor: "white"}} />
           <Form onSubmit={handleSubmit} className="back-white">
             <Form.Group controlId="loginEmail" className="back-white">
               <input
@@ -267,7 +268,7 @@ function LoginForm() {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   );
 }
 
