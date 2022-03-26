@@ -71,7 +71,7 @@ function RegisterForm() {
   return (
     <>
       <div className="wrap">
-        <Card.Body className="form-wrap" style={{display: "flex", flexDirection: "column", alignItems: "center", height: "690px"}}>
+        <Card.Body className="form-wrap" style={{display: "flex", flexDirection: "column", alignItems: "center", height: "710px"}}>
         <img src="/images/Twogether.png" alt="ourLogo" style={{width: "12rem", height:"12rem", position: "relative", backgroundColor: "white"}} />
           <Form onSubmit={handleSubmit} className="back-white">
             <Form.Group controlId="registerEmail" className="back-white">
@@ -83,8 +83,12 @@ function RegisterForm() {
                 placeholder="이메일"
                 onChange={(e) => setEmail(e.target.value)}
               />
-              {!isEmailValid && (
+              {!isEmailValid ? (
                 <Form.Text className="text-success back-white">
+                  이메일 형식이 올바르지 않습니다.
+                </Form.Text>
+              ) : (
+                <Form.Text className="text-success back-white" style={{visibility: "hidden"}}>
                   이메일 형식이 올바르지 않습니다.
                 </Form.Text>
               )}
@@ -102,8 +106,12 @@ function RegisterForm() {
                 placeholder="비밀번호"
                 onChange={(e) => setPassword(e.target.value)}
               />
-              {!isPasswordValid && (
+              {!isPasswordValid ? (
                 <Form.Text className="text-success back-white">
+                  비밀번호는 4글자 이상으로 설정해 주세요.
+                </Form.Text>
+              ) : (
+                <Form.Text className="text-success back-white" style={{visibility: "hidden"}}>
                   비밀번호는 4글자 이상으로 설정해 주세요.
                 </Form.Text>
               )}
@@ -122,8 +130,12 @@ function RegisterForm() {
                 placeholder="비밀번호 재확인"
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
-              {!isPasswordSame && (
+              {!isPasswordSame ? (
                 <Form.Text className="text-success back-white">
+                  비밀번호가 일치하지 않습니다.
+                </Form.Text>
+              ) : (
+                <Form.Text className="text-success back-white" style={{visibility: "hidden"}}>
                   비밀번호가 일치하지 않습니다.
                 </Form.Text>
               )}
@@ -139,8 +151,12 @@ function RegisterForm() {
                 placeholder="이름"
                 onChange={(e) => setName(e.target.value)}
               />
-              {!isNameValid && (
+              {!isNameValid ? (
                 <Form.Text className="text-success back-white">
+                  이름은 2글자 이상으로 설정해 주세요.
+                </Form.Text>
+              ) : (
+                <Form.Text className="text-success back-white" style={{visibility: "hidden"}}>
                   이름은 2글자 이상으로 설정해 주세요.
                 </Form.Text>
               )}

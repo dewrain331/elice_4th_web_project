@@ -140,8 +140,12 @@ function LoginForm() {
                 placeholder="이메일"
                 onChange={(e) => setEmail(e.target.value)}
               />
-              {!isEmailValid && (
+              {!isEmailValid ? (
                 <Form.Text className="text-success back-white">
+                  이메일 형식이 올바르지 않습니다.
+                </Form.Text>
+              ) : (
+                <Form.Text className="text-success back-white" style={{visibility: "hidden"}}>
                   이메일 형식이 올바르지 않습니다.
                 </Form.Text>
               )}
@@ -156,8 +160,12 @@ function LoginForm() {
                 placeholder="비밀번호"
                 onChange={(e) => setPassword(e.target.value)}
               />
-              {!isPasswordValid && (
+              {!isPasswordValid ? (
                 <Form.Text className="text-success back-white">
+                  비밀번호는 4글자 이상으로 설정해 주세요.
+                </Form.Text>
+              ) : (
+                <Form.Text className="text-success back-white" style={{visibility: "hidden"}}>
                   비밀번호는 4글자 이상으로 설정해 주세요.
                 </Form.Text>
               )}

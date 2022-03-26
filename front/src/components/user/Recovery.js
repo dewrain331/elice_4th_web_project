@@ -9,7 +9,6 @@ const Recovery = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [wrongInput, setWrongInput] = useState(false);
 
   const validateEmail = (email) => {
     return email
@@ -35,7 +34,6 @@ const Recovery = () => {
       navigate("/login");
     } catch (err) {
       console.error(err);
-      setWrongInput(true);
     }
   };
 
@@ -53,14 +51,13 @@ const Recovery = () => {
               placeholder="이메일"
               onChange={(e) => setEmail(e.target.value)}
             />
-            {!isEmailValid && !wrongInput && (
+            {!isEmailValid ? (
               <Form.Text className="text-success back-white">
                 이메일 형식이 올바르지 않습니다.
               </Form.Text>
-            )}
-            {wrongInput && (
-              <Form.Text className="text-success back-white">
-                이메일과 비밀번호를 다시 확인해주세요.
+            ) : (
+              <Form.Text className="text-success back-white" style={{visibility: "hidden"}}>
+                이메일 형식이 올바르지 않습니다.
               </Form.Text>
             )}
           </Form.Group>
@@ -74,14 +71,13 @@ const Recovery = () => {
               placeholder="비밀번호"
               onChange={(e) => setPassword(e.target.value)}
             />
-            {!isPasswordValid && !wrongInput && (
+            {!isPasswordValid ? (
               <Form.Text className="text-success back-white">
                 비밀번호는 4글자 이상으로 설정해 주세요.
               </Form.Text>
-            )}
-            {wrongInput && (
-              <Form.Text className="text-success back-white">
-                이메일과 비밀번호를 다시 확인해주세요.
+            ) : (
+              <Form.Text className="text-success back-white" style={{visibility: "hidden"}}>
+                비밀번호는 4글자 이상으로 설정해 주세요.
               </Form.Text>
             )}
           </Form.Group>
