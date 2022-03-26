@@ -1,6 +1,6 @@
 import { useState } from "react";
 import * as Api from "../../../api";
-import { Form, Button, Card } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import "../Comment.css";
 
 const ReplyAddForm = ({ author, CommentId, setReplies }) => {

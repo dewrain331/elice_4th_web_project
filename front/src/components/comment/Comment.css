@@ -1,3 +1,4 @@
+/*comment*/
 #commentCard_radius {
   border-radius: 10px;
 }
@@ -8,6 +9,11 @@
   background-color: white;
 }
 
+/*reply*/
 #replyAddForm {
   margin-top: 10px;
+}
+
+#replyCard_radius {
+  border-radius: 10px;
 }

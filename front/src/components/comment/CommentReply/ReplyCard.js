@@ -24,12 +24,16 @@ const ReplyCard = ({ reply, isEditable, setReplies, setIsEditing }) => {
 
   return (
     <Card.Body className="mt-2 text-justify float-left commentBody">
-      <Card className="p-3">
+      <Card className="p-3" id="replyCard_radius">
         <Row>
           <Col xs={10} className="text-primary commentBody">
             <h4 className="commentBody">{author_name}</h4>
           </Col>
-          <Col xs={2} className="text-secondary commentBody">
+          <Col
+            xs={2}
+            className="text-secondary commentBody"
+            style={{ textAlign: "right" }}
+          >
             <h6 className="commentBody">{createdAt.slice(0, 10)}</h6>{" "}
           </Col>
         </Row>
@@ -44,7 +48,7 @@ const ReplyCard = ({ reply, isEditable, setReplies, setIsEditing }) => {
               >
                 Edit
               </Button>
-              <Button variant="secondary" onClick={handleDelete}>
+              <Button variant="danger" onClick={handleDelete}>
                 Delete
               </Button>
             </>

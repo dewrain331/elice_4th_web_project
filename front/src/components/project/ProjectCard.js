@@ -52,7 +52,13 @@ function ProjectCard({ project, isEditable, setIsEditing }) {
       <Card.Body className="portfolioBG">
         {/* project의 제목, 상세내용, 기간 */}
         <Row className="align-items-center portfolioBG">
-          <Col xs={9} className="portfolioBG">
+          {/* project의 기간을 object로 받고 출력형식에 맞게 변경 */}
+          <Col xs={3} className="portfolioBG">
+            <h5 className="portfolioBG" style={{ color: "#03045E" }}>
+              {slicingDate(project.fromDate)} ~ {slicingDate(project.toDate)}
+            </h5>
+          </Col>
+          <Col xs={6} className="portfolioBG">
             <span className="portfolioBG">{project.title}</span>
             <br />
             <span className="text-muted portfolioBG">
@@ -60,9 +66,9 @@ function ProjectCard({ project, isEditable, setIsEditing }) {
             </span>
             <br />
             {/* project의 기간을 object로 받고 출력형식에 맞게 변경 */}
-            <span className="text-muted portfolioBG">
+            {/* <span className="text-muted portfolioBG">
               {slicingDate(project.fromDate)} ~ {slicingDate(project.toDate)}
-            </span>
+            </span> */}
           </Col>
           {/* project 편집 버튼 */}
           {isEditable && (

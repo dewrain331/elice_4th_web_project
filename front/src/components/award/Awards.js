@@ -41,48 +41,46 @@ const Awards = ({ portfolioOwnerId, isEditable }) => {
   }, [portfolioOwnerId, page, allPage, setPage, setAllPage, setAwards]);
 
   return (
-    <Card>
-      <Card.Body className="portfolioBG">
-        <Card.Title className="portfolioBG">수상이력</Card.Title>
-        {awards.map((v) => (
-          <Award key={v.id} _award={v} isEditable={isEditable} />
-        ))}
-        {isEditable && (
-          <Row className="mt-3 text-center mb-4">
-            <Col sm={{ span: 20 }} className="portfolioBG">
-              <Button onClick={() => setIsAdding(true)}>+</Button>
-            </Col>
-          </Row>
-        )}
-        {isAdding && <AwardAddForm portfolioOwnerId={portfolioOwnerId} />}
+    <Card.Body className="portfolioBG" style={{ borderRadius: "10px" }}>
+      <Card.Title className="portfolioBG">수상이력</Card.Title>
+      {awards.map((v) => (
+        <Award key={v.id} _award={v} isEditable={isEditable} />
+      ))}
+      {isEditable && (
         <Row className="mt-3 text-center mb-4">
-          <Col className="portfolioBG">
-            <Button
-              variant="outline-secondary"
-              size="sm"
-              onClick={() => setPage((prev) => prev - 1)}
-              disabled={page === 1}
-              className="me-3"
-            >
-              {"<"}
-            </Button>
-            <Button variant="outline-secondary" size="sm" disabled={true}>
-              {Math.ceil(allPage / PER_PAGE) === 0 ? 0 : page} /{" "}
-              {Math.ceil(allPage / PER_PAGE)}
-            </Button>
-            <Button
-              variant="outline-secondary"
-              size="sm"
-              onClick={() => setPage((prev) => prev + 1)}
-              disabled={page >= Math.ceil(allPage / PER_PAGE)}
-              className="ms-3"
-            >
-              {">"}
-            </Button>
+          <Col sm={{ span: 20 }} className="portfolioBG">
+            <Button onClick={() => setIsAdding(true)}>+</Button>
           </Col>
         </Row>
-      </Card.Body>
-    </Card>
+      )}
+      {isAdding && <AwardAddForm portfolioOwnerId={portfolioOwnerId} />}
+      <Row className="mt-3 text-center mb-4">
+        <Col className="portfolioBG">
+          <Button
+            variant="outline-secondary"
+            size="sm"
+            onClick={() => setPage((prev) => prev - 1)}
+            disabled={page === 1}
+            className="me-3"
+          >
+            {"<"}
+          </Button>
+          <Button variant="outline-secondary" size="sm" disabled={true}>
+            {Math.ceil(allPage / PER_PAGE) === 0 ? 0 : page} /{" "}
+            {Math.ceil(allPage / PER_PAGE)}
+          </Button>
+          <Button
+            variant="outline-secondary"
+            size="sm"
+            onClick={() => setPage((prev) => prev + 1)}
+            disabled={page >= Math.ceil(allPage / PER_PAGE)}
+            className="ms-3"
+          >
+            {">"}
+          </Button>
+        </Col>
+      </Row>
+    </Card.Body>
   );
 };
 

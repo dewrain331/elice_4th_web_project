@@ -45,16 +45,18 @@ const CertificateCard = ({ certificate, isEditable, setIsEditing }) => {
       <Card.Body className="portfolioBG">
         {/* certificate의 자격증 이름과 상세내용, 취득일자를 출력 */}
         <Row className="align-items-center portfolioBG">
-          <Col xs={9} className="portfolioBG">
+          <Col xs={3} className="portfolioBG">
+            <h5 className="portfolioBG" style={{ color: "#03045E" }}>
+              {slicingDate(certificate.date)}
+            </h5>
+          </Col>
+          <Col xs={6} className="portfolioBG">
             <span className="portfolioBG">{certificate.title}</span>
             <br />
             <span className="text-muted portfolioBG">
               {certificate.description}
             </span>
             <br />
-            <span className="text-muted portfolioBG">
-              {slicingDate(certificate.date)}
-            </span>
           </Col>
           {/* 각 항목마다 편집 버튼을 생성 */}
           {isEditable && (
