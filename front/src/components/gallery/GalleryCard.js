@@ -70,12 +70,12 @@ function GalleryCard({ gallery, isEditable, setIsEditing }) {
         )}
       </Card.Body>
 
-      <Modal show={show} onHide={handleAlertCancel}>
-        <Modal.Header closeButton>
-          <Modal.Title>삭제 확인</Modal.Title>
+      <Modal show={show} onHide={handleAlertCancel} style={{background: "transparent"}}>
+        <Modal.Header closeButton style={{backgroundColor: "white"}}>
+          <Modal.Title style={{backgroundColor: "white"}}>삭제 확인</Modal.Title>
         </Modal.Header>
-        <Modal.Body>정말로 삭제하시겠습니까?</Modal.Body>
-        <Modal.Footer>
+        <Modal.Body style={{backgroundColor: "white"}}>정말로 삭제하시겠습니까?</Modal.Body>
+        <Modal.Footer style={{backgroundColor: "white"}}>
           <Button variant="secondary" onClick={handleAlertCancel}>
             취소
           </Button>

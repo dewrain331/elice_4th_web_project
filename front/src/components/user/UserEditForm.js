@@ -151,12 +151,11 @@ function UserEditForm({ user, setIsEditing, setUser }) {
         </Card.Body>
       </Card>
 
-      <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-          <Modal.Title>탈퇴 확인</Modal.Title>
+      <Modal show={show} onHide={handleClose} style={{background: "transparent"}}>
+          <Modal.Header closeButton style={{backgroundColor: "white"}}>
+          <Modal.Title style={{backgroundColor: "white"}}>탈퇴 확인</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-            회원 탈퇴 확인을 위해 비밀번호를 입력해주세요.
+          <Modal.Body style={{backgroundColor: "white"}}>
             <FormControl
                 type="password"
                 placeholder="현재 로그인한 계정의 비밀번호를 입력해주세요."
@@ -165,7 +164,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
                 onChange={(evt) => setPwInput(evt.target.value)}
             />
           </Modal.Body>
-          <Modal.Footer>
+          <Modal.Footer style={{backgroundColor: "white"}}>
           <Button variant="secondary" onClick={handleClose}>
               취소
           </Button>
