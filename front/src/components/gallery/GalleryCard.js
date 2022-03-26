@@ -37,7 +37,7 @@ function GalleryCard({ gallery, isEditable, setIsEditing }) {
         <div className="img-wrapper" style={{ backgroundColor: "white" }}>
           <img
             className="mb-3"
-            src={process.env.PUBLIC_URL + gallery?.saveFilePath}
+            src={gallery?.saveFilePath}
             alt="갤러리 이미지"
           />
         </div>
