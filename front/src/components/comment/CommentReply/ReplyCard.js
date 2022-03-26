@@ -3,11 +3,11 @@ import * as Api from "../../../api";
 import "../Comment.css";
 
 const ReplyCard = ({ reply, isEditable, setReplies, setIsEditing }) => {
-  const { id, author_name, text, parent_comment_id, createdAt } = reply;
+  const { id, authorName, text, parentCommentId, createdAt } = reply;
 
   const handleDelete = async () => {
     try {
-      await Api.delete("comment/reply", `${parent_comment_id}/${id}`);
+      await Api.delete("comment/reply", `${parentCommentId}/${id}`);
 
       setReplies((replies) => {
         const pos = replies.findIndex((r) => r.id === id);
@@ -27,7 +27,7 @@ const ReplyCard = ({ reply, isEditable, setReplies, setIsEditing }) => {
       <Card className="p-3" id="replyCard_radius">
         <Row>
           <Col xs={10} className="text-primary commentBody">
-            <h4 className="commentBody">{author_name}</h4>
+            <h4 className="commentBody">{authorName}</h4>
           </Col>
           <Col
             xs={2}

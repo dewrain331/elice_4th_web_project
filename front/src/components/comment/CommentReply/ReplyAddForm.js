@@ -12,9 +12,9 @@ const ReplyAddForm = ({ author, CommentId, setReplies }) => {
     e.preventDefault();
 
     const res = await Api.post("reply", {
-      parent_comment_id: CommentId,
-      author_id: id,
-      author_name: name,
+      parentCommentId: CommentId,
+      authorId: id,
+      authorName: name,
       text: reply,
     });
     setReplies((replies) => [...replies, res.data]);
