@@ -37,7 +37,7 @@ const Like = ({ user, authorId, isDisabled }) => {
       {addLikes ? (
         <FontAwesomeIcon icon={solidHeart} style={{ color: "red", backgroundColor: "white" }} />
       ) : (
-        <FontAwesomeIcon icon={regularHeart} />
+        <FontAwesomeIcon icon={regularHeart} style={{backgroundColor: "white"}} />
       )}{" "}
       {likes}
     </Button>
