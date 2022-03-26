@@ -4,6 +4,7 @@ import "../Comment.css";
 
 const ReplyCard = ({ reply, isEditable, setReplies, setIsEditing }) => {
   const { id, authorName, text, parentCommentId, createdAt } = reply;
+  console.log(reply);
 
   const handleDelete = async () => {
     try {
@@ -11,7 +12,7 @@ const ReplyCard = ({ reply, isEditable, setReplies, setIsEditing }) => {
 
       setReplies((replies) => {
         const pos = replies.findIndex((r) => r.id === id);
-        if (pos >= -1) {
+        if (pos > -1) {
           replies.splice(pos, 1);
           return [...replies];
         }

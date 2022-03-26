@@ -17,7 +17,7 @@ const Replies = ({ id, author }) => {
           <Reply
             key={reply.id}
             reply={reply}
-            isEditable={author.id === reply.author_id}
+            isEditable={author.id === reply.authorId}
             setReplies={setReplies}
           />
         ))}
