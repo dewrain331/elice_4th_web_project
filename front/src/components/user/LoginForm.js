@@ -128,12 +128,6 @@ function LoginForm() {
   return (
     <>
       <div className="wrap">
-        <img
-          className="mainImg"
-          style={{ position: "absolute" }}
-          src={`/images/Twogether.png`}
-          alt="갤러리 이미지"
-        />
         <Card.Body className="form-wrap">
           <Form onSubmit={handleSubmit} className="back-white">
             <Form.Group controlId="loginEmail" className="back-white">
