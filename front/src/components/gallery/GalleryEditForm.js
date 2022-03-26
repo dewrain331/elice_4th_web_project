@@ -32,9 +32,9 @@ function GalleryEditForm({ gallery, setIsEditing }) {
   };
 
   return (
-    <Card.Body style={{ maxWidth: "330px" }}>
-      <Form onSubmit={handleSubmit}>
-        <div className="img-wrapper">
+    <Card.Body style={{ maxWidth: "330px", backgroundColor: "white" }}>
+      <Form onSubmit={handleSubmit} style={{backgroundColor: "white"}}>
+        <div className="img-wrapper" style={{backgroundColor: "white"}}>
           <img
             className="mb-3"
             src={gallery?.saveFilePath}
@@ -44,7 +44,7 @@ function GalleryEditForm({ gallery, setIsEditing }) {
         <Form.Group
           controlId="formBasicDescription"
           className="mt-3"
-          style={{ maxWidth: "260px" }}
+          style={{ maxWidth: "260px", backgroundColor: "white" }}
         >
           <textarea
             className="form-control"
@@ -52,11 +52,12 @@ function GalleryEditForm({ gallery, setIsEditing }) {
             placeholder="상세내역"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            style={{backgroundColor: "white"}}
           />
         </Form.Group>
 
         <Form.Group as={Row} className="mt-3 text-center mb-4">
-          <Col sm={{ span: 20 }}>
+          <Col sm={{ span: 20 }} style={{backgroundColor: "white", paddingRight: "45px"}}>
             <Button variant="primary" type="submit" className="me-3">
               확인
             </Button>

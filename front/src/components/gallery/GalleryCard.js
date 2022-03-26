@@ -32,9 +32,9 @@ function GalleryCard({ gallery, isEditable, setIsEditing }) {
 
   return (
     <>
-      <Card.Body style={{ maxWidth: "330px" }}>
+      <Card.Body style={{ maxWidth: "330px", backgroundColor: "white" }}>
         {/* gallery의 제목, 상세내용, 기간 */}
-        <div className="img-wrapper">
+        <div className="img-wrapper" style={{backgroundColor: "white"}}>
           <img
             className="mb-3"
             src={gallery?.saveFilePath}
@@ -42,40 +42,42 @@ function GalleryCard({ gallery, isEditable, setIsEditing }) {
           />
         </div>
         <br />
-        <div className="text-muted" style={{ width: "260px" }}>
+        <div className="text-muted" style={{ width: "260px", backgroundColor: "white" }}>
           {gallery.description}
         </div>
         <br />
         {/* gallery 편집 버튼 */}
-        {isEditable && (
-          <Button
-            variant="outline-info"
-            size="sm"
-            onClick={() => setIsEditing((prev) => !prev)}
-            // className="mr-3"
-          >
-            편집
-          </Button>
-        )}
-        {/* gallery 삭제 버튼 */}
-        {isEditable && (
-          <Button
-            variant="outline-secondary"
-            size="sm"
-            onClick={handleAlertShow}
-            // className="mr-3"
-          >
-            삭제
-          </Button>
-        )}
+        <div style={{display: "flex", paddingLeft: "85px", backgroundColor: "white"}}>
+          {isEditable && (
+            <Button
+              variant="outline-info"
+              size="sm"
+              onClick={() => setIsEditing((prev) => !prev)}
+              // className="mr-3"
+            >
+              편집
+            </Button>
+          )}
+          {/* gallery 삭제 버튼 */}
+          {isEditable && (
+            <Button
+              variant="outline-secondary"
+              size="sm"
+              onClick={handleAlertShow}
+              // className="mr-3"
+            >
+              삭제
+            </Button>
+          )}
+        </div>
       </Card.Body>
 
-      <Modal show={show} onHide={handleAlertCancel}>
-        <Modal.Header closeButton>
-          <Modal.Title>삭제 확인</Modal.Title>
+      <Modal show={show} onHide={handleAlertCancel} style={{background: "transparent"}}>
+        <Modal.Header closeButton style={{backgroundColor: "white"}}>
+          <Modal.Title style={{backgroundColor: "white"}}>삭제 확인</Modal.Title>
         </Modal.Header>
-        <Modal.Body>정말로 삭제하시겠습니까?</Modal.Body>
-        <Modal.Footer>
+        <Modal.Body style={{backgroundColor: "white"}}>정말로 삭제하시겠습니까?</Modal.Body>
+        <Modal.Footer style={{backgroundColor: "white"}}>
           <Button variant="secondary" onClick={handleAlertCancel}>
             취소
           </Button>

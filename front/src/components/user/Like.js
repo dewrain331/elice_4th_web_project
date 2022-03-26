@@ -35,9 +35,9 @@ const Like = ({ user, authorId, isDisabled }) => {
   return (
     <Button variant="outline-dark" onClick={handleClick} disabled={isDisabled}>
       {addLikes ? (
-        <FontAwesomeIcon icon={solidHeart} style={{ color: "red" }} />
+        <FontAwesomeIcon icon={solidHeart} style={{ color: "red", backgroundColor: "white" }} />
       ) : (
-        <FontAwesomeIcon icon={regularHeart} />
+        <FontAwesomeIcon icon={regularHeart} style={{backgroundColor: "white"}} />
       )}{" "}
       {likes}
     </Button>

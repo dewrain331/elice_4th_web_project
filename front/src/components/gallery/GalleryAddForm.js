@@ -58,10 +58,10 @@ function GalleryAddForm({ portfolioOwnerId }) {
   };
 
   return (
-    <Card.Body>
-      <Form onSubmit={handleSubmit}>
+    <Card.Body style={{backgroundColor: "white"}}>
+      <Form onSubmit={handleSubmit} style={{backgroundColor: "white"}}>
         {pickedImage.preview && (
-          <div className="img-wrapper">
+          <div className="img-wrapper" style={{backgroundColor: "white"}}>
             <img
               className="mb-3"
               src={pickedImage.preview}
@@ -87,7 +87,7 @@ function GalleryAddForm({ portfolioOwnerId }) {
         </Form.Group>
 
         <Form.Group as={Row} className="mt-3 text-center">
-          <Col sm={{ span: 20 }}>
+          <Col sm={{ span: 20 }} style={{backgroundColor: "white"}}>
             <Button
               variant="primary"
               type="submit"

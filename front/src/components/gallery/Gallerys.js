@@ -28,10 +28,10 @@ function Gallerys({ portfolioOwnerId, isEditable }) {
 
   return (
     <Card>
-      <Card.Body>
-        <Card.Title>갤러리</Card.Title>
-        <Container>
-          <Row lg="auto" style={{ jusifyContent: "flex-start" }}>
+      <Card.Body style={{backgroundColor: "white"}}>
+        <Card.Title style={{backgroundColor: "white"}}>갤러리</Card.Title>
+        <Container style={{backgroundColor: "white"}}>
+          <Row lg="auto" style={{ jusifyContent: "flex-start", backgroundColor: "white" }}>
             {gallerys.map((gallery) => (
               <Gallery
                 key={gallery.id}
@@ -43,8 +43,8 @@ function Gallerys({ portfolioOwnerId, isEditable }) {
         </Container>
         {isEditable && (
           <Row className="mt-3 text-center mb-4">
-            <Col sm={{ span: 20 }}>
-              <Button onClick={() => setIsAdding(true)}>+</Button>
+            <Col sm={{ span: 20 }} style={{backgroundColor: "white"}}>
+              <Button onClick={() => setIsAdding(true)} >+</Button>
             </Col>
           </Row>
         )}
