@@ -20,12 +20,12 @@ const Comments = ({ userId, author }) => {
           key={comment.id}
           comment={comment}
           setComments={setComments}
-          isEditable={author?.id === comment.author_id}
+          isEditable={author?.id === comment.authorId}
           author={author}
         />
       ))}
       <CommentAddForm
-        user_id={userId}
+        userId={userId}
         author={author}
         setComments={setComments}
       />

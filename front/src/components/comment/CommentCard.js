@@ -11,7 +11,7 @@ const CommentCard = ({
   setIsEditing,
   author,
 }) => {
-  const { id, author_name, text, createdAt } = comment;
+  const { id, authorName, text, createdAt, active } = comment;
 
   const [showReplies, setShowReplies] = useState(false);
 
@@ -34,7 +34,13 @@ const CommentCard = ({
       <Card className="p-3" id="commentCard_radius">
         <Row>
           <Col xs={10} className="text-primary commentBody">
-            <h4 className="commentBody">{author_name}</h4>
+            {active ? (
+              <h4 className="commentBody">{authorName}</h4>
+            ) : (
+              <h4 className="commentBody" style={{ color: "gray" }}>
+                {authorName}(탈퇴한 회원)
+              </h4>
+            )}
           </Col>
           <Col
             xs={2}

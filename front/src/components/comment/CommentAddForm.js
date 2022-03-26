@@ -3,15 +3,15 @@ import { Form, Button } from "react-bootstrap";
 import * as Api from "../../api";
 import "./Comment.css";
 
-const CommentAddForm = ({ user_id, author, setComments }) => {
+const CommentAddForm = ({ userId, author, setComments }) => {
   const [comment, setComment] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const res = await Api.post("comment", {
-      user_id,
-      author_id: author?.id,
-      author_name: author?.name,
+      userId,
+      authorId: author?.id,
+      authorName: author?.name,
       text: comment,
     });
 
