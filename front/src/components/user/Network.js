@@ -19,14 +19,17 @@ function Network() {
       return;
     }
     // "userlist" 엔드포인트로 GET 요청을 하고, users를 response의 data로 세팅함.
-    Api.get("userlist").then((res) => setUsers(res.data));
+    Api.get("userlist").then((res) => {
+      setUsers(res.data)
+      console.log(res.data.map(v => v.image))
+    });
   }, [userState, navigate]);
 
   return (
     <Container fluid>
       <Row xs="auto" className="jusify-content-center">
         {users.map((user) => (
-          <UserCard key={user.id} user={user} isNetwork />
+          <UserCard key={user.id} user={user} isNetwork isDisabled={true} />
         ))}
       </Row>
     </Container>

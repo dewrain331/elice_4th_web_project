@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Col, Row, Form, Button } from "react-bootstrap";
-
+import { Col, Row, Form, Button, Card } from "react-bootstrap";
+import ModalPortal from "../ModalPortal";
+import ModalComp from "../ModalComp";
 import * as Api from "../../api";
+
+import "./User.css";
 
 function RegisterForm() {
   const navigate = useNavigate();
@@ -15,6 +18,10 @@ function RegisterForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   //useState로 name 상태를 생성함.
   const [name, setName] = useState("");
+
+  const [show, setShow] = useState(false);
+
+  const [errorMessage, setErrorMessage] = useState("");
 
   //이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
   const validateEmail = (email) => {
@@ -52,94 +59,133 @@ function RegisterForm() {
       // 로그인 페이지로 이동함.
       navigate("/login");
     } catch (err) {
-      console.log("회원가입에 실패하였습니다.", err);
+      setErrorMessage(err.response.data.errormessage);
+      setShow(true);
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+      setName("");
     }
   };
 
   return (
-    <Container>
-      <Row className="justify-content-md-center mt-5">
-        <Col lg={8}>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="registerEmail">
-              <Form.Label>이메일 주소</Form.Label>
-              <Form.Control
+    <>
+      <div className="wrap">
+        <Card.Body className="form-wrap" style={{display: "flex", flexDirection: "column", alignItems: "center", height: "690px"}}>
+        <img src="/images/Twogether.png" alt="ourLogo" style={{width: "12rem", height:"12rem", position: "relative", backgroundColor: "white"}} />
+          <Form onSubmit={handleSubmit} className="back-white">
+            <Form.Group controlId="registerEmail" className="back-white">
+              <input
                 type="email"
-                autoComplete="off"
+                autoComplete="on"
                 value={email}
+                className="input-field"
+                placeholder="이메일"
                 onChange={(e) => setEmail(e.target.value)}
               />
               {!isEmailValid && (
-                <Form.Text className="text-success">
+                <Form.Text className="text-success back-white">
                   이메일 형식이 올바르지 않습니다.
                 </Form.Text>
               )}
             </Form.Group>
 
-            <Form.Group controlId="registerPassword" className="mt-3">
-              <Form.Label>비밀번호</Form.Label>
-              <Form.Control
+            <Form.Group
+              controlId="registerPassword"
+              className="mt-3 back-white"
+            >
+              <input
                 type="password"
                 autoComplete="off"
                 value={password}
+                className="input-field"
+                placeholder="비밀번호"
                 onChange={(e) => setPassword(e.target.value)}
               />
               {!isPasswordValid && (
-                <Form.Text className="text-success">
+                <Form.Text className="text-success back-white">
                   비밀번호는 4글자 이상으로 설정해 주세요.
                 </Form.Text>
               )}
             </Form.Group>
 
-            <Form.Group controlId="registerConfirmPassword" className="mt-3">
-              <Form.Label>비밀번호 재확인</Form.Label>
-              <Form.Control
+            <Form.Group
+              controlId="registerConfirmPassword"
+              className="mt-3 back-white"
+            >
+              {/* <Form.Label className="back-white">비밀번호 재확인</Form.Label> */}
+              <input
                 type="password"
                 autoComplete="off"
                 value={confirmPassword}
+                className="input-field"
+                placeholder="비밀번호 재확인"
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
               {!isPasswordSame && (
-                <Form.Text className="text-success">
+                <Form.Text className="text-success back-white">
                   비밀번호가 일치하지 않습니다.
                 </Form.Text>
               )}
             </Form.Group>
 
-            <Form.Group controlId="registerName" className="mt-3">
-              <Form.Label>이름</Form.Label>
-              <Form.Control
+            <Form.Group controlId="registerName" className="mt-3 back-white">
+              {/* <Form.Label className="back-white">이름</Form.Label> */}
+              <input
                 type="text"
                 autoComplete="off"
                 value={name}
+                className="input-field"
+                placeholder="이름"
                 onChange={(e) => setName(e.target.value)}
               />
               {!isNameValid && (
-                <Form.Text className="text-success">
+                <Form.Text className="text-success back-white">
                   이름은 2글자 이상으로 설정해 주세요.
                 </Form.Text>
               )}
             </Form.Group>
 
             <Form.Group as={Row} className="mt-3 text-center">
-              <Col sm={{ span: 20 }}>
-                <Button variant="primary" type="submit" disabled={!isFormValid}>
-                  회원가입
-                </Button>
+              <Col sm={{ span: 20 }} className="back-white">
+                <button
+                  className="submit-button"
+                  type="submit"
+                  disabled={!isFormValid}
+                >
+                  회원 가입
+                </button>
               </Col>
             </Form.Group>
-
             <Form.Group as={Row} className="mt-3 text-center">
-              <Col sm={{ span: 20 }}>
-                <Button variant="light" onClick={() => navigate("/login")}>
+              <Col sm={{ span: 20 }} className="back-white">
+                <button
+                  className="sub-button"
+                  onClick={() => navigate("/login")}
+                >
                   로그인하기
-                </Button>
+                </button>
               </Col>
             </Form.Group>
           </Form>
-        </Col>
-      </Row>
-    </Container>
+        </Card.Body>
+      </div>
+
+      <ModalPortal>
+        {show && (
+          <ModalComp
+            setShow={setShow}
+            show={show}
+            title="회원가입 실패"
+            message={errorMessage}
+          >
+            <Button variant="secondary" onClick={() => setShow(false)}>
+              확인
+            </Button>
+          </ModalComp>
+        )}
+      </ModalPortal>
+    </>
   );
 }
 

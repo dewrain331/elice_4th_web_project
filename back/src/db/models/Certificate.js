@@ -2,10 +2,11 @@ import { CertificateModel } from "../schemas/certificate";
 
 class Certificate {
 
-    static async create({ newCertificate }) {
+    static create = async ({ newCertificate }) => {
         const checkAlreadyExist = await CertificateModel.findOne({
-            user_id : newCertificate.user_id,
-            title : newCertificate.title
+            userId : newCertificate.userId,
+            title : newCertificate.title,
+            active : true,
         });
         if (checkAlreadyExist) {
             return checkAlreadyExist;
@@ -14,26 +15,28 @@ class Certificate {
         return createdNewCertificate;
     }
 
-    static async delete({ deleteCertificate }) {
+    static delete = async ({ deleteCertificate }) => {
         const deleteCertificateResult = await CertificateModel.deleteOne({ 
             id : deleteCertificate.id,
-            user_id : deleteCertificate.user_id 
+            userId : deleteCertificate.userId,
+            active : true,
         });
         return deleteCertificateResult;
 
     }
 
-    static async findAllToUser({ getCertificates }) {
+    static findAllToUser = async ({ getCertificates }) => {
 
         const total = await CertificateModel.countDocuments({ 
-            user_id : getCertificates.user_id,
+            userId : getCertificates.userId,
         });
 
         const limit = getCertificates.perPage;
         const offset = (getCertificates.page - 1) * limit;
 
         const certificates = await CertificateModel.find({ 
-            user_id : getCertificates.user_id,
+            userId : getCertificates.userId,
+            active : true,
         }).limit(limit).skip(offset);
 
         const newCertificates = { 
@@ -44,16 +47,18 @@ class Certificate {
         return newCertificates;
     }
 
-    static async findOne({ getCertificate }) {
+    static findOne = async ({ getCertificate }) => {
         const certificate = await CertificateModel.findOne({
             id : getCertificate.id,
+            active : true,
         })
         return certificate;
     }
 
-    static async update({ updateCertificate }) {
+    static update = async ({ updateCertificate }) =>{
         const filter = { 
             id : updateCertificate.id ,
+            active : true,
         };
         const update = {
             title : updateCertificate.title,
@@ -69,6 +74,34 @@ class Certificate {
         );
 
         return updateCertificateResult;
+    }
+
+    static withdrawByUserId = async ({ userId, delayTime }) => {
+        try {
+            const withdrawResult = await CertificateModel.updateMany(
+                { userId : userId, active : true, },
+                { $set : { expiredAt : delayTime, active : false } },
+                { returnOriginal : false },
+              )
+          
+            return withdrawResult;
+        } catch (err) {
+            return { error : err.message };
+        }
+    }
+
+    static recoveryByUserId = async ({ userId }) => {
+        try {
+            const recoveryResult = await CertificateModel.updateMany(
+                { userId : userId, active : false, },
+                { $set : { active : true }, $unset : { expiredAt : true } },
+                { returnOriginal : false },
+              )
+          
+            return recoveryResult;
+        } catch (err) {
+            return { error : err.message };
+        }
     }
 }
 

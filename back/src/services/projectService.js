@@ -15,7 +15,7 @@ class projectService {
   }
 
   static getProject = async ({ projectId }) => {
-    // project db에 존재 여부 확인
+    // project db에 존재 여부 확인 & db에서 찾지 못한 경우, 에러 메시지 반환
     const project = await Project.findById({ projectId });
     if (!project) {
       const errorMessage =
@@ -27,51 +27,27 @@ class projectService {
   }
 
   static getProjectList = async({ userId, page, perPage }) => {
-    const { totalPage, "projects": projects } = await Project.findByUserId({ userId, page, perPage });
-    return { totalPage, "projects": projects };
+    // project db에서 해당 유저의 프로젝트 리스트를 가져옴
+    const { totalPage, projects } = await Project.findByUserId({ userId, page, perPage });
+    return { totalPage, projects };
   }
 
   static setProject = async ({ projectId, toUpdate }) => {
+    // project db에 존재 여부 확인 & db에서 찾지 못한 경우, 에러 메시지 반환
     let project = await Project.findById({ projectId });
-
-    // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!project) {
       const errorMessage =
         "해당 id를 가진 프로젝트 데이터는 없습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
 
-    if (toUpdate.title) {
-      const fieldToUpdate = "title";
-      const newValue = toUpdate.title;
-      project = await Project.update({ projectId, fieldToUpdate, newValue });
-    }
-
-    if (toUpdate.description) {
-      const fieldToUpdate = "description";
-      const newValue = toUpdate.description;
-      project = await Project.update({ projectId, fieldToUpdate, newValue });
-    }
-
-    if (toUpdate.fromDate) {
-      const fieldToUpdate = "fromDate";
-      const newValue = toUpdate.fromDate;
-      project = await Project.update({ projectId, fieldToUpdate, newValue });
-    }
-
-    if (toUpdate.toDate) {
-        const fieldToUpdate = "toDate";
-        const newValue = toUpdate.toDate;
-        project = await Project.update({ projectId, fieldToUpdate, newValue });
-      }
-
-    return project;
+    const updatedProject = await Project.update({ projectId, toUpdate });
+    return updatedProject;
   }
 
-  static async deleteProject({ projectId }) {
+  static deleteProject = async ({ projectId }) => {
+    // project db에 존재 여부 확인 & db에서 찾지 못한 경우, 에러 메시지 반환
     const isDataDeleted = await Project.deleteById({ projectId });
-
-    // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!isDataDeleted) {
       const errorMessage =
         "해당 id를 가진 프로젝트 데이터는 없습니다. 다시 한 번 확인해 주세요.";

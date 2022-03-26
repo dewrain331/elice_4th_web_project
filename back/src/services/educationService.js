@@ -15,7 +15,7 @@ class educationService {
   }
 
   static getEducation = async ({ educationId }) => {
-    // education db에 존재 여부 확인
+    // education db에 존재 여부 확인 & db에서 찾지 못한 경우, 에러 메시지 반환
     const education = await Education.findById({ educationId });
     if (!education) {
       const errorMessage =
@@ -27,45 +27,27 @@ class educationService {
   }
 
   static getEducationList = async({ userId, page, perPage }) => {
-    const { totalPage, "educations": educations } = await Education.findByUserId({ userId, page, perPage });
-    return { totalPage, "educations": educations };
+    // education db에서 해당 유저의 학력 리스트를 가져옴
+    const { totalPage, educations } = await Education.findByUserId({ userId, page, perPage });
+    return { totalPage, educations };
   }
 
   static setEducation = async ({ educationId, toUpdate }) => {
+    // education db에 존재 여부 확인 & db에서 찾지 못한 경우, 에러 메시지 반환
     let education = await Education.findById({ educationId });
-
-    // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!education) {
       const errorMessage =
         "해당 id를 가진 학력 데이터는 없습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
 
-    if (toUpdate.school) {
-      const fieldToUpdate = "school";
-      const newValue = toUpdate.school;
-      education = await Education.update({ educationId, fieldToUpdate, newValue });
-    }
-
-    if (toUpdate.major) {
-      const fieldToUpdate = "major";
-      const newValue = toUpdate.major;
-      education = await Education.update({ educationId, fieldToUpdate, newValue });
-    }
-
-    if (toUpdate.position) {
-      const fieldToUpdate = "position";
-      const newValue = toUpdate.position;
-      education = await Education.update({ educationId, fieldToUpdate, newValue });
-    }
-
-    return education;
+    const updatedEducation = await Education.update({ educationId, toUpdate });
+    return updatedEducation;
   }
 
-  static async deleteEducation({ educationId }) {
+  static deleteEducation = async ({ educationId }) => {
+    // education db에 존재 여부 확인 & db에서 찾지 못한 경우, 에러 메시지 반환
     const isDataDeleted = await Education.deleteById({ educationId });
-
-    // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!isDataDeleted) {
       const errorMessage =
         "해당 id를 가진 학력 데이터는 없습니다. 다시 한 번 확인해 주세요.";

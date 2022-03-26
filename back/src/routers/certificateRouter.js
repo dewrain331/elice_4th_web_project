@@ -15,7 +15,7 @@ certificateRouter.post("/certificate/create", login_required, async (req, res, n
         }
 
         const newCertificate = {
-            user_id : req.body.user_id,
+            userId : req.body.userId,
             title : req.body.title,
             description : req.body.description,
             date : req.body.date
@@ -24,7 +24,6 @@ certificateRouter.post("/certificate/create", login_required, async (req, res, n
         const certificate = await certificateService.addCertificate({ newCertificate });
 
         if (certificate.errorMessage) {
-            console.log(certificate.errorMessage);
             throw new Error(certificate.errorMessage);
         }
 
@@ -36,7 +35,7 @@ certificateRouter.post("/certificate/create", login_required, async (req, res, n
     }
 });
 
-certificateRouter.get("/certificatelist/:user_id", login_required, async (req, res, next) => {
+certificateRouter.get("/certificatelist/:userId", login_required, async (req, res, next) => {
     try {
         
         if (is.emptyObject(req.query) || is.emptyObject(req.params)) {
@@ -45,18 +44,17 @@ certificateRouter.get("/certificatelist/:user_id", login_required, async (req, r
             );
         }
 
-        const page = Number(req.query.page || 1);
-        const perPage = Number(req.query.perPage || 3);
+        const page = Number(req.query.page) || 1;
+        const perPage = Number(req.query.perPage) || 3;
 
         const getCertificates = {
-            user_id : req.params.user_id,
+            userId : req.params.userId,
             page : page,
             perPage : perPage,
         }
         const certificate = await certificateService.getCertificates({ getCertificates });
 
         if (certificate.errorMessage) {
-            console.log(certificate.errorMessage);
             throw new Error(certificate.errorMessage);
         }
 
@@ -82,7 +80,6 @@ certificateRouter.get("/certificate/:id", login_required, async (req, res, next)
         const certificate = await certificateService.getCertificate({ getCertificate });
 
         if (certificate.errorMessage) {
-            console.log(certificate.errorMessage);
             throw new Error(certificate.errorMessage);
         }
 
@@ -98,7 +95,7 @@ certificateRouter.post("/certificate/:id", login_required, async (req, res, next
 
         if (is.emptyObject(req.body) || is.emptyObject(req.params)) {
             throw new Error(
-              "자격증 업데이트에 실패했습니다. 데이터를 확인해주세요."
+              "자격증 업데이트에 실패했습니다. certificateID 혹은 Body의 데이터를 확인해주세요."
             );
         }
 
@@ -112,7 +109,6 @@ certificateRouter.post("/certificate/:id", login_required, async (req, res, next
         const certificate = await certificateService.updateCertificate({ updateCertificate });
 
         if (certificate.errorMessage) {
-            console.log(certificate.errorMessage);
             throw new Error(certificate.errorMessage);
         }
 
@@ -134,13 +130,12 @@ certificateRouter.delete("/certificate/:id", login_required, async (req, res, ne
         
         const deleteCertificate = {
             id : req.params.id,
-            user_id : req.currentUserId,
+            userId : req.currentUserId,
         }
         
         const certificate = await certificateService.deleteCertificate({ deleteCertificate });
 
         if (certificate.errorMessage) {
-            console.log(certificate.errorMessage);
             throw new Error(certificate.errorMessage);
         }
 

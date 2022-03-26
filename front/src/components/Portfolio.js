@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Container, Col, Row } from "react-bootstrap";
+import { Container, Col, Row, Tabs, Tab } from "react-bootstrap";
 
 import { UserStateContext } from "../App";
 import * as Api from "../api";
@@ -8,9 +8,14 @@ import User from "./user/User";
 // project import
 import Projects from "./project/Projects";
 // award import
-import Educations from "./education/Educations"
-import Awards from "./award/Awards"
-import Certificates from "./certificate/Certificates"
+import Educations from "./education/Educations";
+import Awards from "./award/Awards";
+import Certificates from "./certificate/Certificates";
+import Comments from "./comment/Comments";
+import Gallerys from "./gallery/Gallerys";
+import { RecoilRoot } from "recoil";
+import { useMediaQuery } from "@material-ui/core";
+import "./Components.css";
 
 function Portfolio() {
   const navigate = useNavigate();
@@ -32,6 +37,27 @@ function Portfolio() {
     // fetchPorfolioOwner 과정이 끝났으므로, isFetchCompleted를 true로 바꿈.
     setIsFetchCompleted(true);
   };
+
+  const matches = useMediaQuery("(min-width: 1400px)");
+  const [checkedTab, setCheckedTab] = useState("portfolio");
+
+  const handleSelect = (key) => {
+    navigate(`${window.location.pathname}?tab=${key}`, { replace: true });
+    setCheckedTab(key);
+  };
+
+  useEffect(() => {
+    if (window.location.search.split("=")[1] === "portfolio") {
+      setCheckedTab("portfolio");
+    }
+    if (window.location.search.split("=")[1] === "comment") {
+      setCheckedTab("comment");
+    }
+    if (window.location.search.split("=")[1] === "gallery") {
+      setCheckedTab("gallery");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [window.location.search]);
 
   useEffect(() => {
     // 전역 상태의 user가 null이라면 로그인이 안 된 상태이므로, 로그인 페이지로 돌림.
@@ -58,47 +84,77 @@ function Portfolio() {
   }
 
   return (
-    <Container fluid>
-      <Row >
-        <Col md="3" lg="3">
-          <User
-            portfolioOwnerId={portfolioOwner.id}
-            isEditable={portfolioOwner.id === userState.user?.id}
-          />
-        </Col>
-        <Col>
-
-          <div style={{ textAlign: "center" }}>
-            학력 목록, 수상이력 목록, 프로젝트 목록, 자격증 목록 만들기
-          </div>
-
-          <div className="mb-3">
-            <Projects
-              portfolioOwnerId={portfolioOwner.id}
-              isEditable={portfolioOwner.id === userState.user?.id}
-            />
-          </div>
-          <Row className="mb-4">
-            <Educations
-              portfolioOwnerId={portfolioOwner.id}
-              isEditable={portfolioOwner.id === userState.user?.id}
-            />
-          </Row>
-          <Row className="mb-4">
-            <Awards
-              portfolioOwnerId={portfolioOwner.id}
-              isEditable={portfolioOwner.id === userState.user?.id}
-            />
-          </Row>
-          <Row className="mb-4">
-            <Certificates
-              portfolioOwnerId={portfolioOwner.id}
-              isEditable={portfolioOwner.id === userState.user?.id}
-            />
-          </Row>
-        </Col>
-      </Row>
-    </Container>
+    <RecoilRoot>
+      <Container fluid>
+        <Row>
+          {matches ? (
+            <Col md="3">
+              <User
+                portfolioOwnerId={portfolioOwner.id}
+                isEditable={portfolioOwner.id === userState.user?.id}
+                authorId={userState.user?.id}
+              />
+            </Col>
+          ) : (
+            <Row className="justify-content-center">
+              <User
+                portfolioOwnerId={portfolioOwner.id}
+                isEditable={portfolioOwner.id === userState.user?.id}
+                authorId={userState.user?.id}
+              />
+            </Row>
+          )}
+          <Col>
+            <Tabs
+              id="tabs"
+              className="mb-3"
+              defaultActiveKey={checkedTab}
+              onSelect={handleSelect}
+            >
+              <Tab
+                eventKey="portfolio"
+                title="Portfolio"
+                tabClassName="coloredTab"
+              >
+                <div className="mb-3">
+                  <Projects
+                    portfolioOwnerId={portfolioOwner.id}
+                    isEditable={portfolioOwner.id === userState.user?.id}
+                  />
+                </div>
+                <div className="mb-4">
+                  <Educations
+                    portfolioOwnerId={portfolioOwner.id}
+                    isEditable={portfolioOwner.id === userState.user?.id}
+                  />
+                </div>
+                <div className="mb-4">
+                  <Awards
+                    portfolioOwnerId={portfolioOwner.id}
+                    isEditable={portfolioOwner.id === userState.user?.id}
+                  />
+                </div>
+                <div className="mb-4">
+                  <Certificates
+                    portfolioOwnerId={portfolioOwner.id}
+                    isEditable={portfolioOwner.id === userState.user?.id}
+                  />
+                </div>
+              </Tab>
+              <Tab eventKey="comment" title="Comment">
+                <Comments userId={portfolioOwner.id} author={userState.user} />
+              </Tab>
+              <Tab eventKey="gallery" title="Gallery">
+                <Gallerys
+                  portfolioOwnerId={portfolioOwner.id}
+                  isEditable={portfolioOwner.id === userState.user?.id}
+                />
+              </Tab>
+            </Tabs>
+          </Col>
+        </Row>
+      </Container>
+    </RecoilRoot>
   );
 }
 

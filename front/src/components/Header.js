@@ -20,15 +20,12 @@ function Header() {
     // dispatch 함수를 이용해 로그아웃함.
     dispatch({ type: "LOGOUT" });
     // 기본 페이지로 돌아감.
-    navigate("/");
+    navigate("/login");
   };
 
   return (
     <Nav activeKey={location.pathname}>
-      <Nav.Item className="me-auto mb-5">
-        <Nav.Link disabled>안녕하세요, 포트폴리오 공유 서비스입니다.</Nav.Link>
-      </Nav.Item>
-      <Nav.Item>
+      <Nav.Item className="ms-auto mb-5">
         <Nav.Link onClick={() => navigate("/")}>나의 페이지</Nav.Link>
       </Nav.Item>
       <Nav.Item>

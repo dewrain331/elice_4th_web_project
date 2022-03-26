@@ -1,83 +1,101 @@
-import { useState } from "react"
-import { Button, Form, Col, Row } from "react-bootstrap"
-import * as Api from "../../api"
+import { useState } from "react";
+import { Button, Form, Col, Row } from "react-bootstrap";
+import * as Api from "../../api";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  isAddingState,
+  pageState,
+  allPageState,
+  awardsState,
+  PER_PAGE,
+} from "./AwardAtom";
+import "../Components.css";
 
-const AwardAddForm = ({ portfolioOwnerId, setAwards, setIsAdding, page, setAllPage, setPage }) => {
-    // useState로 수상내역의 내용을 담을 title 변수 선언.
-    const [award, setAward] = useState("")
-    // useState로 상세내용을 담을 description 변수 선언.
-    const [description, setDescription] = useState("")
+const AwardAddForm = ({ portfolioOwnerId }) => {
+  // RecoilStates
+  const setIsAdding = useSetRecoilState(isAddingState);
+  const [page, setPage] = useRecoilState(pageState);
+  const setAllPage = useSetRecoilState(allPageState);
+  const setAwards = useSetRecoilState(awardsState);
 
-    const handleSubmit = async (evt) => {
-        // Form의 기본기능을 막기 위한 코드 선언.
-        evt.preventDefault()
-        evt.stopPropagation()
+  // useState로 수상내역의 내용을 담을 title 변수 선언.
+  const [award, setAward] = useState("");
+  // useState로 상세내용을 담을 description 변수 선언.
+  const [description, setDescription] = useState("");
 
-        const user_id = portfolioOwnerId
+  const handleSubmit = async (evt) => {
+    // Form의 기본기능을 막기 위한 코드 선언.
+    evt.preventDefault();
+    evt.stopPropagation();
 
-        // post 요청
-        try { 
-            await Api.post("award/create", {
-            user_id,
-            award,
-            description,
-        })
-        } catch (err) {
-            console.error(err)
-        }
+    const userId = portfolioOwnerId;
 
-        // post 요청값과 함께 각각의 Award들의 모임인 Awards를 다시 렌더링
-        try {
-            const res = await Api.get("awardlist", `${user_id}?page=${page}&perPage=3`)
-            const {total, awards} = res.data
-            setPage(Math.ceil(total / 3))
-            setAllPage(Math.ceil(total / 3))
-            setAwards(awards)
-            // 생성 상태 종료.
-            setIsAdding(false)
-        } catch (err) {
-            console.error(err)
-        }
+    // post 요청
+    try {
+      await Api.post("award/create", {
+        userId,
+        award,
+        description,
+      });
+    } catch (err) {
+      console.error(err);
     }
 
-    return (
-        <>
-            <Form onSubmit={handleSubmit}>
-                <Form.Group controlId="formBasicTitle">
-                    <Form.Control
-                        type="text"
-                        placeholder="수상내역"
-                        value={award}
-                        onChange={evt => setAward(evt.target.value)}
-                    />
-                </Form.Group>
+    // post 요청값과 함께 각각의 Award들의 모임인 Awards를 다시 렌더링
+    try {
+      const res = await Api.get(
+        "awardlist",
+        `${userId}?page=${page}&perPage=${PER_PAGE}`
+      );
+      const { total, awards } = res.data;
+      setPage(Math.ceil(total / PER_PAGE));
+      setAllPage(Math.ceil(total / PER_PAGE));
+      setAwards(awards);
+      // 생성 상태 종료.
+      setIsAdding(false);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-                <Form.Group controlId="formBasicDescription" className="mt-3">
-                    <Form.Control
-                        type="text"
-                        placeholder="상세내역"
-                        value={description}
-                        onChange={evt => setDescription(evt.target.value)}
-                    />
-                </Form.Group>
+  return (
+    <>
+      <Form onSubmit={handleSubmit} className="portfolioBG">
+        <Form.Group controlId="formBasicTitle">
+          <Form.Control
+            type="text"
+            placeholder="수상내역"
+            value={award}
+            onChange={(evt) => setAward(evt.target.value)}
+          />
+        </Form.Group>
 
-                <Form.Group as={Row} className="mt-3 text-center">
-                    <Col sm={{ span: 20 }}>
-                        <Button
-                            variant="primary"
-                            type="submit"
-                            className="me-3"
-                        >확인</Button>
-                        <Button
-                            variant="secondary"
-                            type="button"
-                            onClick={() => setIsAdding(false)}
-                        >취소</Button>
-                    </Col>
-                </Form.Group>
-            </Form>
-        </>
-    )
-}
+        <Form.Group controlId="formBasicDescription" className="mt-3">
+          <Form.Control
+            type="text"
+            placeholder="상세내역"
+            value={description}
+            onChange={(evt) => setDescription(evt.target.value)}
+          />
+        </Form.Group>
 
-export default AwardAddForm
+        <Form.Group as={Row} className="mt-3 text-center">
+          <Col sm={{ span: 20 }} className="portfolioBG">
+            <Button variant="primary" type="submit" className="me-3">
+              확인
+            </Button>
+            <Button
+              variant="secondary"
+              type="button"
+              onClick={() => setIsAdding(false)}
+            >
+              취소
+            </Button>
+          </Col>
+        </Form.Group>
+      </Form>
+    </>
+  );
+};
+
+export default AwardAddForm;

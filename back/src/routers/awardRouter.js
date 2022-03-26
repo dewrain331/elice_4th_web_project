@@ -5,7 +5,7 @@ import { awardService } from '../services/awardService';
 
 const awardRouter = Router();
 
-awardRouter.get("/awardlist/:user_id", login_required, async (req, res, next) => {
+awardRouter.get("/awardlist/:userId", login_required, async (req, res, next) => {
     try {
 
         if (is.emptyObject(req.query)) {
@@ -14,11 +14,11 @@ awardRouter.get("/awardlist/:user_id", login_required, async (req, res, next) =>
             );
         }
 
-        const page = Number(req.query.page || 1);
-        const perPage = Number(req.query.perPage || 3);
+        const page = Number(req.query.page) || 1;
+        const perPage = Number(req.query.perPage) || 3;
 
         const getAwards = {
-            user_id : req.params.user_id,
+            userId : req.params.userId,
             page : page,
             perPage : perPage,
         }
@@ -27,7 +27,6 @@ awardRouter.get("/awardlist/:user_id", login_required, async (req, res, next) =>
         const award = await awardService.getAwards({ getAwards });
 
         if (award.errorMessage) {
-            console.log(award.errorMessage);
             throw new Error(award.errorMessage);
         }
 
@@ -53,7 +52,6 @@ awardRouter.get("/awards/:id", login_required, async (req, res, next) => {
         const award = await awardService.getAward({ getAward });
 
         if (award.errorMessage) {
-            console.log(award.errorMessage);
             throw new Error(award.errorMessage);
         }
 
@@ -66,14 +64,14 @@ awardRouter.get("/awards/:id", login_required, async (req, res, next) => {
 awardRouter.post("/award/create", login_required, async (req, res, next) => {
     try {
 
-        if (is.emptyObject(req.body)) {
+        if (is.emptyObject(req.body) || !req.body.userId || !req.body.award || !req.body.description) {
             throw new Error(
-                "데이터를 다시 확인해주세요."
+                "데이터 생성에 필요한 정보가 없습니다. Body안의 데이터를 확인해주세요."
             );
         }
 
         const newAward = {
-            user_id : req.body.user_id,
+            userId : req.body.userId,
             award : req.body.award,
             description : req.body.description,
         }
@@ -81,7 +79,6 @@ awardRouter.post("/award/create", login_required, async (req, res, next) => {
         const award = await awardService.addAward({ newAward });
 
         if (award.errorMessage) {
-            console.log(award.errorMessage);
             throw new Error(award.errorMessage);
         }
 
@@ -101,16 +98,15 @@ awardRouter.delete("/awards/:id", login_required, async (req, res, next) => {
             );
         }
 
-        const user_id = req.currentUserId;
+        const userId = req.currentUserId;
         const deleteAward = {
-            user_id : user_id,
+            userId : userId,
             id : req.params.id,
         }
 
         const award = await awardService.deleteAward({ deleteAward });
 
         if (award.errorMessage) {
-            console.log(award.errorMessage);
             throw new Error(award.errorMessage);
         }
 
@@ -125,7 +121,7 @@ awardRouter.post("/award/:id", login_required, async (req, res, next) => {
     try {
         if (is.emptyObject(req.params) || is.emptyObject(req.body)) {
             throw new Error(
-                "award 수정에 실패했습니다. 다시 확인해주세요."
+                "awardID 혹은 Body안의 정보가 없습니다. 다시 확인해주세요."
             );
         }
 
@@ -138,7 +134,6 @@ awardRouter.post("/award/:id", login_required, async (req, res, next) => {
         const award = await awardService.updateAward({ updateAward });
 
         if (award.errorMessage) {
-            console.log(award.errorMessage);
             throw new Error(award.errorMessage);
         }
 

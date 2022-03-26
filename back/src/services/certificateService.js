@@ -1,21 +1,19 @@
 import { Certificate } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import { v4 as uuidv4 } from "uuid";
 
-const certificateService = {
-    addCertificate : async ({ newCertificate }) => {
+class certificateService {
+    static addCertificate = async ({ newCertificate }) => {
         const id = uuidv4();
         newCertificate.id = id;
 
         const createNewCertificateResult = await Certificate.create({ newCertificate });
-        
-        if (!createNewCertificateResult) {
-            const errorMessage = "자격증 추가에 실패했습니다.";
-            return { errorMessage };
-        }
+    
+        createNewCertificateResult.errorMessage = null
 
         return createNewCertificateResult;
-    },
-    getCertificates : async ({ getCertificates }) => {
+    }
+
+    static getCertificates = async ({ getCertificates }) => {
         
         const getCertificatesResult = await Certificate.findAllToUser({ getCertificates });
 
@@ -25,8 +23,9 @@ const certificateService = {
         }
 
         return getCertificatesResult;
-    },
-    getCertificate : async ({ getCertificate }) => {
+    }
+
+    static getCertificate = async ({ getCertificate }) => {
         
         const getCertificateResult = await Certificate.findOne({ getCertificate });
 
@@ -36,8 +35,9 @@ const certificateService = {
         }
 
         return getCertificateResult;
-    },
-    deleteCertificate : async({ deleteCertificate }) => {
+    }
+
+    static deleteCertificate = async({ deleteCertificate }) => {
 
         const deleteCertificateResult = await Certificate.delete({ deleteCertificate });
 
@@ -47,8 +47,9 @@ const certificateService = {
         }
 
         return deleteCertificateResult;
-    },
-    updateCertificate : async({ updateCertificate }) => {
+    }
+    
+    static updateCertificate = async({ updateCertificate }) => {
 
         const updateCertificateResult = await Certificate.update({ updateCertificate });
 

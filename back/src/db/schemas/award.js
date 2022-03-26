@@ -6,7 +6,7 @@ const AwardSchema = new Schema(
             type: String,
             required: true,
         },
-        user_id: {
+        userId: {
             type: String,
             required: true,
         },
@@ -19,6 +19,20 @@ const AwardSchema = new Schema(
             required: true,
             default: "",
         },
+        active : {
+            type: Boolean,
+            required : true,
+            default : true
+          },
+        createdAt : {
+            type : Date,
+            required : true,
+            default : Date.now
+        },
+        expiredAt : {
+            type : Date,
+            expires:0
+        }
     },
     {
         timestamps: true,

@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
+import { User } from "../db/models/User";
 
-function login_required(req, res, next) {
+const login_required = async (req, res, next) => {
   // request 헤더로부터 authorization bearer 토큰을 받음.
   const userToken = req.headers["authorization"]?.split(" ")[1] ?? "null";
 
@@ -12,17 +13,31 @@ function login_required(req, res, next) {
     return;
   }
 
-  // 해당 token 이 정상적인 token인지 확인 -> 토큰에 담긴 user_id 정보 추출
+  // 해당 token 이 정상적인 token인지 확인 -> 토큰에 담긴 userId 정보 추출
   try {
     const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
     const jwtDecoded = jwt.verify(userToken, secretKey);
-    const user_id = jwtDecoded.user_id;
-    req.currentUserId = user_id;
+    const userId = jwtDecoded.userId;
+    
+    if (! await isUserActive({ userId })) {
+      res.status(400).send("비 활성화된 아이디입니다. 로그인할 수 없습니다.");
+      return;
+    }
+    req.currentUserId = userId;
     next();
+
   } catch (error) {
     res.status(400).send("정상적인 토큰이 아닙니다. 다시 한 번 확인해 주세요.");
     return;
   }
+}
+
+const isUserActive = async ({ userId }) => {
+  const userCheck = await User.findById({ userId, active:true });
+  if (!userCheck) {
+    return false;
+  }
+  return true;
 }
 
 export { login_required };

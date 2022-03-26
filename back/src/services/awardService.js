@@ -1,23 +1,20 @@
 import { Award } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import { v4 as uuidv4 } from "uuid";
 
-const awardService = {
+class awardService {
 
-    addAward : async ({ newAward }) => {
+    static addAward = async ({ newAward }) => {
         const id = uuidv4();
         newAward.id = id;
 
         const createNewAwardResult = await Award.create({ newAward });
         
-        if (!createNewAwardResult) {
-            const errorMessage = "수상 이력 추가에 실패했습니다.";
-            return { errorMessage };
-        }
+        createNewAwardResult.errorMessage = null
 
         return createNewAwardResult;
-    },
+    }
 
-    getAwards : async ({ getAwards }) => {
+    static getAwards = async ({ getAwards }) => {
 
         const getAwardsResult = await Award.findAllToUser({ getAwards });
 
@@ -27,8 +24,9 @@ const awardService = {
         }
 
         return getAwardsResult;
-    },
-    getAward : async ({ getAward }) => {
+    }
+
+    static getAward = async ({ getAward }) => {
 
         const getAwardResult = await Award.findOne({ getAward });
 
@@ -38,8 +36,9 @@ const awardService = {
         }
 
         return getAwardResult;
-    },
-    deleteAward : async({ deleteAward }) => {
+    }
+
+    static deleteAward = async ({ deleteAward }) => {
 
         const deleteAwardResult = await Award.delete({ deleteAward });
 
@@ -49,8 +48,9 @@ const awardService = {
         }
 
         return deleteAwardResult;
-    },
-    updateAward : async({ updateAward }) => {
+    }
+
+    static updateAward = async ({ updateAward }) => {
 
         const updateAwardResult = await Award.update({ updateAward });
 

@@ -2,9 +2,10 @@ import { AwardModel } from "../schemas/award";
 
 class Award {
 
-    static async create({ newAward }) {
+    static create = async ({ newAward }) => {
         const checkAlreadyExist = await AwardModel.findOne({
-            award : newAward.award
+            award : newAward.award,
+            active : true,
         });
         if (checkAlreadyExist) {
             return checkAlreadyExist;
@@ -13,27 +14,29 @@ class Award {
         return createdNewAward;
     }
 
-    static async delete({ deleteAward }) {
+    static delete = async ({ deleteAward }) => {
 
         const deleteAwardResult = await AwardModel.deleteOne({ 
             id : deleteAward.id,
-            user_id : deleteAward.user_id 
+            userId : deleteAward.userId,
+            active : true,
         });
 
         return deleteAwardResult;
     }
 
-    static async findAllToUser({ getAwards }) {
+    static findAllToUser = async ({ getAwards }) => {
 
         const total = await AwardModel.countDocuments({ 
-            user_id : getAwards.user_id,
+            userId : getAwards.userId,
         });
 
         const limit = getAwards.perPage;
         const offset = (getAwards.page - 1) * limit;
 
         const awards = await AwardModel.find({ 
-            user_id : getAwards.user_id,
+            userId : getAwards.userId,
+            active : true,
         }).limit(limit).skip(offset);
 
         const newAwards = { 
@@ -44,21 +47,24 @@ class Award {
         return newAwards;
     }
 
-    static async findOne({ getAward }) {
+    static findOne = async ({ getAward }) => {
         const award = await AwardModel.findOne({
             id : getAward.id,
+            active : true,
         })
         return award;
     }
 
-    static async update({ updateAward }) {
+    static update = async ({ updateAward }) => {
 
         const filter = { 
             id : updateAward.id ,
+            active : true,
         };
         const update = {
             award : updateAward.changeAward,
-            description : updateAward.changeDescription
+            description : updateAward.changeDescription,
+            active : true,
         };
         const option = { returnOriginal: false };
 
@@ -69,6 +75,32 @@ class Award {
         );
 
         return updatedAward;
+    }
+
+    static withdrawByUserId = async ({ userId, delayTime }) => {
+        try {
+            const withdrawResult = await AwardModel.updateMany(
+                { userId : userId, active : true, },
+                { $set : { expiredAt : delayTime, active : false } },
+                { returnOriginal : false },
+            )
+            return withdrawResult;
+        } catch (err) {
+            return { error : err.message };
+        }
+    }
+
+    static recoveryByUserId = async ({ userId }) => {
+        try {
+            const recoveryResult = await AwardModel.updateMany(
+                { userId : userId, active : false, },
+                { $set : { active : true }, $unset : { expiredAt : true } },
+                { returnOriginal : false },
+            )
+            return recoveryResult;
+        } catch (err) {
+            return { error : err.message };
+        }
     }
 }
 

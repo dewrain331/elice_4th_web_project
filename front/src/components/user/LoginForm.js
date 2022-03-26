@@ -1,9 +1,23 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Col, Row, Form, Button } from "react-bootstrap";
+import {
+  Col,
+  Row,
+  Form,
+  Button,
+  Modal,
+  InputGroup,
+  FormControl,
+  Card,
+} from "react-bootstrap";
+
+import ModalPortal from "../ModalPortal";
+import ModalComp from "../ModalComp";
 
 import * as Api from "../../api";
 import { DispatchContext } from "../../App";
+
+import "./User.css";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -27,9 +41,58 @@ function LoginForm() {
   const isEmailValid = validateEmail(email);
   // 비밀번호가 4글자 이상인지 여부를 확인함.
   const isPasswordValid = password.length >= 4;
-  //
   // 이메일과 비밀번호 조건이 동시에 만족되는지 확인함.
   const isFormValid = isEmailValid && isPasswordValid;
+  const [isFindingPw, setIsFindingPw] = useState(false);
+  const [emailForFindPw, setEmailForFindPw] = useState("");
+  const [authForFindPw, setAuthForFindPw] = useState("");
+
+  const [show, setShow] = useState(false);
+  const handleShow = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShow(true);
+  };
+  const handleClose = () => setShow(false);
+
+  const [loginFailureShow, setLoginFailureShow] = useState(false);
+
+  const handleFindPwStepOne = async () => {
+    try {
+      await Api.post("user/auth", {
+        email: emailForFindPw,
+      });
+      setIsFindingPw(true);
+      alert("이메일을 확인하고, 인증코드를 입력해주세요.");
+    } catch (err) {
+      console.error(err);
+      alert(
+        "등록된 이메일이 아니거나, 이메일을 잘못 입력했습니다. 다시 시도해주세요."
+      );
+    }
+  };
+
+  const handleFindPwStepTwo = async () => {
+    try {
+      const res = await Api.post("user/auth/code", {
+        email: emailForFindPw,
+        code: authForFindPw,
+      });
+      const user = res.data;
+      const jwtToken = user.token;
+      sessionStorage.setItem("userToken", jwtToken);
+      setIsFindingPw(false);
+      dispatch({
+        type: "LOGIN_SUCCESS",
+        payload: user,
+      });
+      alert("로그인되었습니다. 편집 버튼을 눌러 비밀번호를 변경해주세요.");
+      navigate("/", { replace: true });
+    } catch (err) {
+      console.error(err);
+      alert("잘못된 인증번호입니다. 다시 시도해주세요.");
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,63 +119,156 @@ function LoginForm() {
       navigate("/", { replace: true });
     } catch (err) {
       console.log("로그인에 실패하였습니다.\n", err);
+      setLoginFailureShow(true);
+      setEmail("");
+      setPassword("");
     }
   };
 
   return (
-    <Container>
-      <Row className="justify-content-md-center mt-5">
-        <Col lg={8}>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="loginEmail">
-              <Form.Label>이메일 주소</Form.Label>
-              <Form.Control
+    <div>
+      <div className="wrap">
+        <Card.Body className="form-wrap mt-10" style={{display: "flex", flexDirection: "column", alignItems: "center", height: "580px"}}>
+        <img src="/images/Twogether.png" alt="ourLogo" style={{width: "12rem", height:"12rem", position: "relative", backgroundColor: "white"}} />
+          <Form onSubmit={handleSubmit} className="back-white">
+            <Form.Group controlId="loginEmail" className="back-white">
+              <input
                 type="email"
                 autoComplete="on"
                 value={email}
+                className="input-field"
+                placeholder="이메일"
                 onChange={(e) => setEmail(e.target.value)}
               />
               {!isEmailValid && (
-                <Form.Text className="text-success">
+                <Form.Text className="text-success back-white">
                   이메일 형식이 올바르지 않습니다.
                 </Form.Text>
               )}
             </Form.Group>
 
-            <Form.Group controlId="loginPassword" className="mt-3">
-              <Form.Label>비밀번호</Form.Label>
-              <Form.Control
+            <Form.Group controlId="loginPassword" className="mt-3 back-white">
+              <input
                 type="password"
-                autoComplete="on"
+                autoComplete="off"
                 value={password}
+                className="input-field"
+                placeholder="비밀번호"
                 onChange={(e) => setPassword(e.target.value)}
               />
               {!isPasswordValid && (
-                <Form.Text className="text-success">
-                  비밀번호는 4글자 이상입니다.
+                <Form.Text className="text-success back-white">
+                  비밀번호는 4글자 이상으로 설정해 주세요.
                 </Form.Text>
               )}
             </Form.Group>
-
-            <Form.Group as={Row} className="mt-3 text-center">
-              <Col sm={{ span: 20 }}>
-                <Button variant="primary" type="submit" disabled={!isFormValid}>
+            <Form.Group as={Row} className="mt-3 text-center back-white">
+              <Col sm={{ span: 20 }} className="back-white">
+                <button
+                  className="submit-button"
+                  type="submit"
+                  disabled={!isFormValid}
+                >
                   로그인
-                </Button>
+                </button>
               </Col>
             </Form.Group>
-
+            <Form.Group
+              className="mt-3 text-center"
+              style={{ backgroundColor: "white" }}
+            >
+              <div className="back-white">
+                <button
+                  className="sub-button-left"
+                  onClick={() => navigate("/register")}
+                >
+                  회원 가입
+                </button>
+                <button className="sub-button-right" onClick={handleShow}>
+                  비밀번호 찾기
+                </button>
+              </div>
+            </Form.Group>
             <Form.Group as={Row} className="mt-3 text-center">
-              <Col sm={{ span: 20 }}>
-                <Button variant="light" onClick={() => navigate("/register")}>
-                  회원가입하기
-                </Button>
+              <Col sm={{ span: 20 }} className="back-white">
+                <button
+                  className="sub-button"
+                  onClick={() => navigate("/recovery")}
+                >
+                  회원 복구
+                </button>
               </Col>
             </Form.Group>
           </Form>
-        </Col>
-      </Row>
-    </Container>
+        </Card.Body>
+      </div>
+
+      <ModalPortal>
+        {loginFailureShow && (
+          <ModalComp
+            setShow={setLoginFailureShow}
+            show={loginFailureShow}
+            title="로그인 실패"
+            message="로그인에 실패했습니다. 이메일과 비밀번호를 확인하세요."
+          >
+            <Button
+              variant="secondary"
+              onClick={() => setLoginFailureShow(false)}
+            >
+              확인
+            </Button>
+          </ModalComp>
+        )}
+      </ModalPortal>
+
+      <Modal
+        show={show}
+        onHide={handleClose}
+        style={{ background: "transparent" }}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>비밀번호</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          이메일 인증이 필요합니다.
+          <InputGroup className="mb-3 mt-3">
+            <FormControl
+              type="email"
+              placeholder="이메일을 입력해주세요."
+              id="findPwEmailInput"
+              value={emailForFindPw}
+              onChange={(e) => setEmailForFindPw(e.target.value)}
+            />
+            <Button variant="outline-primary" onClick={handleFindPwStepOne}>
+              인증번호 발송
+            </Button>
+          </InputGroup>
+          <FormControl
+            type="text"
+            placeholder="인증번호를 입력해주세요."
+            id="findPwAuthInput"
+            disabled={!isFindingPw}
+            value={authForFindPw}
+            onChange={(e) => setAuthForFindPw(e.target.value)}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            취소
+          </Button>
+          <Button
+            variant="primary"
+            disabled={!isFindingPw}
+            onClick={() => {
+              handleClose();
+              handleFindPwStepTwo();
+            }}
+          >
+            찾기
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
   );
 }
 
