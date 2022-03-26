@@ -34,7 +34,7 @@ function GalleryCard({ gallery, isEditable, setIsEditing }) {
     <>
       <Card.Body style={{ maxWidth: "330px", backgroundColor: "white" }}>
         {/* gallery의 제목, 상세내용, 기간 */}
-        <div className="img-wrapper">
+        <div className="img-wrapper" style={{backgroundColor: "white"}}>
           <img
             className="mb-3"
             src={gallery?.saveFilePath}
