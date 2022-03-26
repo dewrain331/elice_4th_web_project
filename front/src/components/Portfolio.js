@@ -5,6 +5,12 @@ import { Container, Col, Row } from "react-bootstrap";
 import { UserStateContext } from "../App";
 import * as Api from "../api";
 import User from "./user/User";
+// project import
+import Projects from "./project/Projects";
+// award import
+import Educations from "./education/Educations"
+import Awards from "./award/Awards"
+import Certificates from "./certificate/Certificates"
 
 function Portfolio() {
   const navigate = useNavigate();
@@ -53,7 +59,7 @@ function Portfolio() {
 
   return (
     <Container fluid>
-      <Row>
+      <Row >
         <Col md="3" lg="3">
           <User
             portfolioOwnerId={portfolioOwner.id}
@@ -66,6 +72,30 @@ function Portfolio() {
             학력 목록, 수상이력 목록, 프로젝트 목록, 자격증 목록 만들기
           </div>
 
+          <div className="mb-3">
+            <Projects
+              portfolioOwnerId={portfolioOwner.id}
+              isEditable={portfolioOwner.id === userState.user?.id}
+            />
+          </div>
+          <Row className="mb-4">
+            <Educations
+              portfolioOwnerId={portfolioOwner.id}
+              isEditable={portfolioOwner.id === userState.user?.id}
+            />
+          </Row>
+          <Row className="mb-4">
+            <Awards
+              portfolioOwnerId={portfolioOwner.id}
+              isEditable={portfolioOwner.id === userState.user?.id}
+            />
+          </Row>
+          <Row className="mb-4">
+            <Certificates
+              portfolioOwnerId={portfolioOwner.id}
+              isEditable={portfolioOwner.id === userState.user?.id}
+            />
+          </Row>
         </Col>
       </Row>
     </Container>
