@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useReducer, createContext } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useMediaQuery } from '@material-ui/core'
+import { useMediaQuery } from "@material-ui/core";
 
 import * as Api from "./api";
 import { loginReducer } from "./reducer";
@@ -10,8 +10,10 @@ import HamburgerBar from "./components/HamburgerBar";
 import LoginForm from "./components/user/LoginForm";
 import Network from "./components/user/Network";
 import RegisterForm from "./components/user/RegisterForm";
-import Recovery from "./components/user/Recovery"
+import Recovery from "./components/user/Recovery";
 import Portfolio from "./components/Portfolio";
+
+import "./App.css";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -25,7 +27,7 @@ function App() {
   // 아래의 fetchCurrentUser 함수가 실행된 다음에 컴포넌트가 구현되도록 함.
   // 아래 코드를 보면 isFetchCompleted 가 true여야 컴포넌트가 구현됨.
   const [isFetchCompleted, setIsFetchCompleted] = useState(false);
-  const matches = useMediaQuery('(min-width: 660px)')
+  const matches = useMediaQuery("(min-width: 660px)");
 
   const fetchCurrentUser = async () => {
     try {
@@ -60,9 +62,7 @@ function App() {
     <DispatchContext.Provider value={dispatch}>
       <UserStateContext.Provider value={userState}>
         <Router>
-          { matches ?
-            <Header /> : <HamburgerBar />
-          }
+          {matches ? <Header /> : <HamburgerBar />}
           <Routes>
             <Route path="/" exact element={<Portfolio />} />
             <Route path="/login" element={<LoginForm />} />
@@ -75,7 +75,6 @@ function App() {
         </Router>
       </UserStateContext.Provider>
     </DispatchContext.Provider>
-
   );
 }
 
