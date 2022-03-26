@@ -40,7 +40,7 @@ class commentService {
   static async deleteComment({ deleteComment }) {
 
     const deleteReply = {
-      parent_comment_id : deleteComment.id
+      parentCommentId : deleteComment.id
     }
 
     const replyDelete = await Reply.deleteAll({ deleteReply })
@@ -111,8 +111,8 @@ class commentService {
     }
     
     const sendReply = {
-      id : reply._id,
-      parent_comment_id : reply.parent_comment_id
+      id : reply.id,
+      parentCommentId : reply.parentCommentId
     }
 
     const parent = await Comment.disConnectReply({ sendReply });

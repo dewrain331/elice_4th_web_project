@@ -9,7 +9,7 @@ class Comment {
 
     static findToUserID = async ({ newComment }) => {
         const findComment = await CommentModel.find({
-            user_id : newComment.user_id,
+            userId : newComment.userId,
             depth : newComment.depth
         })
 
@@ -19,7 +19,7 @@ class Comment {
     static pushReply = async ({ reply }) => {
 
         const findComment = await CommentModel.findOneAndUpdate({
-            id : reply.parent_comment_id
+            id : reply.parentCommentId
         }, {
             $push : {replys : reply}
         }, {
@@ -40,7 +40,7 @@ class Comment {
 
     static getCommentToUser = async ({ getComment }) => {
         const comment = await CommentModel.find({
-            user_id : getComment.user_id
+            userId : getComment.userId
         }).populate('replys');
 
         return comment;
@@ -75,7 +75,8 @@ class Comment {
     static disConnectReply = async ({ sendReply }) => {
 
         const reply = await CommentModel.findOneAndUpdate({
-            parent_comment_id : sendReply.parent_comment_id
+            parentCommentId : sendReply.parentCommentId,
+
         }, {
             $pull : {replys : sendReply.id}
         }, {returnOriginal: false});

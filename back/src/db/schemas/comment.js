@@ -6,15 +6,15 @@ const CommentSchema = new Schema(
       type : String,
       required : true,
     },
-    user_id : {
+    userId : {
       type : String,
       required : true,
     },
-    author_id: {
+    authorId: {
       type: String,
       required: true,
     },
-    author_name : {
+    authorName : {
       type: String,
       required: true,
     },

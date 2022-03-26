@@ -14,9 +14,9 @@ commentRouter.post("/comment", login_required, async (req, res, next) => {
         }
 
         const newComment = {
-            user_id : req.body.user_id,
-            author_id : req.body.author_id,
-            author_name : req.body.author_name,
+            userId : req.body.userId,
+            authorId : req.body.authorId,
+            authorName : req.body.authorName,
             text : req.body.text,
         }
         
@@ -56,16 +56,16 @@ commentRouter.get("/comment/:id", login_required, async (req, res, next) => {
     }
 })
 
-commentRouter.get("/user/comment/:user_id", login_required, async (req, res, next) => {
+commentRouter.get("/user/comment/:userId", login_required, async (req, res, next) => {
     try {
-        if (is.emptyObject(req.params) || !req.params.user_id) {
+        if (is.emptyObject(req.params) || !req.params.userId) {
             throw new Error(
                 "param에 받고싶은 댓글 ID를 입력하세요."
             );
         }
 
         const getComment = {
-            user_id : req.params.user_id
+            userId : req.params.userId
         }
         
         const reply = await commentService.getCommentToUser({ getComment });
@@ -140,9 +140,9 @@ commentRouter.post("/reply", login_required, async (req, res, next) => {
         }
 
         const newReply = {
-            parent_comment_id : req.body.parent_comment_id,
-            author_id : req.body.author_id,
-            author_name : req.body.author_name,
+            parentCommentId : req.body.parent_commentId,
+            authorId : req.body.authorId,
+            authorName : req.body.authorName,
             text : req.body.text,
         }
         
@@ -158,9 +158,9 @@ commentRouter.post("/reply", login_required, async (req, res, next) => {
     }
 })
 
-commentRouter.delete("/comment/reply/:parent_comment_id/:id", login_required, async (req, res, next) => {
+commentRouter.delete("/comment/reply/:parentCommentId/:id", login_required, async (req, res, next) => {
     try {
-        if (is.emptyObject(req.params) || !req.params.parent_comment_id || !req.params.id) {
+        if (is.emptyObject(req.params) || !req.params.parentCommentId || !req.params.id) {
             throw new Error(
                 "댓글 혹은 대댓글의 ID를 입력해주세요."
             );
@@ -168,7 +168,7 @@ commentRouter.delete("/comment/reply/:parent_comment_id/:id", login_required, as
 
         const deleteReply = {
             id : req.params.id,
-            parent_comment_id : req.params.parent_comment_id
+            parentCommentId : req.params.parentCommentId
         }
         
         const reply = await commentService.deleteReply({ deleteReply });

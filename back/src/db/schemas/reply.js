@@ -6,11 +6,11 @@ const ReplySchema = new Schema(
       type : String,
       required : true,
     },
-    author_id: {
+    authorId: {
       type: String,
       required: true,
     },
-    author_name : {
+    authorName : {
       type: String,
       required: true,
     },
@@ -18,7 +18,7 @@ const ReplySchema = new Schema(
       type: String,
       required: true,
     },
-    parent_comment_id : {
+    parentCommentId : {
       type : String,
       required : true,
     },

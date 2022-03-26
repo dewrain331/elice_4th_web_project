@@ -18,7 +18,7 @@ class Reply {
     static deleteAll = async ({ deleteReply }) => {
 
         const reply = await ReplyModel.deleteMany({
-            parent_comment_id: deleteReply.parent_comment_id,
+            parentCommentId: deleteReply.parentCommentId,
         })
         
         return reply;
@@ -27,7 +27,7 @@ class Reply {
     static delete = async ({ deleteReply }) => {
 
         const reply = await ReplyModel.deleteOne({
-            parent_comment_id : deleteReply.parent_comment_id,
+            parentCommentId : deleteReply.parentCommentId,
             id : deleteReply.id
         })
 
