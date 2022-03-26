@@ -41,7 +41,7 @@ function Portfolio() {
   const [checkedTab, setCheckedTab] = useState("portfolio");
 
   const handleSelect = (key) => {
-    navigate(`/portfolio?tab=${key}`, { replace: true });
+    navigate(`${window.location.pathname}?tab=${key}`, { replace: true });
     setCheckedTab(key);
   };
 
