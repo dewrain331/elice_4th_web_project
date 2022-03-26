@@ -54,9 +54,9 @@ function ProjectCard({ project, isEditable, setIsEditing }) {
         <Row className="align-items-center portfolioBG">
           {/* project의 기간을 object로 받고 출력형식에 맞게 변경 */}
           <Col xs={3} className="portfolioBG">
-            <h5 className="portfolioBG" style={{ color: "#03045E" }}>
+            <h6 className="portfolioBG" style={{ color: "#03045E" }}>
               {slicingDate(project.fromDate)} ~ {slicingDate(project.toDate)}
-            </h5>
+            </h6>
           </Col>
           <Col xs={6} className="portfolioBG">
             <span className="portfolioBG">{project.title}</span>

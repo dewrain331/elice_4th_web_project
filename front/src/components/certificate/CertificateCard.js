@@ -46,9 +46,9 @@ const CertificateCard = ({ certificate, isEditable, setIsEditing }) => {
         {/* certificate의 자격증 이름과 상세내용, 취득일자를 출력 */}
         <Row className="align-items-center portfolioBG">
           <Col xs={3} className="portfolioBG">
-            <h5 className="portfolioBG" style={{ color: "#03045E" }}>
+            <h6 className="portfolioBG" style={{ color: "#03045E" }}>
               {slicingDate(certificate.date)}
-            </h5>
+            </h6>
           </Col>
           <Col xs={6} className="portfolioBG">
             <span className="portfolioBG">{certificate.title}</span>
