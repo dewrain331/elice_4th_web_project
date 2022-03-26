@@ -34,20 +34,29 @@ function GalleryCard({ gallery, isEditable, setIsEditing }) {
     <>
       <Card.Body style={{ maxWidth: "330px", backgroundColor: "white" }}>
         {/* gallery의 제목, 상세내용, 기간 */}
-        <div className="img-wrapper" style={{backgroundColor: "white"}}>
+        <div className="img-wrapper" style={{ backgroundColor: "white" }}>
           <img
             className="mb-3"
-            src={gallery?.saveFilePath}
+            src={process.env.PUBLIC_URL + gallery?.saveFilePath}
             alt="갤러리 이미지"
           />
         </div>
         <br />
-        <div className="text-muted" style={{ width: "260px", backgroundColor: "white" }}>
+        <div
+          className="text-muted"
+          style={{ width: "260px", backgroundColor: "white" }}
+        >
           {gallery.description}
         </div>
         <br />
         {/* gallery 편집 버튼 */}
-        <div style={{display: "flex", paddingLeft: "85px", backgroundColor: "white"}}>
+        <div
+          style={{
+            display: "flex",
+            paddingLeft: "85px",
+            backgroundColor: "white",
+          }}
+        >
           {isEditable && (
             <Button
               variant="outline-info"
@@ -72,12 +81,20 @@ function GalleryCard({ gallery, isEditable, setIsEditing }) {
         </div>
       </Card.Body>
 
-      <Modal show={show} onHide={handleAlertCancel} style={{background: "transparent"}}>
-        <Modal.Header closeButton style={{backgroundColor: "white"}}>
-          <Modal.Title style={{backgroundColor: "white"}}>삭제 확인</Modal.Title>
+      <Modal
+        show={show}
+        onHide={handleAlertCancel}
+        style={{ background: "transparent" }}
+      >
+        <Modal.Header closeButton style={{ backgroundColor: "white" }}>
+          <Modal.Title style={{ backgroundColor: "white" }}>
+            삭제 확인
+          </Modal.Title>
         </Modal.Header>
-        <Modal.Body style={{backgroundColor: "white"}}>정말로 삭제하시겠습니까?</Modal.Body>
-        <Modal.Footer style={{backgroundColor: "white"}}>
+        <Modal.Body style={{ backgroundColor: "white" }}>
+          정말로 삭제하시겠습니까?
+        </Modal.Body>
+        <Modal.Footer style={{ backgroundColor: "white" }}>
           <Button variant="secondary" onClick={handleAlertCancel}>
             취소
           </Button>
