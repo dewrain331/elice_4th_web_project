@@ -9,7 +9,7 @@ class Gallery {
 
   static deleteById = async ({ imageId }) => {
     const imageDoc = await galleryModel.findOne({ id: imageId });
-    const filePath = "../front/public/images/" + imageDoc.saveFileName
+    const filePath = "../front/build/images/" + imageDoc.saveFileName
     // const dir = fs.existsSync(filePath) // filePath에 파일이 있는지 체크하는 메서드
     fs.unlink(filePath, (err) => {
       if(err) throw err;
