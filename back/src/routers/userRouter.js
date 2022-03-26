@@ -340,7 +340,7 @@ userAuthRouter.post("/user/auth/code", async function (req, res, next) {
 // profile image 변경 라우터
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../front/public/images/')
+    cb(null, '/home/front/elice/portfoliomvp_2/images/')
   },
   filename: function (req, file, cb) {
     cb(null, `${file.fieldname}_`+ Date.now() + `_${file.originalname}`)
