@@ -150,8 +150,8 @@ function LoginForm() {
                 </Form.Text>
               )}
             </Form.Group>
-            <br />
-            <Form.Group controlId="loginPassword" className="back-white">
+
+            <Form.Group controlId="loginPassword" className="mt-3 back-white">
               <input
                 type="password"
                 autoComplete="off"
