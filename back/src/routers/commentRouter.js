@@ -170,7 +170,7 @@ commentRouter.delete("/comment/reply/:parentCommentId/:id", login_required, asyn
             id : req.params.id,
             parentCommentId : req.params.parentCommentId
         }
-        
+
         const reply = await commentService.deleteReply({ deleteReply });
     
         if (reply.errorMessage) {

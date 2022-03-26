@@ -111,10 +111,10 @@ class commentService {
     }
     
     const sendReply = {
-      id : reply.id,
+      id : reply._id,
       parentCommentId : reply.parentCommentId
     }
-
+    
     const parent = await Comment.disConnectReply({ sendReply });
 
     if (!parent) {

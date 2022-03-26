@@ -27,7 +27,6 @@ class Reply {
     static delete = async ({ deleteReply }) => {
 
         const reply = await ReplyModel.deleteOne({
-            parentCommentId : deleteReply.parentCommentId,
             id : deleteReply.id
         })
 
