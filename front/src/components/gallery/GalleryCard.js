@@ -32,7 +32,7 @@ function GalleryCard({ gallery, isEditable, setIsEditing }) {
 
   return (
     <>
-      <Card.Body style={{ maxWidth: "330px" }}>
+      <Card.Body style={{ maxWidth: "330px", backgroundColor: "white" }}>
         {/* gallery의 제목, 상세내용, 기간 */}
         <div className="img-wrapper">
           <img
@@ -42,7 +42,7 @@ function GalleryCard({ gallery, isEditable, setIsEditing }) {
           />
         </div>
         <br />
-        <div className="text-muted" style={{ width: "260px" }}>
+        <div className="text-muted" style={{ width: "260px", backgroundColor: "white" }}>
           {gallery.description}
         </div>
         <br />

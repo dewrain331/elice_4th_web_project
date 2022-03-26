@@ -13,19 +13,19 @@ function UserCard({
   const navigate = useNavigate();
 
   return (
-    <Card className="mb-2 ms-3 mr-5" style={{ width: "18rem" }}>
-      <Card.Body>
-        <Row className="justify-content-center">
+    <Card className="mb-2 ms-3 mr-5" style={{ width: "18rem", backgroundColor: "white" }}>
+      <Card.Body style={{backgroundColor: "white"}}>
+        <Row className="justify-content-center" style={{backgroundColor: "white"}}>
           <Card.Img
-            style={{ width: "10rem", height: "8rem" }}
+            style={{ width: "10rem", height: "8rem", backgroundColor: "white" }}
             className="mb-3"
             src={user?.image?.saveFilePath}
             alt="프로필 이미지"
           />
         </Row>
-        <Card.Title>{user?.name}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">{user?.email}</Card.Subtitle>
-        <Card.Text>{user?.description}</Card.Text>
+        <Card.Title style={{backgroundColor: "white"}}>{user?.name}</Card.Title>
+        <Card.Subtitle className="mb-2 text-muted" style={{backgroundColor: "white"}}>{user?.email}</Card.Subtitle>
+        <Card.Text style={{backgroundColor: "white"}}>{user?.description}</Card.Text>
         {user && (
           <Like user={user} authorId={authorId} isDisabled={isDisabled} />
         )}
@@ -33,7 +33,7 @@ function UserCard({
         {isEditable && (
           <Col>
             <Row className="mt-3 text-center text-info">
-              <Col sm={{ span: 20 }}>
+              <Col sm={{ span: 20 }} style={{backgroundColor: "white"}}>
                 <Button
                   variant="outline-info"
                   size="sm"
@@ -47,11 +47,12 @@ function UserCard({
         )}
 
         {isNetwork && (
-          <Row>
+          <Row style={{backgroundColor: "white"}}>
             <Card.Link
               className="mt-3"
               href="#"
               onClick={() => navigate(`/users/${user.id}`)}
+              style={{backgroundColor: "white"}}
             >
               포트폴리오
             </Card.Link>
