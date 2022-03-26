@@ -48,7 +48,11 @@ function LoginForm() {
   const [authForFindPw, setAuthForFindPw] = useState("");
 
   const [show, setShow] = useState(false);
-  const handleShow = () => setShow(true);
+  const handleShow = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShow(true);
+  };
   const handleClose = () => setShow(false);
 
   const [loginFailureShow, setLoginFailureShow] = useState(false);
@@ -158,7 +162,7 @@ function LoginForm() {
               />
               {!isPasswordValid && (
                 <Form.Text className="text-success back-white">
-                  비밀번호는 4글자 이상입니다.
+                  비밀번호는 4글자 이상으로 설정해 주세요.
                 </Form.Text>
               )}
             </Form.Group>
@@ -182,20 +186,20 @@ function LoginForm() {
                   className="sub-button-left"
                   onClick={() => navigate("/register")}
                 >
-                  회원가입하기
+                  회원 가입
                 </button>
-                <button
-                  className="sub-button-right"
-                  onClick={() => navigate("/recovery")}
-                >
-                  회원복구하기
+                <button className="sub-button-right" onClick={handleShow}>
+                  비밀번호 찾기
                 </button>
               </div>
             </Form.Group>
             <Form.Group as={Row} className="mt-3 text-center">
               <Col sm={{ span: 20 }} className="back-white">
-                <button className="sub-button-red" onClick={handleShow}>
-                  비밀번호를 잊으셨나요?
+                <button
+                  className="sub-button"
+                  onClick={() => navigate("/recovery")}
+                >
+                  회원 복구
                 </button>
               </Col>
             </Form.Group>
@@ -221,7 +225,11 @@ function LoginForm() {
         )}
       </ModalPortal>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        style={{ background: "transparent" }}
+      >
         <Modal.Header closeButton>
           <Modal.Title>비밀번호</Modal.Title>
         </Modal.Header>
