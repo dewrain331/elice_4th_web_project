@@ -70,7 +70,7 @@ function RegisterForm() {
 
   return (
     <>
-      <div className="wrap">
+      <div className="wrap" style={{position: "fixed"}}>
         <Card.Body className="form-wrap" style={{display: "flex", flexDirection: "column", alignItems: "center", height: "710px"}}>
         <img src="/images/Twogether.png" alt="ourLogo" style={{width: "12rem", height:"12rem", position: "relative", backgroundColor: "white"}} />
           <Form onSubmit={handleSubmit} className="back-white">
