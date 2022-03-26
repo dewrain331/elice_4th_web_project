@@ -40,7 +40,7 @@ class Comment {
 
     static getCommentToUser = async ({ getComment }) => {
         const comment = await CommentModel.find({
-            user_id : getComment.userId
+            userId : getComment.userId
         }).populate('replys');
 
         return comment;
