@@ -73,6 +73,7 @@ class Comment {
     }
 
     static disConnectReply = async ({ sendReply }) => {
+
         const reply = await CommentModel.findOneAndUpdate({
             parentCommentId : sendReply.parentCommentId
         }, {
@@ -88,9 +89,10 @@ class Comment {
     }
 
     static withdrawByUserId = async ({ userId, delayTime }) => {
+        console.log(userId);
         try {
             const withdrawResult = await CommentModel.updateMany(
-                { userId : userId, active : true, },
+                { authorId : userId, active : true, },
                 { $set : { expiredAt : delayTime, active : false } },
                 { returnOriginal : false },
               )
@@ -104,7 +106,7 @@ class Comment {
     static recoveryByUserId = async ({ userId }) => {
         try {
             const recoveryResult = await CommentModel.updateMany(
-                { userId : userId, active : false, },
+                { authorId : userId, active : false, },
                 { $set : { active : true }, $unset : { expiredAt : true } },
                 { returnOriginal : false },
               )

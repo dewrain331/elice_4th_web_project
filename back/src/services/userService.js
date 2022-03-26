@@ -28,7 +28,7 @@ class userAuthService {
         "비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
-
+    console.log(userId);
     const session = await db.startSession();
 
     try {
