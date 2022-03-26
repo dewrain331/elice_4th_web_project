@@ -73,7 +73,7 @@ commentRouter.get("/user/comment/:userId", login_required, async (req, res, next
         if (reply.errorMessage) {
             throw new Error(reply.errorMessage);
         }
-    
+        
         res.status(201).json(reply);
     } catch (error) {
         next(error);
@@ -140,7 +140,7 @@ commentRouter.post("/reply", login_required, async (req, res, next) => {
         }
 
         const newReply = {
-            parentCommentId : req.body.parent_commentId,
+            parentCommentId : req.body.parentCommentId,
             authorId : req.body.authorId,
             authorName : req.body.authorName,
             text : req.body.text,
