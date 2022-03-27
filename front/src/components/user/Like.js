@@ -7,7 +7,6 @@ import * as Api from "../../api";
 
 const Like = ({ user, authorId, isDisabled }) => {
   //포트폴리오 주인의 id, 좋아요 개수, 좋아요 누른 사용자 배열을 가져옴
-  console.log(user);
   const { likeCount, id, likeUsers } = user;
   //likeUsers에 author.id가 없으면 좋아요를 누른 적이 없으므로 false, 아니면 true
   const initialAddLikes =
