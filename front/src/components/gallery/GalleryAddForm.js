@@ -61,7 +61,7 @@ function GalleryAddForm({ portfolioOwnerId }) {
     <Card.Body style={{backgroundColor: "white"}}>
       <Form onSubmit={handleSubmit} style={{backgroundColor: "white"}}>
         {pickedImage.preview && (
-          <div className="img-wrapper" style={{backgroundColor: "white"}}>
+          <div className="img-wrapper mb-3" style={{backgroundColor: "white"}}>
             <img
               className="mb-3"
               src={pickedImage.preview}
