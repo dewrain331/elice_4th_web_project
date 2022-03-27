@@ -8,8 +8,7 @@
 
   - Header.js: width 660px 이상일 때 작동하는 네비게이션 컴포넌트
   - Hamburgerbar.js : width 660px 미만일 때 작동하는 네비게이션 컴포넌트(드롭다운 형태)
-  - Porfolio.js: 메인 화면을 구성하는, 5개 MVP를 모두 포함하는 컴포넌트
-    - **현재는 User MVP만 포함**되어 있습니다.
+  - Porfolio.js: 메인 화면을 구성하는, 7개 MVP를 모두 포함하는 컴포넌트
   - award 폴더: 포트폴리오 중 수상이력 관련 컴포넌트들
   - certificate 폴더: 포트폴리오 중 자격증 관련 컴포넌트들
   - education 폴더: 포트폴리오 중 학력 관련 컴포넌트들
