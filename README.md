@@ -24,7 +24,7 @@ http://elice-kdt-ai-4th-team02.elicecoding.com
 
 ```bash
 cd front
-yarn
+yarn install
 yarn start
 ```
 
