@@ -1,6 +1,6 @@
 # 레이서 포트폴리오 서비스 - 2팀 투게더 코딩
 
-http://elice-kdt-ai-4th-team02.elicecoding.com/login
+http://elice-kdt-ai-4th-team02.elicecoding.com
 
 ## 주요 사용 기술
 
