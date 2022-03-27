@@ -31,5 +31,5 @@
 - Awards는 수상이력 **목록**으로, 여러 개의 Award 컴포넌트+ (추가하기 버튼 클릭 시) AwardAddForm 컴포넌트로 구성됨.
 - 각 Award 컴포넌트는 **isEditing 상태에 따라**, false면 AwardCard, true면 AwardEditForm이 됨.
 - **isEditable**(포트폴리오 소유자와 현재 로그인한 사용자가 일치할 때)이 true인 경우 편집 버튼이 생김.
-- 삭제 기능은 AwardCard에 포함되어 있습니다.
+- 삭제 기능은 AwardCard에 포함되어 있음.
 - Awards는 **isAdding**이 true면 AwardAddForm, false면 그냥 Award들의 모음이 됨.
