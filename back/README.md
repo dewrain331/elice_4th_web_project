@@ -42,7 +42,7 @@ MONGODB_URL="mongodb+srv://<name>:<password>@cluster0.acaph.mongodb.net/myDB?ret
 
 ```bash
 npm install --global yarn
-yarn
+yarn install
 yarn start
 ```
 
@@ -51,20 +51,26 @@ yarn start
 ## 파일 구조 설명
 
 1. src폴더는 크게는 routers, services, db의 3개 폴더로 구분됩니다.
-**현재는 User MVP 코드만 있습니다.**
 
 - routers:
-  - request와 response가 처리됩니다. MVP 별로 1개씩, 총 5개 파일이 있게 됩니다.
-  - 현재는 User MVP 파일만 있습니다.
+  - request와 response가 처리됩니다.
+    - awardRouter, certificateRouter, educationRouter, projectRouter, userRouter는 각각 기본 포토폴리오 MVP에서 발전시켰습니다.
+    - commentRouter: 댓글 및 대댓글 기능
+    - galleryRouter: 갤러리 기능
 - services:
-  - 백엔드 로직 코드가 있습니다. MVP 별로 1개씩, 총 5개 파일이 있게 됩니다.
-  - 현재는 User MVP 파일만 있습니다.
+  - 백엔드 로직 코드가 있습니다.
+    - awardService, certificateService, educationService, projectService, userService는 각각 기본 포토폴리오 MVP에서 발전시켰습니다.
+    - commentService: 댓글 및 대댓글 기능
+    - galleryService: 갤러리 기능
 - db:
   - Mongoose와 mongodb 서버를 연결하는 코드가 있는 index.js
   - Mongoose 스키마가 있는 schemas 폴더,
-    - MVP 별로 5개 파일이 있어야 하며, 현재는 User MVP 파일만 있습니다.
   - Mongoose 모델 ORM 코드가 있는 models 폴더
-    - MVP 별로 5개 파일이 있어야 하며, 현재는 User MVP 파일만 있습니다.
+  - Award, Certificate, Education, Project, User는 각각 기본 포토폴리오 MVP에서 발전시켰습니다.
+  - Auth: 비밀번호 찾기 기능
+  - Comment: 댓글 기능
+  - Gallery: 갤러리 기능
+  - Reply: 대댓글 기능
 
 2. 이외 폴더는 아래와 같습니다.
 
