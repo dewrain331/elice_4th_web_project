@@ -9,11 +9,15 @@ class Gallery {
 
   static deleteById = async ({ imageId }) => {
     const imageDoc = await galleryModel.findOne({ id: imageId });
-    const filePath = "../front/build/images/" + imageDoc.saveFileName
+    const filePath = "uploads/" + imageDoc.saveFileName
     // const dir = fs.existsSync(filePath) // filePath에 파일이 있는지 체크하는 메서드
-    fs.unlink(filePath, (err) => {
-      if(err) throw err;
-    })
+    if (fs.existsSync(filePath) === false) {
+      console.log("이미지가 존재하지 않습니다.")
+    } else {
+      fs.unlink(filePath, (err) => {
+        if(err) throw err;
+      })
+    }
 
     const deleteResult = await galleryModel.deleteOne({ id: imageId, active : true, });
     // returns: { "acknowledged" : true, "deletedCount" : 1 }

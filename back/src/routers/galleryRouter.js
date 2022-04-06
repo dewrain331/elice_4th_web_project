@@ -9,7 +9,7 @@ galleryRouter.use(login_required);
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "../front/build/images/");
+    cb(null, "uploads/");
   },
   filename: function (req, file, cb) {
     cb(null, `${file.fieldname}_` + Date.now() + `_${file.originalname}`);
@@ -34,7 +34,7 @@ galleryRouter.post(
 
     // req.file 은 `gallery` 라는 필드의 파일 정보입니다.
     const saveFileName = req.file.filename; // 저장된 파일명​ 
-    const saveFilePath = `/images/${saveFileName}`; // 업로드된 파일의 경로 (index.html 기준)
+    const saveFilePath = `http://localhost:5001/uploads/${saveFileName}`; // 업로드된 파일의 경로 (index.html 기준)
     
     const newImage = { userId, description, saveFileName, saveFilePath };
 

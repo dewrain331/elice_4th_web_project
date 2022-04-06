@@ -120,9 +120,12 @@ class User {
     const option = { returnOriginal: false };
 
     const user = await UserModel.findOne({ id: userId });
-    const filePath = "../front/build/images/" + user.image.saveFileName
+    const filePath = "uploads/" + user.image.saveFileName
     // const dir = fs.existsSync(filePath) // filePath에 파일이 있는지 체크하는 메서드
-    if (user.image.saveFileName !== "default_img.jpg") {
+    if (fs.existsSync(filePath) === false) {
+      console.log("이미지가 존재하지 않습니다.")
+    }
+    else if (user.image.saveFileName !== "default_img.jpg") {
       fs.unlink(filePath, (err) => {
         if(err) throw err;
       })
