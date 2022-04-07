@@ -45,6 +45,35 @@ class Gallery {
     );
     return updatedImageContent;
   }
+
+  static withdrawByUserId = async ({ userId, delayTime }) => {
+    try {
+      const withdrawResult = await galleryModel.updateMany(
+        { userId : userId, active : true, },
+        { $set : { expiredAt : delayTime, active : false} },
+        { returnOriginal : false },
+      )
+
+      return withdrawResult;
+
+    } catch(err) {
+      return { error: err.message };
+    }
+  }
+
+  static recoveryByUserId = async ({ userId }) => {
+    try {
+      const recoveryResult = await galleryModel.updateMany(
+        { userId : userId, active : false, },
+        { $set : { active : true }, $unset : { expiredAt : true } },
+        { returnOriginal : false },
+      )
+
+      return recoveryResult;
+    } catch (err) {
+      return { error : err.message };
+    }
+  }
 }
 
 export { Gallery };
