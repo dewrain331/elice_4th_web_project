@@ -30,10 +30,7 @@ galleryRouter.post(
       }
 
       // req (request) 에서 데이터 가져오기
-      //const { userId, description, projectId } = req.body;
-
-      // todo 지우기 (테스트용)
-      const { userId, description, projectId } = JSON.parse(req.body.data);
+      const { userId, description, projectId } = req.body;
 
       // req.file 은 `gallery` 라는 필드의 파일 정보입니다.
       const saveFileName = req.file.filename; // 저장된 파일명​ 
