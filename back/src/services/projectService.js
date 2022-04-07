@@ -55,17 +55,18 @@ class projectService {
       if (!isDataDeleted) {
         const errorMessage =
           "해당 id를 가진 프로젝트 데이터는 없습니다. 다시 한 번 확인해 주세요.";
-        return { errorMessage };
+        console.log("asdasdsad");
+        throw new Error(errorMessage);
       }
       
-      const portfolio = await Portfolio.getProject({ projectId });
+      const portfolio = await Portfolio.findById({ projectId });
 
       if (!portfolio.errorMessage) {
         const result = await Portfolio.deleteById({ projectId });
         if (!result) {
           const errorMessage =
             "프로젝트와 연결된 포트폴리오를 지우는 도중 에러가 발생했습니다.";
-          return { errorMessage };
+          throw new Error(errorMessage);
         }
 
         await Gallery.deleteByProjectId({ projectId });
@@ -77,8 +78,7 @@ class projectService {
     } catch (e) {
 
       await session.abortTransaction();
-      const errorMessage =
-        "회원탈퇴에 실패했습니다. 다시 시도해주세요.";
+      const errorMessage = e.errorMessage;
       return { errorMessage };
 
     } finally {

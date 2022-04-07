@@ -29,6 +29,10 @@ class Portfolio {
 
   static findById = async ({ projectId }) => {
     const portfolio = await portfolioModel.findOne({ projectId: projectId, active : true, });
+    if (!portfolio) {
+      const errorMessage = "포트폴리오를 불러오는 데 실패했습니다.";
+      return { errorMessage };
+    }
     return portfolio;
   }
 
