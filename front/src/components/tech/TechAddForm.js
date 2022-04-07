@@ -8,7 +8,7 @@ import {
 } from "./TechAtom";
 import "../Components.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faJsSquare as jsIcon } from "@fortawesome/free-brands-svg-icons"
+import { faJsSquare as jsIcon, faHtml5 as htmlIcon, faCss3Alt as cssIcon, faReact as reactIcon, faNodeJs as nodejsIcon, faJava as javaIcon } from "@fortawesome/free-brands-svg-icons"
 
 const TechAddForm = ({ portfolioOwnerId }) => {
   // RecoilStates
@@ -58,18 +58,36 @@ const TechAddForm = ({ portfolioOwnerId }) => {
   return (
     <Form onSubmit={handleSubmit} className="portfolioBG">
       <Form.Group controlId="formBasicTitle">
-        <Form.Control
-          type="text"
-          placeholder="기술 이름"
-          value={title}
-          onChange={(evt) => setTitle(evt.target.value)}
+        <FontAwesomeIcon
+            icon={jsIcon}
+            onclick={() => {setTitle('JavaScript')}}
+        />
+        <FontAwesomeIcon
+            icon={htmlIcon}
+            onclick={() => {setTitle('HTML')}}
+        />
+        <FontAwesomeIcon
+            icon={cssIcon}
+            onclick={() => {setTitle('CSS')}}
+        />
+        <FontAwesomeIcon
+            icon={reactIcon}
+            onclick={() => {setTitle('React')}}
+        />
+        <FontAwesomeIcon
+            icon={nodejsIcon}
+            onclick={() => {setTitle('Node.js')}}
+        />
+        <FontAwesomeIcon
+            icon={javaIcon}
+            onclick={() => {setTitle('Java')}}
         />
       </Form.Group>
 
       <Form.Group controlId="formBasicDescription" className="mt-3">
         <Form.Control
           type="text"
-          placeholder="상세내역"
+          placeholder="간단한 설명을 적어주세요."
           value={description}
           onChange={(evt) => setDescription(evt.target.value)}
         />
