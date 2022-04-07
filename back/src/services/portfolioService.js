@@ -56,6 +56,7 @@ class portfolioService {
         "해당 id를 가진 포트폴리오가 없습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
+    await Gallery.deleteByProjectId({ projectId });
     return isDataDeleted;
   }
 

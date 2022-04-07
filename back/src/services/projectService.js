@@ -1,4 +1,4 @@
-import { Project, Portfolio, db } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+import { Project, Portfolio, db, Gallery } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import { v4 as uuidv4 } from "uuid";
 
 class projectService {
@@ -67,10 +67,12 @@ class projectService {
             "프로젝트와 연결된 포트폴리오를 지우는 도중 에러가 발생했습니다.";
           return { errorMessage };
         }
+
+        await Gallery.deleteByProjectId({ projectId });
       }
 
       session.commitTransaction();
-      
+
       return { status: "ok" };
     } catch (e) {
 
