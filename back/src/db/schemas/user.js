@@ -67,7 +67,7 @@ const UserSchema = new Schema(
       type: imageSchema,
       default: {
         saveFileName: "default_img.jpg",
-        saveFilePath: "/images/default_img.jpg",
+        saveFilePath: `http://localhost:5001/uploads/default_img.jpg`,
       }
     }
   },
