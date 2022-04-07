@@ -12,6 +12,7 @@ function GalleryCard({ gallery, isEditable, setIsEditing }) {
   const [show, setShow] = useState(false);
   const handleAlertShow = () => setShow(true);
   const handleAlertCancel = () => setShow(false);
+  const [showImg, setShowImg] = useState(false);
 
   // recoil 적용
   const setGallerys = useSetRecoilState(gallerysState);
@@ -39,6 +40,7 @@ function GalleryCard({ gallery, isEditable, setIsEditing }) {
             className="mb-3"
             src={gallery?.saveFilePath}
             alt="갤러리 이미지"
+            onClick={() => setShowImg(true)}
           />
         </div>
         <br />
@@ -102,6 +104,14 @@ function GalleryCard({ gallery, isEditable, setIsEditing }) {
             삭제
           </Button>
         </Modal.Footer>
+      </Modal>
+
+      <Modal
+        show={showImg}
+        onHide={() => setShowImg(false)}
+        style={{ background: "transparent" }}
+      >
+        <img src={gallery?.saveFilePath} alt="갤러리 이미지" />
       </Modal>
     </>
   );
