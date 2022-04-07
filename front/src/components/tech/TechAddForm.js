@@ -7,6 +7,8 @@ import {
   techsState,
 } from "./TechAtom";
 import "../Components.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faJsSquare as jsIcon } from "@fortawesome/free-brands-svg-icons"
 
 const TechAddForm = ({ portfolioOwnerId }) => {
   // RecoilStates
