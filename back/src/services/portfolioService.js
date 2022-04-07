@@ -1,4 +1,4 @@
-import { Portfolio } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+import { Portfolio, db, Gallery } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import { v4 as uuidv4 } from "uuid";
 import { crawler } from "../constant";
 
@@ -50,14 +50,32 @@ class portfolioService {
   }
 
   static deletePortfolio = async ({ projectId }) => {
-    const isDataDeleted = await Portfolio.deleteById({ projectId });
-    if (!isDataDeleted) {
+    const session = await db.startSession();
+
+    try {
+      session.startTransaction();
+
+      const isDataDeleted = await Portfolio.deleteById({ projectId });
+      if (!isDataDeleted) {
+        const errorMessage =
+          "해당 id를 가진 포트폴리오가 없습니다. 다시 한 번 확인해 주세요.";
+        throw new Error(errorMessage);
+      }
+      await Gallery.deleteByProjectId({ projectId });
+      session.commitTransaction();
+      return isDataDeleted;
+
+    } catch (e) {
+
+      await session.abortTransaction();
       const errorMessage =
-        "해당 id를 가진 포트폴리오가 없습니다. 다시 한 번 확인해 주세요.";
+        "회원탈퇴에 실패했습니다. 다시 시도해주세요.";
       return { errorMessage };
+
+    } finally {
+      session.endSession();
     }
-    await Gallery.deleteByProjectId({ projectId });
-    return isDataDeleted;
+    
   }
 
   static getProjectLanguage = async({ projectId }) => {
