@@ -57,30 +57,36 @@ const TechAddForm = ({ portfolioOwnerId }) => {
 
   return (
     <Form onSubmit={handleSubmit} className="portfolioBG">
-      <Form.Group controlId="formBasicTitle">
+      <Form.Group controlId="formBasicTitle" style={{background: 'white'}}>
         <FontAwesomeIcon
             icon={jsIcon}
             onclick={() => {setTitle('JavaScript')}}
+            style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
         />
         <FontAwesomeIcon
             icon={htmlIcon}
             onclick={() => {setTitle('HTML')}}
+            style={{fontSize: '40px', cursor: 'pointer', marginRight: '30px', background: 'white'}}
         />
         <FontAwesomeIcon
             icon={cssIcon}
             onclick={() => {setTitle('CSS')}}
+            style={{fontSize: '40px', cursor: 'pointer', marginRight: '30px', background: 'white'}}
         />
         <FontAwesomeIcon
             icon={reactIcon}
             onclick={() => {setTitle('React')}}
+            style={{fontSize: '40px', cursor: 'pointer', marginRight: '30px', background: 'white'}}
         />
         <FontAwesomeIcon
             icon={nodejsIcon}
             onclick={() => {setTitle('Node.js')}}
+            style={{fontSize: '40px', cursor: 'pointer', marginRight: '30px', background: 'white'}}
         />
         <FontAwesomeIcon
             icon={javaIcon}
             onclick={() => {setTitle('Java')}}
+            style={{fontSize: '40px', cursor: 'pointer', marginRight: '30px', background: 'white'}}
         />
       </Form.Group>
 

@@ -13,6 +13,7 @@ import Awards from "./award/Awards";
 import Certificates from "./certificate/Certificates";
 import Comments from "./comment/Comments";
 import Gallerys from "./gallery/Gallerys";
+import Techs from "./tech/Techs"
 import { RecoilRoot } from "recoil";
 import { useMediaQuery } from "@material-ui/core";
 import "./Components.css";
@@ -116,6 +117,12 @@ function Portfolio() {
                 title="Portfolio"
                 tabClassName="coloredTab"
               >
+                <div className="mb-3">
+                  <Techs
+                    portfolioOwnerId={portfolioOwner.id}
+                    isEditable={portfolioOwner.id === userState.user?.id}
+                  />
+                </div>
                 <div className="mb-3">
                   <Projects
                     portfolioOwnerId={portfolioOwner.id}
