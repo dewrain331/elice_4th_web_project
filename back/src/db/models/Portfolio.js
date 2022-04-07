@@ -3,8 +3,12 @@ import { portfolioModel } from "../schemas/portfolio";
 class Portfolio {
 
   static create = async ({ newPortfolio }) => {
-    console.log('newPortfolio');
-    console.log(newPortfolio);
+    
+    const checkPortfolio = await portfolioModel.findById({ projectId : newPortfolio.projectId });
+
+    if (checkPortfolio) {
+      return checkPortfolio;
+    } 
     const portfolio = await portfolioModel.create(newPortfolio);
     return portfolio;
   }
