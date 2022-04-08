@@ -44,7 +44,7 @@ const TechAddForm = ({ portfolioOwnerId }) => {
     // post 요청값과 함께 각각의 tech들의 모임인 techs를 다시 렌더링
     try {
       const res = await Api.get(
-        "techlist", `${userId}`
+        "techList", `${userId}`
       );
       const { techs } = res.data;
       setTechs(techs);
@@ -60,33 +60,33 @@ const TechAddForm = ({ portfolioOwnerId }) => {
       <Form.Group controlId="formBasicTitle" style={{background: 'white'}}>
         <FontAwesomeIcon
             icon={jsIcon}
-            onclick={() => {setTitle('JavaScript')}}
-            style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
+            onclick={() => {setTitle('javascript')}}
+            style={{fontSize: '40px', cursor: 'pointer', marginLeft: '15px', marginRight: '15px', background: 'white'}}
         />
         <FontAwesomeIcon
             icon={htmlIcon}
-            onclick={() => {setTitle('HTML')}}
-            style={{fontSize: '40px', cursor: 'pointer', marginRight: '30px', background: 'white'}}
+            onclick={() => {setTitle('html')}}
+            style={{fontSize: '40px', cursor: 'pointer', marginLeft: '15px', marginRight: '15px', background: 'white'}}
         />
         <FontAwesomeIcon
             icon={cssIcon}
-            onclick={() => {setTitle('CSS')}}
-            style={{fontSize: '40px', cursor: 'pointer', marginRight: '30px', background: 'white'}}
+            onclick={() => {setTitle('css')}}
+            style={{fontSize: '40px', cursor: 'pointer', marginLeft: '15px', marginRight: '15px', background: 'white'}}
         />
         <FontAwesomeIcon
             icon={reactIcon}
-            onclick={() => {setTitle('React')}}
-            style={{fontSize: '40px', cursor: 'pointer', marginRight: '30px', background: 'white'}}
+            onclick={() => {setTitle('react')}}
+            style={{fontSize: '40px', cursor: 'pointer', marginLeft: '15px', marginRight: '15px', background: 'white'}}
         />
         <FontAwesomeIcon
             icon={nodejsIcon}
-            onclick={() => {setTitle('Node.js')}}
-            style={{fontSize: '40px', cursor: 'pointer', marginRight: '30px', background: 'white'}}
+            onclick={() => {setTitle('nodejs')}}
+            style={{fontSize: '40px', cursor: 'pointer', marginLeft: '15px', marginRight: '15px', background: 'white'}}
         />
         <FontAwesomeIcon
             icon={javaIcon}
-            onclick={() => {setTitle('Java')}}
-            style={{fontSize: '40px', cursor: 'pointer', marginRight: '30px', background: 'white'}}
+            onclick={() => {setTitle('java')}}
+            style={{fontSize: '40px', cursor: 'pointer', marginLeft: '15px', marginRight: '15px', background: 'white'}}
         />
       </Form.Group>
 

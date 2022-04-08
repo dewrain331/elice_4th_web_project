@@ -19,7 +19,7 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
     const fetch = async () => {
       try {
         const res = await Api.get(
-          "techlist", `${portfolioOwnerId}`
+          "techList", `${portfolioOwnerId}`
         );
         const { techs } = res.data;
         setTechs(techs);

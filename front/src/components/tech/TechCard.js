@@ -6,6 +6,8 @@ import { techsState } from "./TechAtom";
 import ModalComp from "../ModalComp";
 import ModalPortal from "../ModalPortal";
 import "../Components.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faJsSquare as jsIcon, faHtml5 as htmlIcon, faCss3Alt as cssIcon, faReact as reactIcon, faNodeJs as nodejsIcon, faJava as javaIcon } from "@fortawesome/free-brands-svg-icons"
 
 const TechCard = ({ tech, isEditable, setIsEditing }) => {
   // RecoilStates
@@ -14,12 +16,18 @@ const TechCard = ({ tech, isEditable, setIsEditing }) => {
   // Modal 관련 State
   const [show, setShow] = useState(false);
 
+  const [showCard, setShowCard] = useState(false)
+
+  const handleShowCard = (title, description) => {
+
+  }
+
   const handleDelete = async () => {
     try {
       const { id, userId } = tech
       await Api.delete(`techs/${id}`);
       const res = await Api.get(
-        "techlist", `${userId}`
+        "techList", `${userId}`
       );
       const { techs } = res.data;
       setTechs(techs);
@@ -35,7 +43,68 @@ const TechCard = ({ tech, isEditable, setIsEditing }) => {
         {/* tech의 수상내용과 상세내용을 출력 */}
         <Row className="align-items-center portfolioBG">
           <Col xs={9} className="portfolioBG">
-            <span className="portfolioBG">{tech.title}</span>
+            <span className="portfolioBG">
+              {tech.title === "javascript" ? 
+                <FontAwesomeIcon 
+                  icon={jsIcon}
+                  style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
+                  onClick={() => {
+                    handleShowCard(tech.title, tech.desription)
+                    setShowCard(true)
+                  }}
+                /> 
+              : null}
+              {tech.title === "html" ? 
+                <FontAwesomeIcon 
+                  icon={htmlIcon} 
+                  style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
+                  onClick={() => {
+                    handleShowCard(tech.title, tech.desription)
+                    setShowCard(true)
+                  }}
+                /> 
+              : null}
+              {tech.title === "css" ? 
+                <FontAwesomeIcon 
+                  icon={cssIcon} 
+                  style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
+                  onClick={() => {
+                    handleShowCard(tech.title, tech.desription)
+                    setShowCard(true)
+                  }}
+                /> 
+              : null}
+              {tech.title === "react" ? 
+                <FontAwesomeIcon 
+                  icon={reactIcon} 
+                  style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
+                  onClick={() => {
+                    handleShowCard(tech.title, tech.desription)
+                    setShowCard(true)
+                  }}
+                /> 
+              : null}
+              {tech.title === "nodejs" ? 
+                <FontAwesomeIcon 
+                  icon={nodejsIcon} 
+                  style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
+                  onClick={() => {
+                    handleShowCard(tech.title, tech.desription)
+                    setShowCard(true)
+                  }}
+                /> 
+              : null}
+              {tech.title === "java" ? 
+                <FontAwesomeIcon 
+                  icon={javaIcon} 
+                  style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
+                  onClick={() => {
+                    handleShowCard(tech.title, tech.desription)
+                    setShowCard(true)
+                  }}
+                /> 
+              : null}
+            </span>
             <br />
             <span className="text-muted portfolioBG">{tech.description}</span>
           </Col>

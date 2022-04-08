@@ -25,7 +25,7 @@ const TechEditForm = ({ currentTech, setIsEditing }) => {
 
     // put 요청.
     try {
-      await Api.post(`tech/${currentTech.id}`, {
+      await Api.post(`techs/${currentTech.id}`, {
         description,
         percent
       });
@@ -36,7 +36,7 @@ const TechEditForm = ({ currentTech, setIsEditing }) => {
     // put 요청값과 함께 각각의 Tech들의 모임인 Techs를 다시 렌더링
     try {
       const res = await Api.get(
-        "techlist", `${userId}`
+        "techList", `${userId}`
       );
       setTechs(res.data.techs);
       // 편집 상태 종료.
