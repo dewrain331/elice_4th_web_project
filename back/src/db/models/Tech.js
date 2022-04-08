@@ -11,11 +11,9 @@ class Tech {
     return tech;
   }
 
-  static findByUserId = async ({ userId, page, perPage }) => {
-    const total = await techModel.countDocuments({ userId });
-    const totalPage = Math.ceil(total / perPage);
-    const techList = await techModel.find({ userId, active : true, }).sort({ createdAt: 1 }).skip(perPage * (page -1)).limit(perPage);
-    return { totalPage, techList };
+  static findByUserId = async ({ userId }) => {
+    const techList = await techModel.find({ userId, active : true, }).sort({ createdAt: 1 })
+    return techList;
   }
 
   static update = async ({ techId, toUpdate }) => {

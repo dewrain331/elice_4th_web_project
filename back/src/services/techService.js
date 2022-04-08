@@ -14,10 +14,10 @@ class techService {
     return createdNewTech;
   }
 
-  static getTechList = async({ userId, page, perPage }) => {
+  static getTechList = async({ userId }) => {
     // education db에서 해당 유저의 학력 리스트를 가져옴
-    const { totalPage, techList } = await Tech.findByUserId({ userId, page, perPage });
-    return { totalPage, techList };
+    const techList = await Tech.findByUserId({ userId });
+    return techList;
   }
 
   static setTech = async ({ techId, toUpdate }) => {
