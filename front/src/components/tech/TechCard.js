@@ -17,9 +17,12 @@ const TechCard = ({ tech, isEditable, setIsEditing }) => {
   const [show, setShow] = useState(false);
 
   const [showCard, setShowCard] = useState(false)
+  const [cardTitle, setCardTitle] = useState("")
+  const [cardDescript, setCardDescript] = useState("")
 
   const handleShowCard = (title, description) => {
-
+    setCardTitle(title)
+    setCardDescript(description)
   }
 
   const handleDelete = async () => {
@@ -40,7 +43,7 @@ const TechCard = ({ tech, isEditable, setIsEditing }) => {
   return (
     <>
       <Card.Body className="portfolioBG">
-        {/* tech의 수상내용과 상세내용을 출력 */}
+        {/* tech의 title에 알맞는 icon을 출력하고, 그 아이콘을 클릭 시 하단에 상세내용과 편집 및 삭제 버튼을 보이게 함. */}
         <Row className="align-items-center portfolioBG">
           <Col xs={9} className="portfolioBG">
             <span className="portfolioBG">
@@ -49,8 +52,12 @@ const TechCard = ({ tech, isEditable, setIsEditing }) => {
                   icon={jsIcon}
                   style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
                   onClick={() => {
-                    handleShowCard(tech.title, tech.desription)
-                    setShowCard(true)
+                    if(showCard === false) {
+                      handleShowCard(tech.title, tech.desription)
+                      setShowCard(true)
+                    } else if(showCard === true) {
+                      setShowCard(false)
+                    }
                   }}
                 /> 
               : null}
@@ -59,8 +66,12 @@ const TechCard = ({ tech, isEditable, setIsEditing }) => {
                   icon={htmlIcon} 
                   style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
                   onClick={() => {
-                    handleShowCard(tech.title, tech.desription)
-                    setShowCard(true)
+                    if(showCard === false) {
+                      handleShowCard(tech.title, tech.desription)
+                      setShowCard(true)
+                    } else if(showCard === true) {
+                      setShowCard(false)
+                    }
                   }}
                 /> 
               : null}
@@ -69,8 +80,12 @@ const TechCard = ({ tech, isEditable, setIsEditing }) => {
                   icon={cssIcon} 
                   style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
                   onClick={() => {
-                    handleShowCard(tech.title, tech.desription)
-                    setShowCard(true)
+                    if(showCard === false) {
+                      handleShowCard(tech.title, tech.desription)
+                      setShowCard(true)
+                    } else if(showCard === true) {
+                      setShowCard(false)
+                    }
                   }}
                 /> 
               : null}
@@ -79,8 +94,12 @@ const TechCard = ({ tech, isEditable, setIsEditing }) => {
                   icon={reactIcon} 
                   style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
                   onClick={() => {
-                    handleShowCard(tech.title, tech.desription)
-                    setShowCard(true)
+                    if(showCard === false) {
+                      handleShowCard(tech.title, tech.desription)
+                      setShowCard(true)
+                    } else if(showCard === true) {
+                      setShowCard(false)
+                    }
                   }}
                 /> 
               : null}
@@ -89,8 +108,12 @@ const TechCard = ({ tech, isEditable, setIsEditing }) => {
                   icon={nodejsIcon} 
                   style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
                   onClick={() => {
-                    handleShowCard(tech.title, tech.desription)
-                    setShowCard(true)
+                    if(showCard === false) {
+                      handleShowCard(tech.title, tech.desription)
+                      setShowCard(true)
+                    } else if(showCard === true) {
+                      setShowCard(false)
+                    }
                   }}
                 /> 
               : null}
@@ -99,36 +122,48 @@ const TechCard = ({ tech, isEditable, setIsEditing }) => {
                   icon={javaIcon} 
                   style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
                   onClick={() => {
-                    handleShowCard(tech.title, tech.desription)
-                    setShowCard(true)
+                    if(showCard === false) {
+                      handleShowCard(tech.title, tech.desription)
+                      setShowCard(true)
+                    } else if(showCard === true) {
+                      setShowCard(false)
+                    }
                   }}
                 /> 
               : null}
             </span>
             <br />
-            <span className="text-muted portfolioBG">{tech.description}</span>
+            {showCard ? 
+            (
+            <>
+              <Card>
+                <Card.Title>{cardTitle}</Card.Title>
+                <Card.Text>{cardDescript}</Card.Text>
+              </Card>
+              {/* 각 항목마다 편집 버튼을 생성 */}
+              {isEditable && (
+              <Col xs={3} style={{ textAlign: "center" }} className="portfolioBG">
+                <Button
+                  variant="info"
+                  size="sm"
+                  onClick={() => setIsEditing((prev) => !prev)}
+                  className="mr-3"
+                >
+                  편집
+                </Button>{" "}
+                {/* 각 항목마다 삭제 버튼을 생성 */}
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setShow(true)}
+                >
+                  삭제
+                </Button>
+              </Col>
+              )}
+            </>
+            ) : null}
           </Col>
-          {/* 각 항목마다 편집 버튼을 생성 */}
-          {isEditable && (
-            <Col xs={3} style={{ textAlign: "right" }} className="portfolioBG">
-              <Button
-                variant="info"
-                size="sm"
-                onClick={() => setIsEditing((prev) => !prev)}
-                className="mr-3"
-              >
-                편집
-              </Button>{" "}
-              {/* 각 항목마다 삭제 버튼을 생성 */}
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={() => setShow(true)}
-              >
-                삭제
-              </Button>
-            </Col>
-          )}
         </Row>
       </Card.Body>
 
