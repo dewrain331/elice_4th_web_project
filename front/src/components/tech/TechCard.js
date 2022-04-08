@@ -7,7 +7,7 @@ import ModalComp from "../ModalComp";
 import ModalPortal from "../ModalPortal";
 import "../Components.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faJsSquare as jsIcon, faHtml5 as htmlIcon, faCss3Alt as cssIcon, faReact as reactIcon, faNodeJs as nodejsIcon, faJava as javaIcon } from "@fortawesome/free-brands-svg-icons"
+import { faJsSquare as javascript, faHtml5 as html, faCss3Alt as css, faReact as react, faNodeJs as nodejs, faJava as java } from "@fortawesome/free-brands-svg-icons"
 
 const TechCard = ({ tech, isEditable, setIsEditing }) => {
   // RecoilStates
@@ -49,7 +49,7 @@ const TechCard = ({ tech, isEditable, setIsEditing }) => {
             <span className="portfolioBG">
               {tech.title === "javascript" ? 
                 <FontAwesomeIcon 
-                  icon={jsIcon}
+                  icon={javascript}
                   style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
                   onClick={() => {
                     if(showCard === false) {
@@ -63,7 +63,7 @@ const TechCard = ({ tech, isEditable, setIsEditing }) => {
               : null}
               {tech.title === "html" ? 
                 <FontAwesomeIcon 
-                  icon={htmlIcon} 
+                  icon={html} 
                   style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
                   onClick={() => {
                     if(showCard === false) {
@@ -77,7 +77,7 @@ const TechCard = ({ tech, isEditable, setIsEditing }) => {
               : null}
               {tech.title === "css" ? 
                 <FontAwesomeIcon 
-                  icon={cssIcon} 
+                  icon={css} 
                   style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
                   onClick={() => {
                     if(showCard === false) {
@@ -91,7 +91,7 @@ const TechCard = ({ tech, isEditable, setIsEditing }) => {
               : null}
               {tech.title === "react" ? 
                 <FontAwesomeIcon 
-                  icon={reactIcon} 
+                  icon={react} 
                   style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
                   onClick={() => {
                     if(showCard === false) {
@@ -105,7 +105,7 @@ const TechCard = ({ tech, isEditable, setIsEditing }) => {
               : null}
               {tech.title === "nodejs" ? 
                 <FontAwesomeIcon 
-                  icon={nodejsIcon} 
+                  icon={nodejs} 
                   style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
                   onClick={() => {
                     if(showCard === false) {
@@ -119,7 +119,7 @@ const TechCard = ({ tech, isEditable, setIsEditing }) => {
               : null}
               {tech.title === "java" ? 
                 <FontAwesomeIcon 
-                  icon={javaIcon} 
+                  icon={java} 
                   style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
                   onClick={() => {
                     if(showCard === false) {
@@ -136,8 +136,13 @@ const TechCard = ({ tech, isEditable, setIsEditing }) => {
             {showCard ? 
             (
             <>
-              <Card>
-                <Card.Title>{cardTitle}</Card.Title>
+              <Card style={{background: 'white'}}>
+                <Card.Title>
+                  <FontAwesomeIcon
+                    icon={cardTitle}
+                  />
+                  {cardTitle}
+                </Card.Title>
                 <Card.Text>{cardDescript}</Card.Text>
               </Card>
               {/* 각 항목마다 편집 버튼을 생성 */}

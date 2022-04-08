@@ -8,7 +8,7 @@ import {
 } from "./TechAtom";
 import "../Components.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faJsSquare as jsIcon, faHtml5 as htmlIcon, faCss3Alt as cssIcon, faReact as reactIcon, faNodeJs as nodejsIcon, faJava as javaIcon } from "@fortawesome/free-brands-svg-icons"
+import { faJsSquare as javascript, faHtml5 as html, faCss3Alt as css, faReact as react, faNodeJs as nodejs, faJava as java } from "@fortawesome/free-brands-svg-icons"
 
 const TechAddForm = ({ portfolioOwnerId }) => {
   // RecoilStates
@@ -59,32 +59,32 @@ const TechAddForm = ({ portfolioOwnerId }) => {
     <Form onSubmit={handleSubmit} className="portfolioBG">
       <Form.Group controlId="formBasicTitle" style={{background: 'white'}}>
         <FontAwesomeIcon
-            icon={jsIcon}
+            icon={javascript}
             onclick={() => {setTitle('javascript')}}
             style={{fontSize: '40px', cursor: 'pointer', marginLeft: '15px', marginRight: '15px', background: 'white'}}
         />
         <FontAwesomeIcon
-            icon={htmlIcon}
+            icon={html}
             onclick={() => {setTitle('html')}}
             style={{fontSize: '40px', cursor: 'pointer', marginLeft: '15px', marginRight: '15px', background: 'white'}}
         />
         <FontAwesomeIcon
-            icon={cssIcon}
+            icon={css}
             onclick={() => {setTitle('css')}}
             style={{fontSize: '40px', cursor: 'pointer', marginLeft: '15px', marginRight: '15px', background: 'white'}}
         />
         <FontAwesomeIcon
-            icon={reactIcon}
+            icon={react}
             onclick={() => {setTitle('react')}}
             style={{fontSize: '40px', cursor: 'pointer', marginLeft: '15px', marginRight: '15px', background: 'white'}}
         />
         <FontAwesomeIcon
-            icon={nodejsIcon}
+            icon={nodejs}
             onclick={() => {setTitle('nodejs')}}
             style={{fontSize: '40px', cursor: 'pointer', marginLeft: '15px', marginRight: '15px', background: 'white'}}
         />
         <FontAwesomeIcon
-            icon={javaIcon}
+            icon={java}
             onclick={() => {setTitle('java')}}
             style={{fontSize: '40px', cursor: 'pointer', marginLeft: '15px', marginRight: '15px', background: 'white'}}
         />
