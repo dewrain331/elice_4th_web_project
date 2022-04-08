@@ -33,6 +33,9 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
   return (
     <Card.Body className="portfolioBG" style={{ borderRadius: "10px" }}>
       <Card.Title className="portfolioBG">보유 기술</Card.Title>
+      {techs.length !== 0 ? 
+      '이곳에 가로형 막대 그래프가 들어갈 예정입니다.'
+      : null}
       {techs.map((v) => (
         <Tech key={v.id} tech={v} isEditable={isEditable} />
       ))}
