@@ -89,6 +89,18 @@ projectRouter.get("/projectlist/:userId", async function (req, res, next) {
     }
   });
 
+projectRouter.get("/projectTotalList/:userId", async function (req, res, next) {
+  try {
+    // 특정 사용자의 전체 프로젝트 목록을 얻음
+    const userId = req.params.userId;
+    const projectList  = await projectService.getProjectTotalList({ userId })
+    
+    res.status(200).send(projectList);
+  } catch (error) {
+    next(error);
+  }
+});
+
 projectRouter.delete("/projects/:id", async function (req, res, next) {
   try {
     // req (request) 에서 id 가져오기

@@ -32,6 +32,12 @@ class projectService {
     return { totalPage, projects };
   }
 
+  static getProjectTotalList = async({ userId }) => {
+    // project db에서 해당 유저의 프로젝트 리스트를 가져옴
+    const projects  = await Project.getTotalList({ userId });
+    return projects;
+  }
+
   static setProject = async ({ projectId, toUpdate }) => {
     // project db에 존재 여부 확인 & db에서 찾지 못한 경우, 에러 메시지 반환
     let project = await Project.findById({ projectId });

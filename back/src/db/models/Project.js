@@ -18,6 +18,11 @@ class Project {
     return { totalPage, projects };
   }
 
+  static getTotalList = async ({ userId }) => {
+    const projects = await projectModel.find({ userId, active : true, }).sort({ createdAt: 1 })
+    return projects;
+  }
+
   static update = async ({ projectId, toUpdate }) => {
     const filter = { id: projectId, active : true, };
     const option = { returnOriginal: false };
