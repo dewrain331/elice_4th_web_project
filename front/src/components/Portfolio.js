@@ -13,7 +13,7 @@ import Awards from "./award/Awards";
 import Certificates from "./certificate/Certificates";
 import Comments from "./comment/Comments";
 import Gallerys from "./gallery/Gallerys";
-import ProjectDetails from "./portfolio/ProjectDetails";
+import ProjectsDetail from "./portfolio/ProjectsDetail";
 import { RecoilRoot } from "recoil";
 import { useMediaQuery } from "@material-ui/core";
 import "./Components.css";
@@ -139,7 +139,7 @@ function Portfolio() {
                 </div>
               </Tab>
               <Tab eventKey="portfolio" title="Portfolio">
-                <ProjectDetails
+                <ProjectsDetail
                   portfolioOwnerId={portfolioOwner.id}
                   isEditable={portfolioOwner.id === userState.user?.id}
                 />

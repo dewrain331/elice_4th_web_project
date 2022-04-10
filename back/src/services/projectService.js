@@ -2,7 +2,13 @@ import { Project } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트
 import { v4 as uuidv4 } from "uuid";
 
 class projectService {
-  static addProject = async ({ userId, title, description, fromDate, toDate }) => {
+  static addProject = async ({
+    userId,
+    title,
+    description,
+    fromDate,
+    toDate,
+  }) => {
     // id 는 유니크 값 부여
     const id = uuidv4();
     const newProject = { id, userId, title, description, fromDate, toDate };
@@ -12,7 +18,7 @@ class projectService {
     createdNewProject.errorMessage = null; // 문제 없이 db 저장 완료되었으므로 에러가 없음.
 
     return createdNewProject;
-  }
+  };
 
   static getProject = async ({ projectId }) => {
     // project db에 존재 여부 확인 & db에서 찾지 못한 경우, 에러 메시지 반환
@@ -24,13 +30,23 @@ class projectService {
     }
 
     return project;
-  }
+  };
 
-  static getProjectList = async({ userId, page, perPage }) => {
+  static getProjectList = async ({ userId, page, perPage }) => {
     // project db에서 해당 유저의 프로젝트 리스트를 가져옴
-    const { totalPage, projects } = await Project.findByUserId({ userId, page, perPage });
+    const { totalPage, projects } = await Project.findByUserId({
+      userId,
+      page,
+      perPage,
+    });
     return { totalPage, projects };
-  }
+  };
+
+  static getProjectTotalList = async ({ userId }) => {
+    // project db에서 해당 유저의 프로젝트 리스트를 가져옴
+    const projects = await Project.getTotalList({ userId });
+    return projects;
+  };
 
   static setProject = async ({ projectId, toUpdate }) => {
     // project db에 존재 여부 확인 & db에서 찾지 못한 경우, 에러 메시지 반환
@@ -43,7 +59,7 @@ class projectService {
 
     const updatedProject = await Project.update({ projectId, toUpdate });
     return updatedProject;
-  }
+  };
 
   static deleteProject = async ({ projectId }) => {
     // project db에 존재 여부 확인 & db에서 찾지 못한 경우, 에러 메시지 반환
@@ -55,7 +71,7 @@ class projectService {
     }
 
     return { status: "ok" };
-  }
+  };
 }
 
 export { projectService };
