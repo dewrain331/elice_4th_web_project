@@ -19,10 +19,9 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
     const fetch = async () => {
       try {
         const res = await Api.get(
-          "techList", `${portfolioOwnerId}`
+          "techList", portfolioOwnerId
         );
-        const { techs } = res.data;
-        setTechs(techs);
+        setTechs(res.data);
       } catch (err) {
         console.error(err);
       }
@@ -33,9 +32,11 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
   return (
     <Card.Body className="portfolioBG" style={{ borderRadius: "10px" }}>
       <Card.Title className="portfolioBG">보유 기술</Card.Title>
-      {techs.map((v) => (
-        <Tech key={v.id} tech={v} isEditable={isEditable} />
-      ))}
+        <Row lg="auto" style={{ jusifyContent: "flex-start"}}>
+          {techs.map((v) => (
+            <Tech key={v.id} tech={v} isEditable={isEditable} />
+          ))}
+        </Row>
       {isEditable && (
         <Row className="mt-3 text-center mb-4">
           <Col sm={{ span: 20 }} className="portfolioBG">

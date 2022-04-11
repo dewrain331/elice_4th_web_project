@@ -4,16 +4,6 @@ import * as Api from "../../api";
 // recoil 사용
 import { useSetRecoilState } from "recoil";
 import { techsState } from "./TechAtom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import TechPercentage from './TechPercentage'
-import { 
-  faJsSquare as javascript, 
-  faHtml5 as html, 
-  faCss3Alt as css, 
-  faReact as react, 
-  faNodeJs as nodejs, 
-  faJava as java 
-} from "@fortawesome/free-brands-svg-icons"
 
 const TechCard = ({ tech, isEditable, setIsEditing }) => {
   // Modal 관련 State
@@ -32,34 +22,48 @@ const TechCard = ({ tech, isEditable, setIsEditing }) => {
       setShow(false);
       // "tech/유저id" get 요청 후 setting
       const res = await Api.get("techList", userId);
-      setTechs(res.data.techs);
+      setTechs(res.data);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const makeTitle = (title) => {
-    return (
-      <>
-        <FontAwesomeIcon
-          icon={title}
-          style={{fontSize: '40px', marginLeft: '15px', marginRight: '15px', background: 'white'}}
-        />
-        {title.toUpperCase()}
-      </>
-    )
+  const color = (title) => {
+    if(title === 'javascript') {return "rgb(200, 170, 90)"}
+    if(title === 'html') {return "rgb(200, 130, 50)"}
+    if(title === 'css') {return "rgb(50, 100, 200)"}
+    if(title === 'react') {return "rgb(30, 170, 200)"}
+    if(title === 'nodejs') {return "rgb(70, 180, 100)"}
+    if(title === 'java') {return "rgb(200, 50, 50)"}
   }
 
   return (
     <>
-      <Card.Body style={{ width: "330px", backgroundColor: "white" }}>
+      <Card.Body className="align-items-center" style={{ maxWidth: "400px", backgroundColor: "white", margin: "30px" }}>
         <ListGroup variant="flush">
           <ListGroup.Item>
-            <Card.Title>{makeTitle(tech.title)}</Card.Title>
-            <Card.Text>{tech.description}</Card.Text>
+            <Card.Title style={{background: "white"}}>{tech.title.toUpperCase()}</Card.Title>
+            <Card.Text style={{background: "white"}}>{tech.description}</Card.Text>
           </ListGroup.Item>
           <ListGroup.Item>
-            <TechPercentage title={tech.title} percentage={tech.percent} />
+            <div style={{
+                width: "340px",
+                borderRadius: "40px",
+                background: "#ccc",
+                height: "40px"
+            }}>
+                <span
+                    style={{
+                        display: "block",
+                        height: "40px",
+                        textAlign: "right",
+                        background: color(tech.title),
+                        lineHeight: "40px",
+                        borderRadius: "40px",
+                        width: `${tech.percent}%`,
+                    }}
+                >{tech.percent}%</span>
+            </div>
           </ListGroup.Item>
         </ListGroup>
         <br />
@@ -69,6 +73,7 @@ const TechCard = ({ tech, isEditable, setIsEditing }) => {
             display: "flex",
             paddingLeft: "85px",
             backgroundColor: "white",
+            marginLeft: "50px"
           }}
         >
           {isEditable && (

@@ -12,7 +12,7 @@ const Tech = ({ tech, isEditable }) => {
             {/* isEditing에 따라 수정중(true)이라면 수정 양식(TechEditForm)을 보내고, 아니라면 Tech 목록(TechCard)을 표시 */}
             {isEditing ? (
                 <TechEditForm
-                    currentAward={tech}
+                    currentTech={tech}
                     setIsEditing={setIsEditing}
                 />
             ) : (

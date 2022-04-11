@@ -13,7 +13,7 @@ const TechEditForm = ({ currentTech, setIsEditing }) => {
     currentTech.description
   );
   const [percent, setPercent] = useState(
-      currentTech.percent
+    currentTech.percent
   )
 
   const handleSubmit = async (evt) => {
@@ -36,9 +36,9 @@ const TechEditForm = ({ currentTech, setIsEditing }) => {
     // put 요청값과 함께 각각의 Tech들의 모임인 Techs를 다시 렌더링
     try {
       const res = await Api.get(
-        "techList", `${userId}`
+        "techList", userId
       );
-      setTechs(res.data.techs);
+      setTechs(res.data);
       // 편집 상태 종료.
       setIsEditing(false);
     } catch (err) {
@@ -48,7 +48,7 @@ const TechEditForm = ({ currentTech, setIsEditing }) => {
 
   return (
     <>
-      <Form onSubmit={handleSubmit} className="portfolioBG">
+      <Form onSubmit={handleSubmit} className="align-items-center portfolioBG" style={{width: "400px", background: "white"}}>
         <Form.Group controlId="formBasicDescription" className="mt-3">
           <Form.Control
             type="text"
@@ -63,14 +63,14 @@ const TechEditForm = ({ currentTech, setIsEditing }) => {
                 type="number"
                 placeholder="주관적 퍼센테이지"
                 value={percent}
-                min="0"
+                min="1"
                 max="100"
                 onChange={(evt) => setPercent(evt.target.value)}
             />
         </Form.Group>
 
         <Form.Group as={Row} className="mt-3 text-center">
-          <Col sm={{ span: 20 }} className="portfolioBG">
+          <Col sm={{ span: 20 }} className="portfolioBG" style={{background: "white"}}>
             <Button variant="primary" type="submit" className="me-3">
               확인
             </Button>

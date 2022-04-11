@@ -38,7 +38,7 @@ const TechAddForm = ({ portfolioOwnerId }) => {
           icon={skillName}
           onClick={() => {
             if(skillName.iconName === 'js-square') {
-              setTitle(`javascript`)
+              setTitle('javascript')
             } else if(skillName.iconName === 'html5') {
               setTitle(`html`)
             } else if(skillName.iconName === 'css3-alt') {
@@ -81,8 +81,7 @@ const TechAddForm = ({ portfolioOwnerId }) => {
       const res = await Api.get(
         "techList", `${userId}`
       );
-      const { techs } = res.data;
-      setTechs(techs);
+      setTechs(res.data);
       // 생성 상태 종료.
       setIsAdding(false);
     } catch (err) {
@@ -110,7 +109,7 @@ const TechAddForm = ({ portfolioOwnerId }) => {
           type="number"
           placeholder="주관적 퍼센테이지"
           value={percent}
-          min="0"
+          min="1"
           max="100"
           onChange={(evt) => setPercent(evt.target.value)}
         />
