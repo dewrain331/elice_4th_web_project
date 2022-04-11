@@ -25,7 +25,7 @@ const TechEditForm = ({ currentTech, setIsEditing }) => {
 
     // put 요청.
     try {
-      await Api.post(`techs/${currentTech.id}`, {
+      await Api.put(`techs/${currentTech.id}`, {
         description,
         percent
       });
