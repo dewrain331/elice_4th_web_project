@@ -10,7 +10,7 @@ const techSchema = new Schema(
         type: String,
         required: true,
     },
-    tech: {
+    title: {
         type: String,
         required: true,
     },
