@@ -29,32 +29,31 @@ const ProjectDetailAddForm = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // const {projectId, title, fromDate, toDate}=project
+    const { projectId, title, fromDate, toDate } = project;
+    const date = slicingDate(fromDate, toDate);
+    try {
+      await Api.post("portfolio", {
+        title,
+        date,
+        userId: portfolioOwnerId,
+        projectId,
+        deployLink,
+        githubLink,
+        projectRole,
+        details,
+      });
 
-    // try {
-    //   await Api.post("portfolio", {
-    //     portfolioOwnerId,
-    //     projectId,
-    //     title,
-    //     fromDate,
-    //     toDate,
-    //     deployLink,
-    //     githubLink,
-    //     projectRole,
-    //     details
-    //   });
-
-    //   const res = await Api.get(
-    //     "portfoliolist",
-    //     `${portfolioOwnerId}?page=${page}&perPage=${PER_PAGE}`
-    //   );
-    //   const { totalPage, portfolios } = res.data;
-    //   setPage(totalPage)
-    //   setAllPage(totalPage);
-    //   setProjects(portfolios);
-    //   }catch(err){
-    //     console.log(err.message)
-    //   }
+      const res = await Api.get(
+        "portfoliolist",
+        `${portfolioOwnerId}?page=${page}&perPage=${PER_PAGE}`
+      );
+      const { totalPage, portfolios } = res.data;
+      setPage(totalPage);
+      setAllPage(totalPage);
+      setProjects(portfolios);
+    } catch (err) {
+      console.log(err.message);
+    }
     setIsAdding(false);
   };
 
@@ -83,16 +82,15 @@ const ProjectDetailAddForm = ({
     return `${from} ~ ${to}`;
   };
 
-  const fetchProjects = async () => {
-    try {
-      const res = await Api.get("projectTotalList", portfolioOwnerId);
-      setProjectsList(res.data);
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
-
   useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const res = await Api.get("projectTotalList", portfolioOwnerId);
+        setProjectsList(res.data);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
     fetchProjects();
   }, [portfolioOwnerId]);
 
@@ -120,16 +118,17 @@ const ProjectDetailAddForm = ({
       >
         {project?.title}
       </h4>
-      <span className="portfolioBG" style={{ color: "gray" }}>
+      {/* <span className="portfolioBG" style={{ color: "gray" }}>
         {project?.description}
-      </span>
+      </span> */}
       <p className="portfolioBG">
         {slicingDate(project?.fromDate, project?.toDate)}
       </p>
 
       {/* 배포링크, 깃헙링크, 역할 기록할 수 있는 텍스트 폼 */}
       <Form onSubmit={handleSubmit} className="portfolioBG">
-        <Form.Group controlId="formBasicTitle" className="mb-3">
+        <Form.Group controlId="formBasicTitle" className="mb-3 portfolioBG">
+          <Form.Label className="portfolioBG">URL</Form.Label>
           <Form.Control
             type="text"
             placeholder="배포 링크"
@@ -138,7 +137,8 @@ const ProjectDetailAddForm = ({
           />
         </Form.Group>
 
-        <Form.Group controlId="formBasicTitle" className="mb-3">
+        <Form.Group controlId="formBasicTitle" className="mb-3 portfolioBG">
+          <Form.Label className="portfolioBG">Github</Form.Label>
           <Form.Control
             type="text"
             placeholder="깃헙 링크"
@@ -147,7 +147,8 @@ const ProjectDetailAddForm = ({
           />
         </Form.Group>
 
-        <Form.Group controlId="formBasicTitle" className="mb-3">
+        <Form.Group controlId="formBasicTitle" className="mb-3 portfolioBG">
+          <Form.Label className="portfolioBG">Project Role</Form.Label>
           <Form.Control
             type="text"
             placeholder="프로젝트 내 역할"
@@ -175,7 +176,7 @@ const ProjectDetailAddForm = ({
                   value={detail}
                   onChange={(e) => handleDetailChange(e, idx)}
                 />
-                {details.length == 1 ? (
+                {details.length === 1 ? (
                   <Button
                     variant="outline-danger"
                     onClick={() => handleDetailsRemove(idx)}

@@ -1,15 +1,70 @@
 import { Card, Col, Button } from "react-bootstrap";
 
 const ProjectDetailCard = ({ project, setIsEditing, isEditable }) => {
+  const slicingDate = (from, to) => {
+    from = from.slice(0, 10).split("-").join(".");
+    to = to.slice(0, 10).split("-").join(".");
+    return `${from} ~ ${to}`;
+  };
   return (
-    <Card.Body>
-      {/* 
-        project에서 받아오는 필수 정보가 이력서 쪽 project의 정보들이면 좋겠음
-        title, fromDate, toDate, description 정보는 필수적
-        images, deployLink, githubLink, projectRole, details 정보는 있으면 가져오도록 함
-      */}
+    <Card.Body
+      className="mb-4"
+      style={{ backgroundColor: "white", borderRadius: "10px" }}
+    >
+      <h4
+        style={{
+          display: "inline",
+          marginRight: "10px",
+          backgroundColor: "white",
+        }}
+      >
+        {project.title}
+      </h4>
+      <p style={{ backgroundColor: "white" }}>
+        {slicingDate(project.fromDate, project.toDate)}
+      </p>
+      {project.deployLink && (
+        <div style={{ backgroundColor: "white" }}>
+          <span style={{ backgroundColor: "white", fontWeight: "bold" }}>
+            URL:{" "}
+          </span>
+          <span style={{ backgroundColor: "white" }}>{project.deployLink}</span>
+        </div>
+      )}
+      {project.githubLink && (
+        <div style={{ backgroundColor: "white" }}>
+          <span style={{ backgroundColor: "white", fontWeight: "bold" }}>
+            GitHub:{" "}
+          </span>
+          <span style={{ backgroundColor: "white" }}>{project.githubLink}</span>
+        </div>
+      )}
+
+      {project.githubLink && (
+        <div style={{ backgroundColor: "white", marginBottom: "15px" }}>
+          <span style={{ backgroundColor: "white", fontWeight: "bold" }}>
+            Project Role:{" "}
+          </span>
+          <span style={{ backgroundColor: "white" }}>
+            {project.projectRole}
+          </span>
+        </div>
+      )}
+
+      {project.details !== [""] && (
+        <>
+          <span style={{ backgroundColor: "white", fontWeight: "bold" }}>
+            세부 정보
+          </span>
+          <ul style={{ backgroundColor: "white" }}>
+            {project.details.map((detail) => (
+              <li style={{ backgroundColor: "white" }}>{detail}</li>
+            ))}
+          </ul>
+        </>
+      )}
       {isEditable && (
-        <Col xs={3}>
+        <Col xs={3} style={{ backgroundColor: "white" }}>
           <Button
             variant="info"
             size="sm"

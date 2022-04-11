@@ -13,23 +13,22 @@ const ProjectsDetail = ({ portfolioOwnerId, isEditable }) => {
   const [projects, setProjects] = useState([]);
   const [isAdding, setIsAdding] = useState(false);
 
-  const fetchProjectsList = async () => {
-    try {
-      const res = await Api.get(
-        "portfoliolist",
-        `${portfolioOwnerId}?page=${page}&perPage=${PER_PAGE}`
-      );
-      const { totalPage, portfolios } = res.data;
-      setAllPage(totalPage);
-      setProjects(portfolios);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  // useEffect(() => {
-  //   fetchProjectsList();
-  // }, [portfolioOwnerId]);
+  useEffect(() => {
+    const fetchProjectsList = async () => {
+      try {
+        const res = await Api.get(
+          "portfoliolist",
+          `${portfolioOwnerId}?page=${page}&perPage=${PER_PAGE}`
+        );
+        const { totalPage, portfolios } = res.data;
+        setAllPage(totalPage);
+        setProjects(portfolios);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    fetchProjectsList();
+  }, [portfolioOwnerId, page]);
 
   return (
     <Card.Body className="portfolioBG">
@@ -51,9 +50,14 @@ const ProjectsDetail = ({ portfolioOwnerId, isEditable }) => {
           page={page}
         />
       )}
-      {/* {projects.map((proj) => (
-        <ProjectDetail project={proj} isEditable={isEditable} />
-      ))} */}
+      {projects.map((proj) => (
+        <ProjectDetail
+          project={proj}
+          page={page}
+          isEditable={isEditable}
+          setProjects={setProjects}
+        />
+      ))}
 
       <Row className="mt-3 text-center mb-4">
         <Col className="portfolioBG">
