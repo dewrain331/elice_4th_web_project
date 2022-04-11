@@ -15,12 +15,12 @@ techRouter.post("/tech/create", async function (req, res, next) {
     }
 
     // req (request) 에서 데이터 가져오기
-    const { userId, tech, percent, description } = req.body;
+    const { userId, title, percent, description } = req.body;
 
     // 위 데이터를 education db에 추가하기
     const newTech = await techService.addTech({
         userId,
-        tech,
+        title,
         percent,
         description,
     });
@@ -37,8 +37,8 @@ techRouter.put("/techs/:id", async function (req, res, next) {
       const techId = req.params.id;
 
       // body data 로부터 업데이트할 사용자 정보를 추출함.
-      const { tech, percent, description } = req.body ?? null;
-      const toUpdate = { tech, percent, description };
+      const { title, percent, description } = req.body ?? null;
+      const toUpdate = { title, percent, description };
 
       // 위 추출된 정보를 이용하여 db의 데이터 수정함
       const updatedTech = await techService.setTech({ techId, toUpdate });

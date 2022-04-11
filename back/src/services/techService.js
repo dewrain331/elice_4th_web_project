@@ -2,10 +2,10 @@ import { Tech } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로
 import { v4 as uuidv4 } from "uuid";
 
 class techService {
-  static addTech = async ({ userId, tech, percent, description }) => {
+  static addTech = async ({ userId, title, percent, description }) => {
     // id 는 유니크 값 부여
     const id = uuidv4();
-    const newTech = { id, userId, tech, percent, description };
+    const newTech = { id, userId, title, percent, description };
 
     // db에 저장
     const createdNewTech = await Tech.create({ newTech });
