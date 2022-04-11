@@ -8,7 +8,14 @@ import {
 } from "./TechAtom";
 import "../Components.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faJsSquare as javascript, faHtml5 as html, faCss3Alt as css, faReact as react, faNodeJs as nodejs, faJava as java } from "@fortawesome/free-brands-svg-icons"
+import { 
+  faJsSquare as javascript, 
+  faHtml5 as html, 
+  faCss3Alt as css, 
+  faReact as react, 
+  faNodeJs as nodejs, 
+  faJava as java 
+} from "@fortawesome/free-brands-svg-icons"
 
 const TechAddForm = ({ portfolioOwnerId }) => {
   // RecoilStates
@@ -21,6 +28,20 @@ const TechAddForm = ({ portfolioOwnerId }) => {
   const [description, setDescription] = useState("");
   // useState로 주관적 퍼센테이지를 담을 percent 변수 선언
   const [percent, setPercent] = useState()
+  // 아이콘 추가 시 skills 리스트와 상위 import에 추가할 것.
+  const skills = [javascript, html, css, react, nodejs, java]
+
+  const makeIcons = (skillName) => {
+    return (
+      <>
+        <FontAwesomeIcon
+          icon={skillName}
+          onclick={() => {setTitle(`${skillName}`)}}
+          style={{fontSize: '40px', cursor: 'pointer', marginLeft: '15px', marginRight: '15px', background: 'white'}}
+        />
+      </>
+    )
+  }
 
   const handleSubmit = async (evt) => {
     // Form의 기본기능을 막기 위한 코드 선언.
@@ -58,36 +79,7 @@ const TechAddForm = ({ portfolioOwnerId }) => {
   return (
     <Form onSubmit={handleSubmit} className="portfolioBG">
       <Form.Group controlId="formBasicTitle" style={{background: 'white'}}>
-        <FontAwesomeIcon
-            icon={javascript}
-            onclick={() => {setTitle('javascript')}}
-            style={{fontSize: '40px', cursor: 'pointer', marginLeft: '15px', marginRight: '15px', background: 'white'}}
-        />
-        <FontAwesomeIcon
-            icon={html}
-            onclick={() => {setTitle('html')}}
-            style={{fontSize: '40px', cursor: 'pointer', marginLeft: '15px', marginRight: '15px', background: 'white'}}
-        />
-        <FontAwesomeIcon
-            icon={css}
-            onclick={() => {setTitle('css')}}
-            style={{fontSize: '40px', cursor: 'pointer', marginLeft: '15px', marginRight: '15px', background: 'white'}}
-        />
-        <FontAwesomeIcon
-            icon={react}
-            onclick={() => {setTitle('react')}}
-            style={{fontSize: '40px', cursor: 'pointer', marginLeft: '15px', marginRight: '15px', background: 'white'}}
-        />
-        <FontAwesomeIcon
-            icon={nodejs}
-            onclick={() => {setTitle('nodejs')}}
-            style={{fontSize: '40px', cursor: 'pointer', marginLeft: '15px', marginRight: '15px', background: 'white'}}
-        />
-        <FontAwesomeIcon
-            icon={java}
-            onclick={() => {setTitle('java')}}
-            style={{fontSize: '40px', cursor: 'pointer', marginLeft: '15px', marginRight: '15px', background: 'white'}}
-        />
+        {skills.map(v => makeIcons(v))}
       </Form.Group>
 
       <Form.Group controlId="formBasicDescription" className="mt-3">

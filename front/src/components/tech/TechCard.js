@@ -1,202 +1,113 @@
-import { Card, Button, Row, Col } from "react-bootstrap";
+import { Card, Button, Modal } from "react-bootstrap";
 import { useState } from "react";
 import * as Api from "../../api";
+// recoil 사용
 import { useSetRecoilState } from "recoil";
 import { techsState } from "./TechAtom";
-import ModalComp from "../ModalComp";
-import ModalPortal from "../ModalPortal";
-import "../Components.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faJsSquare as javascript, faHtml5 as html, faCss3Alt as css, faReact as react, faNodeJs as nodejs, faJava as java } from "@fortawesome/free-brands-svg-icons"
+import { 
+  faJsSquare as javascript, 
+  faHtml5 as html, 
+  faCss3Alt as css, 
+  faReact as react, 
+  faNodeJs as nodejs, 
+  faJava as java 
+} from "@fortawesome/free-brands-svg-icons"
 
 const TechCard = ({ tech, isEditable, setIsEditing }) => {
-  // RecoilStates
-  const setTechs = useSetRecoilState(techsState);
-
   // Modal 관련 State
   const [show, setShow] = useState(false);
+  const handleAlertShow = () => setShow(true);
+  const handleAlertCancel = () => setShow(false);
 
-  const [showCard, setShowCard] = useState(false)
-  const [cardTitle, setCardTitle] = useState("")
-  const [cardDescript, setCardDescript] = useState("")
+  // recoil 적용
+  const setTechs = useSetRecoilState(techsState);
 
-  const handleShowCard = (title, description) => {
-    setCardTitle(title)
-    setCardDescript(description)
-  }
-
+  // 삭제 기능을 하는 함수
   const handleDelete = async () => {
+    const { id, userId } = tech;
     try {
-      const { id, userId } = tech
-      await Api.delete(`techs/${id}`);
-      const res = await Api.get(
-        "techList", `${userId}`
-      );
-      const { techs } = res.data;
-      setTechs(techs);
+      await Api.delete("techs", id);
       setShow(false);
-    } catch (err) {
-      console.error(err);
+      // "tech/유저id" get 요청 후 setting
+      const res = await Api.get("techList", userId);
+      setTechs(res.data.techs);
+    } catch (error) {
+      console.error(error);
     }
   };
 
+  const makeTitle = (title) => {
+    return (
+      <>
+        <FontAwesomeIcon
+          icon={title}
+          style={{fontSize: '40px', marginLeft: '15px', marginRight: '15px', background: 'white'}}
+        />
+        {title.toUpperCase()}
+      </>
+    )
+  }
+
   return (
     <>
-      <Card.Body className="portfolioBG">
-        {/* tech의 title에 알맞는 icon을 출력하고, 그 아이콘을 클릭 시 하단에 상세내용과 편집 및 삭제 버튼을 보이게 함. */}
-        <Row className="align-items-center portfolioBG">
-          <Col xs={9} className="portfolioBG">
-            <span className="portfolioBG">
-              {tech.title === "javascript" ? 
-                <FontAwesomeIcon 
-                  icon={javascript}
-                  style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
-                  onClick={() => {
-                    if(showCard === false) {
-                      handleShowCard(tech.title, tech.desription)
-                      setShowCard(true)
-                    } else if(showCard === true) {
-                      setShowCard(false)
-                    }
-                  }}
-                /> 
-              : null}
-              {tech.title === "html" ? 
-                <FontAwesomeIcon 
-                  icon={html} 
-                  style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
-                  onClick={() => {
-                    if(showCard === false) {
-                      handleShowCard(tech.title, tech.desription)
-                      setShowCard(true)
-                    } else if(showCard === true) {
-                      setShowCard(false)
-                    }
-                  }}
-                /> 
-              : null}
-              {tech.title === "css" ? 
-                <FontAwesomeIcon 
-                  icon={css} 
-                  style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
-                  onClick={() => {
-                    if(showCard === false) {
-                      handleShowCard(tech.title, tech.desription)
-                      setShowCard(true)
-                    } else if(showCard === true) {
-                      setShowCard(false)
-                    }
-                  }}
-                /> 
-              : null}
-              {tech.title === "react" ? 
-                <FontAwesomeIcon 
-                  icon={react} 
-                  style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
-                  onClick={() => {
-                    if(showCard === false) {
-                      handleShowCard(tech.title, tech.desription)
-                      setShowCard(true)
-                    } else if(showCard === true) {
-                      setShowCard(false)
-                    }
-                  }}
-                /> 
-              : null}
-              {tech.title === "nodejs" ? 
-                <FontAwesomeIcon 
-                  icon={nodejs} 
-                  style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
-                  onClick={() => {
-                    if(showCard === false) {
-                      handleShowCard(tech.title, tech.desription)
-                      setShowCard(true)
-                    } else if(showCard === true) {
-                      setShowCard(false)
-                    }
-                  }}
-                /> 
-              : null}
-              {tech.title === "java" ? 
-                <FontAwesomeIcon 
-                  icon={java} 
-                  style={{fontSize: '40px', cursor: 'pointer', marginLeft: '30px', marginRight: '30px', background: 'white'}}
-                  onClick={() => {
-                    if(showCard === false) {
-                      handleShowCard(tech.title, tech.desription)
-                      setShowCard(true)
-                    } else if(showCard === true) {
-                      setShowCard(false)
-                    }
-                  }}
-                /> 
-              : null}
-            </span>
-            <br />
-            {showCard ? 
-            (
-            <>
-              <Card style={{background: 'white'}}>
-                <Card.Title>
-                  <FontAwesomeIcon
-                    icon={cardTitle}
-                  />
-                  {cardTitle}
-                </Card.Title>
-                <Card.Text>{cardDescript}</Card.Text>
-              </Card>
-              {/* 각 항목마다 편집 버튼을 생성 */}
-              {isEditable && (
-              <Col xs={3} style={{ textAlign: "center" }} className="portfolioBG">
-                <Button
-                  variant="info"
-                  size="sm"
-                  onClick={() => setIsEditing((prev) => !prev)}
-                  className="mr-3"
-                >
-                  편집
-                </Button>{" "}
-                {/* 각 항목마다 삭제 버튼을 생성 */}
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => setShow(true)}
-                >
-                  삭제
-                </Button>
-              </Col>
-              )}
-            </>
-            ) : null}
-          </Col>
-        </Row>
-      </Card.Body>
-
-      <ModalPortal>
-        {show && (
-          <ModalComp
-            setShow={setShow}
-            show={show}
-            title="삭제 확인"
-            message="정말로 삭제하시겠습니까?"
-            children
-          >
-            <Button variant="secondary" onClick={() => setShow(false)}>
-              취소
-            </Button>
+      <Card.Body style={{ width: "330px", backgroundColor: "white" }}>
+        <Card.Title>{makeTitle(tech.title)}</Card.Title>
+        <br />
+        {/* tech 편집 버튼 */}
+        <div
+          style={{
+            display: "flex",
+            paddingLeft: "85px",
+            backgroundColor: "white",
+          }}
+        >
+          {isEditable && (
             <Button
-              variant="danger"
-              onClick={() => {
-                handleDelete();
-              }}
+              variant="outline-info"
+              size="sm"
+              onClick={() => setIsEditing((prev) => !prev)}
+            >
+              편집
+            </Button>
+          )}
+          {/* tech 삭제 버튼 */}
+          {isEditable && (
+            <Button
+              variant="outline-secondary"
+              size="sm"
+              onClick={handleAlertShow}
             >
               삭제
             </Button>
-          </ModalComp>
-        )}
-      </ModalPortal>
+          )}
+        </div>
+      </Card.Body>
+
+      <Modal
+        show={show}
+        onHide={handleAlertCancel}
+        style={{ background: "transparent" }}
+      >
+        <Modal.Header closeButton style={{ backgroundColor: "white" }}>
+          <Modal.Title style={{ backgroundColor: "white" }}>
+            삭제 확인
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{ backgroundColor: "white" }}>
+          정말로 삭제하시겠습니까?
+        </Modal.Body>
+        <Modal.Footer style={{ backgroundColor: "white" }}>
+          <Button variant="secondary" onClick={handleAlertCancel}>
+            취소
+          </Button>
+          <Button variant="danger" onClick={handleDelete}>
+            삭제
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
-};
+}
 
-export default TechCard
+export default TechCard;
