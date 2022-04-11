@@ -7,7 +7,7 @@ const portfolioSchema = new Schema(
       required : true,
     },
     date : {
-      type : Date,
+      type : String,
       required : true,
     },
     userId : {
