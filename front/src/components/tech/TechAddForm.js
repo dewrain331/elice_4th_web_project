@@ -36,7 +36,21 @@ const TechAddForm = ({ portfolioOwnerId }) => {
       <>
         <FontAwesomeIcon
           icon={skillName}
-          onclick={() => {setTitle(`${skillName}`)}}
+          onClick={() => {
+            if(skillName.iconName === 'js-square') {
+              setTitle(`javascript`)
+            } else if(skillName.iconName === 'html5') {
+              setTitle(`html`)
+            } else if(skillName.iconName === 'css3-alt') {
+              setTitle(`css`)
+            } else if(skillName.iconName === 'react') {
+              setTitle(`react`)
+            } else if(skillName.iconName === 'node-js') {
+              setTitle(`nodejs`)
+            } else if(skillName.iconName === 'java') {
+              setTitle(`java`)
+            }
+          }}
           style={{fontSize: '40px', cursor: 'pointer', marginLeft: '15px', marginRight: '15px', background: 'white'}}
         />
       </>
