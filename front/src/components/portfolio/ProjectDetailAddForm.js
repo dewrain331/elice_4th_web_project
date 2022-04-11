@@ -21,7 +21,7 @@ const ProjectDetailAddForm = ({
   page,
 }) => {
   const [projectsList, setProjectsList] = useState([]);
-  const [project, setProject] = useState({});
+  const [project, setProject] = useState(0);
   const [deployLink, setDeployLink] = useState("");
   const [githubLink, setGithubLink] = useState("");
   const [projectRole, setProjectRole] = useState("");
@@ -29,14 +29,14 @@ const ProjectDetailAddForm = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { projectId, title, fromDate, toDate } = project;
+    const { id, title, fromDate, toDate } = project;
     const date = slicingDate(fromDate, toDate);
     try {
       await Api.post("portfolio", {
         title,
         date,
         userId: portfolioOwnerId,
-        projectId,
+        projectId: id,
         deployLink,
         githubLink,
         projectRole,
@@ -103,10 +103,7 @@ const ProjectDetailAddForm = ({
         className="portfolioBG mb-3"
       >
         {projectsList.map((proj, idx) => (
-          <Dropdown.Item
-            key={proj.id}
-            onClick={() => setProject(projectsList[idx])}
-          >
+          <Dropdown.Item key={proj.id} onClick={() => setProject(proj)}>
             {proj.title}
           </Dropdown.Item>
         ))}

@@ -52,6 +52,7 @@ const ProjectsDetail = ({ portfolioOwnerId, isEditable }) => {
       )}
       {projects.map((proj) => (
         <ProjectDetail
+          key={proj._id}
           project={proj}
           page={page}
           isEditable={isEditable}

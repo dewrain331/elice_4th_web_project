@@ -50,8 +50,10 @@ const ProjectDetailCard = ({ project, setIsEditing, isEditable }) => {
             세부 정보
           </span>
           <ul style={{ backgroundColor: "white" }}>
-            {project.details.map((detail) => (
-              <li style={{ backgroundColor: "white" }}>{detail}</li>
+            {project.details.map((detail, idx) => (
+              <li style={{ backgroundColor: "white" }} key={idx}>
+                {detail}
+              </li>
             ))}
           </ul>
         </>
