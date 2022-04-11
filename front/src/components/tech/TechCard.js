@@ -1,10 +1,11 @@
-import { Card, Button, Modal } from "react-bootstrap";
+import { Card, Button, Modal, ListGroup } from "react-bootstrap";
 import { useState } from "react";
 import * as Api from "../../api";
 // recoil 사용
 import { useSetRecoilState } from "recoil";
 import { techsState } from "./TechAtom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import TechPercentage from './TechPercentage'
 import { 
   faJsSquare as javascript, 
   faHtml5 as html, 
@@ -52,7 +53,15 @@ const TechCard = ({ tech, isEditable, setIsEditing }) => {
   return (
     <>
       <Card.Body style={{ width: "330px", backgroundColor: "white" }}>
-        <Card.Title>{makeTitle(tech.title)}</Card.Title>
+        <ListGroup variant="flush">
+          <ListGroup.Item>
+            <Card.Title>{makeTitle(tech.title)}</Card.Title>
+            <Card.Text>{tech.description}</Card.Text>
+          </ListGroup.Item>
+          <ListGroup.Item>
+            <TechPercentage title={tech.title} percentage={tech.percent} />
+          </ListGroup.Item>
+        </ListGroup>
         <br />
         {/* tech 편집 버튼 */}
         <div
