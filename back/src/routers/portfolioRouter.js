@@ -7,13 +7,15 @@ const portfolioRouter = Router();
 
 portfolioRouter.post("/portfolio", login_required, async function (req, res, next) {
   try {
-    if (is.emptyObject(req.body) || !req.body.projectId || !req.body.userId) {
+    if (is.emptyObject(req.body) || !req.body.projectId || !req.body.userId || !req.body.title || !req.body.date) {
       throw new Error(
         "요청 내용이 빈 객체거나 프로젝트 ID 혹은 유저 ID가 없습니다."
       );
     }
     // req (request) 에서 데이터 가져오기
     const newPortfolio = { 
+      title : req.body.title,
+      date : req.body.date,
       userId : req.body.userId, 
       projectId : req.body.projectId, 
       deployLink : req.body.deployLink ? req.body.deployLink : "", 

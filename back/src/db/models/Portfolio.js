@@ -4,9 +4,9 @@ class Portfolio {
 
   static create = async ({ newPortfolio }) => {
     
-    const checkPortfolio = await portfolioModel.findById({ projectId : newPortfolio.projectId });
+    const checkPortfolio = await this.findById({ projectId : newPortfolio.projectId });
 
-    if (checkPortfolio) {
+    if (!checkPortfolio.errorMessage) {
       return checkPortfolio;
     } 
     const portfolio = await portfolioModel.create(newPortfolio);

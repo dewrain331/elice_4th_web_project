@@ -2,6 +2,14 @@ import { Schema, model, Types } from "mongoose";
 
 const portfolioSchema = new Schema(
   {
+    title : {
+      type : String,
+      required : true,
+    },
+    date : {
+      type : Date,
+      required : true,
+    },
     userId : {
         type : String,
         required : true,
