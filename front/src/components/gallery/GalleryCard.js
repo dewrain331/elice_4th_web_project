@@ -39,6 +39,7 @@ function GalleryCard({ gallery, isEditable, setIsEditing }) {
           <img
             className="mb-3"
             src={gallery?.saveFilePath}
+            style={{ cursor: "pointer" }}
             alt="갤러리 이미지"
             onClick={() => setShowImg(true)}
           />
