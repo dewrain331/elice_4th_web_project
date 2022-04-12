@@ -6,9 +6,13 @@ const portfolioSchema = new Schema(
       type : String,
       required : true,
     },
-    date : {
-      type : String,
-      required : true,
+    fromDate: {
+      type: Date,
+      required: true,
+    },
+    toDate: {
+        type: Date,
+        required: true,
     },
     userId : {
         type : String,
