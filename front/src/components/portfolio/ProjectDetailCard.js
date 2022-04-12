@@ -1,10 +1,40 @@
 import { Card, Col, Button } from "react-bootstrap";
+import * as Api from "../../api";
 
-const ProjectDetailCard = ({ project, setIsEditing, isEditable }) => {
+const PER_PAGE = 3;
+
+const ProjectDetailCard = ({
+  project,
+  setIsEditing,
+  isEditable,
+  page,
+  setPage,
+  setAllPage,
+  setProjects,
+}) => {
   const slicingDate = (from, to) => {
     from = from.slice(0, 10).split("-").join(".");
     to = to.slice(0, 10).split("-").join(".");
     return `${from} ~ ${to}`;
+  };
+
+  const handleDelete = async () => {
+    const { projectId, userId } = project;
+    try {
+      Api.delete("portfolio", projectId);
+      const res = await Api.get(
+        "portfoliolist",
+        `${userId}?page=${page}&perPage=${PER_PAGE}`
+      );
+      const { totalPage, portfolios } = res.data;
+      if (page > totalPage) {
+        setPage(page - 1);
+      }
+      setAllPage(totalPage);
+      setProjects(portfolios);
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 
   return (
@@ -67,15 +97,17 @@ const ProjectDetailCard = ({ project, setIsEditing, isEditable }) => {
         </>
       )}
       {isEditable && (
-        <Col xs={3} style={{ backgroundColor: "white" }}>
+        <Col style={{ backgroundColor: "white" }} className="text-center">
           <Button
-            variant="info"
-            size="sm"
+            variant="outline-info"
             onClick={() => setIsEditing(true)}
             className="mr-3"
           >
             편집
           </Button>{" "}
+          <Button variant="outline-danger" onClick={() => handleDelete()}>
+            삭제
+          </Button>
         </Col>
       )}
     </Card.Body>

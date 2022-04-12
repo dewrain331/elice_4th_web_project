@@ -57,6 +57,8 @@ const ProjectsDetail = ({ portfolioOwnerId, isEditable }) => {
           page={page}
           isEditable={isEditable}
           setProjects={setProjects}
+          setPage={setPage}
+          setAllPage={setAllPage}
         />
       ))}
 
