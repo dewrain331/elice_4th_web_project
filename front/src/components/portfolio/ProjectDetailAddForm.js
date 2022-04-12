@@ -19,6 +19,7 @@ const ProjectDetailAddForm = ({
   setPage,
   setAllPage,
   page,
+  projects,
 }) => {
   const [projectsList, setProjectsList] = useState([]);
   const [project, setProject] = useState(0);
@@ -86,7 +87,11 @@ const ProjectDetailAddForm = ({
     const fetchProjects = async () => {
       try {
         const res = await Api.get("projectTotalList", portfolioOwnerId);
-        setProjectsList(res.data);
+        let temp = [...res.data];
+        projects.forEach((proj) => {
+          temp = temp.filter((p) => p.id !== proj.projectId);
+        });
+        setProjectsList(temp);
       } catch (err) {
         console.log(err.message);
       }
