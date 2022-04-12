@@ -48,6 +48,7 @@ const ProjectsDetail = ({ portfolioOwnerId, isEditable }) => {
           setPage={setPage}
           setAllPage={setAllPage}
           page={page}
+          projects={projects}
         />
       )}
       {projects.map((proj) => (
@@ -57,6 +58,8 @@ const ProjectsDetail = ({ portfolioOwnerId, isEditable }) => {
           page={page}
           isEditable={isEditable}
           setProjects={setProjects}
+          setPage={setPage}
+          setAllPage={setAllPage}
         />
       ))}
 

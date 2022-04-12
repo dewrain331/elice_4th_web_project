@@ -15,6 +15,12 @@ const ProjectDetailEditForm = ({
   const [projectRole, setProjectRole] = useState(project.projectRole);
   const [details, setDetails] = useState(project.details);
 
+  const slicingDate = (from, to) => {
+    from = from.slice(0, 10).split("-").join(".");
+    to = to.slice(0, 10).split("-").join(".");
+    return `${from} ~ ${to}`;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { userId, projectId } = project;
@@ -68,7 +74,9 @@ const ProjectDetailEditForm = ({
       >
         {project.title}
       </h4>
-      <p style={{ backgroundColor: "white" }}>{project.date}</p>
+      <p style={{ backgroundColor: "white" }}>
+        {slicingDate(project.fromDate, project.toDate)}
+      </p>
 
       <Form onSubmit={handleSubmit} style={{ backgroundColor: "white" }}>
         <Form.Group
