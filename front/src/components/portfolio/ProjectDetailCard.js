@@ -1,6 +1,12 @@
 import { Card, Col, Button } from "react-bootstrap";
 
 const ProjectDetailCard = ({ project, setIsEditing, isEditable }) => {
+  const slicingDate = (from, to) => {
+    from = from.slice(0, 10).split("-").join(".");
+    to = to.slice(0, 10).split("-").join(".");
+    return `${from} ~ ${to}`;
+  };
+
   return (
     <Card.Body
       className="mb-4"
@@ -15,7 +21,9 @@ const ProjectDetailCard = ({ project, setIsEditing, isEditable }) => {
       >
         {project.title}
       </h4>
-      <p style={{ backgroundColor: "white" }}>{project.date}</p>
+      <p style={{ backgroundColor: "white" }}>
+        {slicingDate(project.fromDate, project.toDate)}
+      </p>
       {project.deployLink && (
         <div style={{ backgroundColor: "white" }}>
           <span style={{ backgroundColor: "white", fontWeight: "bold" }}>

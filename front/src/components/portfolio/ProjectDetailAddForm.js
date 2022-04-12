@@ -30,11 +30,11 @@ const ProjectDetailAddForm = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { id, title, fromDate, toDate } = project;
-    const date = slicingDate(fromDate, toDate);
     try {
       await Api.post("portfolio", {
         title,
-        date,
+        fromDate,
+        toDate,
         userId: portfolioOwnerId,
         projectId: id,
         deployLink,
