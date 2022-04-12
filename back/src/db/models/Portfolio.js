@@ -60,7 +60,7 @@ class Portfolio {
   }
 
   static update = async ({ projectId, toUpdate }) => {
-    const filter = { id: projectId, active : true, };
+    const filter = { projectId: projectId, active : true, };
     const option = { returnOriginal: false };
     const updatedPortfolio = await portfolioModel.findOneAndUpdate(
       filter,
