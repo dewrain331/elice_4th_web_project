@@ -5,11 +5,14 @@ import * as Api from "../../api";
 import ProjectDetail from "./ProjectDetail";
 import ProjectDetailAddForm from "./ProjectDetailAddForm";
 
+import { useRecoilState } from "recoil";
+import { pageState, allPageState } from "./PortfolioAtom";
+
 const PER_PAGE = 3;
 
 const ProjectsDetail = ({ portfolioOwnerId, isEditable }) => {
-  const [page, setPage] = useState(1);
-  const [allPage, setAllPage] = useState(0);
+  const [page, setPage] = useRecoilState(pageState);
+  const [allPage, setAllPage] = useRecoilState(allPageState);
   const [projects, setProjects] = useState([]);
   const [isAdding, setIsAdding] = useState(false);
 
@@ -45,9 +48,6 @@ const ProjectsDetail = ({ portfolioOwnerId, isEditable }) => {
           portfolioOwnerId={portfolioOwnerId}
           setIsAdding={setIsAdding}
           setProjects={setProjects}
-          setPage={setPage}
-          setAllPage={setAllPage}
-          page={page}
           projects={projects}
         />
       )}
@@ -55,11 +55,8 @@ const ProjectsDetail = ({ portfolioOwnerId, isEditable }) => {
         <ProjectDetail
           key={proj._id}
           project={proj}
-          page={page}
           isEditable={isEditable}
           setProjects={setProjects}
-          setPage={setPage}
-          setAllPage={setAllPage}
         />
       ))}
 

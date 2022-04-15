@@ -2,18 +2,17 @@ import { useState } from "react";
 import { Button, Card, Form, Col, Row } from "react-bootstrap";
 import * as Api from "../../api";
 
+import { useRecoilValue } from "recoil";
+import { pageState } from "./PortfolioAtom";
+
 const PER_PAGE = 3;
 
-const ProjectDetailEditForm = ({
-  project,
-  page,
-  setIsEditing,
-  setProjects,
-}) => {
+const ProjectDetailEditForm = ({ project, setIsEditing, setProjects }) => {
   const [deployLink, setDeployLink] = useState(project.deployLink);
   const [githubLink, setGithubLink] = useState(project.githubLink);
   const [projectRole, setProjectRole] = useState(project.projectRole);
   const [details, setDetails] = useState(project.details);
+  const page = useRecoilValue(pageState);
 
   const slicingDate = (from, to) => {
     from = from.slice(0, 10).split("-").join(".");

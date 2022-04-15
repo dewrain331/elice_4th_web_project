@@ -1,17 +1,20 @@
 import { Card, Col, Button } from "react-bootstrap";
 import * as Api from "../../api";
 
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { pageState, allPageState } from "./PortfolioAtom";
+
 const PER_PAGE = 3;
 
 const ProjectDetailCard = ({
   project,
   setIsEditing,
   isEditable,
-  page,
-  setPage,
-  setAllPage,
   setProjects,
 }) => {
+  const [page, setPage] = useRecoilState(pageState);
+  const setAllPage = useSetRecoilState(allPageState);
+
   const slicingDate = (from, to) => {
     from = from.slice(0, 10).split("-").join(".");
     to = to.slice(0, 10).split("-").join(".");

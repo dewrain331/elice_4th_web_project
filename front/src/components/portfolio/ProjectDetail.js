@@ -3,14 +3,7 @@ import { useState } from "react";
 import ProjectDetailEditForm from "./ProjectDetailEditForm";
 import ProjectDetailCard from "./ProjectDetailCard";
 
-const ProjectDetail = ({
-  project,
-  page,
-  isEditable,
-  setProjects,
-  setPage,
-  setAllPage,
-}) => {
+const ProjectDetail = ({ project, isEditable, setProjects }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   return (
@@ -18,7 +11,6 @@ const ProjectDetail = ({
       {isEditing ? (
         <ProjectDetailEditForm
           project={project}
-          page={page}
           setIsEditing={setIsEditing}
           setProjects={setProjects}
         />
@@ -27,9 +19,6 @@ const ProjectDetail = ({
           project={project}
           isEditable={isEditable}
           setIsEditing={setIsEditing}
-          page={page}
-          setPage={setPage}
-          setAllPage={setAllPage}
           setProjects={setProjects}
         />
       )}
