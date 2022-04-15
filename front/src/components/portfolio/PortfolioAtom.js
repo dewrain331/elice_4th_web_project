@@ -1,5 +1,10 @@
 import { atom } from "recoil";
 
+export const isAddingState = atom({
+  key: "isAddingStatePortfolio",
+  default: false,
+});
+
 export const pageState = atom({
   key: "pageStatePortfolio",
   default: 1,

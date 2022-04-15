@@ -11,16 +11,11 @@ import {
 } from "react-bootstrap";
 
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { pageState, allPageState } from "./PortfolioAtom";
+import { pageState, allPageState, isAddingState } from "./PortfolioAtom";
 
 const PER_PAGE = 3;
 
-const ProjectDetailAddForm = ({
-  portfolioOwnerId,
-  setIsAdding,
-  setProjects,
-  projects,
-}) => {
+const ProjectDetailAddForm = ({ portfolioOwnerId, setProjects, projects }) => {
   const [projectsList, setProjectsList] = useState([]);
   const [project, setProject] = useState(0);
   const [deployLink, setDeployLink] = useState("");
@@ -30,6 +25,7 @@ const ProjectDetailAddForm = ({
 
   const [page, setPage] = useRecoilState(pageState);
   const setAllPage = useSetRecoilState(allPageState);
+  const setIsAdding = useSetRecoilState(isAddingState);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -6,7 +6,7 @@ import ProjectDetail from "./ProjectDetail";
 import ProjectDetailAddForm from "./ProjectDetailAddForm";
 
 import { useRecoilState } from "recoil";
-import { pageState, allPageState } from "./PortfolioAtom";
+import { pageState, allPageState, isAddingState } from "./PortfolioAtom";
 
 const PER_PAGE = 3;
 
@@ -14,7 +14,7 @@ const ProjectsDetail = ({ portfolioOwnerId, isEditable }) => {
   const [page, setPage] = useRecoilState(pageState);
   const [allPage, setAllPage] = useRecoilState(allPageState);
   const [projects, setProjects] = useState([]);
-  const [isAdding, setIsAdding] = useState(false);
+  const [isAdding, setIsAdding] = useRecoilState(isAddingState);
 
   useEffect(() => {
     const fetchProjectsList = async () => {
@@ -46,7 +46,6 @@ const ProjectsDetail = ({ portfolioOwnerId, isEditable }) => {
       {isAdding && (
         <ProjectDetailAddForm
           portfolioOwnerId={portfolioOwnerId}
-          setIsAdding={setIsAdding}
           setProjects={setProjects}
           projects={projects}
         />
