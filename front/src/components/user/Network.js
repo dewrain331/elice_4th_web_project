@@ -25,7 +25,7 @@ function Network() {
 	const getUserPage = async () => {
 		if (mode === "Email") {
 			try {
-				const res = Api.get(`userlist?email=${searchUser}`);
+				const res = await Api.get(`userlist?email=${searchUser}`);
 				console.log(res);
 				setUsers(res.data);
 			} catch (err) {
@@ -34,7 +34,7 @@ function Network() {
 			}
 		} else if (mode === "Nickname") {
 			try {
-				const res = Api.get(`userlist?name=${searchUser}`);
+				const res = await Api.get(`userlist?name=${searchUser}`);
 				setUsers(res.data);
 			} catch (err) {
 				console.error(err);
