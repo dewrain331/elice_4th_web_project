@@ -33,6 +33,11 @@ function Header() {
       </Nav.Item>
       {isLogin && (
         <Nav.Item>
+          <Nav.Link onClick={() => navigate("/dm")}>DM</Nav.Link>
+        </Nav.Item>
+      )}
+      {isLogin && (
+        <Nav.Item>
           <Nav.Link onClick={logout}>로그아웃</Nav.Link>
         </Nav.Item>
       )}

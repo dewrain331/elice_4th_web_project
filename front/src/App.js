@@ -12,6 +12,7 @@ import Network from "./components/user/Network";
 import RegisterForm from "./components/user/RegisterForm";
 import Recovery from "./components/user/Recovery";
 import Portfolio from "./components/Portfolio";
+import DirectMessage from "./components/directMessage/DirectMessage";
 
 import "./App.css";
 
@@ -70,6 +71,7 @@ function App() {
             <Route path="/users/:userId" element={<Portfolio />} />
             <Route path="/network" element={<Network />} />
             <Route path="/recovery" element={<Recovery />} />
+            <Route path="/dm" element={<DirectMessage />} />
             <Route path="*" element={<Portfolio />} />
           </Routes>
         </Router>
