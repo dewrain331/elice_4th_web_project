@@ -157,11 +157,12 @@ userAuthRouter.post(
 
 userAuthRouter.get(
   "/userlist",
-  login_required,
   async function (req, res, next) {
     try {
+
+      const { email, name } = req?.query;
       // 전체 사용자 목록을 얻음
-      const users = await userAuthService.getUsers();
+      const users = await userAuthService.getUsers({ email, name });
       res.status(200).send(users);
     } catch (error) {
       next(error);

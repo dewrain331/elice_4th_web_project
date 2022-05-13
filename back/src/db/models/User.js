@@ -20,9 +20,13 @@ class User {
     return user;
   }
 
-  static findAll = async () => {
-    const users = await UserModel.find({ active : true, });
-    return users;
+  static findAll = async ({ search }) => {
+    if (Object.keys(search).length === 0) {
+      return await UserModel.find({ active : true, });  
+    }
+    const text = search[Object.keys(search)[0]]
+    return await UserModel.find({ $text: {$search: text}, active : true, })
+                          .sort({ score: { $meta: "textScore" } });
   }
 
   static update = async ({ userId, fieldToUpdate, newValue }) => {

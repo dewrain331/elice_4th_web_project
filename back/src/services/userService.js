@@ -297,8 +297,15 @@ class userAuthService {
     return loginUser;
   }
 
-  static getUsers = async () => {
-    const users = await User.findAll();
+  static getUsers = async ({ email = null, name = null }) => {
+    let search = {};
+    if (email !== null) {
+      search.email = email
+    }
+    else if (name !== null) {
+      search.name = name
+    }
+    const users = await User.findAll({ search });
     return users;
   }
 
