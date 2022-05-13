@@ -75,6 +75,7 @@ const UserSchema = new Schema(
     timestamps: true,
   }
 );
+UserSchema.index({ name: 'text', email : 'text' });
 
 const UserModel = model("User", UserSchema);
 
