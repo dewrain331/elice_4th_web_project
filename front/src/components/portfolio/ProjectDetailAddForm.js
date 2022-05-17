@@ -22,6 +22,7 @@ const ProjectDetailAddForm = ({ portfolioOwnerId, setProjects, projects }) => {
   const [githubLink, setGithubLink] = useState("");
   const [projectRole, setProjectRole] = useState("");
   const [details, setDetails] = useState([""]);
+  const [pickedImages, setPickedImages] = useState([]);
 
   const [page, setPage] = useRecoilState(pageState);
   const setAllPage = useSetRecoilState(allPageState);
@@ -30,6 +31,27 @@ const ProjectDetailAddForm = ({ portfolioOwnerId, setProjects, projects }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { id, title, fromDate, toDate } = project;
+    if (pickedImages !== []) {
+      try {
+        const formData = new FormData();
+        pickedImages.map((img) => {
+          formData.append("images", img);
+        });
+        // formData.append('title', title)
+        // formData.append('fromDate', fromDate)
+        // formData.append('toDate', toDate)
+        // formData.append('userId', portfolioOwnerId)
+        // formData.append('projectId', id)
+        // formData.append('deployLink', deployLink)
+        // formData.append('githubLink',githubLink)
+        // formData.append('projectRole', projectRole),
+        // formdata.append('detail')
+
+        await Api.postImage("");
+      } catch (err) {
+        console.log(err.message);
+      }
+    }
     try {
       await Api.post("portfolio", {
         title,
@@ -71,6 +93,20 @@ const ProjectDetailAddForm = ({ portfolioOwnerId, setProjects, projects }) => {
     const temp = [...details];
     temp[index] = e.target.value;
     setDetails(temp);
+  };
+
+  const handleFileChange = (e) => {
+    const data = e.target.files;
+    const picked = [];
+    if (data.length > 5) {
+      alert("첨부파일은 최대 5개까지 첨부 가능합니다.");
+      e.target.value = "";
+    } else {
+      for (let i = 0; i < data.length; i++) {
+        picked.push(data[i]);
+      }
+      setPickedImages(picked);
+    }
   };
 
   const slicingDate = (from, to) => {
@@ -128,6 +164,20 @@ const ProjectDetailAddForm = ({ portfolioOwnerId, setProjects, projects }) => {
 
       {/* 배포링크, 깃헙링크, 역할 기록할 수 있는 텍스트 폼 */}
       <Form onSubmit={handleSubmit} className="portfolioBG">
+        <Form.Group>
+          <Form.Control
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            multiple={true}
+          />
+          <ul className="portfolioBG">
+            {pickedImages &&
+              pickedImages.map((img) => (
+                <li className="portfolioBG">{img.name}</li>
+              ))}
+          </ul>
+        </Form.Group>
         <Form.Group controlId="formBasicTitle" className="mb-3 portfolioBG">
           <Form.Label className="portfolioBG">URL</Form.Label>
           <Form.Control

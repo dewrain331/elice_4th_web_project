@@ -1,6 +1,6 @@
 import { Card, Col, Button } from "react-bootstrap";
 import * as Api from "../../api";
-
+import ProjectDetailCardSlider from "./ProjectDetailCardSlider";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { pageState, allPageState } from "./PortfolioAtom";
 
@@ -45,6 +45,7 @@ const ProjectDetailCard = ({
       className="mb-4"
       style={{ backgroundColor: "white", borderRadius: "10px" }}
     >
+      <ProjectDetailCardSlider />
       <h4
         style={{
           display: "inline",
