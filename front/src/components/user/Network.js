@@ -41,6 +41,9 @@ function Network() {
 			} catch (err) {
 				console.error(err);
 				alert("오류가 발생했습니다.");
+				const originRes = await Api.get("userlist");
+				setUsers(originRes.data);
+				setSearched(false);
 			}
 		} else if (mode === "Nickname") {
 			try {
@@ -58,6 +61,9 @@ function Network() {
 			} catch (err) {
 				console.error(err);
 				alert("오류가 발생했습니다.");
+				const originRes = await Api.get("userlist");
+				setUsers(originRes.data);
+				setSearched(false);
 			}
 		}
 	};
