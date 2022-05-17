@@ -24,9 +24,24 @@ class User {
     if (Object.keys(search).length === 0) {
       return await UserModel.find({ active : true, });  
     }
-    const text = search[Object.keys(search)[0]]
-    return await UserModel.find({ $text: {$search: text}, active : true, })
-                          .sort({ score: { $meta: "textScore" } });
+
+    const keyword = Object.keys(search)[0];
+
+    let Query = {};
+    if (keyword == 'email') {
+      Query['email'] = {
+        $regex : `${search[keyword]}.*`
+      }
+      Query['active'] = true
+    }
+    else {
+      Query['name'] = {
+        $regex : `${search[keyword]}.*`
+      }
+      Query['active'] = true
+    }
+    return await UserModel.find(Query)
+                          // .sort({ score: { $meta: "textScore" } });
   }
 
   static update = async ({ userId, fieldToUpdate, newValue }) => {
