@@ -107,7 +107,7 @@ function Network() {
 						}}
 					/>
 					<Button type="button" onClick={getUserPage}>
-						Button
+						Search
 					</Button>
 				</InputGroup>
 			</div>
