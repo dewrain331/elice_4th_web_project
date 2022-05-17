@@ -17,6 +17,37 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage }); // storage에 저장, 이미지 크기는 5MB로 제한
+galleryRouter.post(
+  "/image",
+  upload.array("image", 5),
+  async function (req, res, next) {
+    try {
+      // req (request) 에서 데이터 가져오기
+      const { userId } = req.body;
+      // req.file 은 `gallery` 라는 필드의 파일 정보입니다.
+      let result = {}
+
+      await Promise.all(req.files.map(async(v, i) => {
+        const saveFileName = req.files[i].filename; // 저장된 파일명​ 
+        const saveFilePath = `http://localhost:5001/uploads/${saveFileName}`; // 업로드된 파일의 경로 (index.html 기준)
+        const newImage = { userId, saveFileName, saveFilePath };
+        const newImageContent = await galleryService.addImageContent(newImage);
+
+        if (newImageContent.errorMessage) {
+          throw new Error(newImageContent.errorMessage);
+        }
+
+        result[i] = newImageContent;
+      }))
+
+      console.log(result);
+      res.status(201).json(result);
+
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 galleryRouter.post(
   "/gallery/create",
