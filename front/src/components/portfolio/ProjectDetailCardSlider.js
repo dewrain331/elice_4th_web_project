@@ -30,22 +30,16 @@ const ProjectDetailCardSlider = () => {
           <Slide key={idx} src={`/images/${name}`} />
         ))}
       </SliderContainer>
-      <PrevBtn
-        onClick={() => handleSlide("prev")}
-        style={{ backgroundImage: `url(/images/${slides[currentSlide]})` }}
-      >
+      <PrevBtn onClick={() => handleSlide("prev")}>
         <FontAwesomeIcon
           icon={faChevronLeft}
-          style={{ backgroundImage: `url(/images/${slides[currentSlide]})` }}
+          style={{ background: "transparent" }}
         />
       </PrevBtn>
-      <NextBtn
-        onClick={() => handleSlide("next")}
-        style={{ backgroundImage: `url(/images/${slides[currentSlide]})` }}
-      >
+      <NextBtn onClick={() => handleSlide("next")}>
         <FontAwesomeIcon
           icon={faChevronRight}
-          style={{ backgroundImage: `url(/images/${slides[currentSlide]})` }}
+          style={{ background: "transparent" }}
         />
       </NextBtn>
     </Container>
@@ -74,21 +68,24 @@ const Slide = styled.img`
   height: 500px;
 `;
 
-const PrevBtn = styled.button`
+const PrevBtn = styled.div`
   position: absolute;
   top: 220px;
   left: 10px;
   border: none;
   color: white;
   font-size: 50px;
-  background-image: url("/images/img1.png");
+  background: transparent;
+  cursor: pointer;
 `;
 
-const NextBtn = styled.button`
+const NextBtn = styled.div`
   position: absolute;
   top: 220px;
   right: 10px;
   border: none;
   color: white;
   font-size: 50px;
+  background: transparent;
+  cursor: pointer;
 `;
