@@ -21,13 +21,23 @@ function Network() {
 	const [users, setUsers] = useState([]);
 	const [mode, setMode] = useState("Email");
 	const [searchUser, setSearchUser] = useState("");
+	const [searched, setSearched] = useState(false);
+	const [searchedUser, setSearchedUser] = useState("");
 
 	const getUserPage = async () => {
 		if (mode === "Email") {
 			try {
 				const res = await Api.get(`userlist?email=${searchUser}`);
-				console.log(res);
-				setUsers(res.data);
+				if (res.data.length > 0) {
+					setUsers(res.data);
+					setSearched(true);
+					setSearchedUser(searchUser);
+				} else if (res.data.length === 0) {
+					alert("입력하신 검색어로는 확인되지 않습니다.");
+					const originRes = await Api.get("userlist");
+					setUsers(originRes.data);
+					setSearched(false);
+				}
 			} catch (err) {
 				console.error(err);
 				alert("오류가 발생했습니다.");
@@ -35,7 +45,16 @@ function Network() {
 		} else if (mode === "Nickname") {
 			try {
 				const res = await Api.get(`userlist?name=${searchUser}`);
-				setUsers(res.data);
+				if (res.data.length > 0) {
+					setUsers(res.data);
+					setSearched(true);
+					setSearchedUser(searchUser);
+				} else if (res.data.length === 0) {
+					alert("입력하신 검색어로는 확인되지 않습니다.");
+					const originRes = await Api.get("userlist");
+					setUsers(originRes.data);
+					setSearched(false);
+				}
 			} catch (err) {
 				console.error(err);
 				alert("오류가 발생했습니다.");
@@ -58,6 +77,11 @@ function Network() {
 
 	return (
 		<Container fluid>
+			<div style={{ textAlign: "center", marginBottom: "1.2rem" }}>
+				{searched
+					? `${searchedUser}(으)로 검색한 결과는 다음과 같습니다`
+					: null}
+			</div>
 			<div style={{ display: "flex", justifyContent: "center" }}>
 				<InputGroup
 					className="mb-5"
