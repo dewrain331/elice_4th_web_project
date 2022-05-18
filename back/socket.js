@@ -1,32 +1,39 @@
 import { io } from "./index.js"
+import { ChatModel } from "./src/db/schemas/chat.js";
 
 //* 웹소켓 연결 시
-async function connectSocket() {
-    io.on('connection', (socket) => {
-        console.log('a user connected: ', socket.id);
-
-        socket.on('disconnect', () => {
-          console.log('a user disconnected: ', socket.id);
-        });
-      
-        socket.on('leaveRoom', (roomId) => {
-          console.log("leave", roomId)
-          socket.leave(roomId);
-        });
-      
-        socket.on('joinRoom', (roomId) => {
-          console.log("join", roomId)
-          socket.join(roomId);
-          // io.to(roomId).emit('joinRoom', roomId);
-        });
-      
-        socket.on('ping', (msg, roomId) => {
-          console.log(msg, roomId);   
-          socket.broadcast.to(roomId).emit('pong', msg);
-          // socket.emit('pong', msg)
-        });
-
+function connectSocket() {
+  const room = io.of('/room');
+  room.on('connection', (socket) => {
+    const req = socket.request;
+    const roomId = req._query.roomId
+    // console.log(req.url)
+    socket.join(roomId);
+    ChatModel.find({roomId}, function(err, history) {
+      if(err) throw err;
+      socket.emit('history', history)
     })
+
+    console.log(`a user connected: ${socket.id} in room ${roomId}`);
+
+    socket.on('disconnect', () => {
+      socket.leave(roomId);
+      console.log(`a user disconnected: ${socket.id} in room ${roomId}`);
+    });
+  
+    socket.on('ping', ({userId, msg}) => {
+      // console.log(msg, userId, roomId);   
+      let newMsg = new ChatModel({roomId, userId, msg})
+      console.log(newMsg)
+      newMsg.save(function(err) {
+        if(err) throw err;
+        socket.emit('pong', newMsg)
+      })
+      // socket.broadcast.to(roomId).emit('pong', msg);
+      // socket.to(roomId).emit('pong', msg);
+      // socket.emit('pong', msg)
+    }); 
+  })
 }
 
 
