@@ -32,7 +32,7 @@ class Portfolio {
   }
 
   static findById = async ({ projectId }) => {
-    const portfolio = await portfolioModel.findOne({ projectId: projectId, active : true, });
+    const portfolio = await portfolioModel.findOne({ projectId: projectId, active : true, }).populate("images");;
     if (!portfolio) {
       const errorMessage = "포트폴리오를 불러오는 데 실패했습니다.";
       return { errorMessage };
@@ -48,14 +48,14 @@ class Portfolio {
     }, {
       returnNewDocument: true,
       returnOriginal: false,
-    })
+    }).populate('images');
     return portfolio;
   }
 
   static findByUserId = async ({ userId, page, perPage }) => {
     const total = await portfolioModel.countDocuments({ userId, active : true, });
     const totalPage = Math.ceil(total / perPage);
-    const portfolios = await portfolioModel.find({ userId, active : true, }).sort({ createdAt: 1 }).skip(perPage * (page -1)).limit(perPage);
+    const portfolios = await portfolioModel.find({ userId, active : true, }).sort({ createdAt: 1 }).skip(perPage * (page -1)).limit(perPage).populate('images');
     return { totalPage, portfolios };
   }
 
@@ -66,7 +66,7 @@ class Portfolio {
       filter,
       toUpdate,
       option
-    );
+    ).populate('images');
     return updatedPortfolio;
   }
 
