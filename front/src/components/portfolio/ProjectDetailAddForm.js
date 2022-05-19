@@ -32,22 +32,13 @@ const ProjectDetailAddForm = ({ portfolioOwnerId, setProjects, projects }) => {
     e.preventDefault();
     const { id, title, fromDate, toDate } = project;
     if (pickedImages !== []) {
+      console.log(pickedImages);
       try {
         const formData = new FormData();
         pickedImages.map((img) => {
-          formData.append("images", img);
+          formData.append("gallery", img);
         });
-        // formData.append('title', title)
-        // formData.append('fromDate', fromDate)
-        // formData.append('toDate', toDate)
-        // formData.append('userId', portfolioOwnerId)
-        // formData.append('projectId', id)
-        // formData.append('deployLink', deployLink)
-        // formData.append('githubLink',githubLink)
-        // formData.append('projectRole', projectRole),
-        // formdata.append('detail')
-
-        await Api.postImage("");
+        await Api.postImage(`portfolio/gallery/${id}`, formData);
       } catch (err) {
         console.log(err.message);
       }
@@ -155,9 +146,6 @@ const ProjectDetailAddForm = ({ portfolioOwnerId, setProjects, projects }) => {
       >
         {project?.title}
       </h4>
-      {/* <span className="portfolioBG" style={{ color: "gray" }}>
-        {project?.description}
-      </span> */}
       <p className="portfolioBG">
         {slicingDate(project?.fromDate, project?.toDate)}
       </p>
@@ -174,7 +162,9 @@ const ProjectDetailAddForm = ({ portfolioOwnerId, setProjects, projects }) => {
           <ul className="portfolioBG">
             {pickedImages &&
               pickedImages.map((img) => (
-                <li className="portfolioBG">{img.name}</li>
+                <li className="portfolioBG" key={img.name}>
+                  {img.name}
+                </li>
               ))}
           </ul>
         </Form.Group>
