@@ -20,7 +20,7 @@ const upload = multer({ storage: storage }); // storage에 저장, 이미지 크
 
 galleryRouter.post(
   "/portfolio/gallery/:projectId",
-  upload.single("gallery"),
+  upload.array("gallery"),
   async function (req, res, next) {
     try {
       // req (request) 에서 데이터 가져오기
@@ -63,7 +63,7 @@ galleryRouter.delete("/portfolio/gallery/:projectId/:id", async function (req, r
 
 galleryRouter.post(
   "/gallery/create",
-  upload.single("gallery"),
+  upload.array("gallery"),
   async function (req, res, next) {
     try {
       if (is.emptyObject(req.body)) {
