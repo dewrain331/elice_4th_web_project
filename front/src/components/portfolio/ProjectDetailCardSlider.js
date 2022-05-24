@@ -6,13 +6,12 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 
-const ProjectDetailCardSlider = () => {
-  const slides = ["img1.png", "img2.png", "img3.png"];
+const ProjectDetailCardSlider = ({ slides }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef(null);
 
   useEffect(() => {
-    //slideRef.current.style.transition = "all 0.5s ease-in-out";
+    slideRef.current.style.transition = "all 0.5s ease-in-out";
     slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
   }, [currentSlide]);
 
