@@ -25,8 +25,8 @@ const ProjectDetailCardSlider = ({ slides }) => {
   return (
     <Container>
       <SliderContainer ref={slideRef}>
-        {slides.map((name, idx) => (
-          <Slide key={idx} src={`/images/${name}`} />
+        {slides.map((slide, idx) => (
+          <Slide key={idx} src={slide.saveFilePath} />
         ))}
       </SliderContainer>
       <PrevBtn onClick={() => handleSlide("prev")}>

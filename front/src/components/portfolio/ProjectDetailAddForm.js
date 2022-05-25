@@ -31,18 +31,6 @@ const ProjectDetailAddForm = ({ portfolioOwnerId, setProjects, projects }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { id, title, fromDate, toDate } = project;
-    if (pickedImages !== []) {
-      console.log(pickedImages);
-      try {
-        const formData = new FormData();
-        pickedImages.map((img) => {
-          formData.append("gallery", img);
-        });
-        await Api.postImage(`portfolio/gallery/${id}`, formData);
-      } catch (err) {
-        console.log(err.message);
-      }
-    }
     try {
       await Api.post("portfolio", {
         title,
@@ -55,6 +43,19 @@ const ProjectDetailAddForm = ({ portfolioOwnerId, setProjects, projects }) => {
         projectRole,
         details,
       });
+
+      if (pickedImages !== []) {
+        console.log(pickedImages);
+        try {
+          const formData = new FormData();
+          pickedImages.map((img) => {
+            formData.append("gallery", img);
+          });
+          await Api.postImage(`portfolio/gallery/${id}`, formData);
+        } catch (err) {
+          console.log(err.message);
+        }
+      }
 
       const res = await Api.get(
         "portfoliolist",
