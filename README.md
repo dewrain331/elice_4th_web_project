@@ -1,6 +1,6 @@
 # 레이서 포트폴리오 서비스 - 2팀 투게더 코딩
 
-http://elice-kdt-ai-4th-team02.elicecoding.com
+https://twogethercoding.herokuapp.com
 
 ## 주요 사용 기술
 
@@ -162,6 +162,11 @@ back 폴더 내부 README 참고
 5. 비밀번호찾기
 6. 회원탈퇴/복구
 
+### 본인(김기동) 기여 목록
+- 반응형 Header 구현
+- 로그인/회원가입 페이지 제작
+- 네트워크 페이지 유저 검색 기능 제작\
+- Award / Certificate 카드 제작
 
 ---
 
